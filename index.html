@@ -223,9 +223,8 @@
 
       <!-- Desktop Nav Links -->
       <nav class="hidden xl:flex items-center gap-5 text-sm font-medium text-slate-300">
-        <button onclick="openGermanBuySimulation()" class="bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500/30 hover:to-yellow-500/30 border border-brand-gold/40 text-brand-gold font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs transition-all shadow">
-          <span>🇩🇪 German Client Simulation</span>
-          <span class="bg-brand-gold text-black text-[9px] font-extrabold px-1 rounded">LIVE</span>
+        <button onclick="openExplainerVideo()" class="bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500/30 hover:to-yellow-500/30 border border-brand-gold/40 text-brand-gold font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs transition-all shadow">
+          <span>🎬 A-to-Z Explainer Video</span>
         </button>
         <a href="#inventory" class="hover:text-brand-gold transition-colors flex items-center gap-1.5">
           <i data-lucide="building-2" class="w-4 h-4 text-brand-gold"></i>
@@ -422,9 +421,8 @@
 
         <!-- CTA Buttons -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <button onclick="openGermanBuySimulation()" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-amber-500/25 to-yellow-600/25 hover:from-amber-500/35 hover:to-yellow-600/35 text-amber-300 font-extrabold text-base border-2 border-amber-500/50 hover:border-amber-400 transition-all shadow-xl shadow-amber-500/10 flex items-center justify-center gap-2">
-            <span>🇩🇪 Full German Client Purchase Simulation</span>
-            <span class="bg-amber-400 text-black text-[10px] font-extrabold px-1.5 py-0.5 rounded shadow">INTERACTIVE</span>
+          <button onclick="openExplainerVideo()" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-amber-500/25 to-yellow-600/25 hover:from-amber-500/35 hover:to-yellow-600/35 text-amber-300 font-extrabold text-base border-2 border-amber-500/50 hover:border-amber-400 transition-all shadow-xl shadow-amber-500/10 flex items-center justify-center gap-2">
+            <span>🎬 Watch A-to-Z Deal Workflow Explainer Video</span>
           </button>
           <button onclick="openLeadModal()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-gold via-yellow-500 to-amber-600 text-black font-extrabold text-base shadow-xl shadow-brand-gold/25 hover:brightness-110 transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
             <i data-lucide="shield-check" class="w-5 h-5 text-black"></i>
@@ -1603,413 +1601,68 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- 12B. VOLLSTÄNDIGE KAUFSIMULATION FÜR DEUTSCHE INVESTOREN -->
+  <!-- 12B. GLOBAL A-TO-Z WORKFLOW EXPLAINER VIDEO PLAYER       -->
   <!-- ======================================================== -->
-  <div id="germanBuyModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-lg hidden items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-[#10131C] border-2 border-brand-gold/50 rounded-2xl max-w-3xl w-full p-6 sm:p-8 relative shadow-2xl my-6 text-slate-200">
-      
-      <!-- Close Button -->
-      <button onclick="closeGermanBuySimulation()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 z-10">
+  <div id="explainerVideoModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-[#0B0E16] border-2 border-brand-gold/50 rounded-3xl max-w-4xl w-full p-5 sm:p-7 relative shadow-2xl my-6 text-slate-200">
+      <button onclick="closeExplainerVideo()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 z-10">
         <i data-lucide="x" class="w-6 h-6"></i>
       </button>
 
-      <!-- Modal Header -->
-      <div class="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center text-xl shadow">
-            🇩🇪
-          </div>
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-gold to-amber-600 flex items-center justify-center text-black font-black shadow">▶</div>
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="text-xl font-display font-extrabold text-white">Vollständige Kaufsimulation</h3>
-              <span class="bg-amber-500/20 text-amber-400 text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded border border-amber-500/30">MÜNCHEN ➔ DUBAI</span>
+              <h3 class="text-lg sm:text-xl font-display font-extrabold text-white">A-to-Z Global UAE Off-Plan Deal Workflow</h3>
+              <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-emerald-500/30">EXPLAINER VIDEO</span>
             </div>
-            <p class="text-xs text-slate-400">Schritt-für-Schritt Ablauf für deutsche Kapitalanleger & Vermögende (HNWI)</p>
+            <p class="text-xs text-slate-400">How Buyer, Overseas Agent, UAE RERA Agency &amp; DLD/Portal close safely without circumvention</p>
           </div>
+        </div>
+        <div id="evTimecode" class="font-mono text-xs text-brand-gold bg-black/60 px-3 py-1 rounded-lg border border-white/10 mr-8">00:00 / 00:48</div>
+      </div>
+
+      <!-- Video Stage -->
+      <div class="relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#101524] via-[#090B11] to-[#121928] p-5 sm:p-8 min-h-[300px] flex flex-col justify-between">
+        <div class="flex items-center justify-between gap-2 mb-4">
+          <span id="evSceneBadge" class="bg-brand-gold/20 text-brand-gold border border-brand-gold/40 text-[11px] font-bold px-3 py-1 rounded-full">SCENE 1 OF 6 · STEP A</span>
+          <div id="evRolesRow" class="flex flex-wrap gap-1.5 text-[10px] font-bold"></div>
+        </div>
+
+        <div class="my-auto py-3">
+          <h4 id="evSceneTitle" class="text-2xl sm:text-3xl font-display font-extrabold text-white mb-3"></h4>
+          <p id="evSceneDesc" class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl"></p>
+          <div id="evVisualCards" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5"></div>
+        </div>
+
+        <!-- Narration Subtitle Bar -->
+        <div class="mt-5 pt-3 border-t border-white/10 flex items-center justify-between gap-3">
+          <div class="text-xs text-amber-200/90 italic" id="evSubtitle"></div>
         </div>
       </div>
 
-      <!-- Step Navigation HUD -->
-      <div class="grid grid-cols-6 gap-1 sm:gap-2 mb-8 text-center text-[10px] sm:text-xs">
-        <div id="stepTab1" class="p-2 rounded-lg bg-brand-gold text-black font-bold transition-all">1. Profil</div>
-        <div id="stepTab2" class="p-2 rounded-lg bg-white/5 text-slate-400 font-medium transition-all">2. Steuern</div>
-        <div id="stepTab3" class="p-2 rounded-lg bg-white/5 text-slate-400 font-medium transition-all">3. Treuhand</div>
-        <div id="stepTab4" class="p-2 rounded-lg bg-white/5 text-slate-400 font-medium transition-all">4. KYC</div>
-        <div id="stepTab5" class="p-2 rounded-lg bg-white/5 text-slate-400 font-medium transition-all">5. Vertrag</div>
-        <div id="stepTab6" class="p-2 rounded-lg bg-white/5 text-slate-400 font-medium transition-all">6. Abschluss</div>
+      <!-- Progress Bar -->
+      <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden mt-4">
+        <div id="evProgressBar" class="h-full bg-gradient-to-r from-brand-gold to-emerald-400 transition-all duration-300" style="width: 16.6%"></div>
       </div>
 
-      <!-- ================= STEP 1: PROFIL & OBJEKT ================= -->
-      <div id="stepContent1" class="space-y-6">
-        <div class="p-5 rounded-xl bg-white/[0.03] border border-white/10 space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="text-xs uppercase font-bold text-amber-400">Deutscher Investor</span>
-            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded font-semibold">10-Jahre Golden Visa Berechtigt</span>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-            <div>
-              <span class="text-slate-500 block">Käufer / Klient:</span>
-              <strong class="text-white text-sm">[Deutscher Käufer — Vorlage]</strong>
-              <span class="text-slate-400 block text-[11px]">Privatinvestor (DE-Wohnsitz)</span>
-            </div>
-            <div>
-              <span class="text-slate-500 block">Jurisdiktion:</span>
-              <strong class="text-white">Bundesrepublik Deutschland</strong>
-              <span class="text-slate-400 block text-[11px]">Doppelbesteuerungs- & Steuercheck</span>
-            </div>
-          </div>
+      <!-- Scene Chapters -->
+      <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-3 text-[11px]" id="evChapters"></div>
+
+      <!-- Player Controls -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mt-5 pt-4 border-t border-white/10">
+        <div class="flex items-center gap-2">
+          <button onclick="prevExplainerScene()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">⏮ Prev</button>
+          <button id="evPlayPauseBtn" onclick="toggleExplainerPlay()" class="px-4 py-2 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black text-xs font-extrabold">⏸ Pause</button>
+          <button onclick="nextExplainerScene()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Next ⏭</button>
         </div>
-
-        <div class="glass-panel p-5 rounded-xl border border-brand-gold/30 space-y-3">
-          <span class="text-xs uppercase font-bold text-brand-gold">Ausgewählte Dubai Auslandsimmobilie</span>
-          <div class="flex items-center justify-between pb-3 border-b border-white/10">
-            <div>
-              <h4 class="text-base font-bold text-white">330 Riverside Crescent (Sobha Realty · DLD #2788)</h4>
-              <p class="text-xs text-slate-400">Sobha Hartland II, MBR City | Offizielles DLD-Projekt #2788</p>
-            </div>
-            <div class="text-right">
-              <span class="text-xs text-slate-500 block">Einstiegspreis</span>
-              <span class="text-lg font-extrabold text-brand-gold">ab AED 1.980.000</span>
-              <span class="text-[10px] text-slate-400 block">(ca. €497.000 EUR je nach FX-Kurs)</span>
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 text-center text-xs">
-            <div class="bg-black/40 p-2 rounded">
-              <span class="text-slate-500 block text-[10px]">Netto-Mietrendite</span>
-              <strong class="text-emerald-400 font-bold">8,6% p.a.</strong>
-            </div>
-            <div class="bg-black/40 p-2 rounded">
-              <span class="text-slate-500 block text-[10px]">Fertigstellung</span>
-              <strong class="text-white font-bold">Q4 2027</strong>
-            </div>
-            <div class="bg-black/40 p-2 rounded">
-              <span class="text-slate-500 block text-[10px]">Maklerprovision (5,5%)</span>
-              <strong class="text-amber-400 font-bold">€29.700 EUR</strong>
-            </div>
-          </div>
-        </div>
-
-        <button onclick="goToStep(2)" class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-extrabold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2">
-          <span>Weiter zu Schritt 2: Deutscher Steuer- & Renditevergleich</span>
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <!-- ================= STEP 2: STEUERVERGLEICH DEUTSCHLAND vs DUBAI ================= -->
-      <div id="stepContent2" class="hidden space-y-6">
-        <div class="text-center max-w-lg mx-auto">
-          <h4 class="text-lg font-bold text-white">Steuerlicher Vergleich: München vs. Dubai</h4>
-          <p class="text-xs text-slate-400 mt-1">Warum deutsche Ärzte, Unternehmer und Vermögende massiv Kapital nach Dubai verlagern:</p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <!-- München Deutschland -->
-          <div class="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 space-y-3">
-            <div class="flex items-center gap-2 text-rose-400 font-bold">
-              <span>🇩🇪 Eigentumswohnung München</span>
-            </div>
-            <div class="space-y-2 text-slate-300">
-              <div class="flex justify-between">
-                <span>Mietrendite brutto:</span>
-                <span class="font-bold text-white">2,8%</span>
-              </div>
-              <div class="flex justify-between text-rose-300">
-                <span>Einkommensteuer auf Miete:</span>
-                <span class="font-bold">bis zu 45% + Soli</span>
-              </div>
-              <div class="flex justify-between text-rose-300">
-                <span>Grunderwerbsteuer Bayern:</span>
-                <span class="font-bold">3,5%</span>
-              </div>
-              <div class="flex justify-between text-rose-300">
-                <span>Notar & Grundbuch:</span>
-                <span class="font-bold">ca. 2,0%</span>
-              </div>
-              <div class="flex justify-between text-rose-300">
-                <span>Spekulationsfrist:</span>
-                <span class="font-bold">10 Jahre Sperre</span>
-              </div>
-              <div class="pt-2 border-t border-rose-500/20 flex justify-between font-bold text-rose-400">
-                <span>Reale Nettorendite:</span>
-                <span>nur ca. 1,4% p.a.</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dubai VAE -->
-          <div class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/40 space-y-3">
-            <div class="flex items-center gap-2 text-emerald-400 font-bold">
-              <span>🇦🇪 Auslandsimmobilie Dubai (VAE)</span>
-            </div>
-            <div class="space-y-2 text-slate-300">
-              <div class="flex justify-between">
-                <span>Mietrendite brutto:</span>
-                <span class="font-bold text-white">8,8%</span>
-              </div>
-              <div class="flex justify-between text-emerald-300">
-                <span>Einkommensteuer VAE:</span>
-                <span class="font-bold">0% (Voll steuerfrei)</span>
-              </div>
-              <div class="flex justify-between text-emerald-300">
-                <span>Kapitalertragsteuer:</span>
-                <span class="font-bold">0% (Kein Spekulationssteuer)</span>
-              </div>
-              <div class="flex justify-between text-emerald-300">
-                <span>DLD-Gebühr (Grundbuch):</span>
-                <span class="font-bold">4% einmalig</span>
-              </div>
-              <div class="flex justify-between text-emerald-300">
-                <span>Aufenthaltsrecht:</span>
-                <span class="font-bold">10-Jahre Golden Visa</span>
-              </div>
-              <div class="pt-2 border-t border-emerald-500/20 flex justify-between font-bold text-emerald-400">
-                <span>Reale Nettorendite:</span>
-                <span>8,4% - 8,6% p.a.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="p-3 bg-brand-gold/10 rounded-xl border border-brand-gold/30 text-xs text-slate-300 flex items-center justify-between">
-          <span>5-Jahres Mietertrag Vorteil für Dr. Weber:</span>
-          <strong class="text-brand-gold text-sm font-mono">+€189.000 EUR Mehrertrag</strong>
-        </div>
-
-        <div class="flex gap-3">
-          <button onclick="goToStep(1)" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold">Zurück</button>
-          <button onclick="goToStep(3)" class="flex-1 bg-brand-gold hover:bg-yellow-400 text-black font-extrabold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2">
-            <span>Weiter zu Schritt 3: Offizielles DLD-Treuhandkonto</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        <div class="flex items-center gap-2">
+          <button onclick="closeExplainerVideo(); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '');" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold">
+            Launch Live 4-Party Contract →
           </button>
         </div>
       </div>
-
-      <!-- ================= STEP 3: TREUHANDKONTO (ESCROW) ================= -->
-      <div id="stepContent3" class="hidden space-y-6">
-        <div class="text-center max-w-lg mx-auto">
-          <h4 class="text-lg font-bold text-white">Staatlich Gesichertes DLD-Treuhandkonto</h4>
-          <p class="text-xs text-slate-400 mt-1">Kein Geld fließt an den Bauträger privat. Das Kapital verbleibt auf einem behördlich gesicherten Treuhandkonto (Escrow Account der Emirates NBD).</p>
-        </div>
-
-        <div class="glass-panel p-5 rounded-xl border border-white/10 space-y-3 text-xs font-mono">
-          <div class="flex justify-between pb-2 border-b border-white/10">
-            <span class="text-slate-400">Begünstigter:</span>
-            <strong class="text-white">Sobha Hartland Escrow Trust Account</strong>
-          </div>
-          <div class="flex justify-between pb-2 border-b border-white/10">
-            <span class="text-slate-400">Depotbank:</span>
-            <strong class="text-emerald-400">Emirates NBD Bank PJSC / Central Bank UAE</strong>
-          </div>
-          <div class="flex justify-between pb-2 border-b border-white/10">
-            <span class="text-slate-400">IBAN:</span>
-            <strong class="text-white font-bold select-all">AE42 0260 0001 0289 4819 012</strong>
-          </div>
-          <div class="flex justify-between pb-2 border-b border-white/10">
-            <span class="text-slate-400">Treuhandbank (DLD #2788):</span>
-            <strong class="text-white">Emirates Islamic Bank P.J.S.C.</strong>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-slate-400">Verifikation:</span>
-            <strong class="text-brand-gold">Offizielle IBAN direkt in der Dubai REST App (Mashrooi) prüfen</strong>
-          </div>
-        </div>
-
-        <div class="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/30 space-y-2 text-xs">
-          <div class="flex justify-between font-bold text-white">
-            <span>Anzahlung (10% Reservierung):</span>
-            <span class="text-emerald-400 font-mono">10% vom Kaufpreis</span>
-          </div>
-          <div class="flex justify-between text-slate-400">
-            <span>DLD-Grundbuchgebühr (4% Oqood):</span>
-            <span class="font-mono">4,0% gesetzlich</span>
-          </div>
-          <div class="flex justify-between text-brand-gold">
-            <span>Portal-Käuferservice & Treuhand (1,0%):</span>
-            <span class="font-mono font-bold">1,0% gem. Protokoll</span>
-          </div>
-          <p class="text-[10px] text-slate-400 italic">
-            *Die 1% Käufergebühr beinhaltet die koordinierte Golden-Visa-Begleitung sowie die anwaltliche Treuhandprüfung.
-          </p>
-          <div class="pt-2 border-t border-emerald-500/20 flex justify-between font-bold text-white">
-            <span>Gesamte Erstüberweisung:</span>
-            <span class="text-brand-gold font-mono text-sm">10% + 4% DLD + 1% Portal</span>
-          </div>
-        </div>
-
-        <div class="flex gap-3">
-          <button onclick="goToStep(2)" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold">Zurück</button>
-          <button onclick="simulateWireTransfer()" id="wireBtn" class="flex-1 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2">
-            <i data-lucide="check-circle" class="w-4 h-4"></i>
-            <span>Weiter zu Schritt 4: KYC-Prüfung</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- ================= STEP 4: KYC & DEUTSCHER REISEPASS ================= -->
-      <div id="stepContent4" class="hidden space-y-6">
-        <div class="text-center max-w-lg mx-auto">
-          <h4 class="text-lg font-bold text-white">Digitale Legitimationsprüfung (KYC)</h4>
-          <p class="text-xs text-slate-400 mt-1">Kein Notartermin vor Ort nötig. Der Identitätsnachweis erfolgt 100% digital über den gültigen Reisepass.</p>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-[#090B12] border border-brand-gold/40 relative shadow-inner">
-          <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
-            <div class="flex items-center gap-2">
-              <span class="text-xl">🇩🇪</span>
-              <span class="text-xs font-bold text-white uppercase tracking-wider">BUNDESREPUBLIK DEUTSCHLAND · REISEPASS (KYC)</span>
-            </div>
-            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-mono font-bold px-2 py-0.5 rounded">FORMAT GEPRÜFT ✓</span>
-          </div>
-          <div class="grid grid-cols-2 gap-4 text-xs">
-            <div>
-              <span class="text-slate-500 block text-[10px]">Name / Surname:</span>
-              <strong class="text-white">[Gemäß Reisepass]</strong>
-            </div>
-            <div>
-              <span class="text-slate-500 block text-[10px]">Vornamen / Given Names:</span>
-              <strong class="text-white">[Gemäß Reisepass]</strong>
-            </div>
-            <div>
-              <span class="text-slate-500 block text-[10px]">Passnummer (KYC):</span>
-              <strong class="text-brand-gold font-mono">[Nur letzte 4 Ziffern im SLA]</strong>
-            </div>
-            <div>
-              <span class="text-slate-500 block text-[10px]">DLD-Freigabe:</span>
-              <strong class="text-emerald-400">Digital via DLD / UAE PASS</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex gap-3">
-          <button onclick="goToStep(3)" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold">Zurück</button>
-          <button onclick="goToStep(5)" class="flex-1 bg-brand-gold hover:bg-yellow-400 text-black font-extrabold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2">
-            <span>Weiter zu Schritt 5: Digitale Fernunterzeichnung (SPA)</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- ================= STEP 5: DIGITALER VERTRAG (DOCUSIGN SPA) ================= -->
-      <div id="stepContent5" class="hidden space-y-6">
-        <div class="text-center max-w-lg mx-auto">
-          <h4 class="text-lg font-bold text-white">Rechtsgültige Fernunterzeichnung des Kaufvertrags</h4>
-          <p class="text-xs text-slate-400 mt-1">Sale & Purchase Agreement (SPA) gem. VAE-Bundesgesetz Nr. 5 von 1985. Gültig mit digitaler Signatur.</p>
-        </div>
-
-        <div class="p-5 rounded-xl bg-black/50 border border-white/10 space-y-3 text-xs">
-          <div class="flex items-center justify-between pb-2 border-b border-white/10">
-            <span class="text-slate-400">Vertragsdokument:</span>
-            <strong class="text-white">SPA_DLD_2788_Sobha_330_Riverside.pdf</strong>
-          </div>
-          <div class="flex items-center justify-between pb-2 border-b border-white/10">
-            <span class="text-slate-400">Bauträger:</span>
-            <strong class="text-white">Sobha Realty (DLD #2788)</strong>
-          </div>
-          <div class="flex items-center justify-between pb-2 border-b border-white/10">
-            <span class="text-slate-400">Käufer:</span>
-            <strong class="text-brand-gold">[Gemäß KYC-Registrierung]</strong>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-slate-400">Vermittelnder deutscher Makler:</span>
-            <strong class="text-slate-300">Ihre Partneragentur (Provision geschützt)</strong>
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border border-dashed border-brand-gold/60 bg-brand-gold/[0.04] text-center space-y-3">
-          <span class="text-xs text-slate-400 block">Digitale Unterschrift des Käufers:</span>
-          <div class="font-serif italic text-2xl text-brand-gold py-2 tracking-wider">
-            [Digitale Signatur via UAE PASS / DocuSign]
-          </div>
-          <span class="text-[10px] text-slate-500 block font-mono">Signaturprotokoll: UAE PASS / DocuSign Trust Protocol</span>
-        </div>
-
-        <div class="flex gap-3">
-          <button onclick="goToStep(4)" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold">Zurück</button>
-          <button onclick="signContractAndComplete()" id="signBtn" class="flex-1 bg-gradient-to-r from-brand-gold to-yellow-500 hover:brightness-110 text-black font-extrabold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-gold/20">
-            <i data-lucide="pen-tool" class="w-4 h-4"></i>
-            <span>Vertrag versiegeln & Grundbuch Oqood ausstellen</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- ================= STEP 6: EIGENTUMSNACHWEIS & PROVISION ================= -->
-      <div id="stepContent6" class="hidden space-y-6">
-        
-        <!-- Official Oqood Certificate -->
-        <div class="p-6 rounded-2xl bg-[#090C14] border-2 border-brand-gold text-center relative certificate-watermark shadow-2xl">
-          <div class="w-12 h-12 mx-auto rounded-full bg-brand-gold/20 border border-brand-gold flex items-center justify-center text-brand-gold mb-3">
-            <i data-lucide="check-check" class="w-7 h-7 text-brand-gold"></i>
-          </div>
-
-          <span class="text-[10px] uppercase font-mono tracking-widest text-emerald-400 font-bold block mb-1">
-            GOVERNMENT OF DUBAI · DUBAI LAND DEPARTMENT (DLD)
-          </span>
-          <h2 class="text-xl font-display font-extrabold text-white">OQOOD PRE-TITLE DEED WORKFLOW</h2>
-          <div class="text-xs font-mono text-brand-gold mt-1">AUSSTELLUNG VIA DUBAI LAND DEPARTMENT (DLD)</div>
-
-          <div class="my-5 py-4 border-y border-white/10 text-left text-xs space-y-2 text-slate-300">
-            <div class="flex justify-between">
-              <span class="text-slate-500">Eigentümer:</span>
-              <strong class="text-white">[Gemäß SPA-Kaufvertrag]</strong>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-500">Immobilie:</span>
-              <strong class="text-white">330 Riverside Crescent (DLD #2788)</strong>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-500">Golden-Visa-Schwelle:</span>
-              <strong class="text-white">AED 2.000.000+ (gesetzlich)</strong>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-500">Aufenthaltsstatus:</span>
-              <strong class="text-emerald-400 font-bold">10-Jahre UAE Golden Visa genehmigt ✓</strong>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-500">Grundbuchstatus:</span>
-              <strong class="text-emerald-400 font-bold">100% Freehold (Volleigentum)</strong>
-            </div>
-          </div>
-
-          <!-- Payout Notice for the Overseas Agent (1% + 1% Formulation) -->
-          <div class="p-5 rounded-xl bg-amber-500/10 border border-amber-500/40 text-left space-y-2">
-            <div class="flex items-center justify-between pb-2 border-b border-white/10">
-              <span class="text-xs font-bold text-amber-400 uppercase tracking-wide">Maklerprovision Abrechnung (Dual-Sided 1% Formel)</span>
-              <span class="text-xs font-mono text-emerald-400 font-bold">ZUR AUSZAHLUNG FREIGEGEBEN</span>
-            </div>
-            
-            <div class="space-y-1 text-xs">
-              <div class="flex justify-between text-slate-300">
-                <span>Bauträger-Bruttoprovision (5,5% von €540.000):</span>
-                <span class="font-mono font-bold text-white">€29.700 EUR</span>
-              </div>
-              <div class="flex justify-between text-amber-300">
-                <span>Abzüglich Portal-Plattformgebühr (1,0%):</span>
-                <span class="font-mono font-bold">-€5.400 EUR</span>
-              </div>
-              <div class="pt-2 border-t border-amber-500/30 flex justify-between items-center">
-                <span class="text-xs font-bold text-white">Netto-Auszahlung an deutsche Partneragentur:</span>
-                <span class="text-xl font-extrabold text-brand-gold font-mono">€24.300 EUR (4,5% Netto)</span>
-              </div>
-            </div>
-
-            <p class="text-[11px] text-slate-400 pt-1">
-              Direkt überwiesen via SWIFT an Ihr deutsches Geschäftskonto (Deutsche Bank / Commerzbank). 1% Käufergebühr (€5.400) wurde zeitgleich durch den Käufer beglichen.
-            </p>
-          </div>
-        </div>
-
-        <div class="flex gap-3">
-          <button onclick="window.print()" class="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold py-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-white/20">
-            <i data-lucide="printer" class="w-4 h-4"></i>
-            <span>Dossier als PDF Drucken / Speichern</span>
-          </button>
-          <button onclick="closeGermanBuySimulation()" class="flex-1 bg-brand-gold hover:bg-yellow-400 text-black font-extrabold py-2.5 rounded-lg text-xs shadow">
-            Simulation Abschließen
-          </button>
-        </div>
-
-      </div>
-
     </div>
   </div>
 
@@ -2782,62 +2435,184 @@
     }
 
     // ==========================================
-    // GERMAN CLIENT PURCHASE SIMULATION ENGINE
+    // GLOBAL A-TO-Z EXPLAINER VIDEO PLAYER ENGINE
     // ==========================================
-    function openGermanBuySimulation() {
-      document.getElementById('germanBuyModal').classList.remove('hidden');
-      document.getElementById('germanBuyModal').classList.add('flex');
-      goToStep(1);
-      lucide.createIcons();
-    }
-
-    function closeGermanBuySimulation() {
-      document.getElementById('germanBuyModal').classList.add('hidden');
-      document.getElementById('germanBuyModal').classList.remove('flex');
-    }
-
-    function goToStep(stepNum) {
-      // Hide all step contents
-      for (let i = 1; i <= 6; i++) {
-        const content = document.getElementById(`stepContent${i}`);
-        const tab = document.getElementById(`stepTab${i}`);
-        if (content) content.classList.add('hidden');
-        if (tab) {
-          tab.className = "p-2 rounded-lg bg-white/5 text-slate-400 font-medium transition-all";
-        }
+    const EXPLAINER_SCENES = [
+      {
+        step: 'STEP A · 00:00',
+        title: 'Global Discovery on DLD-Verified Inventory',
+        desc: 'Overseas Agents & Buyers browse 2,926 UAE off-plan projects synced from ai-home.world with live multi-currency pricing, DLD status, and instant White-Label Dossiers.',
+        roles: ['Overseas Buyer', 'Overseas Agent'],
+        cards: [
+          { label: 'Inventory', value: '2,926 UAE Projects' },
+          { label: 'Global Reach', value: '13,529 Agencies · 4.37M Agents' },
+          { label: 'Source', value: 'ai-home.world / Dubai REST' }
+        ],
+        subtitle: 'Narrator: "Every off-plan project is verified and ready to present in your client’s local currency."'
+      },
+      {
+        step: 'STEP B · 00:08',
+        title: 'Blind Buyer Lock & Pre-Contact Fee Gate',
+        desc: 'Before either party knows or contacts the other, the Overseas Agent locks the buyer under a masked hash (Lock 1: $350 KYC Bond) and the UAE Seller debits a pre-funded wallet (Lock 2: $500 Unlock Fee).',
+        roles: ['Portal Gate', 'Overseas Agent', 'UAE RERA Agency'],
+        cards: [
+          { label: 'Lock 1 (Buyer Side)', value: '$350 KYC & Audit Paid' },
+          { label: 'Lock 2 (UAE Seller)', value: '$500 Wallet Debited' },
+          { label: 'PII Protection', value: '100% Masked Until Signed' }
+        ],
+        subtitle: 'Narrator: "The portal collects revenue from both sides BEFORE identities or contacts are ever unmasked."'
+      },
+      {
+        step: 'STEP C · 00:16',
+        title: 'Auto-Dispatched 4-Party Digital Contract',
+        desc: 'The portal automatically sends the NCNDA & Commission Split Agreement to the Buyer, Overseas Agent (55%), UAE RERA Agency (30%), and DLD/Portal (15%) with 180-day non-circumvention.',
+        roles: ['Buyer', 'Overseas Agent', 'UAE RERA Agency', 'DLD / Portal'],
+        cards: [
+          { label: 'Overseas Agent', value: '55% of Gross Comm' },
+          { label: 'UAE RERA Seller', value: '30% of Gross Comm' },
+          { label: 'Portal Platform', value: '15% Override' }
+        ],
+        subtitle: 'Narrator: "Percentages, DLD escrow rules, and 200% anti-circumvention penalties are locked automatically."'
+      },
+      {
+        step: 'STEP D · 00:24',
+        title: 'All-Party Digital Signatures & Deal Confirmation',
+        desc: 'All 4 parties sign digitally with cryptographic timestamps. Once signed, the deal is confirmed, identities unmask, and the 1-Click Video Closing Room opens.',
+        roles: ['Buyer Signed ✓', 'Agent Signed ✓', 'UAE Agency Signed ✓', 'DLD/Portal ✓'],
+        cards: [
+          { label: 'Digital Seal', value: 'SHA-256 + IP Timestamp' },
+          { label: 'Status', value: 'DEAL CONFIRMED' },
+          { label: 'Closing Room', value: 'Video + Floorplan Unmasked' }
+        ],
+        subtitle: 'Narrator: "Signed by Buyer, Overseas Agent, UAE Agency, and DLD/Portal — zero ambiguity."'
+      },
+      {
+        step: 'STEP E · 00:32',
+        title: 'DLD Project Escrow & Oqood Registration',
+        desc: 'The Overseas Buyer wires the 10%–20% booking deposit directly to the Developer’s official DLD-approved Project Escrow Account (verified in Dubai REST). DLD issues Oqood off-plan title.',
+        roles: ['Overseas Buyer', 'UAE Developer', 'Dubai Land Dept (DLD)'],
+        cards: [
+          { label: 'Escrow Law', value: 'Dubai Law No. 8 of 2007' },
+          { label: 'Title Deed', value: 'DLD Oqood Issued' },
+          { label: 'Golden Visa', value: 'Eligible at AED 2M+' }
+        ],
+        subtitle: 'Narrator: "Property funds never touch an intermediary — 100% protected inside DLD Project Escrow."'
+      },
+      {
+        step: 'STEP Z · 00:40',
+        title: 'Automated Global Commission Settlement',
+        desc: 'Upon SPA execution, the Developer releases gross commission to the UAE RERA Agency, which settles 55% to the Overseas Agent and 15% to the Portal under the Irrevocable Payment Order.',
+        roles: ['UAE Developer', 'UAE RERA Agency', 'Overseas Agent', 'Portal'],
+        cards: [
+          { label: 'Payout Trigger', value: 'SPA + 20% Cleared' },
+          { label: 'Settlement SLA', value: '5 Business Days' },
+          { label: 'Dispute Venue', value: 'DIFC Small Claims' }
+        ],
+        subtitle: 'Narrator: "A complete, compliant A-to-Z global distribution engine for UAE off-plan real estate."'
       }
+    ];
 
-      // Show current step content & highlight tab
-      const currentContent = document.getElementById(`stepContent${stepNum}`);
-      const currentTab = document.getElementById(`stepTab${stepNum}`);
-      if (currentContent) currentContent.classList.remove('hidden');
-      if (currentTab) {
-        currentTab.className = "p-2 rounded-lg bg-brand-gold text-black font-extrabold shadow transition-all";
+    let evCurrentScene = 0;
+    let evIsPlaying = false;
+    let evTimer = null;
+
+    function openExplainerVideo() {
+      const modal = document.getElementById('explainerVideoModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      evCurrentScene = 0;
+      evIsPlaying = true;
+      renderExplainerScene();
+      startExplainerTimer();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeExplainerVideo() {
+      stopExplainerTimer();
+      const modal = document.getElementById('explainerVideoModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function startExplainerTimer() {
+      stopExplainerTimer();
+      if (!evIsPlaying) return;
+      evTimer = setInterval(() => {
+        evCurrentScene = (evCurrentScene + 1) % EXPLAINER_SCENES.length;
+        renderExplainerScene();
+      }, 6000);
+    }
+
+    function stopExplainerTimer() {
+      if (evTimer) {
+        clearInterval(evTimer);
+        evTimer = null;
       }
-
-      lucide.createIcons();
     }
 
-    function simulateWireTransfer() {
-      const btn = document.getElementById('wireBtn');
-      btn.innerHTML = `<span class="inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></span> <span>Verbindung mit Deutsche Bank München wird aufgebaut...</span>`;
-      
-      setTimeout(() => {
-        btn.innerHTML = `<span>✓ SEPA-Echtzeitüberweisung bestätigt (€75.600 eingegangen)</span>`;
-        btn.className = "flex-1 bg-emerald-400 text-black font-extrabold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2";
-        setTimeout(() => {
-          goToStep(4);
-        }, 1200);
-      }, 1000);
+    function toggleExplainerPlay() {
+      evIsPlaying = !evIsPlaying;
+      const btn = document.getElementById('evPlayPauseBtn');
+      if (btn) btn.innerText = evIsPlaying ? '⏸ Pause' : '▶ Play';
+      if (evIsPlaying) startExplainerTimer();
+      else stopExplainerTimer();
     }
 
-    function signContractAndComplete() {
-      const btn = document.getElementById('signBtn');
-      btn.innerHTML = `<span class="inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></span> <span>DLD-Grundbuchblock wird versiegelt...</span>`;
-      
-      setTimeout(() => {
-        goToStep(6);
-      }, 1200);
+    function goToExplainerScene(idx) {
+      evCurrentScene = Math.max(0, Math.min(EXPLAINER_SCENES.length - 1, idx));
+      renderExplainerScene();
+      if (evIsPlaying) startExplainerTimer();
+    }
+
+    function nextExplainerScene() {
+      goToExplainerScene((evCurrentScene + 1) % EXPLAINER_SCENES.length);
+    }
+
+    function prevExplainerScene() {
+      goToExplainerScene((evCurrentScene - 1 + EXPLAINER_SCENES.length) % EXPLAINER_SCENES.length);
+    }
+
+    function renderExplainerScene() {
+      const s = EXPLAINER_SCENES[evCurrentScene];
+      if (!s) return;
+      const secs = evCurrentScene * 8;
+      const tc = document.getElementById('evTimecode');
+      if (tc) tc.innerText = '00:' + String(secs).padStart(2, '0') + ' / 00:48';
+      const badge = document.getElementById('evSceneBadge');
+      if (badge) badge.innerText = `SCENE ${evCurrentScene + 1} OF ${EXPLAINER_SCENES.length} · ${s.step}`;
+      const title = document.getElementById('evSceneTitle');
+      if (title) title.innerText = s.title;
+      const desc = document.getElementById('evSceneDesc');
+      if (desc) desc.innerText = s.desc;
+      const sub = document.getElementById('evSubtitle');
+      if (sub) sub.innerText = s.subtitle;
+      const prog = document.getElementById('evProgressBar');
+      if (prog) prog.style.width = (((evCurrentScene + 1) / EXPLAINER_SCENES.length) * 100).toFixed(1) + '%';
+
+      const rolesRow = document.getElementById('evRolesRow');
+      if (rolesRow) {
+        rolesRow.innerHTML = s.roles.map(r => `<span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white">${escHtml(r)}</span>`).join('');
+      }
+      const cardsRow = document.getElementById('evVisualCards');
+      if (cardsRow) {
+        cardsRow.innerHTML = s.cards.map(c => `
+          <div class="bg-black/50 border border-white/10 rounded-xl p-3">
+            <div class="text-[10px] text-slate-400 uppercase">${escHtml(c.label)}</div>
+            <div class="text-sm font-bold text-brand-gold mt-0.5">${escHtml(c.value)}</div>
+          </div>
+        `).join('');
+      }
+      const chapters = document.getElementById('evChapters');
+      if (chapters) {
+        const labels = ['A · Discovery', 'B · Fee Gate', 'C · Contract', 'D · 4-Sign', 'E · DLD Escrow', 'Z · Payout'];
+        chapters.innerHTML = labels.map((lbl, i) => `
+          <button onclick="goToExplainerScene(${i})" class="p-2 rounded-lg text-center font-bold transition-all ${i === evCurrentScene ? 'bg-brand-gold text-black' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">${lbl}</button>
+        `).join('');
+      }
+      const btn = document.getElementById('evPlayPauseBtn');
+      if (btn) btn.innerText = evIsPlaying ? '⏸ Pause' : '▶ Play';
     }
 
     // ==========================================
@@ -3473,20 +3248,35 @@
     }
 
     // ==========================================
-    // DOUBLE-BLIND TRI-PARTY CONTRACT & PRE-CONTACT FEE GATE
+    // AUTO-DISPATCHED 4-PARTY DIGITAL CONTRACT & FEE GATE
+    // (Buyer + Overseas Agent + UAE RERA Agency + DLD/Portal)
     // ==========================================
     let blindContractState = {
       projectId: '',
       projectName: 'UAE Off-Plan Project',
       developer: 'UAE Developer',
       priceAED: 2500000,
+      dispatched: false,
+      dispatchedAt: '',
       lock1Paid: false,
       lock2Paid: false,
-      signedOverseas: false,
-      signedUae: false,
-      signedPortal: false,
-      contractId: 'AIH-NCNDA-2026-001'
+      sigs: {
+        buyer: null,
+        overseas: null,
+        uae: null,
+        dld: null
+      },
+      contractId: 'AIH-4P-2026-001'
     };
+
+    function makeSigStamp(role) {
+      const hash = Array.from({ length: 12 }, () => Math.floor(Math.random() * 16).toString(16)).join('').toUpperCase();
+      return {
+        role,
+        signedAt: new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
+        hash: 'SHA256-' + hash
+      };
+    }
 
     function openBlindContractForProject(id) {
       const p = uaeOffPlanProjects.find(x => x.id === id || x.propertyid === id) || uaeOffPlanProjects[0];
@@ -3496,18 +3286,18 @@
         projectName: p?.project_name || p?.buildingname || 'UAE Off-Plan Project',
         developer: p?.developername || 'UAE Developer',
         priceAED: Number(p?.propertyprice) > 0 ? Number(p.propertyprice) : 2500000,
+        dispatched: true,
+        dispatchedAt: new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
         lock1Paid: false,
         lock2Paid: false,
-        signedOverseas: false,
-        signedUae: false,
-        signedPortal: false,
-        contractId: 'AIH-3P-' + randomHex
+        sigs: { buyer: null, overseas: null, uae: null, dld: null },
+        contractId: 'AIH-4P-' + randomHex
       };
 
       const modal = document.getElementById('blindContractModal');
       if (!modal) return;
       document.getElementById('bcProjectTitle').innerText = blindContractState.projectName;
-      document.getElementById('bcProjectSub').innerText = `${blindContractState.developer} · AED ${blindContractState.priceAED.toLocaleString()}`;
+      document.getElementById('bcProjectSub').innerText = `${blindContractState.developer} · AED ${blindContractState.priceAED.toLocaleString()} · Auto-Dispatched`;
       document.getElementById('bcPriceInput').value = blindContractState.priceAED;
       updateBlindContractUI();
       modal.classList.remove('hidden');
@@ -3529,11 +3319,21 @@
     }
 
     function signBlindParty(party) {
-      if (party === 'overseas') blindContractState.signedOverseas = true;
-      if (party === 'uae') blindContractState.signedUae = true;
-      if (blindContractState.signedOverseas && blindContractState.signedUae) {
-        blindContractState.signedPortal = true;
-      }
+      if (party === 'buyer') blindContractState.sigs.buyer = makeSigStamp('Overseas Buyer');
+      if (party === 'overseas') blindContractState.sigs.overseas = makeSigStamp('Overseas Agent');
+      if (party === 'uae') blindContractState.sigs.uae = makeSigStamp('UAE RERA Agency');
+      if (party === 'dld') blindContractState.sigs.dld = makeSigStamp('DLD / Portal Escrow');
+      updateBlindContractUI();
+    }
+
+    function simulateAllPartiesConfirmDeal() {
+      blindContractState.dispatched = true;
+      blindContractState.lock1Paid = true;
+      blindContractState.lock2Paid = true;
+      blindContractState.sigs.buyer = blindContractState.sigs.buyer || makeSigStamp('Overseas Buyer');
+      blindContractState.sigs.overseas = blindContractState.sigs.overseas || makeSigStamp('Overseas Agent');
+      blindContractState.sigs.uae = blindContractState.sigs.uae || makeSigStamp('UAE RERA Agency');
+      blindContractState.sigs.dld = blindContractState.sigs.dld || makeSigStamp('DLD / Portal Escrow');
       updateBlindContractUI();
     }
 
@@ -3558,66 +3358,79 @@
       setEl('bcUaeAED', 'AED ' + uaeAED.toLocaleString());
       setEl('bcPortalAED', 'AED ' + portalAED.toLocaleString());
 
-      const allUnlocked = blindContractState.lock1Paid && blindContractState.lock2Paid && blindContractState.signedOverseas && blindContractState.signedUae;
+      const s = blindContractState.sigs;
+      const allSigned = Boolean(s.buyer && s.overseas && s.uae && s.dld);
+      const allUnlocked = blindContractState.lock1Paid && blindContractState.lock2Paid && allSigned;
+
       const statusEl = document.getElementById('bcUnlockStatus');
       if (statusEl) {
         statusEl.className = allUnlocked
-          ? 'p-3 rounded-xl border border-emerald-500/40 bg-emerald-500/15 text-emerald-300 text-xs font-bold'
-          : 'p-3 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs font-semibold';
+          ? 'p-3.5 rounded-xl border-2 border-emerald-400 bg-emerald-500/20 text-emerald-200 text-xs font-bold'
+          : 'p-3.5 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs font-semibold';
         statusEl.innerText = allUnlocked
-          ? '🔓 ALL 3 LOCKS VERIFIED: Identities & Direct Deal Room Unmasked! Tri-Party Contract Executed.'
-          : '🔒 BLIND MODE ACTIVE: Party contacts & Buyer PII remain masked until Lock 1 ($350 KYC), Lock 2 ($500 Wallet), and Both E-Signatures are completed.';
+          ? '✅ DEAL CONFIRMED & EXECUTED: Digitally Signed by Buyer, Overseas Agent, UAE RERA Agency & DLD/Portal! Pre-Contact Locks Cleared — Direct Deal Room Unlocked.'
+          : '📨 AUTO-DISPATCHED IN BLIND MODE: Contract sent to all 4 parties. Complete Lock 1 ($350 KYC), Lock 2 ($500 Wallet), and all 4 Digital Signatures to confirm deal & unmask contacts.';
       }
 
       const b1 = document.getElementById('bcBtnLock1');
-      if (b1) b1.innerText = blindContractState.lock1Paid ? '✓ Lock 1 Cleared ($350 KYC)' : 'Authorize Lock 1 ($350 Buyer KYC Bond)';
+      if (b1) b1.innerText = blindContractState.lock1Paid ? '✓ Lock 1 Cleared ($350 KYC)' : 'Authorize Lock 1 ($350 Buyer KYC)';
       const b2 = document.getElementById('bcBtnLock2');
-      if (b2) b2.innerText = blindContractState.lock2Paid ? '✓ Lock 2 Cleared ($500 Wallet)' : 'Debit Lock 2 ($500 UAE Seller Wallet)';
+      if (b2) b2.innerText = blindContractState.lock2Paid ? '✓ Lock 2 Cleared ($500 Wallet)' : 'Debit Lock 2 ($500 UAE Wallet)';
 
-      const s1 = document.getElementById('bcBtnSignOverseas');
-      if (s1) s1.innerText = blindContractState.signedOverseas ? '✓ Overseas Agent Signed' : 'E-Sign as Overseas Agent';
-      const s2 = document.getElementById('bcBtnSignUae');
-      if (s2) s2.innerText = blindContractState.signedUae ? '✓ UAE Seller Signed' : 'E-Sign as UAE RERA Seller';
+      const renderSigBadge = (elId, sig, label) => {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        if (sig) {
+          el.className = 'p-2.5 rounded-xl border border-emerald-500/40 bg-emerald-500/15 text-[11px]';
+          el.innerHTML = `<div class="font-bold text-emerald-300">✓ ${label}: SIGNED</div><div class="text-[10px] text-slate-300 font-mono mt-0.5">${sig.hash}</div><div class="text-[10px] text-slate-400">${sig.signedAt}</div>`;
+        } else {
+          el.className = 'p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]';
+          el.innerHTML = `<div class="font-bold text-amber-300">📨 ${label}: SENT</div><div class="text-[10px] text-slate-400 mt-0.5">Awaiting digital signature...</div>`;
+        }
+      };
 
+      renderSigBadge('bcSigCardBuyer', s.buyer, '1. Overseas Buyer');
+      renderSigBadge('bcSigCardOverseas', s.overseas, '2. Overseas Agent');
+      renderSigBadge('bcSigCardUae', s.uae, '3. UAE RERA Agency');
+      renderSigBadge('bcSigCardDld', s.dld, '4. DLD & Portal');
+
+      const buyerName = document.getElementById('bcBuyerNameInput')?.value || 'International Investor';
       const ovAgency = document.getElementById('bcOverseasAgencyInput')?.value || 'Partner Overseas Agency';
       const uaeAgency = document.getElementById('bcUaeAgencyInput')?.value || 'RERA Licensed UAE Brokerage';
-      const buyerHash = 'BUYER-' + blindContractState.contractId.slice(-6);
-      const maskedOv = allUnlocked ? ovAgency + ' (UNMASKED · Direct Deal Room Active)' : '[MASKED OVERSEAS AGENCY · Tier-1 Verified]';
-      const maskedUae = allUnlocked ? uaeAgency + ' (UNMASKED · RERA ORN Verified)' : '[MASKED UAE RERA SELLER · Escrow Ready]';
+      const buyerDisplay = allUnlocked ? `${buyerName} (KYC Verified)` : `[MASKED BUYER · Hash ${blindContractState.contractId.slice(-6)}]`;
+      const maskedOv = allUnlocked ? `${ovAgency} (UNMASKED · Direct Deal Room Active)` : '[MASKED OVERSEAS AGENCY · Tier-1 Verified]';
+      const maskedUae = allUnlocked ? `${uaeAgency} (UNMASKED · RERA ORN Verified)` : '[MASKED UAE RERA SELLER · Escrow Ready]';
 
       const preview = document.getElementById('bcContractPreview');
       if (preview) {
         preview.value =
-`TRI-PARTY INTERNATIONAL OFF-PLAN CO-BROKERAGE & NCNDA AGREEMENT
-Contract ID: ${blindContractState.contractId} | Date: ${new Date().toISOString().slice(0,10)}
+`AUTO-DISPATCHED 4-PARTY DIGITAL CO-BROKERAGE, BUYER & DLD ESCROW AGREEMENT
+Contract ID: ${blindContractState.contractId} | Dispatched: ${blindContractState.dispatchedAt}
 Project: ${blindContractState.projectName} (${blindContractState.projectId})
 Developer: ${blindContractState.developer}
 Listing Reference: https://www.ai-home.world/off-plan/${blindContractState.projectId}
 Property Value: AED ${price.toLocaleString()}
 
-1. PARTIES (BLIND MODE UNTIL LOCKS 1, 2 & 3 COMPLETE)
-(a) Portal Operator: AI Home Global Platform
+1. PARTIES (BLIND UNTIL FEE LOCKS & ALL 4 SIGNATURES COMPLETE)
+(a) Overseas Buyer: ${buyerDisplay}
 (b) Overseas Agent: ${maskedOv}
-(c) UAE RERA Seller: ${maskedUae}
-(d) Registered Buyer Hash: ${buyerHash} (180-Day Non-Circumvention Lock)
+(c) UAE RERA Agency: ${maskedUae}
+(d) DLD / Portal Escrow Verification: Dubai REST Project Registry & AI Home Global
 
-2. PRE-CONTACT FEE COLLECTION (COLLECTED BEFORE UNMASKING)
+2. PRE-CONTACT FEE COLLECTION
 - Lock 1 (Overseas Side): $350 Buyer KYC & Legal Audit Fee — ${blindContractState.lock1Paid ? 'CLEARED' : 'PENDING'}
-- Lock 2 (UAE Seller Side): $500 Pre-Funded Wallet Unlock + Commission Hold — ${blindContractState.lock2Paid ? 'CLEARED' : 'PENDING'}
+- Lock 2 (UAE Seller Side): $500 Pre-Funded Wallet Unlock — ${blindContractState.lock2Paid ? 'CLEARED' : 'PENDING'}
 
 3. COMMISSION SPLIT (GROSS DEVELOPER COMMISSION: ${grossPct}% = AED ${grossAED.toLocaleString()})
 - Overseas Agent (${ovPct}% of Gross): AED ${ovAED.toLocaleString()}
-- UAE RERA Seller (${uaePct}% of Gross): AED ${uaeAED.toLocaleString()}
+- UAE RERA Agency (${uaePct}% of Gross): AED ${uaeAED.toLocaleString()}
 - Portal Platform Fee (${portalPct.toFixed(0)}% of Gross): AED ${portalAED.toLocaleString()}
 
-4. DLD ESCROW & DISPUTE RESOLUTION
-All Buyer property deposits wire exclusively to ${blindContractState.developer} DLD Project Escrow Account.
-200% Liquidated Damages on circumvention; DIFC Small Claims Tribunal jurisdiction.
-
-E-SIGNATURES:
-- Overseas Agent: ${blindContractState.signedOverseas ? 'SIGNED (' + new Date().toISOString() + ')' : 'AWAITING SIGNATURE'}
-- UAE RERA Seller: ${blindContractState.signedUae ? 'SIGNED (' + new Date().toISOString() + ')' : 'AWAITING SIGNATURE'}
-- Portal Counter-Sign: ${blindContractState.signedPortal ? 'EXECUTED' : 'AUTO-SIGNS UPON BOTH PARTIES'}`;
+4. DIGITAL SIGNATURES & DEAL CONFIRMATION (${allUnlocked ? 'DEAL CONFIRMED' : 'IN PROGRESS'})
+- [1] Overseas Buyer:    ${s.buyer ? 'DIGITALLY SIGNED | ' + s.buyer.hash + ' | ' + s.buyer.signedAt : 'SENT / AWAITING SIGNATURE'}
+- [2] Overseas Agent:    ${s.overseas ? 'DIGITALLY SIGNED | ' + s.overseas.hash + ' | ' + s.overseas.signedAt : 'SENT / AWAITING SIGNATURE'}
+- [3] UAE RERA Agency:   ${s.uae ? 'DIGITALLY SIGNED | ' + s.uae.hash + ' | ' + s.uae.signedAt : 'SENT / AWAITING SIGNATURE'}
+- [4] DLD / Portal:      ${s.dld ? 'VERIFIED & COUNTER-SIGNED | ' + s.dld.hash + ' | ' + s.dld.signedAt : 'AWAITING COUNTER-SIGN'}`;
       }
     }
 
@@ -3627,7 +3440,7 @@ E-SIGNATURES:
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${blindContractState.contractId}_TriParty_NCNDA.txt`;
+      a.download = `${blindContractState.contractId}_4Party_Signed_Contract.txt`;
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -3655,20 +3468,28 @@ E-SIGNATURES:
     });
   </script>
 
-  <!-- DOUBLE-BLIND TRI-PARTY CONTRACT & PRE-CONTACT FEE GATE MODAL -->
+  <!-- AUTO-DISPATCHED 4-PARTY DIGITAL CONTRACT & PRE-CONTACT FEE GATE MODAL -->
   <div id="blindContractModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-[#12151E] border border-emerald-500/40 rounded-2xl max-w-4xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[92vh] overflow-y-auto">
+    <div class="bg-[#12151E] border border-emerald-500/40 rounded-2xl max-w-5xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[92vh] overflow-y-auto">
       <button onclick="closeBlindContractModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
       <div class="mb-4">
-        <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold px-2.5 py-1 rounded uppercase">Auto-Dispatched Tri-Party NCNDA + Pre-Contact Fee Gate</span>
+        <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold px-2.5 py-1 rounded uppercase">Auto-Dispatched 4-Party Digital Contract (Buyer · Agent · UAE Agency · DLD)</span>
         <h3 id="bcProjectTitle" class="text-xl font-display font-extrabold text-white mt-2">UAE Off-Plan Project</h3>
         <p id="bcProjectSub" class="text-xs text-slate-400">Developer · Price</p>
       </div>
 
-      <div id="bcUnlockStatus" class="p-3 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs font-semibold mb-5"></div>
+      <div id="bcUnlockStatus" class="p-3.5 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs font-semibold mb-4"></div>
+
+      <!-- 4-Party Live Digital Signature Confirmation Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+        <div id="bcSigCardBuyer" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+        <div id="bcSigCardOverseas" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+        <div id="bcSigCardUae" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+        <div id="bcSigCardDld" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+      </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 text-xs">
         <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
@@ -3687,7 +3508,7 @@ E-SIGNATURES:
               <input id="bcOverseasPctInput" type="number" value="55" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
             </div>
             <div>
-              <label class="text-slate-400 block mb-1">UAE Seller (% of Gross)</label>
+              <label class="text-slate-400 block mb-1">UAE Agency (% of Gross)</label>
               <input id="bcUaePctInput" type="number" value="30" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
             </div>
           </div>
@@ -3695,39 +3516,50 @@ E-SIGNATURES:
             <div>Gross Pool: <strong id="bcGrossAED" class="text-white">AED 0</strong></div>
             <div>Portal (<span id="bcPortalPctDisplay">15%</span>): <strong id="bcPortalAED" class="text-emerald-400">AED 0</strong></div>
             <div>Overseas: <strong id="bcOverseasAED" class="text-brand-gold">AED 0</strong></div>
-            <div>UAE Seller: <strong id="bcUaeAED" class="text-sky-400">AED 0</strong></div>
+            <div>UAE Agency: <strong id="bcUaeAED" class="text-sky-400">AED 0</strong></div>
           </div>
         </div>
 
         <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
-          <div class="font-bold text-emerald-400 uppercase text-[11px]">Pre-Contact Collection &amp; E-Sign Locks</div>
-          <div class="grid grid-cols-2 gap-2">
+          <div class="font-bold text-emerald-400 uppercase text-[11px]">Pre-Contact Fee Locks &amp; Digital Signing</div>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="text-slate-400 block mb-1">Buyer Name</label>
+              <input id="bcBuyerNameInput" type="text" placeholder="Global Buyer" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
+            </div>
             <div>
               <label class="text-slate-400 block mb-1">Overseas Agency</label>
-              <input id="bcOverseasAgencyInput" type="text" placeholder="e.g. Savills Mayfair" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+              <input id="bcOverseasAgencyInput" type="text" placeholder="Savills Mayfair" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
             </div>
             <div>
               <label class="text-slate-400 block mb-1">UAE RERA Agency</label>
-              <input id="bcUaeAgencyInput" type="text" placeholder="e.g. Dubai Prime RERA" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+              <input id="bcUaeAgencyInput" type="text" placeholder="Dubai Prime RERA" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
             </div>
           </div>
           <div class="grid grid-cols-2 gap-2">
-            <button id="bcBtnLock1" onclick="toggleBlindLock(1)" class="py-2 px-2.5 rounded-lg bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/40 text-brand-gold font-bold text-[11px]">Authorize Lock 1 ($350 Buyer KYC Bond)</button>
-            <button id="bcBtnLock2" onclick="toggleBlindLock(2)" class="py-2 px-2.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 font-bold text-[11px]">Debit Lock 2 ($500 UAE Seller Wallet)</button>
-            <button id="bcBtnSignOverseas" onclick="signBlindParty('overseas')" class="py-2 px-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[11px]">E-Sign as Overseas Agent</button>
-            <button id="bcBtnSignUae" onclick="signBlindParty('uae')" class="py-2 px-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[11px]">E-Sign as UAE RERA Seller</button>
+            <button id="bcBtnLock1" onclick="toggleBlindLock(1)" class="py-1.5 px-2.5 rounded-lg bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/40 text-brand-gold font-bold text-[11px]">Authorize Lock 1 ($350 Buyer KYC)</button>
+            <button id="bcBtnLock2" onclick="toggleBlindLock(2)" class="py-1.5 px-2.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 font-bold text-[11px]">Debit Lock 2 ($500 UAE Wallet)</button>
           </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+            <button onclick="signBlindParty('buyer')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">1. Sign Buyer</button>
+            <button onclick="signBlindParty('overseas')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">2. Sign Agent</button>
+            <button onclick="signBlindParty('uae')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">3. Sign Agency</button>
+            <button onclick="signBlindParty('dld')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">4. DLD Sign</button>
+          </div>
+          <button onclick="simulateAllPartiesConfirmDeal()" class="w-full py-2 px-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-[11px]">
+            ⚡ Auto-Execute All 4 Signatures &amp; Confirm Deal
+          </button>
         </div>
       </div>
 
       <div class="mb-4">
-        <label class="text-xs font-bold text-slate-300 block mb-1.5">Auto-Generated Tri-Party Contract (Sent Automatically to Both Parties):</label>
-        <textarea id="bcContractPreview" readonly rows="12" class="w-full bg-[#08090C] border border-white/15 rounded-xl p-3 text-[11px] font-mono text-slate-300 focus:outline-none"></textarea>
+        <label class="text-xs font-bold text-slate-300 block mb-1.5">Auto-Dispatched 4-Party Contract &amp; Signature Ledger:</label>
+        <textarea id="bcContractPreview" readonly rows="11" class="w-full bg-[#08090C] border border-white/15 rounded-xl p-3 text-[11px] font-mono text-slate-300 focus:outline-none"></textarea>
       </div>
 
       <div class="flex flex-wrap gap-3 justify-end">
-        <button onclick="downloadBlindContract()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Download Contract (.txt)</button>
-        <button onclick="closeBlindContractModal()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold">Done</button>
+        <button onclick="downloadBlindContract()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Download Signed Contract (.txt)</button>
+        <button onclick="closeBlindContractModal()" class="px-4 py-2 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black text-xs font-extrabold">Done</button>
       </div>
     </div>
   </div>
