@@ -1,0 +1,4 @@
+.playwright-mcp/
+screenshot_*.png
+.vercel/
+node_modules/
