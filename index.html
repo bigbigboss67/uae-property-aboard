@@ -291,7 +291,7 @@
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
       <div class="flex items-center gap-2.5">
         <span class="bg-brand-gold text-black font-extrabold px-2 py-0.5 rounded text-[10px] uppercase tracking-wider">PRIVATE CLIENT SHOWCASE</span>
-        <span class="text-white font-semibold">Curated UAE Escrow-Protected Portfolio presented exclusively by <strong id="clientBannerAgency" class="text-brand-gold">Mayfair Private Wealth Realty (London)</strong></span>
+        <span class="text-white font-semibold">Curated UAE Escrow-Protected Portfolio presented exclusively by <strong id="clientBannerAgency" class="text-brand-gold">Your Partner Agency</strong></span>
       </div>
       <button onclick="toggleClientSafeMode()" class="text-slate-400 hover:text-white underline text-[11px]">Exit Client Showcase ➔ Return to Broker Cockpit</button>
     </div>
@@ -322,7 +322,7 @@
         <div>
           <div class="flex items-center gap-2">
             <span class="text-xs bg-purple-500/20 text-purple-300 px-2.5 py-0.5 rounded font-mono font-bold">PARTNER PORTAL BACKOFFICE</span>
-            <span class="text-xs text-slate-400">Account: <strong>Mayfair Private Wealth (UK)</strong></span>
+            <span class="text-xs text-slate-400">Account: <strong id="dashPartnerName">Your Partner Agency</strong></span>
           </div>
           <h2 class="text-2xl font-display font-extrabold text-white mt-1">Your International Deal Pipeline</h2>
         </div>
@@ -336,27 +336,27 @@
         </div>
       </div>
 
-      <!-- Dashboard Stats -->
+      <!-- Dashboard Stats (Live Session State) -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div class="glass-panel p-4 rounded-xl border border-white/10">
           <div class="text-xs text-slate-400">Active Protected Leads</div>
-          <div class="text-2xl font-bold text-white mt-1">6 Registered</div>
-          <div class="text-[11px] text-emerald-400 mt-0.5">100% Protected under 90-Day SLA</div>
+          <div id="dashActiveCount" class="text-2xl font-bold text-white mt-1">0 Registered</div>
+          <div class="text-[11px] text-emerald-400 mt-0.5">90-Day SLA Protection Active</div>
         </div>
         <div class="glass-panel p-4 rounded-xl border border-white/10">
-          <div class="text-xs text-slate-400">Pipeline Deal Value</div>
-          <div class="text-2xl font-bold text-brand-gold mt-1">$4,850,000 USD</div>
-          <div class="text-[11px] text-slate-400 mt-0.5">3 in SPA Contract Drafting</div>
+          <div class="text-xs text-slate-400">Session Pipeline Value</div>
+          <div id="dashPipelineValue" class="text-2xl font-bold text-brand-gold mt-1">Live on Registration</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Calculated from registered units</div>
         </div>
         <div class="glass-panel p-4 rounded-xl border border-white/10">
-          <div class="text-xs text-slate-400">Projected Commission</div>
-          <div class="text-2xl font-bold text-emerald-400 mt-1">$266,750 USD</div>
-          <div class="text-[11px] text-slate-400 mt-0.5">Tier 2 Premier Rate (5.5%)</div>
+          <div class="text-xs text-slate-400">Commission Rate</div>
+          <div id="dashProjectedComm" class="text-2xl font-bold text-emerald-400 mt-1">1% + 1% Protocol</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Milestone-cleared settlement</div>
         </div>
         <div class="glass-panel p-4 rounded-xl border border-white/10">
-          <div class="text-xs text-slate-400">Assigned UAE Managing Director</div>
-          <div class="text-base font-bold text-white mt-1">Tariq Al-Maktoum (Senior Desk)</div>
-          <div class="text-[11px] text-brand-gold mt-0.5">WhatsApp: Direct Escalation Active</div>
+          <div class="text-xs text-slate-400">UAE Master Desk</div>
+          <div class="text-base font-bold text-white mt-1">RERA-Licensed Master Desk</div>
+          <div class="text-[11px] text-brand-gold mt-0.5">Direct Escalation via Portal</div>
         </div>
       </div>
 
@@ -372,30 +372,17 @@
                 <th class="p-3">Certificate ID</th>
                 <th class="p-3">Client Name</th>
                 <th class="p-3">Target Project</th>
-                <th class="p-3">Budget / Currency</th>
+                <th class="p-3">Jurisdiction</th>
                 <th class="p-3">SLA Status</th>
-                <th class="p-3">Commission Due</th>
+                <th class="p-3">KYC Hash</th>
                 <th class="p-3 text-right">Action</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-white/5 text-slate-300">
-              <tr>
-                <td class="p-3 font-mono text-brand-gold">DLD-SLA-92841</td>
-                <td class="p-3 font-semibold text-white">Lord Harrison V. (UK)</td>
-                <td class="p-3">Riverside Crystal Residences</td>
-                <td class="p-3">$1,250,000 USD</td>
-                <td class="p-3"><span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-bold">SPA Signed / Deposit Escrowed</span></td>
-                <td class="p-3 font-bold text-emerald-400">$68,750 USD</td>
-                <td class="p-3 text-right"><button onclick="viewCertificateMock('Lord Harrison V.', 'Riverside Crystal Residences', '$68,750 USD')" class="text-brand-gold hover:underline">View SLA Cert</button></td>
-              </tr>
-              <tr>
-                <td class="p-3 font-mono text-brand-gold">DLD-SLA-93104</td>
-                <td class="p-3 font-semibold text-white">Klaus Reinhardt (Frankfurt)</td>
-                <td class="p-3">Mar Casa Waterfront</td>
-                <td class="p-3">€750,000 EUR</td>
-                <td class="p-3"><span class="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded text-[10px] font-bold">Zoom Tour Completed</span></td>
-                <td class="p-3 font-bold text-slate-300">€41,250 EUR</td>
-                <td class="p-3 text-right"><button onclick="viewCertificateMock('Klaus Reinhardt', 'Mar Casa Waterfront', '€41,250 EUR')" class="text-brand-gold hover:underline">View SLA Cert</button></td>
+            <tbody id="liveLeadsTableBody" class="divide-y divide-white/5 text-slate-300">
+              <tr id="emptyLeadsRow">
+                <td colspan="7" class="p-5 text-center text-slate-400">
+                  No client SLAs registered in this session yet. Click <strong class="text-emerald-400">+ New Client SLA</strong> to register a real client.
+                </td>
               </tr>
             </tbody>
           </table>
@@ -926,18 +913,22 @@
             <input type="text" id="offplanSearchInput" list="offplanDatalist" oninput="filterOffPlanProjects()" placeholder="Type or select project, developer, area..." class="w-full bg-[#12151F] border border-white/20 rounded-xl px-4 py-2.5 pl-10 text-xs text-white focus:outline-none focus:border-brand-gold">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
             <datalist id="offplanDatalist">
-              <option value="Riverside Crystal Residences (Sobha)">
-              <option value="Mar Casa Waterfront Tower (Deyaar)">
-              <option value="The Spark Residences (Esnaad - JVC)">
-              <option value="Mercedes-Benz Places (Binghatti - Downtown)">
-              <option value="Wynn Casino Waterfront Residences (RAK)">
-              <option value="Golf Place Mansions (Emaar - Dubai Hills)">
-              <option value="Oceanz Luxury Maritime (Danube - 1% Monthly)">
-              <option value="Wilton Park Residences (Ellington - MBR)">
-              <option value="Palm Crown Beachfront Villas (Nakheel)">
-              <option value="Verdes by Haven (Aldar - Dubai South)">
-              <option value="The Lana Dorchester Collection (OMNIYAT)">
-              <option value="Bugatti Residences by Binghatti (Business Bay)">
+              <option value="330 Riverside Crescent (Sobha - DLD #2788)">
+              <option value="Mar Casa (Deyaar - DLD #2589)">
+              <option value="Creek Waters (Emaar - DLD #2614)">
+              <option value="Mercedes-Benz Places (Binghatti - DLD #2545)">
+              <option value="Wynn Al Marjan Island (RAK)">
+              <option value="Elora at The Valley (Emaar - DLD #2511)">
+              <option value="Oceanz by Danube (DLD #2755)">
+              <option value="Wilton Park Residences I & II (Ellington - DLD #2158)">
+              <option value="Palm Jebel Ali – Frond A (Nakheel - DLD #3331)">
+              <option value="Verdes by Haven 1 (Aldar)">
+              <option value="The Lana Dorchester Collection (OMNIYAT - DLD #2052)">
+              <option value="Bugatti Residences by Binghatti (DLD #2547)">
+              <option value="Skyscape Altius (Sobha - DLD #3160)">
+              <option value="Marina Views at Rashid Yachts & Marina (Emaar - DLD #3172)">
+              <option value="Piazza Roma at DAMAC Lagoons (DAMAC - DLD #4379)">
+              <option value="Azizi Riviera 53 (Azizi - DLD #3615)">
               <option value="Sobha Realty">
               <option value="Emaar Properties">
               <option value="Downtown Dubai">
@@ -956,22 +947,18 @@
           <label class="text-[11px] text-slate-400 font-semibold block mb-1">Master Developer:</label>
           <select id="offplanDevSelect" onchange="filterOffPlanProjects()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
             <option value="all">All Developers (16)</option>
-            <option value="Sobha">Sobha Realty (DLD Rating: 98)</option>
-            <option value="Emaar">Emaar Properties (DLD Rating: 99)</option>
-            <option value="Binghatti">Binghatti (DLD Rating: 96)</option>
-            <option value="Deyaar">Deyaar (DLD Rating: 95)</option>
-            <option value="OMNIYAT">OMNIYAT (DLD Rating: 97)</option>
-            <option value="Nakheel">Nakheel (DLD Rating: 98)</option>
-            <option value="Ellington">Ellington Properties (DLD Rating: 96)</option>
-            <option value="Aldar">Aldar Properties (DLD Rating: 99)</option>
-            <option value="Danube">Danube (DLD Rating: 94)</option>
-            <option value="RAK Properties">RAK Properties (DLD Rating: 95)</option>
-            <option value="Esnaad">Esnaad (DLD Rating: 92)</option>
-            <option value="Laraix">Laraix Developers (DLD Rating: 91)</option>
-            <option value="Meraas">Meraas Holding (DLD Rating: 98)</option>
-            <option value="DAMAC">DAMAC Properties (DLD Rating: 95)</option>
-            <option value="Dubai Properties">Dubai Properties (DLD Rating: 97)</option>
-            <option value="Azizi">Azizi Developments (DLD Rating: 93)</option>
+            <option value="Sobha">Sobha Realty</option>
+            <option value="Emaar">Emaar Properties</option>
+            <option value="Binghatti">Binghatti Properties</option>
+            <option value="Deyaar">Deyaar Development</option>
+            <option value="OMNIYAT">OMNIYAT</option>
+            <option value="Nakheel">Nakheel</option>
+            <option value="Ellington">Ellington Properties</option>
+            <option value="Aldar">Aldar Properties</option>
+            <option value="Danube">Danube Properties</option>
+            <option value="Wynn">Wynn / Marjan RAK</option>
+            <option value="DAMAC">DAMAC Properties</option>
+            <option value="Azizi">Azizi Developments</option>
           </select>
         </div>
 
@@ -1064,23 +1051,24 @@
             <input type="text" id="agencySearchInput" list="agencyDatalist" oninput="filterAgencies()" placeholder="Search broker, agency, city..." class="w-full bg-[#12151F] border border-white/20 rounded-xl px-4 py-2.5 pl-10 text-xs text-white focus:outline-none focus:border-brand-gold">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
             <datalist id="agencyDatalist">
-              <option value="James Sterling (Mayfair Private Wealth Realty - London)">
-              <option value="Dr. Florian von Hindenburg (Mainova Private Assets - Frankfurt)">
-              <option value="Christoph Ammann (Helvetia Prime Capital - Zürich)">
-              <option value="Marcus Vance (Manhattan & Gulf Private Capital - New York)">
-              <option value="Beatrice Laurent (Monaco & Côte d'Azur Global - Monte Carlo)">
-              <option value="Wei-Ling Tan (Marina Bay Capital Estates - Singapore)">
-              <option value="Rajesh Singhania (Marine Drive Private Client Group - Mumbai)">
-              <option value="Prince Fahad Al-Saud (Najd Global Wealth Advisory - Riyadh)">
-              <option value="Camille Dupont (Haussmann Patrimoine International - Paris)">
-              <option value="Harrison Croft (Sydney Sovereign Homes - Sydney)">
-              <option value="Sophie De Vries (Geneva Private Advisory - Genève)">
-              <option value="David Sterling Jr. (Palm Beach & Gulf Coast Advisors - Miami)">
+              <option value="Savills Mayfair & St. James's (London)">
+              <option value="Knight Frank Mayfair Desk (London)">
+              <option value="Engel & Völkers Frankfurt City (Frankfurt)">
+              <option value="Engel & Völkers Zürich Paradeplatz (Zürich)">
+              <option value="Sotheby's East Side Manhattan (New York)">
+              <option value="Engel & Völkers Côte d'Azur (Monaco Region)">
+              <option value="List Sotheby's International Realty (Singapore)">
+              <option value="Knight Frank India HQ (Mumbai)">
+              <option value="Knight Frank Saudi Arabia (Riyadh)">
+              <option value="Engel & Völkers Paris (Paris)">
+              <option value="Sydney Sotheby's Realty (Sydney)">
+              <option value="BARNES International Geneva (Genève)">
+              <option value="ONE Sotheby's Miami HQ (Miami)">
               <option value="London">
               <option value="Frankfurt">
               <option value="Zürich">
               <option value="New York">
-              <option value="Monte Carlo">
+              <option value="Monaco">
               <option value="Singapore">
               <option value="Mumbai">
               <option value="Riyadh">
@@ -1100,15 +1088,15 @@
         <div>
           <label class="text-[11px] text-slate-400 font-semibold block mb-1">Financial Hub / City:</label>
           <select id="agencyCitySelect" onchange="filterAgencies()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
-            <option value="all">All Financial Hubs (12 Cities)</option>
+            <option value="all">All Financial Hubs (13 Offices)</option>
             <option value="London">🇬🇧 London, UK</option>
             <option value="Frankfurt">🇩🇪 Frankfurt am Main, Germany</option>
             <option value="Zürich">🇨🇭 Zürich, Switzerland</option>
             <option value="Genève">🇨🇭 Genève, Switzerland</option>
-            <option value="Monte Carlo">🇲🇨 Monte Carlo, Monaco</option>
+            <option value="Monaco">🇲🇨 Côte d'Azur / Monaco</option>
             <option value="Paris">🇫🇷 Paris, France</option>
             <option value="New York">🇺🇸 New York City, USA</option>
-            <option value="Miami">🇺🇸 Miami & Palm Beach, USA</option>
+            <option value="Miami">🇺🇸 Miami, USA</option>
             <option value="Singapore">🇸🇬 Singapore, APAC</option>
             <option value="Mumbai">🇮🇳 Mumbai, India</option>
             <option value="Riyadh">🇸🇦 Riyadh, Saudi Arabia</option>
@@ -1146,10 +1134,9 @@
         <div>
           <label class="text-[11px] text-slate-400 font-semibold block mb-1">Sort Agencies By:</label>
           <select id="agencySortSelect" onchange="filterAgencies()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-brand-gold font-bold focus:outline-none focus:border-brand-gold cursor-pointer">
-            <option value="volume">Highest UAE Volume Closed</option>
-            <option value="deals">Most Deals Closed</option>
-            <option value="name">Agent Name (A - Z)</option>
             <option value="tier">Commission Tier (7% First)</option>
+            <option value="city">Financial Hub / City (A - Z)</option>
+            <option value="name">Agency Name (A - Z)</option>
           </select>
         </div>
 
@@ -1244,7 +1231,7 @@
             <div class="space-y-4">
               <div>
                 <label class="text-xs text-slate-400 font-semibold block mb-1">Your International Agency Name:</label>
-                <input type="text" id="agencyNameInput" value="Mayfair Private Wealth Realty (London)" class="w-full bg-[#12141A] border border-white/15 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-gold">
+                <input type="text" id="agencyNameInput" placeholder="Enter your international agency name..." value="Your Partner Agency" class="w-full bg-[#12141A] border border-white/15 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-gold">
               </div>
 
               <div class="grid grid-cols-2 gap-3">
@@ -1309,7 +1296,7 @@
                     <i data-lucide="file-text" class="w-5 h-5"></i>
                   </div>
                   <div>
-                    <div id="deckPreviewTitle" class="text-xs font-bold text-white">Mayfair Private Wealth_Dubai_Portfolio.pdf</div>
+                    <div id="deckPreviewTitle" class="text-xs font-bold text-white">Partner_Agency_Dubai_Dossier.html</div>
                     <div class="text-[10px] text-slate-500">24-Page Ultra HD Pitch Deck · White-Labeled</div>
                   </div>
                 </div>
@@ -1318,7 +1305,7 @@
                 </span>
               </div>
 
-              <button onclick="triggerMockDownload()" class="w-full bg-gradient-to-r from-brand-gold via-yellow-500 to-amber-600 hover:brightness-110 text-black font-extrabold py-3 px-4 rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-gold/20">
+              <button onclick="openSelectedDossier()" class="w-full bg-gradient-to-r from-brand-gold via-yellow-500 to-amber-600 hover:brightness-110 text-black font-extrabold py-3 px-4 rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-gold/20">
                 <i data-lucide="download" class="w-4 h-4 text-black"></i>
                 Generate & Download Branded Client Presentation
               </button>
@@ -1355,9 +1342,9 @@
             </p>
 
             <div class="flex flex-wrap gap-3 pt-2">
-              <button onclick="playDroneDemo()" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-gold to-yellow-600 text-black font-extrabold text-sm flex items-center gap-2 hover:brightness-110 shadow-lg shadow-brand-gold/20 transition-all">
+              <button onclick="openVirtualTour()" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-gold to-yellow-600 text-black font-extrabold text-sm flex items-center gap-2 hover:brightness-110 shadow-lg shadow-brand-gold/20 transition-all">
                 <i data-lucide="play" class="w-4 h-4 fill-black"></i>
-                Launch Live Drone Tour Demo
+                Launch Live Drone Tour
               </button>
               <button onclick="openLeadModal()" class="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/15 transition-all">
                 Book Co-Hosted Zoom Tour
@@ -1365,9 +1352,9 @@
             </div>
           </div>
 
-          <!-- Video Mockup Frame -->
+          <!-- Video Tour Frame -->
           <div class="lg:col-span-5">
-            <div class="relative rounded-2xl overflow-hidden border-2 border-brand-gold/40 shadow-2xl group cursor-pointer" onclick="playDroneDemo()">
+            <div class="relative rounded-2xl overflow-hidden border-2 border-brand-gold/40 shadow-2xl group cursor-pointer" onclick="openVirtualTour()">
               <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80" alt="Dubai Drone Tour" class="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500">
               <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                 <div class="w-16 h-16 rounded-full bg-brand-gold text-black flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
@@ -1458,23 +1445,24 @@
               <label class="text-xs font-semibold text-slate-300 block mb-1">Your Overseas Agency:</label>
               <input type="text" id="inputAgency" list="leadAgencyDatalist" required placeholder="Type or select your agency..." class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-gold">
               <datalist id="leadAgencyDatalist">
-                <option value="Mayfair Private Wealth Realty (London, UK)">
-                <option value="Kaufinger & Partner Family Office (München, Germany)">
-                <option value="Goetheplatz Immobilien Gruppe (Frankfurt, Germany)">
-                <option value="Manhattan & Gulf Private Capital (New York, USA)">
-                <option value="Monaco & Côte d'Azur Global (Monte Carlo, Monaco)">
-                <option value="Marina Bay Capital Estates (Singapore)">
-                <option value="Marine Drive Private Client Group (Mumbai, India)">
-                <option value="Kingdom Global Property Advisory (Riyadh, Saudi Arabia)">
-                <option value="Haussmann Patrimoine International (Paris, France)">
-                <option value="Sydney Sovereign Homes (Sydney, Australia)">
-                <option value="Geneva Private Advisory (Genève, Switzerland)">
-                <option value="Palm Beach & Gulf Coast Advisors (Miami, USA)">
+                <option value="Savills Mayfair & St. James's (London, UK)">
+                <option value="Knight Frank Mayfair Desk (London, UK)">
+                <option value="Engel & Völkers Frankfurt City (Frankfurt, Germany)">
+                <option value="Engel & Völkers Zürich Paradeplatz (Zürich, Switzerland)">
+                <option value="Sotheby's East Side Manhattan (New York, USA)">
+                <option value="Engel & Völkers Côte d'Azur (Monaco Region)">
+                <option value="List Sotheby's International Realty (Singapore)">
+                <option value="Knight Frank India HQ (Mumbai, India)">
+                <option value="Knight Frank Saudi Arabia (Riyadh, Saudi Arabia)">
+                <option value="Engel & Völkers Paris (Paris, France)">
+                <option value="Sydney Sotheby's Realty (Sydney, Australia)">
+                <option value="BARNES International Geneva (Genève, Switzerland)">
+                <option value="ONE Sotheby's Miami HQ (Miami, USA)">
               </datalist>
             </div>
             <div>
               <label class="text-xs font-semibold text-slate-300 block mb-1">Your Email (Commission Payouts):</label>
-              <input type="email" id="inputAgentEmail" required placeholder="agent@apexrealty.co.uk" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-gold">
+              <input type="email" id="inputAgentEmail" required placeholder="partner@youragency.com" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-gold">
             </div>
           </div>
 
@@ -1512,21 +1500,22 @@
             <label class="text-xs font-semibold text-slate-300 block mb-1">Project of Interest or Strategy:</label>
             <input type="text" id="modalProjectInput" list="leadProjectDatalist" placeholder="Select project or custom strategy..." class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-gold">
             <datalist id="leadProjectDatalist">
-              <option value="Riverside Crystal Residences (Sobha Realty)">
-              <option value="Mar Casa Waterfront Tower (Deyaar)">
-              <option value="The Spark Residences (Esnaad - JVC)">
-              <option value="Mercedes-Benz Places (Binghatti - Downtown)">
-              <option value="Wynn Casino Waterfront Residences (RAK Properties)">
-              <option value="Golf Place Mansions (Emaar - Dubai Hills)">
-              <option value="Oceanz Luxury Maritime (Danube - 1% Monthly)">
-              <option value="Wilton Park Residences (Ellington - MBR)">
-              <option value="Palm Crown Beachfront Villas (Nakheel)">
-              <option value="Verdes by Haven (Aldar - Dubai South)">
-              <option value="The Lana Dorchester Collection (OMNIYAT)">
-              <option value="Bugatti Residences by Binghatti (Business Bay)">
-              <option value="🏆 10-Yr Golden Visa Strategy ($545K+ Portfolio)">
-              <option value="📈 High Yield Commercial & Residential (8%+ Net)">
-              <option value="💳 1% Monthly Post-Handover Payment Allocation">
+              <option value="330 Riverside Crescent (Sobha Realty - DLD #2788)">
+              <option value="Mar Casa (Deyaar - DLD #2589)">
+              <option value="Creek Waters (Emaar - DLD #2614)">
+              <option value="Mercedes-Benz Places (Binghatti - DLD #2545)">
+              <option value="Wynn Al Marjan Island (RAK)">
+              <option value="Elora at The Valley (Emaar - DLD #2511)">
+              <option value="Oceanz by Danube (DLD #2755)">
+              <option value="Wilton Park Residences I & II (Ellington - DLD #2158)">
+              <option value="Palm Jebel Ali – Frond A (Nakheel - DLD #3331)">
+              <option value="Verdes by Haven 1 (Aldar)">
+              <option value="The Lana Dorchester Collection (OMNIYAT - DLD #2052)">
+              <option value="Bugatti Residences by Binghatti (DLD #2547)">
+              <option value="Skyscape Altius (Sobha - DLD #3160)">
+              <option value="Marina Views at Rashid Yachts & Marina (Emaar - DLD #3172)">
+              <option value="Piazza Roma at DAMAC Lagoons (DAMAC - DLD #4379)">
+              <option value="Azizi Riviera 53 (Azizi - DLD #3615)">
             </datalist>
           </div>
 
@@ -1695,13 +1684,13 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
               <span class="text-slate-500 block">Käufer / Klient:</span>
-              <strong class="text-white text-sm">Dr. med. Maximilian Weber</strong>
-              <span class="text-slate-400 block text-[11px]">Facharzt & Privatinvestor, München</span>
+              <strong class="text-white text-sm">[Deutscher Käufer — Vorlage]</strong>
+              <span class="text-slate-400 block text-[11px]">Privatinvestor (DE-Wohnsitz)</span>
             </div>
             <div>
-              <span class="text-slate-500 block">Wohnsitz:</span>
-              <strong class="text-white">Maximilianstraße 14, 80539 München</strong>
-              <span class="text-slate-400 block text-[11px]">Bundesrepublik Deutschland</span>
+              <span class="text-slate-500 block">Jurisdiktion:</span>
+              <strong class="text-white">Bundesrepublik Deutschland</strong>
+              <span class="text-slate-400 block text-[11px]">Doppelbesteuerungs- & Steuercheck</span>
             </div>
           </div>
         </div>
@@ -1710,13 +1699,13 @@
           <span class="text-xs uppercase font-bold text-brand-gold">Ausgewählte Dubai Auslandsimmobilie</span>
           <div class="flex items-center justify-between pb-3 border-b border-white/10">
             <div>
-              <h4 class="text-base font-bold text-white">Riverside Crystal Residences (Sobha)</h4>
-              <p class="text-xs text-slate-400">Sobha Hartland II, Downtown-Angrenzend | Einheit #1402 (112 m²)</p>
+              <h4 class="text-base font-bold text-white">330 Riverside Crescent (Sobha Realty · DLD #2788)</h4>
+              <p class="text-xs text-slate-400">Sobha Hartland II, MBR City | Offizielles DLD-Projekt #2788</p>
             </div>
             <div class="text-right">
-              <span class="text-xs text-slate-500 block">Kaufpreis</span>
-              <span class="text-lg font-extrabold text-brand-gold">€540.000 EUR</span>
-              <span class="text-[10px] text-slate-400 block">(ca. AED 2.150.000)</span>
+              <span class="text-xs text-slate-500 block">Einstiegspreis</span>
+              <span class="text-lg font-extrabold text-brand-gold">ab AED 1.980.000</span>
+              <span class="text-[10px] text-slate-400 block">(ca. €497.000 EUR je nach FX-Kurs)</span>
             </div>
           </div>
           <div class="grid grid-cols-3 gap-2 text-center text-xs">
@@ -1851,34 +1840,34 @@
             <strong class="text-white font-bold select-all">AE42 0260 0001 0289 4819 012</strong>
           </div>
           <div class="flex justify-between pb-2 border-b border-white/10">
-            <span class="text-slate-400">SWIFT / BIC:</span>
-            <strong class="text-white">EBILAEADXXX</strong>
+            <span class="text-slate-400">Treuhandbank (DLD #2788):</span>
+            <strong class="text-white">Emirates Islamic Bank P.J.S.C.</strong>
           </div>
           <div class="flex justify-between">
-            <span class="text-slate-400">Verwendungszweck:</span>
-            <strong class="text-brand-gold">DLD-ESCROW-2894 / Unit 1402 / Dr. Maximilian Weber</strong>
+            <span class="text-slate-400">Verifikation:</span>
+            <strong class="text-brand-gold">Offizielle IBAN direkt in der Dubai REST App (Mashrooi) prüfen</strong>
           </div>
         </div>
 
         <div class="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/30 space-y-2 text-xs">
           <div class="flex justify-between font-bold text-white">
             <span>Anzahlung (10% Reservierung):</span>
-            <span class="text-emerald-400 font-mono">€54.000 EUR</span>
+            <span class="text-emerald-400 font-mono">10% vom Kaufpreis</span>
           </div>
           <div class="flex justify-between text-slate-400">
             <span>DLD-Grundbuchgebühr (4% Oqood):</span>
-            <span class="font-mono">€21.600 EUR</span>
+            <span class="font-mono">4,0% gesetzlich</span>
           </div>
           <div class="flex justify-between text-brand-gold">
             <span>Portal-Käuferservice & Treuhand (1,0%):</span>
-            <span class="font-mono font-bold">€5.400 EUR</span>
+            <span class="font-mono font-bold">1,0% gem. Protokoll</span>
           </div>
           <p class="text-[10px] text-slate-400 italic">
-            *Die 1% Käufergebühr beinhaltet die vollständige behördliche Golden-Visa-Abwicklung für Dr. Weber & Familie sowie die anwaltliche Treuhandprüfung.
+            *Die 1% Käufergebühr beinhaltet die koordinierte Golden-Visa-Begleitung sowie die anwaltliche Treuhandprüfung.
           </p>
           <div class="pt-2 border-t border-emerald-500/20 flex justify-between font-bold text-white">
             <span>Gesamte Erstüberweisung:</span>
-            <span class="text-brand-gold font-mono text-sm">€81.000 EUR</span>
+            <span class="text-brand-gold font-mono text-sm">10% + 4% DLD + 1% Portal</span>
           </div>
         </div>
 
@@ -1886,7 +1875,7 @@
           <button onclick="goToStep(2)" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold">Zurück</button>
           <button onclick="simulateWireTransfer()" id="wireBtn" class="flex-1 bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2">
             <i data-lucide="check-circle" class="w-4 h-4"></i>
-            <span>Überweisung aus München simulieren (SEPA/SWIFT)</span>
+            <span>Weiter zu Schritt 4: KYC-Prüfung</span>
           </button>
         </div>
       </div>
@@ -1895,41 +1884,33 @@
       <div id="stepContent4" class="hidden space-y-6">
         <div class="text-center max-w-lg mx-auto">
           <h4 class="text-lg font-bold text-white">Digitale Legitimationsprüfung (KYC)</h4>
-          <p class="text-xs text-slate-400 mt-1">Kein Notartermin vor Ort nötig. Der Identitätsnachweis erfolgt 100% digital über den deutschen Reisepass.</p>
+          <p class="text-xs text-slate-400 mt-1">Kein Notartermin vor Ort nötig. Der Identitätsnachweis erfolgt 100% digital über den gültigen Reisepass.</p>
         </div>
 
         <div class="p-5 rounded-2xl bg-[#090B12] border border-brand-gold/40 relative shadow-inner">
           <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
             <div class="flex items-center gap-2">
               <span class="text-xl">🇩🇪</span>
-              <span class="text-xs font-bold text-white uppercase tracking-wider">BUNDESREPUBLIK DEUTSCHLAND · REISEPASS</span>
+              <span class="text-xs font-bold text-white uppercase tracking-wider">BUNDESREPUBLIK DEUTSCHLAND · REISEPASS (KYC)</span>
             </div>
-            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-mono font-bold px-2 py-0.5 rounded">VERIFIZIERT ✓</span>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-mono font-bold px-2 py-0.5 rounded">FORMAT GEPRÜFT ✓</span>
           </div>
           <div class="grid grid-cols-2 gap-4 text-xs">
             <div>
               <span class="text-slate-500 block text-[10px]">Name / Surname:</span>
-              <strong class="text-white">WEBER</strong>
+              <strong class="text-white">[Gemäß Reisepass]</strong>
             </div>
             <div>
               <span class="text-slate-500 block text-[10px]">Vornamen / Given Names:</span>
-              <strong class="text-white">MAXIMILIAN GEORG</strong>
+              <strong class="text-white">[Gemäß Reisepass]</strong>
             </div>
             <div>
-              <span class="text-slate-500 block text-[10px]">Geburtstag:</span>
-              <strong class="text-white">18.06.1978</strong>
-            </div>
-            <div>
-              <span class="text-slate-500 block text-[10px]">Passnummer:</span>
-              <strong class="text-brand-gold font-mono">C3948K91L</strong>
-            </div>
-            <div>
-              <span class="text-slate-500 block text-[10px]">Ausstellende Behörde:</span>
-              <strong class="text-slate-300">Landeshauptstadt München</strong>
+              <span class="text-slate-500 block text-[10px]">Passnummer (KYC):</span>
+              <strong class="text-brand-gold font-mono">[Nur letzte 4 Ziffern im SLA]</strong>
             </div>
             <div>
               <span class="text-slate-500 block text-[10px]">DLD-Freigabe:</span>
-              <strong class="text-emerald-400">Automatisch genehmigt</strong>
+              <strong class="text-emerald-400">Digital via DLD / UAE PASS</strong>
             </div>
           </div>
         </div>
@@ -1953,28 +1934,28 @@
         <div class="p-5 rounded-xl bg-black/50 border border-white/10 space-y-3 text-xs">
           <div class="flex items-center justify-between pb-2 border-b border-white/10">
             <span class="text-slate-400">Vertragsdokument:</span>
-            <strong class="text-white">SPA_Sobha_Riverside_Unit_1402_Dr_Weber.pdf</strong>
+            <strong class="text-white">SPA_DLD_2788_Sobha_330_Riverside.pdf</strong>
           </div>
           <div class="flex items-center justify-between pb-2 border-b border-white/10">
             <span class="text-slate-400">Bauträger:</span>
-            <strong class="text-white">Sobha Real Estate LLC (Dubai)</strong>
+            <strong class="text-white">Sobha Realty (DLD #2788)</strong>
           </div>
           <div class="flex items-center justify-between pb-2 border-b border-white/10">
             <span class="text-slate-400">Käufer:</span>
-            <strong class="text-brand-gold">Dr. med. Maximilian Weber</strong>
+            <strong class="text-brand-gold">[Gemäß KYC-Registrierung]</strong>
           </div>
           <div class="flex items-center justify-between">
             <span class="text-slate-400">Vermittelnder deutscher Makler:</span>
-            <strong class="text-slate-300">Ihre Partneragentur (5,5% Provision geschützt)</strong>
+            <strong class="text-slate-300">Ihre Partneragentur (Provision geschützt)</strong>
           </div>
         </div>
 
         <div class="p-4 rounded-xl border border-dashed border-brand-gold/60 bg-brand-gold/[0.04] text-center space-y-3">
-          <span class="text-xs text-slate-400 block">Digitale Unterschrift von Dr. Maximilian Weber:</span>
+          <span class="text-xs text-slate-400 block">Digitale Unterschrift des Käufers:</span>
           <div class="font-serif italic text-2xl text-brand-gold py-2 tracking-wider">
-            Dr. Maximilian Weber
+            [Digitale Signatur via UAE PASS / DocuSign]
           </div>
-          <span class="text-[10px] text-slate-500 block font-mono">Signiert via UAE PASS / DocuSign Trust Protocol (IP: München, 185.220.xxx.xxx)</span>
+          <span class="text-[10px] text-slate-500 block font-mono">Signaturprotokoll: UAE PASS / DocuSign Trust Protocol</span>
         </div>
 
         <div class="flex gap-3">
@@ -1998,21 +1979,21 @@
           <span class="text-[10px] uppercase font-mono tracking-widest text-emerald-400 font-bold block mb-1">
             GOVERNMENT OF DUBAI · DUBAI LAND DEPARTMENT (DLD)
           </span>
-          <h2 class="text-xl font-display font-extrabold text-white">OQOOD PRE-TITLE DEED CERTIFICATE</h2>
-          <div class="text-xs font-mono text-brand-gold mt-1">GRUNDBUCHEINTRAGUNG: DLD-OQD-2026-99412</div>
+          <h2 class="text-xl font-display font-extrabold text-white">OQOOD PRE-TITLE DEED WORKFLOW</h2>
+          <div class="text-xs font-mono text-brand-gold mt-1">AUSSTELLUNG VIA DUBAI LAND DEPARTMENT (DLD)</div>
 
           <div class="my-5 py-4 border-y border-white/10 text-left text-xs space-y-2 text-slate-300">
             <div class="flex justify-between">
               <span class="text-slate-500">Eigentümer:</span>
-              <strong class="text-white">Dr. med. Maximilian Weber (Deutschland)</strong>
+              <strong class="text-white">[Gemäß SPA-Kaufvertrag]</strong>
             </div>
             <div class="flex justify-between">
               <span class="text-slate-500">Immobilie:</span>
-              <strong class="text-white">Riverside Crystal Residences - Einheit 1402</strong>
+              <strong class="text-white">330 Riverside Crescent (DLD #2788)</strong>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-500">Registrierter Kaufpreis:</span>
-              <strong class="text-white">€540.000 EUR (AED 2.150.000)</strong>
+              <span class="text-slate-500">Golden-Visa-Schwelle:</span>
+              <strong class="text-white">AED 2.000.000+ (gesetzlich)</strong>
             </div>
             <div class="flex justify-between">
               <span class="text-slate-500">Aufenthaltsstatus:</span>
@@ -2151,16 +2132,12 @@
             <!-- Messages Stream -->
             <div class="space-y-3 text-xs max-h-56 overflow-y-auto no-scrollbar">
               <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
-                <div class="text-[10px] text-brand-gold font-bold">Tariq (Senior UAE Desk):</div>
-                <div class="text-slate-200 mt-0.5">Welcome! Unit #1402 has been temporarily blocked for 30 minutes while we present.</div>
-              </div>
-              <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
-                <div class="text-[10px] text-slate-400 font-bold">Dr. Maximilian Weber:</div>
-                <div class="text-slate-200 mt-0.5">Can we confirm the Golden Visa roadmap for my family before we execute?</div>
+                <div class="text-[10px] text-brand-gold font-bold">UAE Master Broker Desk:</div>
+                <div class="text-slate-200 mt-0.5">Live session ready. Select Drone Tour, Floorplans, or DLD Escrow Verification above.</div>
               </div>
               <div class="bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/30">
-                <div class="text-[10px] text-emerald-400 font-bold">System Verified:</div>
-                <div class="text-white mt-0.5">✓ Purchase price €540,000 exceeds €500K threshold. 10-Yr Golden Visa 100% pre-approved.</div>
+                <div class="text-[10px] text-emerald-400 font-bold">DLD & Visa Threshold:</div>
+                <div class="text-white mt-0.5">✓ Properties at AED 2,000,000+ qualify for the UAE 10-Year Golden Visa under current DLD rules.</div>
               </div>
             </div>
           </div>
@@ -2289,7 +2266,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-brand-gold/30 gap-3">
           <div>
             <span class="text-[10px] font-mono uppercase tracking-widest text-brand-gold font-bold block">PRIVATE CLIENT INVESTMENT MEMORANDUM</span>
-            <h2 id="dossierAgencyTitle" class="text-2xl font-display font-extrabold text-white mt-0.5">Mayfair Private Wealth Realty (London)</h2>
+            <h2 id="dossierAgencyTitle" class="text-2xl font-display font-extrabold text-white mt-0.5">Your Partner Agency</h2>
           </div>
           <div class="text-left sm:text-right">
             <span class="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2.5 py-1 rounded font-mono font-bold">DLD ESCROW VERIFIED</span>
@@ -2315,7 +2292,7 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
           <div class="p-3 rounded-xl bg-black/50 border border-white/10">
             <span class="text-[10px] text-slate-500 block">DLD Project ID</span>
-            <strong id="dossierDldId" class="text-white font-mono">DLD-PRJ-2894</strong>
+            <strong id="dossierDldId" class="text-white font-mono">DLD #2788</strong>
           </div>
           <div class="p-3 rounded-xl bg-black/50 border border-white/10">
             <span class="text-[10px] text-slate-500 block">Escrow Trust Bank</span>
@@ -2608,7 +2585,7 @@
       document.getElementById('partnerModal').classList.remove('flex');
     }
 
-    function playDroneDemo() {
+    function openVirtualTour() {
       document.getElementById('droneModal').classList.remove('hidden');
       document.getElementById('droneModal').classList.add('flex');
     }
@@ -2626,7 +2603,7 @@
       const b2bNodes = document.querySelectorAll('.b2b-only');
       const banner = document.getElementById('clientSafeBanner');
       const btnText = document.getElementById('clientModeBtnText');
-      const agencyName = document.getElementById('agencyNameInput')?.value || "Mayfair Private Wealth Realty (London)";
+      const agencyName = document.getElementById('agencyNameInput')?.value || "Your Partner Agency";
       const bannerAgency = document.getElementById('clientBannerAgency');
       if (bannerAgency) bannerAgency.innerText = agencyName;
 
@@ -2657,20 +2634,45 @@
       return `0x${hex}a94f...${hex.split('').reverse().join('')} (Provisional SHA-Lock)`;
     }
 
+    const registeredSessionLeads = [];
+
     function handleLeadSubmit(e) {
       e.preventDefault();
       const agency = document.getElementById('inputAgency').value || "Overseas Agency";
       const client = document.getElementById('inputClientName').value || "International Investor";
       const passport4 = document.getElementById('inputPassportLast4')?.value || "XXXX";
-      const project = document.getElementById('modalProjectInput').value || "Dubai Prime Off-Plan Launch";
+      const country = document.getElementById('inputClientCountry')?.value || "International";
+      const project = document.getElementById('modalProjectInput').value || "UAE Off-Plan Allocation";
       
-      const randomCertNum = Math.floor(10000 + Math.random() * 90000);
-      document.getElementById('certNumber').innerText = `PROVISIONAL ID: DLD-SLA-2026-${randomCertNum}`;
+      const certId = `DLD-SLA-${Date.now().toString().slice(-6)}`;
+      const kycHash = computeKycHash(`${agency}|${client}|${passport4}|${project}`);
+      document.getElementById('certNumber').innerText = `PROVISIONAL ID: ${certId}`;
       document.getElementById('certAgency').innerText = agency;
       document.getElementById('certClient').innerText = `${client} (Passport ••••${passport4})`;
       document.getElementById('certProject').innerText = project;
       const hashEl = document.getElementById('certHash');
-      if (hashEl) hashEl.innerText = computeKycHash(`${agency}|${client}|${passport4}|${project}`);
+      if (hashEl) hashEl.innerText = kycHash;
+
+      // Update live session backoffice table
+      registeredSessionLeads.push({ certId, agency, client, country, project, kycHash });
+      const dashPartner = document.getElementById('dashPartnerName');
+      if (dashPartner) dashPartner.innerText = agency;
+      const dashCount = document.getElementById('dashActiveCount');
+      if (dashCount) dashCount.innerText = `${registeredSessionLeads.length} Registered`;
+      const tbody = document.getElementById('liveLeadsTableBody');
+      if (tbody) {
+        tbody.innerHTML = registeredSessionLeads.map(l => `
+          <tr>
+            <td class="p-3 font-mono text-brand-gold">${l.certId}</td>
+            <td class="p-3 font-semibold text-white">${l.client}</td>
+            <td class="p-3">${l.project}</td>
+            <td class="p-3">${l.country}</td>
+            <td class="p-3"><span class="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded text-[10px] font-bold">PROVISIONAL LOCK</span></td>
+            <td class="p-3 font-mono text-[10px] text-slate-400">${l.kycHash.split(' ')[0]}</td>
+            <td class="p-3 text-right"><button onclick="viewRegisteredCertificate('${l.certId}')" class="text-brand-gold hover:underline">View SLA Cert</button></td>
+          </tr>
+        `).join('');
+      }
 
       // Reveal Certificate
       document.getElementById('leadFormView').classList.add('hidden');
@@ -2678,11 +2680,15 @@
       lucide.createIcons();
     }
 
-    function viewCertificateMock(client, project, payout) {
-      document.getElementById('certAgency').innerText = "Mayfair Private Wealth (London)";
-      document.getElementById('certClient').innerText = client;
-      document.getElementById('certProject').innerText = project;
-      document.getElementById('certRate').innerText = `${payout} Net Upon Milestone Clearance`;
+    function viewRegisteredCertificate(certId) {
+      const lead = registeredSessionLeads.find(l => l.certId === certId);
+      if (!lead) return;
+      document.getElementById('certNumber').innerText = `PROVISIONAL ID: ${lead.certId}`;
+      document.getElementById('certAgency').innerText = lead.agency;
+      document.getElementById('certClient').innerText = lead.client;
+      document.getElementById('certProject').innerText = lead.project;
+      const hashEl = document.getElementById('certHash');
+      if (hashEl) hashEl.innerText = lead.kycHash;
       openLeadModal();
       document.getElementById('leadFormView').classList.add('hidden');
       document.getElementById('certificateView').classList.remove('hidden');
@@ -2699,7 +2705,7 @@
     // REAL WHITE-LABEL CLIENT DOSSIER COMPILER
     // ==========================================
     function openWhiteLabelDossierModal(projObj) {
-      const agencyName = document.getElementById('agencyNameInput')?.value || "Mayfair Private Wealth Realty (London)";
+      const agencyName = document.getElementById('agencyNameInput')?.value || "Your Partner Agency";
       const rateInfo = exchangeRates[currentCurrency] || exchangeRates.USD;
       const converted = Math.round(projObj.priceAED * rateInfo.rate);
       const priceFormatted = rateInfo.symbol + converted.toLocaleString() + rateInfo.suffix;
@@ -2710,9 +2716,11 @@
       document.getElementById('dossierLocation').innerText = projObj.location;
       document.getElementById('dossierPrice').innerText = priceFormatted;
       document.getElementById('dossierPaymentPlan').innerText = `${projObj.paymentPlan} · Handover ${projObj.handover}`;
-      document.getElementById('dossierDldId').innerText = projObj.dldProjectNo || 'DLD-VERIFIED';
-      document.getElementById('dossierEscrowBank').innerText = `${projObj.escrowBank || 'Emirates NBD'} (${projObj.escrowNo})`;
-      document.getElementById('dossierProgress').innerText = `${projObj.constructionStatus} (${projObj.constructionProgress}%)`;
+      document.getElementById('dossierDldId').innerText = projObj.dldProjectNo ? `DLD #${projObj.dldProjectNo}` : 'Dubai REST Verified';
+      document.getElementById('dossierEscrowBank').innerText = `${projObj.escrowBank || 'DLD Approved Bank'} (${projObj.escrowNo})`;
+      document.getElementById('dossierProgress').innerText = typeof projObj.constructionProgress === 'number'
+        ? `${projObj.constructionStatus} (${projObj.constructionProgress}%)`
+        : `${projObj.constructionStatus} (${projObj.dldStatusSource || 'Dubai REST'})`;
       document.getElementById('dossierYield').innerText = `${projObj.yieldProjected} (0% Tax)`;
 
       document.getElementById('whiteLabelDossierModal').classList.remove('hidden');
@@ -2730,7 +2738,7 @@
       openWhiteLabelDossierModal(match);
     }
 
-    function triggerMockDownload() {
+    function openSelectedDossier() {
       const projLabel = document.getElementById('deckProjectSelect').value || '';
       const match = uaeOffPlanProjects.find(p => projLabel.toLowerCase().includes(p.name.toLowerCase().split(' ')[0])) || uaeOffPlanProjects[0];
       openWhiteLabelDossierModal(match);
@@ -2852,550 +2860,49 @@
     }
 
     // ==========================================
-    // UAE OFF-PLAN MASTER INVENTORY DATASET (WITH DLD AUDIT STATS)
+    // UAE OFF-PLAN MASTER INVENTORY & OVERSEAS AGENCIES
+    // Hydrated from ./data/offplan-registry.json & ./data/abroad-agencies.json
     // ==========================================
     let uaeOffPlanProjects = [
       {
-        id: "sobha-crystal",
-        name: "Riverside Crystal Residences",
+        id: "sobha-330-riverside",
+        name: "330 Riverside Crescent",
         developer: "Sobha Realty",
-        developerTrustScore: 98,
-        location: "Sobha Hartland II, Downtown Adjacent",
+        emirate: "Dubai",
+        location: "Sobha Hartland II, MBR City",
         category: ["waterfront", "golden-visa"],
         priceAED: 1980000,
         paymentPlan: "60/40 on Handover",
         handover: "Q4 2027",
         units: "1 & 2 Beds",
-        yieldProjected: "8.8% Net",
+        yieldProjected: "8.0% - 9.0% Est.",
         commission: "5.5%",
-        escrowNo: "#2894 DLD",
-        dldProjectNo: "DLD-PRJ-2894",
-        constructionStatus: "Under Construction",
-        constructionProgress: 38,
-        inspectionDate: "15/01/2026",
+        escrowBank: "Emirates Islamic Bank P.J.S.C.",
+        escrowNo: "DLD #2788 (Verify IBAN in Dubai REST)",
+        dldProjectNo: "2788",
+        dldStatusSource: "Dubai REST (Mashrooi)",
+        constructionStatus: "DLD Active Off-Plan",
+        constructionProgress: null,
         image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "mar-casa",
-        name: "Mar Casa Waterfront Tower",
-        developer: "Deyaar",
-        developerTrustScore: 95,
-        location: "Dubai Maritime City & Sea",
-        category: ["waterfront", "monthly", "golden-visa"],
-        priceAED: 2450000,
-        paymentPlan: "1% Monthly Plan",
-        handover: "Q1 2027",
-        units: "1, 2 & 3 Beds",
-        yieldProjected: "9.4% Net",
-        commission: "6.0%",
-        escrowNo: "#3102 DLD",
-        dldProjectNo: "DLD-PRJ-3102",
-        constructionStatus: "Substructure Complete",
-        constructionProgress: 52,
-        inspectionDate: "20/02/2026",
-        image: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "the-spark",
-        name: "The Spark Residences",
-        developer: "Esnaad",
-        developerTrustScore: 92,
-        location: "Jumeirah Village Circle (JVC)",
-        category: ["monthly"],
-        priceAED: 890000,
-        paymentPlan: "70/30 on Handover",
-        handover: "Q3 2026",
-        units: "Studio & 1 Bed",
-        yieldProjected: "10.4% Net",
-        commission: "5.0%",
-        escrowNo: "#1944 DLD",
-        dldProjectNo: "DLD-PRJ-1944",
-        constructionStatus: "Superstructure Ready",
-        constructionProgress: 79,
-        inspectionDate: "10/02/2026",
-        image: "https://images.unsplash.com/photo-1546412414-e1885259563a?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "mercedes-places",
-        name: "Mercedes-Benz Places",
-        developer: "Binghatti",
-        developerTrustScore: 96,
-        location: "Downtown Dubai (Burj Khalifa View)",
-        category: ["luxury", "golden-visa"],
-        priceAED: 8800000,
-        paymentPlan: "70/30 Completion",
-        handover: "Q4 2026",
-        units: "2 - 5 Bed Penthouses",
-        yieldProjected: "7.8% Net",
-        commission: "6.5%",
-        escrowNo: "#4108 DLD",
-        dldProjectNo: "DLD-PRJ-4108",
-        constructionStatus: "Substructure Complete",
-        constructionProgress: 44,
-        inspectionDate: "05/01/2026",
-        image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "wynn-marjan",
-        name: "Wynn Casino Waterfront Residences",
-        developer: "RAK Properties / Wynn Anchor",
-        developerTrustScore: 95,
-        location: "Al Marjan Island, Ras Al Khaimah",
-        category: ["marjan", "waterfront", "golden-visa"],
-        priceAED: 3850000,
-        paymentPlan: "60/40 Plan",
-        handover: "Q1 2027",
-        units: "1 - 3 Bed Suites",
-        yieldProjected: "11.2% Net",
-        commission: "6.0%",
-        escrowNo: "#RAK-5912",
-        dldProjectNo: "RAK-MUN-5912",
-        constructionStatus: "Under Construction",
-        constructionProgress: 35,
-        inspectionDate: "18/02/2026",
-        image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "golf-place",
-        name: "Golf Place Villas",
-        developer: "Emaar Properties",
-        developerTrustScore: 99,
-        location: "Dubai Hills Estate (Championship Golf)",
-        category: ["luxury", "golden-visa"],
-        priceAED: 6365000,
-        paymentPlan: "80/20 Plan",
-        handover: "Q2 2026",
-        units: "4 - 6 Bed Mansions",
-        yieldProjected: "8.4% Net",
-        commission: "5.0%",
-        escrowNo: "#1182 DLD",
-        dldProjectNo: "DLD-PRJ-1182",
-        constructionStatus: "Handover Soon",
-        constructionProgress: 94,
-        inspectionDate: "28/01/2026",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "danube-oceanz",
-        name: "Oceanz Luxury Maritime",
-        developer: "Danube Properties",
-        developerTrustScore: 94,
-        location: "Dubai Maritime City",
-        category: ["monthly", "waterfront"],
-        priceAED: 1100000,
-        paymentPlan: "1% Monthly (65/35)",
-        handover: "Q1 2027",
-        units: "Studio, 1 & 2 Beds",
-        yieldProjected: "9.8% Net",
-        commission: "5.5%",
-        escrowNo: "#3289 DLD",
-        dldProjectNo: "DLD-PRJ-3289",
-        constructionStatus: "Under Construction",
-        constructionProgress: 41,
-        inspectionDate: "12/02/2026",
-        image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "wilton-park",
-        name: "Wilton Park Residences",
-        developer: "Ellington Properties",
-        developerTrustScore: 96,
-        location: "Mohammed Bin Rashid City (MBR)",
-        category: ["waterfront", "golden-visa"],
-        priceAED: 1450000,
-        paymentPlan: "50/50 Handover",
-        handover: "Q4 2026",
-        units: "1 & 2 Bed Boutique",
-        yieldProjected: "9.1% Net",
-        commission: "5.5%",
-        escrowNo: "#2491 DLD",
-        dldProjectNo: "DLD-PRJ-2491",
-        constructionStatus: "Superstructure Ready",
-        constructionProgress: 83,
-        inspectionDate: "03/02/2026",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "palm-crown",
-        name: "Palm Crown Beachfront Villas",
-        developer: "Nakheel",
-        developerTrustScore: 98,
-        location: "Palm Jumeirah (Private Lagoon)",
-        category: ["luxury", "waterfront", "golden-visa"],
-        priceAED: 18200000,
-        paymentPlan: "50/50 Custom",
-        handover: "Q3 2027",
-        units: "5 & 6 Bed Beach Estates",
-        yieldProjected: "7.0% Net",
-        commission: "6.0%",
-        escrowNo: "#904 DLD",
-        dldProjectNo: "DLD-PRJ-0904",
-        constructionStatus: "Under Construction",
-        constructionProgress: 28,
-        inspectionDate: "14/01/2026",
-        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "verdes-haven",
-        name: "Verdes by Haven",
-        developer: "Aldar Properties",
-        developerTrustScore: 99,
-        location: "Dubai South / Aerotropolis",
-        category: ["monthly", "golden-visa"],
-        priceAED: 1220000,
-        paymentPlan: "60/40 Plan",
-        handover: "Q2 2028",
-        units: "1 - 3 Bed Eco Residences",
-        yieldProjected: "9.6% Net",
-        commission: "5.5%",
-        escrowNo: "#4920 DLD",
-        dldProjectNo: "DLD-PRJ-4920",
-        constructionStatus: "Under Construction",
-        constructionProgress: 21,
-        inspectionDate: "22/01/2026",
-        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "lana-residences",
-        name: "The Lana Dorchester Collection",
-        developer: "OMNIYAT",
-        developerTrustScore: 97,
-        location: "Downtown / Marasi Marina",
-        category: ["luxury", "waterfront", "golden-visa"],
-        priceAED: 16800000,
-        paymentPlan: "50/50 Handover",
-        handover: "Q1 2026",
-        units: "3 - 5 Bed Ultra Penthouses",
-        yieldProjected: "7.4% Net",
-        commission: "6.5%",
-        escrowNo: "#1880 DLD",
-        dldProjectNo: "DLD-PRJ-1880",
-        constructionStatus: "Handover Soon",
-        constructionProgress: 97,
-        inspectionDate: "08/02/2026",
-        image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "bugatti-res",
-        name: "Bugatti Residences by Binghatti",
-        developer: "Binghatti",
-        developerTrustScore: 96,
-        location: "Business Bay Prime Canal",
-        category: ["luxury", "golden-visa"],
-        priceAED: 19500000,
-        paymentPlan: "60/40 Plan",
-        handover: "Q4 2026",
-        units: "Sky Mansions with Car Lifts",
-        yieldProjected: "7.2% Net",
-        commission: "7.0%",
-        escrowNo: "#4210 DLD",
-        dldProjectNo: "DLD-PRJ-4210",
-        constructionStatus: "Substructure Complete",
-        constructionProgress: 49,
-        inspectionDate: "16/01/2026",
-        image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "orchid-residence",
-        name: "Orchid Residence",
-        developer: "Laraix Developers",
-        developerTrustScore: 91,
-        location: "International City, Dubai",
-        category: ["monthly"],
-        priceAED: 595000,
-        paymentPlan: "60/40 Plan (Low Entry)",
-        handover: "Q4 2027",
-        units: "Studio, 1 & 2 Beds",
-        yieldProjected: "10.2% Net",
-        commission: "5.5%",
-        escrowNo: "#2719 DLD",
-        dldProjectNo: "DLD-PRJ-2719",
-        constructionStatus: "Under Construction",
-        constructionProgress: 32,
-        inspectionDate: "19/01/2026",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "cherrywoods-meraas",
-        name: "Cherrywoods Townhouses",
-        developer: "Meraas Holding",
-        developerTrustScore: 98,
-        location: "Al Qudra Road, Dubailand",
-        category: ["golden-visa"],
-        priceAED: 2150000,
-        paymentPlan: "40/60 on Completion",
-        handover: "Q2 2026",
-        units: "3 & 4 Bed Modern Townhouses",
-        yieldProjected: "8.6% Net",
-        commission: "5.0%",
-        escrowNo: "#1502 DLD",
-        dldProjectNo: "DLD-PRJ-1502",
-        constructionStatus: "Handover Soon",
-        constructionProgress: 91,
-        inspectionDate: "27/01/2026",
-        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "damac-green-acres",
-        name: "Green Acres Villas",
-        developer: "DAMAC Properties",
-        developerTrustScore: 95,
-        location: "DAMAC Hills, Dubai",
-        category: ["golden-visa"],
-        priceAED: 2850000,
-        paymentPlan: "70/30 Handover",
-        handover: "Q3 2026",
-        units: "3 & 4 Bed Luxury Villas",
-        yieldProjected: "8.9% Net",
-        commission: "5.5%",
-        escrowNo: "#1648 DLD",
-        dldProjectNo: "DLD-PRJ-1648",
-        constructionStatus: "Superstructure Ready",
-        constructionProgress: 86,
-        inspectionDate: "11/02/2026",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
-      },
-      {
-        id: "azizi-riviera",
-        name: "Azizi Riviera Waterfront",
-        developer: "Azizi Developments",
-        developerTrustScore: 93,
-        location: "MBR City, Meydan Canal",
-        category: ["waterfront", "monthly"],
-        priceAED: 920000,
-        paymentPlan: "50/50 Handover",
-        handover: "Q1 2027",
-        units: "Studio, 1 & 2 Beds",
-        yieldProjected: "9.5% Net",
-        commission: "6.0%",
-        escrowNo: "#2391 DLD",
-        dldProjectNo: "DLD-PRJ-2391",
-        constructionStatus: "Substructure Complete",
-        constructionProgress: 56,
-        inspectionDate: "02/02/2026",
-        image: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=800&q=80"
       }
     ];
 
-    // ==========================================
-    // ACCREDITED ABROAD AGENCIES & BROKERS DATASET
-    // ==========================================
     let abroadAgencies = [
       {
-        id: "mayfair-london",
-        agentName: "James Sterling",
-        agencyName: "Mayfair Private Wealth Realty",
+        id: "savills-mayfair",
+        agentName: "Savills Mayfair & St. James's",
+        agencyName: "Savills (UK) Ltd",
         city: "London",
         country: "United Kingdom",
         flag: "🇬🇧",
         region: "UK_EU",
-        tier: "Tier 2 Premier Partner (5.5%)",
+        tier: "Tier 3 Institutional Desk (7.0%)",
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-        phone: "+44 20 7946 0912",
-        whatsapp: "447700900128",
-        email: "j.sterling@mayfairwealth.co.uk",
-        dealsClosed: 32,
-        volumeUSD: "$42M",
-        languages: "English, French",
-        specialty: "HNW Non-Dom UK Capital Relocation"
-      },
-      {
-        id: "frankfurt-cap",
-        agentName: "Dr. Florian von Hindenburg",
-        agencyName: "Frankfurt Capital Partners",
-        city: "Frankfurt am Main",
-        country: "Germany",
-        flag: "🇩🇪",
-        region: "DACH",
-        tier: "Tier 3 Institutional Desk (7.0%)",
-        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-        phone: "+49 69 1234 5678",
-        whatsapp: "491718920111",
-        email: "florian@frankfurtcapital.de",
-        dealsClosed: 48,
-        volumeUSD: "$78M",
-        languages: "German, English",
-        specialty: "German Medical & Tech Family Offices"
-      },
-      {
-        id: "zurich-wealth",
-        agentName: "Christoph Ammann",
-        agencyName: "Zurich Wealth Real Estate AG",
-        city: "Zürich",
-        country: "Switzerland",
-        flag: "🇨🇭",
-        region: "DACH",
-        tier: "Tier 3 Institutional Desk (7.0%)",
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
-        phone: "+41 44 215 8800",
-        whatsapp: "41792158800",
-        email: "ammann@zurichwealth.ch",
-        dealsClosed: 39,
-        volumeUSD: "$64M",
-        languages: "German, English, French",
-        specialty: "Swiss Private Banking Escrow Syndication"
-      },
-      {
-        id: "manhattan-global",
-        agentName: "Marcus Vance",
-        agencyName: "Manhattan Global Realty",
-        city: "New York City",
-        country: "United States",
-        flag: "🇺🇸",
-        region: "US_CA",
-        tier: "Tier 2 Premier Partner (5.5%)",
-        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
-        phone: "+1 212 555 0194",
-        whatsapp: "12125550194",
-        email: "mvance@manhattanglobal.com",
-        dealsClosed: 41,
-        volumeUSD: "$56M",
+        phone: "+44 20 7578 5100",
+        website: "https://www.savills.co.uk",
+        officeAddress: "36 North Audley Street, London W1K 6ZJ",
         languages: "English",
-        specialty: "US Tax-Free International Diversification"
-      },
-      {
-        id: "monaco-global",
-        agentName: "Beatrice Laurent",
-        agencyName: "Monaco & Côte d'Azur Global",
-        city: "Monte Carlo",
-        country: "Monaco",
-        flag: "🇲🇨",
-        region: "UK_EU",
-        tier: "Tier 3 Institutional Desk (7.0%)",
-        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
-        phone: "+377 98 10 22 00",
-        whatsapp: "37798102200",
-        email: "b.laurent@monacoglobal.mc",
-        dealsClosed: 27,
-        volumeUSD: "$95M",
-        languages: "French, English, Italian",
-        specialty: "Super-Prime Waterfront Penthouses"
-      },
-      {
-        id: "singapore-mb",
-        agentName: "Wei-Ling Tan",
-        agencyName: "Marina Bay Capital Estates",
-        city: "Singapore",
-        country: "Singapore",
-        flag: "🇸🇬",
-        region: "APAC",
-        tier: "Tier 2 Premier Partner (5.5%)",
-        avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
-        phone: "+65 6789 0123",
-        whatsapp: "6591234567",
-        email: "wl.tan@marinabaycapital.sg",
-        dealsClosed: 35,
-        volumeUSD: "$48M",
-        languages: "English, Mandarin",
-        specialty: "East Asian Wealth Corridors & Family Offices"
-      },
-      {
-        id: "mumbai-marine",
-        agentName: "Rajesh Singhania",
-        agencyName: "Marine Drive Private Client Group",
-        city: "Mumbai",
-        country: "India",
-        flag: "🇮🇳",
-        region: "APAC",
-        tier: "Tier 3 Institutional Desk (7.0%)",
-        avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
-        phone: "+91 22 2288 9900",
-        whatsapp: "919820011223",
-        email: "singhania@marinedrivepc.in",
-        dealsClosed: 64,
-        volumeUSD: "$88M",
-        languages: "English, Hindi, Gujarati",
-        specialty: "Golden Visa NRI Portfolios & Full Floors"
-      },
-      {
-        id: "riyadh-wealth",
-        agentName: "Prince Fahad Al-Saud",
-        agencyName: "Riyadh Private Wealth Advisory",
-        city: "Riyadh",
-        country: "Saudi Arabia",
-        flag: "🇸🇦",
-        region: "GCC_ABROAD",
-        tier: "Tier 3 Institutional Desk (7.0%)",
-        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
-        phone: "+966 11 456 7890",
-        whatsapp: "966501123344",
-        email: "fal-saud@riyadhwealth.sa",
-        dealsClosed: 52,
-        volumeUSD: "$110M",
-        languages: "Arabic, English",
-        specialty: "GCC Institutional Syndication & Palaces"
-      },
-      {
-        id: "paris-haussmann",
-        agentName: "Camille Dupont",
-        agencyName: "Haussmann Patrimoine International",
-        city: "Paris",
-        country: "France",
-        flag: "🇫🇷",
-        region: "UK_EU",
-        tier: "Tier 2 Premier Partner (5.5%)",
-        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
-        phone: "+33 1 42 68 55 00",
-        whatsapp: "33612345678",
-        email: "c.dupont@haussmannpatrimoine.fr",
-        dealsClosed: 29,
-        volumeUSD: "$38M",
-        languages: "French, English",
-        specialty: "French Tax Exemption & Double Tax Treaties"
-      },
-      {
-        id: "sydney-sovereign",
-        agentName: "Harrison Croft",
-        agencyName: "Sydney Sovereign Homes",
-        city: "Sydney",
-        country: "Australia",
-        flag: "🇦🇺",
-        region: "APAC",
-        tier: "Tier 2 Premier Partner (5.5%)",
-        avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80",
-        phone: "+61 2 9234 5678",
-        whatsapp: "61400123456",
-        email: "hcroft@sydneysovereign.com.au",
-        dealsClosed: 26,
-        volumeUSD: "$35M",
-        languages: "English",
-        specialty: "Australian Cross-Border Wealth & High Yield"
-      },
-      {
-        id: "geneva-advisory",
-        agentName: "Sophie De Vries",
-        agencyName: "Geneva Private Advisory",
-        city: "Genève",
-        country: "Switzerland",
-        flag: "🇨🇭",
-        region: "DACH",
-        tier: "Tier 2 Premier Partner (5.5%)",
-        avatar: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=400&q=80",
-        phone: "+41 22 819 3300",
-        whatsapp: "41793300440",
-        email: "s.devries@genevaprivate.ch",
-        dealsClosed: 31,
-        volumeUSD: "$52M",
-        languages: "French, English",
-        specialty: "Swiss Escrow & Fiduciary Services"
-      },
-      {
-        id: "miami-palm",
-        agentName: "David Sterling Jr.",
-        agencyName: "Palm Beach & Gulf Coast Advisors",
-        city: "Miami",
-        country: "United States",
-        flag: "🇺🇸",
-        region: "US_CA",
-        tier: "Tier 2 Premier Partner (5.5%)",
-        avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=400&q=80",
-        phone: "+1 305 555 0188",
-        whatsapp: "13055550188",
-        email: "d.sterling@palmbeachadvisors.com",
-        dealsClosed: 28,
-        volumeUSD: "$44M",
-        languages: "English, Spanish",
-        specialty: "Crypto Whale Settlements & Waterfront Villas"
+        specialty: "Prime & International Residential Advisory"
       }
     ];
 
@@ -3423,16 +2930,30 @@
         // Construction status badge styling
         let statusColor = "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
         let statusDot = "bg-emerald-400";
-        if (p.constructionProgress < 40) {
-          statusColor = "bg-blue-500/20 text-blue-300 border-blue-500/40";
-          statusDot = "bg-blue-400";
-        } else if (p.constructionProgress < 75) {
-          statusColor = "bg-yellow-500/20 text-yellow-300 border-yellow-500/40";
-          statusDot = "bg-yellow-400";
-        } else if (p.constructionProgress >= 90) {
-          statusColor = "bg-purple-500/20 text-purple-300 border-purple-500/40";
-          statusDot = "bg-purple-400";
+        if (typeof p.constructionProgress === 'number') {
+          if (p.constructionProgress < 40) {
+            statusColor = "bg-blue-500/20 text-blue-300 border-blue-500/40";
+            statusDot = "bg-blue-400";
+          } else if (p.constructionProgress < 75) {
+            statusColor = "bg-yellow-500/20 text-yellow-300 border-yellow-500/40";
+            statusDot = "bg-yellow-400";
+          } else if (p.constructionProgress >= 90) {
+            statusColor = "bg-purple-500/20 text-purple-300 border-purple-500/40";
+            statusDot = "bg-purple-400";
+          }
+        } else {
+          statusColor = "bg-amber-500/20 text-amber-300 border-amber-500/40";
+          statusDot = "bg-amber-400";
         }
+
+        const progressHtml = typeof p.constructionProgress === 'number'
+          ? `<div class="flex items-center gap-2">
+               <span class="text-[11px] font-mono font-bold text-emerald-400">${p.constructionProgress}% Built</span>
+               <div class="w-14 bg-slate-800 h-1.5 rounded-full overflow-hidden border border-white/10">
+                 <div class="bg-emerald-400 h-full rounded-full" style="width: ${p.constructionProgress}%"></div>
+               </div>
+             </div>`
+          : `<span class="text-[10px] font-mono text-amber-300">${p.dldStatusSource || 'Dubai REST'}</span>`;
 
         return `
           <div class="glass-panel rounded-2xl overflow-hidden hover:border-brand-gold/50 transition-all duration-300 group flex flex-col justify-between">
@@ -3456,8 +2977,8 @@
                     <span class="text-xs text-brand-gold font-semibold uppercase tracking-wider flex items-center gap-1">
                       <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> ${p.developer} · ${p.location}
                     </span>
-                    <span class="bg-black/60 text-[10px] text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded font-mono font-bold" title="Dubai Land Department Developer Reliability Score">
-                      ★ DLD ${p.developerTrustScore}/100
+                    <span class="bg-black/60 text-[10px] text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded font-mono font-bold" title="Official UAE Project Registration">
+                      DLD #${p.dldProjectNo}
                     </span>
                   </div>
                   <h3 class="text-lg font-bold text-white leading-tight">${p.name}</h3>
@@ -3471,12 +2992,7 @@
                   <span class="text-slate-300 font-semibold text-[11px]">${p.constructionStatus}</span>
                   <span class="text-[10px] text-slate-500">(${p.dldProjectNo})</span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-[11px] font-mono font-bold text-emerald-400">${p.constructionProgress}% Built</span>
-                  <div class="w-14 bg-slate-800 h-1.5 rounded-full overflow-hidden border border-white/10">
-                    <div class="bg-emerald-400 h-full rounded-full" style="width: ${p.constructionProgress}%"></div>
-                  </div>
-                </div>
+                ${progressHtml}
               </div>
 
               <div class="p-5 space-y-4">
@@ -3582,6 +3098,14 @@
       if (!grid) return;
 
       grid.innerHTML = agencies.map(a => {
+        const emailBtn = a.email
+          ? `<a href="mailto:${a.email}?subject=Client%20Referral%20-%20UAE%20Off-Plan%20Property&body=Dear%20${encodeURIComponent(a.agentName)},%0D%0A%0D%0AI%20am%20connecting%20regarding%20UAE%20property%20syndication." class="bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-white/15 transition-all">
+               <i data-lucide="mail" class="w-3.5 h-3.5 text-brand-gold"></i> Email
+             </a>`
+          : `<a href="${a.website}" target="_blank" rel="noopener" class="bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-white/15 transition-all">
+               <i data-lucide="globe" class="w-3.5 h-3.5 text-brand-gold"></i> Contact Desk
+             </a>`;
+
         return `
           <div class="glass-panel rounded-2xl p-6 border border-white/10 hover:border-brand-gold/40 transition-all flex flex-col justify-between group">
             <div>
@@ -3591,7 +3115,7 @@
                 <div class="flex items-center gap-3">
                   <div class="relative">
                     <img src="${a.avatar}" alt="${a.agentName}" class="w-12 h-12 rounded-xl object-cover border border-brand-gold/30">
-                    <span class="w-3 h-3 rounded-full bg-emerald-500 border-2 border-black absolute -bottom-0.5 -right-0.5" title="Online for Video Calls"></span>
+                    <span class="w-3 h-3 rounded-full bg-emerald-500 border-2 border-black absolute -bottom-0.5 -right-0.5" title="Verified International Office"></span>
                   </div>
                   <div>
                     <div class="flex items-center gap-1.5">
@@ -3604,15 +3128,15 @@
                 </div>
               </div>
 
-              <!-- Badges & Stats -->
+              <!-- Badges & Office Info -->
               <div class="space-y-3 mb-5 text-xs text-slate-300">
                 <div class="flex items-center justify-between">
                   <span class="text-slate-500">Accredited Tier:</span>
                   <span class="bg-brand-gold/15 text-brand-gold font-bold px-2 py-0.5 rounded text-[10px] border border-brand-gold/30">${a.tier}</span>
                 </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-slate-500">Deals Closed in UAE:</span>
-                  <strong class="text-white font-mono">${a.dealsClosed} Deals (${a.volumeUSD})</strong>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-slate-500 shrink-0">Office Address:</span>
+                  <span class="text-white text-right text-[11px] truncate" title="${a.officeAddress || ''}">${a.officeAddress || a.city}</span>
                 </div>
                 <div class="flex items-center justify-between">
                   <span class="text-slate-500">Languages:</span>
@@ -3626,21 +3150,19 @@
 
             </div>
 
-            <!-- Instant Contact Buttons (Ready for Contact, Video Call, Email, WhatsApp) -->
+            <!-- Instant Contact Buttons -->
             <div class="space-y-2 pt-3 border-t border-white/10">
               <div class="grid grid-cols-2 gap-2">
-                <a href="https://wa.me/${a.whatsapp}?text=Hello%20${encodeURIComponent(a.agentName)},%20I%20am%20referring%20a%20client%20for%20Dubai%20off-plan%20syndication%20via%20AI%20Home%20Global." target="_blank" class="bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-black font-bold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-emerald-500/30 transition-all">
-                  <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> WhatsApp
+                <a href="${a.website}" target="_blank" rel="noopener" class="bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-black font-bold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-emerald-500/30 transition-all">
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Official Site
                 </a>
-                <a href="mailto:${a.email}?subject=Client%20Referral%20-%20UAE%20Off-Plan%20Property&body=Dear%20${encodeURIComponent(a.agentName)},%0D%0A%0D%0AI%20am%20connecting%20regarding%20UAE%20property%20syndication." class="bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-white/15 transition-all">
-                  <i data-lucide="mail" class="w-3.5 h-3.5 text-brand-gold"></i> Email
-                </a>
+                ${emailBtn}
               </div>
               <div class="grid grid-cols-2 gap-2">
-                <a href="tel:${a.phone}" class="bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-white/10 transition-all">
-                  <i data-lucide="phone" class="w-3.5 h-3.5"></i> Call Desk
+                <a href="tel:${a.phone.replace(/[^+\d]/g, '')}" class="bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-white/10 transition-all">
+                  <i data-lucide="phone" class="w-3.5 h-3.5"></i> ${a.phone}
                 </a>
-                <button onclick="openVideoCallFor('${a.agentName}', '${a.agencyName}', '${a.avatar}', 'Riverside Crystal Residences')" class="bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white font-bold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-purple-500/40 transition-all shadow">
+                <button onclick="openVideoCallFor('${a.agentName.replace(/'/g, "\\'")}', '${a.agencyName.replace(/'/g, "\\'")}', '${a.avatar}', '330 Riverside Crescent')" class="bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white font-bold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-purple-500/40 transition-all shadow">
                   <i data-lucide="video" class="w-3.5 h-3.5"></i> Video Call
                 </button>
               </div>
@@ -3688,17 +3210,11 @@
       });
 
       // Sorting
-      if (sortBy === 'volume') {
-        filtered.sort((a, b) => {
-          const volA = parseFloat(a.volumeUSD.replace(/[^0-9.]/g, '')) || 0;
-          const volB = parseFloat(b.volumeUSD.replace(/[^0-9.]/g, '')) || 0;
-          return volB - volA;
-        });
-      } else if (sortBy === 'deals') {
-        filtered.sort((a, b) => b.dealsClosed - a.dealsClosed);
+      if (sortBy === 'city') {
+        filtered.sort((a, b) => a.city.localeCompare(b.city));
       } else if (sortBy === 'name') {
         filtered.sort((a, b) => a.agentName.localeCompare(b.agentName));
-      } else if (sortBy === 'tier') {
+      } else {
         filtered.sort((a, b) => b.tier.localeCompare(a.tier));
       }
 
@@ -3752,8 +3268,9 @@
     }
 
     function copyEscrowDetails() {
-      navigator.clipboard?.writeText("Emirates NBD Bank PJSC | IBAN: AE420260000102894819012 | BIC: EBILAEADXXX | Ref: DLD-ESCROW-2894");
-      alert("📋 Copied DLD Escrow Wire Details:\nBank: Emirates NBD\nIBAN: AE42 0260 0001 0289 4819 012\nRef: DLD-ESCROW-2894");
+      const msg = "DLD Project #2788 (330 Riverside Crescent) | Escrow Bank: Emirates Islamic Bank P.J.S.C. | Verify official Escrow IBAN in Dubai REST App (Mashrooi) before any wire.";
+      navigator.clipboard?.writeText(msg);
+      alert("📋 Copied DLD Escrow Verification Details:\n" + msg);
     }
 
     // Initialize on page load (Hydrate from external JSON data layer with inline fallback)
