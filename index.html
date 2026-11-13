@@ -897,44 +897,22 @@
         <div>
           <div class="flex items-center gap-2">
             <span class="text-brand-gold text-xs font-bold tracking-widest uppercase">SOVEREIGN SYNDICATION INVENTORY</span>
-            <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/30">100% ESCROW PROTECTED</span>
+            <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/30">AI-HOME.WORLD SYNC · <span id="offplanTotalBadge">2,926</span> UAE PROJECTS</span>
           </div>
           <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-white mt-1">
             UAE Master Off-Plan Database
           </h2>
           <p class="text-slate-400 text-sm mt-2 max-w-2xl">
-            Pre-allocated inventory directly from Dubai, Abu Dhabi & Ras Al Khaimah master developers. All units are cleared for overseas marketing, white-label PDF extraction, and guaranteed broker commission protection.
+            Complete UAE off-plan inventory imported with identical project details from ai-home.world (developer, area, unit types, size, price/sqft, handover, and DLD status).
           </p>
         </div>
 
         <!-- Off-Plan Search & Dropdown Autocomplete Header -->
         <div class="w-full lg:w-80">
           <div class="relative">
-            <input type="text" id="offplanSearchInput" list="offplanDatalist" oninput="filterOffPlanProjects()" placeholder="Type or select project, developer, area..." class="w-full bg-[#12151F] border border-white/20 rounded-xl px-4 py-2.5 pl-10 text-xs text-white focus:outline-none focus:border-brand-gold">
+            <input type="text" id="offplanSearchInput" list="offplanDatalist" oninput="resetOffPlanPageAndFilter()" placeholder="Search 2,926+ projects, developer, area..." class="w-full bg-[#12151F] border border-white/20 rounded-xl px-4 py-2.5 pl-10 text-xs text-white focus:outline-none focus:border-brand-gold">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
-            <datalist id="offplanDatalist">
-              <option value="330 Riverside Crescent (Sobha - DLD #2788)">
-              <option value="Mar Casa (Deyaar - DLD #2589)">
-              <option value="Creek Waters (Emaar - DLD #2614)">
-              <option value="Mercedes-Benz Places (Binghatti - DLD #2545)">
-              <option value="Wynn Al Marjan Island (RAK)">
-              <option value="Elora at The Valley (Emaar - DLD #2511)">
-              <option value="Oceanz by Danube (DLD #2755)">
-              <option value="Wilton Park Residences I & II (Ellington - DLD #2158)">
-              <option value="Palm Jebel Ali – Frond A (Nakheel - DLD #3331)">
-              <option value="Verdes by Haven 1 (Aldar)">
-              <option value="The Lana Dorchester Collection (OMNIYAT - DLD #2052)">
-              <option value="Bugatti Residences by Binghatti (DLD #2547)">
-              <option value="Skyscape Altius (Sobha - DLD #3160)">
-              <option value="Marina Views at Rashid Yachts & Marina (Emaar - DLD #3172)">
-              <option value="Piazza Roma at DAMAC Lagoons (DAMAC - DLD #4379)">
-              <option value="Azizi Riviera 53 (Azizi - DLD #3615)">
-              <option value="Sobha Realty">
-              <option value="Emaar Properties">
-              <option value="Downtown Dubai">
-              <option value="Dubai Maritime City">
-              <option value="Al Marjan Island">
-            </datalist>
+            <datalist id="offplanDatalist"></datalist>
           </div>
         </div>
       </div>
@@ -945,82 +923,59 @@
         <!-- Developer Select Dropdown -->
         <div>
           <label class="text-[11px] text-slate-400 font-semibold block mb-1">Master Developer:</label>
-          <select id="offplanDevSelect" onchange="filterOffPlanProjects()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
-            <option value="all">All Developers (16)</option>
-            <option value="Sobha">Sobha Realty</option>
-            <option value="Emaar">Emaar Properties</option>
-            <option value="Binghatti">Binghatti Properties</option>
-            <option value="Deyaar">Deyaar Development</option>
-            <option value="OMNIYAT">OMNIYAT</option>
-            <option value="Nakheel">Nakheel</option>
-            <option value="Ellington">Ellington Properties</option>
-            <option value="Aldar">Aldar Properties</option>
-            <option value="Danube">Danube Properties</option>
-            <option value="Wynn">Wynn / Marjan RAK</option>
-            <option value="DAMAC">DAMAC Properties</option>
-            <option value="Azizi">Azizi Developments</option>
+          <select id="offplanDevSelect" onchange="resetOffPlanPageAndFilter()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="all">All Developers</option>
           </select>
         </div>
 
         <!-- Location Dropdown -->
         <div>
-          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Community / Emirate:</label>
-          <select id="offplanLocSelect" onchange="filterOffPlanProjects()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
+          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Community / Area:</label>
+          <select id="offplanLocSelect" onchange="resetOffPlanPageAndFilter()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
             <option value="all">All Locations</option>
-            <option value="Downtown">Downtown Dubai (Burj Khalifa)</option>
-            <option value="Maritime">Maritime City & Sea</option>
-            <option value="JVC">Jumeirah Village Circle (JVC)</option>
-            <option value="Dubai Hills">Dubai Hills Estate</option>
-            <option value="Palm Jumeirah">Palm Jumeirah Lagoon</option>
-            <option value="Dubai South">Dubai South (Airport)</option>
-            <option value="MBR">MBR City (Hartland)</option>
-            <option value="Business Bay">Business Bay Canal</option>
-            <option value="International City">International City</option>
-            <option value="Al Marjan">Al Marjan Island (Casino)</option>
           </select>
         </div>
 
-        <!-- DLD Project Status Dropdown -->
+        <!-- Project Status Dropdown -->
         <div>
-          <label class="text-[11px] text-slate-400 font-semibold block mb-1">DLD Construction Status:</label>
-          <select id="offplanStatusSelect" onchange="filterOffPlanProjects()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-brand-gold font-bold focus:outline-none focus:border-brand-gold cursor-pointer">
-            <option value="all">All DLD Statuses</option>
-            <option value="Under Construction">🟢 Under Construction (On-Track)</option>
-            <option value="Substructure Complete">🔵 Substructure Complete (Foundations Done)</option>
-            <option value="Superstructure Ready">🟡 Superstructure Ready (Topped Out)</option>
-            <option value="Handover Soon">🟣 Handover Soon (Final Snagging)</option>
-            <option value="Completed">⚪ Completed & Handed Over</option>
+          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Project Status:</label>
+          <select id="offplanStatusSelect" onchange="resetOffPlanPageAndFilter()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-brand-gold font-bold focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="all">All Statuses</option>
+            <option value="under_construction">Under Construction</option>
+            <option value="off_plan">Off-Plan</option>
+            <option value="completed">Completed</option>
           </select>
         </div>
 
         <!-- Sort Dropdown -->
         <div>
           <label class="text-[11px] text-slate-400 font-semibold block mb-1">Sort Inventory By:</label>
-          <select id="offplanSortSelect" onchange="filterOffPlanProjects()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
-            <option value="featured">Featured Allocation</option>
-            <option value="completion-desc">Highest Construction % (DLD)</option>
-            <option value="yield-high">Highest Projected Yield</option>
+          <select id="offplanSortSelect" onchange="resetOffPlanPageAndFilter()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="featured">Default Order</option>
             <option value="price-asc">Price: Low to High</option>
             <option value="price-desc">Price: High to Low</option>
+            <option value="ppsf-asc">Price/SqFt: Low to High</option>
+            <option value="name-asc">Project Name (A - Z)</option>
           </select>
         </div>
 
       </div>
 
       <!-- Off-Plan Category Filter Pills -->
-      <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar text-xs">
+      <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-6 no-scrollbar text-xs">
         <button onclick="setOffPlanCategory('all')" id="btnCat-all" class="px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold shrink-0 shadow">All UAE Off-Plan</button>
-        <button onclick="setOffPlanCategory('golden-visa')" id="btnCat-golden-visa" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🏆 Golden Visa ($545K+)</button>
-        <button onclick="setOffPlanCategory('waterfront')" id="btnCat-waterfront" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🌊 Waterfront & Sea Views</button>
-        <button onclick="setOffPlanCategory('monthly')" id="btnCat-monthly" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">💳 1% Monthly Plans</button>
-        <button onclick="setOffPlanCategory('luxury')" id="btnCat-luxury" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">💎 Ultra-Luxury Penthouses</button>
-        <button onclick="setOffPlanCategory('marjan')" id="btnCat-marjan" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🎰 Wynn Casino Al Marjan</button>
+        <button onclick="setOffPlanCategory('golden-visa')" id="btnCat-golden-visa" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🏆 Golden Visa (AED 2M+)</button>
+        <button onclick="setOffPlanCategory('apartment')" id="btnCat-apartment" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🏢 Apartments</button>
+        <button onclick="setOffPlanCategory('villa')" id="btnCat-villa" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🏡 Villas & Townhouses</button>
+        <button onclick="setOffPlanCategory('penthouse')" id="btnCat-penthouse" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">💎 Penthouses</button>
+        <button onclick="setOffPlanCategory('dld')" id="btnCat-dld" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🛡️ DLD Verified</button>
       </div>
 
-      <!-- Property Grid (Populated dynamically via JS) -->
+      <!-- Property Grid (Populated dynamically via JS, 24 per page) -->
       <div id="propertyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Dynamic Cards Injected Here -->
       </div>
+      <div id="offplanPagination" class="mt-8 flex items-center justify-between text-xs text-slate-400"></div>
 
     </div>
   </section>
@@ -1035,127 +990,137 @@
         <div>
           <div class="flex items-center gap-2">
             <span class="text-brand-gold text-xs font-bold tracking-widest uppercase">WORLDWIDE DISTRIBUTION NETWORK</span>
-            <span class="bg-purple-500/20 text-purple-300 text-[10px] font-bold px-2 py-0.5 rounded border border-purple-500/30">OVERSEAS BROKERS ONLY</span>
+            <span class="bg-purple-500/20 text-purple-300 text-[10px] font-bold px-2 py-0.5 rounded border border-purple-500/30">AI-HOME.WORLD SYNC · <span id="agenciesTotalBadge">13,529</span> AGENCIES</span>
           </div>
           <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-white mt-1">
-            Accredited Abroad Agencies & Wealth Desks
+            Global Agencies & Partner Brokerages
           </h2>
           <p class="text-slate-400 text-sm mt-2 max-w-2xl">
-            Directly connect, co-pitch, or cross-refer clients with our accredited international partner brokers across the UK, Europe, Americas, Asia, and the Gulf. All agents are equipped for instant video closing calls, WhatsApp, and encrypted contract exchange.
+            Complete agency directory imported with identical details from ai-home.world (name, city, country, agent count, listings, rating, email, phone, website, and logo). Filter Outside-UAE or browse all 13,529 agencies worldwide.
           </p>
         </div>
 
         <!-- Agency Search & Autocomplete Datalist Header -->
         <div class="w-full lg:w-80">
           <div class="relative">
-            <input type="text" id="agencySearchInput" list="agencyDatalist" oninput="filterAgencies()" placeholder="Search broker, agency, city..." class="w-full bg-[#12151F] border border-white/20 rounded-xl px-4 py-2.5 pl-10 text-xs text-white focus:outline-none focus:border-brand-gold">
+            <input type="text" id="agencySearchInput" list="agencyDatalist" oninput="resetAgenciesPageAndFilter()" placeholder="Search 13,529 agencies, city, country..." class="w-full bg-[#12151F] border border-white/20 rounded-xl px-4 py-2.5 pl-10 text-xs text-white focus:outline-none focus:border-brand-gold">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
-            <datalist id="agencyDatalist">
-              <option value="Savills Mayfair & St. James's (London)">
-              <option value="Knight Frank Mayfair Desk (London)">
-              <option value="Engel & Völkers Frankfurt City (Frankfurt)">
-              <option value="Engel & Völkers Zürich Paradeplatz (Zürich)">
-              <option value="Sotheby's East Side Manhattan (New York)">
-              <option value="Engel & Völkers Côte d'Azur (Monaco Region)">
-              <option value="List Sotheby's International Realty (Singapore)">
-              <option value="Knight Frank India HQ (Mumbai)">
-              <option value="Knight Frank Saudi Arabia (Riyadh)">
-              <option value="Engel & Völkers Paris (Paris)">
-              <option value="Sydney Sotheby's Realty (Sydney)">
-              <option value="BARNES International Geneva (Genève)">
-              <option value="ONE Sotheby's Miami HQ (Miami)">
-              <option value="London">
-              <option value="Frankfurt">
-              <option value="Zürich">
-              <option value="New York">
-              <option value="Monaco">
-              <option value="Singapore">
-              <option value="Mumbai">
-              <option value="Riyadh">
-              <option value="Paris">
-              <option value="Sydney">
-              <option value="Genève">
-              <option value="Miami">
-            </datalist>
+            <datalist id="agencyDatalist"></datalist>
           </div>
         </div>
       </div>
 
-      <!-- Advanced Dropdown Filter Bar for Abroad Agencies & Agents -->
+      <!-- Advanced Dropdown Filter Bar for Agencies -->
       <div class="glass-panel p-4 rounded-2xl border border-white/10 mb-6 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
         
-        <!-- City / Financial Hub Select Dropdown -->
+        <!-- Scope / Country Select Dropdown -->
         <div>
-          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Financial Hub / City:</label>
-          <select id="agencyCitySelect" onchange="filterAgencies()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
-            <option value="all">All Financial Hubs (13 Offices)</option>
-            <option value="London">🇬🇧 London, UK</option>
-            <option value="Frankfurt">🇩🇪 Frankfurt am Main, Germany</option>
-            <option value="Zürich">🇨🇭 Zürich, Switzerland</option>
-            <option value="Genève">🇨🇭 Genève, Switzerland</option>
-            <option value="Monaco">🇲🇨 Côte d'Azur / Monaco</option>
-            <option value="Paris">🇫🇷 Paris, France</option>
-            <option value="New York">🇺🇸 New York City, USA</option>
-            <option value="Miami">🇺🇸 Miami, USA</option>
-            <option value="Singapore">🇸🇬 Singapore, APAC</option>
-            <option value="Mumbai">🇮🇳 Mumbai, India</option>
-            <option value="Riyadh">🇸🇦 Riyadh, Saudi Arabia</option>
-            <option value="Sydney">🇦🇺 Sydney, Australia</option>
+          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Country / Scope:</label>
+          <select id="agencyCountrySelect" onchange="onAgencyCountryChange()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="abroad">Outside UAE Only</option>
+            <option value="all">All Global Agencies (13,529)</option>
           </select>
         </div>
 
-        <!-- Commission Tier Select Dropdown -->
+        <!-- City Select Dropdown -->
         <div>
-          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Partner Accreditation Tier:</label>
-          <select id="agencyTierSelect" onchange="filterAgencies()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
-            <option value="all">All Accreditation Tiers</option>
-            <option value="Tier 2">Tier 2 Premier Partner (5.5%)</option>
-            <option value="Tier 3">Tier 3 Institutional Desk (7.0%)</option>
+          <label class="text-[11px] text-slate-400 font-semibold block mb-1">City:</label>
+          <select id="agencyCitySelect" onchange="resetAgenciesPageAndFilter()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="all">All Cities</option>
           </select>
         </div>
 
-        <!-- Primary Language Select Dropdown -->
+        <!-- Contact Availability Filter -->
         <div>
-          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Spoken Language:</label>
-          <select id="agencyLangSelect" onchange="filterAgencies()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
-            <option value="all">All Languages</option>
-            <option value="German">German (Deutsch)</option>
-            <option value="French">French (Français)</option>
-            <option value="English">English</option>
-            <option value="Mandarin">Mandarin (中文)</option>
-            <option value="Hindi">Hindi</option>
-            <option value="Arabic">Arabic (العربية)</option>
-            <option value="Spanish">Spanish (Español)</option>
-            <option value="Italian">Italian (Italiano)</option>
+          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Contact Channel:</label>
+          <select id="agencyContactSelect" onchange="resetAgenciesPageAndFilter()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="all">All Agencies</option>
+            <option value="has-contact">With Phone / Email / Website</option>
+            <option value="has-email">With Direct Email</option>
+            <option value="has-phone">With Direct Phone</option>
           </select>
         </div>
 
         <!-- Sort By Dropdown -->
         <div>
           <label class="text-[11px] text-slate-400 font-semibold block mb-1">Sort Agencies By:</label>
-          <select id="agencySortSelect" onchange="filterAgencies()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-brand-gold font-bold focus:outline-none focus:border-brand-gold cursor-pointer">
-            <option value="tier">Commission Tier (7% First)</option>
-            <option value="city">Financial Hub / City (A - Z)</option>
+          <select id="agencySortSelect" onchange="resetAgenciesPageAndFilter()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-brand-gold font-bold focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="agents">Most Agents</option>
+            <option value="listings">Most Listings</option>
             <option value="name">Agency Name (A - Z)</option>
+            <option value="country">Country (A - Z)</option>
           </select>
         </div>
 
       </div>
 
-      <!-- Regional Filter Tabs -->
-      <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar text-xs">
-        <button onclick="setAgencyRegion('all')" id="agencyTab-all" class="px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold shrink-0 shadow">All World Desks</button>
-        <button onclick="setAgencyRegion('UK_EU')" id="agencyTab-UK_EU" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🇬🇧 UK & Western Europe</button>
-        <button onclick="setAgencyRegion('DACH')" id="agencyTab-DACH" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🇩🇪 Germany & Switzerland (DACH)</button>
-        <button onclick="setAgencyRegion('US_CA')" id="agencyTab-US_CA" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🇺🇸 United States & Canada</button>
-        <button onclick="setAgencyRegion('APAC')" id="agencyTab-APAC" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🇸🇬 Singapore & Asia-Pacific</button>
-        <button onclick="setAgencyRegion('GCC_ABROAD')" id="agencyTab-GCC_ABROAD" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0">🇸🇦 Saudi Arabia & Kuwait</button>
-      </div>
-
-      <!-- Agencies Grid (Rendered via JS) -->
+      <!-- Agencies Grid (Rendered via JS, 24 per page) -->
       <div id="agenciesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Rendered dynamically -->
       </div>
+      <div id="agenciesPagination" class="mt-8 flex items-center justify-between text-xs text-slate-400"></div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- 7C. GLOBAL VERIFIED AGENTS DIRECTORY (4.37M+ AGENTS)     -->
+  <!-- ======================================================== -->
+  <section id="global-agents" class="b2b-only py-20 bg-[#08090C] border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-brand-gold text-xs font-bold tracking-widest uppercase">LIVE AGENT INDEX</span>
+            <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/30" id="agentsTotalBadge">4,373,329 AGENTS</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-white mt-1">
+            Global Real Estate Agents Directory
+          </h2>
+          <p class="text-slate-400 text-sm mt-2 max-w-2xl">
+            Live-indexed global agent directory synced with ai-home.world across 228 countries, including agency affiliation, phone, mobile, email, languages, address, registration number, and social profiles.
+          </p>
+        </div>
+        <div class="w-full lg:w-80">
+          <div class="relative">
+            <input type="text" id="agentSearchInput" onkeydown="if(event.key==='Enter') loadAgents(1)" placeholder="Search agent name, agency, email..." class="w-full bg-[#12151F] border border-white/20 rounded-xl px-4 py-2.5 pl-10 text-xs text-white focus:outline-none focus:border-brand-gold">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-panel p-4 rounded-2xl border border-white/10 mb-6 grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+        <div>
+          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Country (228 Jurisdictions):</label>
+          <select id="agentCountrySelect" onchange="onAgentCountryChange()" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="">All Countries</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-400 font-semibold block mb-1">City:</label>
+          <select id="agentCitySelect" onchange="loadAgents(1)" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="">All Cities</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-400 font-semibold block mb-1">Page Size:</label>
+          <select id="agentPageSizeSelect" onchange="loadAgents(1)" class="w-full bg-[#12151F] border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-brand-gold cursor-pointer">
+            <option value="24">24 Agents / Page</option>
+            <option value="48">48 Agents / Page</option>
+            <option value="100">100 Agents / Page</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="loadAgents(1)" class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-extrabold py-2 px-4 rounded-xl text-xs transition-all">
+            Search Global Agents
+          </button>
+        </div>
+      </div>
+
+      <div id="agentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-8 text-slate-400 text-xs">Loading live global agents directory...</div>
+      </div>
+      <div id="agentsPagination" class="mt-8 flex items-center justify-between text-xs text-slate-400"></div>
 
     </div>
   </section>
@@ -2705,23 +2670,36 @@
     // REAL WHITE-LABEL CLIENT DOSSIER COMPILER
     // ==========================================
     function openWhiteLabelDossierModal(projObj) {
+      if (!projObj) return;
       const agencyName = document.getElementById('agencyNameInput')?.value || "Your Partner Agency";
       const rateInfo = exchangeRates[currentCurrency] || exchangeRates.USD;
-      const converted = Math.round(projObj.priceAED * rateInfo.rate);
-      const priceFormatted = rateInfo.symbol + converted.toLocaleString() + rateInfo.suffix;
+      const priceAED = Number(projObj.priceAED ?? projObj.propertyprice ?? 0);
+      const converted = Math.round(priceAED * rateInfo.rate);
+      const priceFormatted = priceAED > 0 ? (rateInfo.symbol + converted.toLocaleString() + rateInfo.suffix) : 'Price on Request';
+      const dev = projObj.developer || projObj.developername || 'UAE Developer';
+      const emirate = projObj.emirate || projObj.city || 'Dubai';
+      const name = projObj.name || projObj.project_name || projObj.buildingname || 'UAE Off-Plan Project';
+      const loc = projObj.location || [projObj.areaname, projObj.city, projObj.country].filter(Boolean).join(', ');
+      const paymentPlan = projObj.paymentPlan || projObj.contracttype || 'Developer Payment Plan';
+      const handover = projObj.handover || projObj.handoverLabel || projObj.deliverydate || 'TBA';
+      const dldId = projObj.dldProjectNo ? `DLD #${projObj.dldProjectNo}` : (projObj.dld_verified ? `DLD Verified (${projObj.id || ''})` : 'Dubai REST Registry');
+      const escrowBank = projObj.escrowBank || 'DLD Regulated Project Escrow';
+      const escrowNo = projObj.escrowNo || 'Verify IBAN in Dubai REST';
+      const statusText = projObj.constructionStatus || (projObj.projectstatus || projObj.propertystatus || 'Off-Plan').replace(/_/g, ' ');
+      const statusSource = projObj.dldStatusSource || 'ai-home.world / Dubai REST';
 
       document.getElementById('dossierAgencyTitle').innerText = agencyName;
-      document.getElementById('dossierDeveloper').innerText = `${projObj.developer} · ${projObj.emirate || 'Dubai'}, UAE`;
-      document.getElementById('dossierProjectName').innerText = projObj.name;
-      document.getElementById('dossierLocation').innerText = projObj.location;
+      document.getElementById('dossierDeveloper').innerText = `${dev} · ${emirate}, UAE`;
+      document.getElementById('dossierProjectName').innerText = name;
+      document.getElementById('dossierLocation').innerText = loc;
       document.getElementById('dossierPrice').innerText = priceFormatted;
-      document.getElementById('dossierPaymentPlan').innerText = `${projObj.paymentPlan} · Handover ${projObj.handover}`;
-      document.getElementById('dossierDldId').innerText = projObj.dldProjectNo ? `DLD #${projObj.dldProjectNo}` : 'Dubai REST Verified';
-      document.getElementById('dossierEscrowBank').innerText = `${projObj.escrowBank || 'DLD Approved Bank'} (${projObj.escrowNo})`;
+      document.getElementById('dossierPaymentPlan').innerText = `${paymentPlan} · Handover ${handover}`;
+      document.getElementById('dossierDldId').innerText = dldId;
+      document.getElementById('dossierEscrowBank').innerText = `${escrowBank} (${escrowNo})`;
       document.getElementById('dossierProgress').innerText = typeof projObj.constructionProgress === 'number'
-        ? `${projObj.constructionStatus} (${projObj.constructionProgress}%)`
-        : `${projObj.constructionStatus} (${projObj.dldStatusSource || 'Dubai REST'})`;
-      document.getElementById('dossierYield').innerText = `${projObj.yieldProjected} (0% Tax)`;
+        ? `${statusText} (${projObj.constructionProgress}%)`
+        : `${statusText} (${statusSource})`;
+      document.getElementById('dossierYield').innerText = `${projObj.yieldProjected || '7.5% - 9.0% Est.'} (0% Tax)`;
 
       document.getElementById('whiteLabelDossierModal').classList.remove('hidden');
       document.getElementById('whiteLabelDossierModal').classList.add('flex');
@@ -2734,13 +2712,16 @@
     }
 
     function generateWhiteLabel(title, location, price, yieldVal) {
-      const match = uaeOffPlanProjects.find(p => p.name === title) || uaeOffPlanProjects[0];
+      const match = uaeOffPlanProjects.find(p => (p.project_name || p.name) === title) || uaeOffPlanProjects[0];
       openWhiteLabelDossierModal(match);
     }
 
     function openSelectedDossier() {
-      const projLabel = document.getElementById('deckProjectSelect').value || '';
-      const match = uaeOffPlanProjects.find(p => projLabel.toLowerCase().includes(p.name.toLowerCase().split(' ')[0])) || uaeOffPlanProjects[0];
+      const projLabel = (document.getElementById('deckProjectSelect')?.value || '').toLowerCase();
+      const match = uaeOffPlanProjects.find(p => {
+        const n = (p.project_name || p.name || '').toLowerCase();
+        return n && projLabel.includes(n.split(' ')[0]);
+      }) || uaeOffPlanProjects[0];
       openWhiteLabelDossierModal(match);
     }
 
@@ -2860,365 +2841,580 @@
     }
 
     // ==========================================
-    // UAE OFF-PLAN MASTER INVENTORY & OVERSEAS AGENCIES
-    // Hydrated from ./data/offplan-registry.json & ./data/abroad-agencies.json
+    // UAE OFF-PLAN MASTER INVENTORY, AGENCIES & GLOBAL AGENTS
+    // Synced 1:1 from https://www.ai-home.world
     // ==========================================
-    let uaeOffPlanProjects = [
-      {
-        id: "sobha-330-riverside",
-        name: "330 Riverside Crescent",
-        developer: "Sobha Realty",
-        emirate: "Dubai",
-        location: "Sobha Hartland II, MBR City",
-        category: ["waterfront", "golden-visa"],
-        priceAED: 1980000,
-        paymentPlan: "60/40 on Handover",
-        handover: "Q4 2027",
-        units: "1 & 2 Beds",
-        yieldProjected: "8.0% - 9.0% Est.",
-        commission: "5.5%",
-        escrowBank: "Emirates Islamic Bank P.J.S.C.",
-        escrowNo: "DLD #2788 (Verify IBAN in Dubai REST)",
-        dldProjectNo: "2788",
-        dldStatusSource: "Dubai REST (Mashrooi)",
-        constructionStatus: "DLD Active Off-Plan",
+    let uaeOffPlanProjects = [];
+    let abroadAgencies = [];
+    let activeOffPlanCategory = 'all';
+    let offplanPage = 1;
+    const OFFPLAN_PAGE_SIZE = 24;
+    let agencyPage = 1;
+    const AGENCY_PAGE_SIZE = 24;
+    let agentCurrentPage = 1;
+
+    function escHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function renderPaginationBar(containerId, currentPage, totalPages, totalItems, pageSize, fnName) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      if (!totalItems) {
+        el.innerHTML = '';
+        return;
+      }
+      const safeTotalPages = Math.max(1, totalPages || 1);
+      const start = ((currentPage - 1) * pageSize) + 1;
+      const end = Math.min(totalItems, currentPage * pageSize);
+      el.innerHTML = `
+        <div class="text-slate-400">Showing <span class="text-white font-semibold">${start.toLocaleString()}–${end.toLocaleString()}</span> of <span class="text-brand-gold font-bold">${totalItems.toLocaleString()}</span></div>
+        <div class="flex items-center gap-2">
+          <button onclick="${fnName}(1)" ${currentPage <= 1 ? 'disabled' : ''} class="px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed">First</button>
+          <button onclick="${fnName}(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed">Prev</button>
+          <span class="px-2 text-slate-300 font-mono">Page ${currentPage.toLocaleString()} / ${safeTotalPages.toLocaleString()}</span>
+          <button onclick="${fnName}(${currentPage + 1})" ${currentPage >= safeTotalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed">Next</button>
+        </div>
+      `;
+    }
+
+    function populateOffPlanDropdowns() {
+      const badge = document.getElementById('offplanTotalBadge');
+      if (badge) badge.innerText = uaeOffPlanProjects.length.toLocaleString();
+
+      const devCounts = new Map();
+      const locCounts = new Map();
+      const statusCounts = new Map();
+      const datalistValues = new Set();
+
+      for (const p of uaeOffPlanProjects) {
+        const dev = (p.developername || '').trim();
+        if (dev) {
+          devCounts.set(dev, (devCounts.get(dev) || 0) + 1);
+          if (datalistValues.size < 250) datalistValues.add(dev);
+        }
+        const loc = (p.areaname || p.city || '').trim();
+        if (loc) {
+          locCounts.set(loc, (locCounts.get(loc) || 0) + 1);
+          if (datalistValues.size < 250) datalistValues.add(loc);
+        }
+        const st = (p.projectstatus || p.propertystatus || '').trim();
+        if (st) statusCounts.set(st, (statusCounts.get(st) || 0) + 1);
+        if (p.project_name && datalistValues.size < 250) datalistValues.add(p.project_name);
+      }
+
+      const devSel = document.getElementById('offplanDevSelect');
+      if (devSel) {
+        const sortedDevs = [...devCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+        devSel.innerHTML = '<option value="all">All UAE Developers (' + sortedDevs.length.toLocaleString() + ')</option>' +
+          sortedDevs.map(([d, c]) => `<option value="${escHtml(d)}">${escHtml(d)} (${c.toLocaleString()})</option>`).join('');
+      }
+
+      const locSel = document.getElementById('offplanLocSelect');
+      if (locSel) {
+        const sortedLocs = [...locCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+        locSel.innerHTML = '<option value="all">All UAE Areas (' + sortedLocs.length.toLocaleString() + ')</option>' +
+          sortedLocs.map(([l, c]) => `<option value="${escHtml(l)}">${escHtml(l)} (${c.toLocaleString()})</option>`).join('');
+      }
+
+      const stSel = document.getElementById('offplanStatusSelect');
+      if (stSel) {
+        const sortedSt = [...statusCounts.entries()].sort((a, b) => b[1] - a[1]);
+        stSel.innerHTML = '<option value="all">All Project Statuses</option>' +
+          '<option value="dld-verified">DLD Verified Only</option>' +
+          sortedSt.map(([s, c]) => `<option value="${escHtml(s)}">${escHtml(s.replace(/_/g, ' '))} (${c.toLocaleString()})</option>`).join('');
+      }
+
+      const dl = document.getElementById('offplanDatalist');
+      if (dl) {
+        dl.innerHTML = [...datalistValues].map(v => `<option value="${escHtml(v)}"></option>`).join('');
+      }
+    }
+
+    function resetOffPlanPageAndFilter() {
+      offplanPage = 1;
+      filterOffPlanProjects();
+    }
+
+    function goToOffPlanPage(page) {
+      offplanPage = Math.max(1, page);
+      filterOffPlanProjects();
+      document.getElementById('inventory')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function openWhiteLabelDossierById(id) {
+      const p = uaeOffPlanProjects.find(x => x.id === id || x.propertyid === id) || uaeOffPlanProjects[0];
+      if (!p) return;
+      openWhiteLabelDossierModal({
+        id: p.id,
+        name: p.project_name || p.buildingname || 'UAE Off-Plan Project',
+        developer: p.developername || 'UAE Developer',
+        emirate: p.city || 'Dubai',
+        location: [p.areaname, p.city, p.country].filter(Boolean).join(', '),
+        priceAED: Number(p.propertyprice) || 0,
+        paymentPlan: p.contracttype || 'Developer Payment Plan',
+        handover: p.handoverLabel || p.deliverydate || 'TBA',
+        dldProjectNo: p.dld_verified ? (p.propertyid || p.id) : '',
+        escrowBank: 'DLD Regulated Project Escrow',
+        escrowNo: p.dld_verified ? 'DLD Verified (Verify IBAN in Dubai REST)' : 'Verify in Dubai REST App',
         constructionProgress: null,
-        image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80"
-      }
-    ];
+        constructionStatus: (p.projectstatus || p.propertystatus || 'Off-Plan').replace(/_/g, ' '),
+        dldStatusSource: 'ai-home.world / Dubai REST',
+        yieldProjected: '7.5% - 9.0% Est.'
+      });
+    }
 
-    let abroadAgencies = [
-      {
-        id: "savills-mayfair",
-        agentName: "Savills Mayfair & St. James's",
-        agencyName: "Savills (UK) Ltd",
-        city: "London",
-        country: "United Kingdom",
-        flag: "🇬🇧",
-        region: "UK_EU",
-        tier: "Tier 3 Institutional Desk (7.0%)",
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-        phone: "+44 20 7578 5100",
-        website: "https://www.savills.co.uk",
-        officeAddress: "36 North Audley Street, London W1K 6ZJ",
-        languages: "English",
-        specialty: "Prime & International Residential Advisory"
-      }
-    ];
-
-    let activeOffPlanCat = "all";
-    let activeAgencyRegion = "all";
-
-    // ==========================================
-    // RENDER OFF-PLAN MEGA INVENTORY
-    // ==========================================
-    function renderOffPlanProjects(projects) {
+    function renderOffPlanProjects(list) {
       const grid = document.getElementById('propertyGrid');
       if (!grid) return;
-
       const rateInfo = exchangeRates[currentCurrency] || exchangeRates.USD;
 
-      grid.innerHTML = projects.map(p => {
-        const converted = Math.round(p.priceAED * rateInfo.rate);
-        const priceFormatted = rateInfo.symbol + converted.toLocaleString() + rateInfo.suffix;
+      if (!list.length) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 glass-card rounded-2xl border border-white/10">No off-plan properties match your filter criteria.</div>`;
+        return;
+      }
 
-        const isGolden = p.priceAED >= 2000000;
-        const goldenBadge = isGolden 
-          ? `<span class="bg-brand-gold text-black text-[10px] font-extrabold uppercase px-2 py-0.5 rounded shadow">🏆 10-Yr Golden Visa</span>`
-          : ``;
-
-        // Construction status badge styling
-        let statusColor = "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
-        let statusDot = "bg-emerald-400";
-        if (typeof p.constructionProgress === 'number') {
-          if (p.constructionProgress < 40) {
-            statusColor = "bg-blue-500/20 text-blue-300 border-blue-500/40";
-            statusDot = "bg-blue-400";
-          } else if (p.constructionProgress < 75) {
-            statusColor = "bg-yellow-500/20 text-yellow-300 border-yellow-500/40";
-            statusDot = "bg-yellow-400";
-          } else if (p.constructionProgress >= 90) {
-            statusColor = "bg-purple-500/20 text-purple-300 border-purple-500/40";
-            statusDot = "bg-purple-400";
-          }
-        } else {
-          statusColor = "bg-amber-500/20 text-amber-300 border-amber-500/40";
-          statusDot = "bg-amber-400";
-        }
-
-        const progressHtml = typeof p.constructionProgress === 'number'
-          ? `<div class="flex items-center gap-2">
-               <span class="text-[11px] font-mono font-bold text-emerald-400">${p.constructionProgress}% Built</span>
-               <div class="w-14 bg-slate-800 h-1.5 rounded-full overflow-hidden border border-white/10">
-                 <div class="bg-emerald-400 h-full rounded-full" style="width: ${p.constructionProgress}%"></div>
-               </div>
-             </div>`
-          : `<span class="text-[10px] font-mono text-amber-300">${p.dldStatusSource || 'Dubai REST'}</span>`;
+      grid.innerHTML = list.map(p => {
+        const priceAED = Number(p.propertyprice) || 0;
+        const hasPrice = priceAED > 0;
+        const converted = hasPrice ? Math.round(priceAED * rateInfo.rate) : 0;
+        const displayPrice = hasPrice ? (rateInfo.symbol + converted.toLocaleString() + rateInfo.suffix) : 'Price on Request';
+        const statusRaw = (p.projectstatus || p.propertystatus || 'off-plan').toLowerCase();
+        const statusLabel = statusRaw.replace(/_/g, ' ').toUpperCase();
+        const statusBadgeClass = statusRaw.includes('complete')
+          ? 'bg-emerald-500/90 text-white'
+          : statusRaw.includes('construct')
+          ? 'bg-amber-500/90 text-black'
+          : 'bg-sky-500/90 text-white';
+        const imgUrl = p.projectimage1url || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80';
+        const title = p.project_name || p.buildingname || 'UAE Off-Plan Project';
+        const dev = p.developername || 'UAE Developer';
+        const loc = [p.areaname, p.city].filter(Boolean).join(', ') || 'UAE';
+        const unitTypes = Array.isArray(p.unit_types) && p.unit_types.length ? p.unit_types.join(', ') : (p.propertytype || 'Residential');
+        const beds = p.bedrooms ? (p.bedrooms + ' Beds') : 'Flexible';
+        const sizeSqft = p.sizesqft ? (Number(p.sizesqft).toLocaleString() + ' sqft') : 'TBA';
+        const ppsf = p.pricepersqft ? ('AED ' + Number(p.pricepersqft).toLocaleString() + '/sqft') : '';
+        const handover = p.handoverLabel || p.deliverydate || 'TBA';
+        const safeId = escHtml(p.id || p.propertyid || '');
 
         return `
-          <div class="glass-panel rounded-2xl overflow-hidden hover:border-brand-gold/50 transition-all duration-300 group flex flex-col justify-between">
-            <div>
-              <div class="relative h-60 overflow-hidden bg-slate-900">
-                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0F1117] via-transparent to-black/40"></div>
-                
-                <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                  ${goldenBadge}
-                  <span class="bg-emerald-500 text-black text-[10px] font-extrabold uppercase px-2 py-0.5 rounded shadow">
-                    ${p.yieldProjected} Yield
-                  </span>
-                </div>
-                <div class="b2b-only ${isClientSafeMode ? 'hidden' : ''} absolute top-3 right-3 bg-black/70 backdrop-blur-md text-white text-xs font-bold px-2.5 py-1 rounded-md border border-white/10">
-                  Commission: <span class="text-brand-gold">${p.commission}</span>
-                </div>
-
-                <div class="absolute bottom-3 left-3 text-white">
-                  <div class="flex items-center gap-2 mb-1">
-                    <span class="text-xs text-brand-gold font-semibold uppercase tracking-wider flex items-center gap-1">
-                      <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> ${p.developer} · ${p.location}
-                    </span>
-                    <span class="bg-black/60 text-[10px] text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded font-mono font-bold" title="Official UAE Project Registration">
-                      DLD #${p.dldProjectNo}
-                    </span>
-                  </div>
-                  <h3 class="text-lg font-bold text-white leading-tight">${p.name}</h3>
-                </div>
+        <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-brand-gold/50 transition-all duration-300">
+          <div>
+            <div class="relative h-56 overflow-hidden bg-[#10131C]">
+              <img src="${escHtml(imgUrl)}" alt="${escHtml(title)}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#08090C] via-transparent to-transparent"></div>
+              <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                <span class="${statusBadgeClass} text-[10px] font-extrabold px-2.5 py-1 rounded-md shadow">${escHtml(statusLabel)}</span>
+                ${p.dld_verified ? '<span class="bg-emerald-950/90 border border-emerald-400/50 text-emerald-300 text-[10px] font-bold px-2 py-1 rounded-md">🛡️ DLD Verified</span>' : ''}
               </div>
-
-              <!-- DLD Construction & Escrow Indicator Strip -->
-              <div class="bg-[#090C12] px-5 py-2.5 border-b border-white/10 flex items-center justify-between text-xs">
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full ${statusDot} animate-pulse"></span>
-                  <span class="text-slate-300 font-semibold text-[11px]">${p.constructionStatus}</span>
-                  <span class="text-[10px] text-slate-500">(${p.dldProjectNo})</span>
-                </div>
-                ${progressHtml}
+              <div class="absolute top-3 right-3 bg-black/75 backdrop-blur-md text-brand-gold text-[10px] font-bold px-2.5 py-1 rounded-md border border-brand-gold/30 uppercase">
+                ${escHtml(unitTypes)}
               </div>
-
-              <div class="p-5 space-y-4">
-                <div class="flex items-center justify-between text-xs text-slate-300 pb-3 border-b border-white/10">
-                  <div>
-                    <span class="text-slate-500 block text-[10px] uppercase">Starting Price</span>
-                    <span class="text-lg font-extrabold text-white price-display" data-aed="${p.priceAED}">${priceFormatted}</span>
-                  </div>
-                  <div class="text-right">
-                    <span class="text-slate-500 block text-[10px] uppercase">Payment Plan</span>
-                    <span class="text-brand-gold font-bold">${p.paymentPlan}</span>
-                  </div>
+              <div class="absolute bottom-3 left-3 right-3 flex justify-between items-end">
+                <div>
+                  <span class="text-[10px] text-slate-300 uppercase tracking-wider font-semibold block">Starting From</span>
+                  <div class="text-xl font-display font-extrabold text-white">${escHtml(displayPrice)}</div>
+                  ${hasPrice ? `<div class="text-[10px] text-slate-400 font-mono">AED ${priceAED.toLocaleString()}${ppsf ? ' · ' + escHtml(ppsf) : ''}</div>` : ''}
                 </div>
-
-                <div class="grid grid-cols-3 gap-2 text-center text-xs py-1 text-slate-300">
-                  <div class="bg-white/[0.03] p-2 rounded-lg border border-white/5">
-                    <span class="text-slate-500 block text-[10px]">Handover</span>
-                    <span class="font-bold text-white">${p.handover}</span>
-                  </div>
-                  <div class="bg-white/[0.03] p-2 rounded-lg border border-white/5">
-                    <span class="text-slate-500 block text-[10px]">Units</span>
-                    <span class="font-bold text-white">${p.units}</span>
-                  </div>
-                  <div class="bg-white/[0.03] p-2 rounded-lg border border-white/5">
-                    <span class="text-slate-500 block text-[10px]">DLD Escrow No.</span>
-                    <span class="font-bold text-emerald-400">${p.escrowNo}</span>
-                  </div>
-                </div>
+                <span class="bg-white/10 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded border border-white/20">${escHtml(handover)}</span>
               </div>
             </div>
 
-            <div class="p-5 pt-0 flex gap-2">
-              <button onclick="generateWhiteLabel('${p.name}', '${p.location}', '${priceFormatted}', '${p.yieldProjected}')" class="flex-1 bg-white/10 hover:bg-brand-gold hover:text-black text-white text-xs font-bold py-2.5 rounded-lg border border-white/15 transition-all flex items-center justify-center gap-1.5">
-                <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                White-Label Deck
-              </button>
-              <button onclick="openVideoCallFor('Client Presentation', '${p.developer}', '${p.image}', '${p.name}')" class="bg-purple-500/20 hover:bg-purple-500 text-purple-300 hover:text-white border border-purple-500/40 px-3 py-2.5 rounded-lg text-xs font-bold transition-all" title="Start Live Video Tour with Client">
-                <i data-lucide="video" class="w-4 h-4"></i>
-              </button>
-              <button onclick="openLeadModalFor('${p.name}')" class="b2b-only ${isClientSafeMode ? 'hidden' : ''} bg-brand-gold/20 hover:bg-brand-gold text-brand-gold hover:text-black border border-brand-gold/40 px-3 py-2.5 rounded-lg text-xs font-bold transition-all" title="Register Lead SLA">
-                <i data-lucide="shield-check" class="w-4 h-4"></i>
-              </button>
+            <div class="p-5 space-y-3">
+              <div>
+                <div class="text-[11px] font-bold text-brand-gold uppercase tracking-wider truncate">${escHtml(dev)} · ${escHtml(p.city || 'UAE')}</div>
+                <h3 class="text-lg font-display font-bold text-white leading-snug mt-0.5 line-clamp-2">${escHtml(title)}</h3>
+                <p class="text-xs text-slate-400 mt-1 flex items-center gap-1 truncate">
+                  <i data-lucide="map-pin" class="w-3 h-3 text-slate-500 shrink-0"></i> ${escHtml(loc)}
+                </p>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/10 text-[11px]">
+                <div class="bg-white/5 p-2 rounded-lg">
+                  <span class="text-slate-400 block text-[10px]">Bedrooms</span>
+                  <strong class="text-white">${escHtml(beds)}</strong>
+                </div>
+                <div class="bg-white/5 p-2 rounded-lg">
+                  <span class="text-slate-400 block text-[10px]">Size</span>
+                  <strong class="text-white">${escHtml(sizeSqft)}</strong>
+                </div>
+                <div class="bg-white/5 p-2 rounded-lg">
+                  <span class="text-slate-400 block text-[10px]">Handover</span>
+                  <strong class="text-emerald-400">${escHtml(handover)}</strong>
+                </div>
+              </div>
             </div>
           </div>
+
+          <div class="p-5 pt-0 flex flex-col gap-2">
+            <div class="flex gap-2">
+              <button onclick="openWhiteLabelDossierById('${safeId}')" class="flex-1 bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-3 rounded-xl text-xs transition-all border border-white/10 flex items-center justify-center gap-1.5">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-brand-gold"></i> Dossier
+              </button>
+              ${p.url ? `<a href="${escHtml(p.url)}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-2 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Listing
+              </a>` : ''}
+            </div>
+          </div>
+        </div>
         `;
       }).join('');
-
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
     function setOffPlanCategory(cat) {
-      activeOffPlanCat = cat;
-      document.querySelectorAll('[id^="btnCat-"]').forEach(btn => {
-        btn.className = "px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0";
+      activeOffPlanCategory = cat;
+      offplanPage = 1;
+      ['all', 'golden-visa', 'apartment', 'villa', 'penthouse', 'dld'].forEach(c => {
+        const btn = document.getElementById('btnCat-' + c);
+        if (!btn) return;
+        btn.className = c === cat
+          ? 'px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold shrink-0 shadow'
+          : 'px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0';
       });
-      const activeBtn = document.getElementById(`btnCat-${cat}`);
-      if (activeBtn) {
-        activeBtn.className = "px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold shrink-0 shadow";
-      }
       filterOffPlanProjects();
     }
 
     function filterOffPlanProjects() {
-      const query = (document.getElementById('offplanSearchInput')?.value || '').toLowerCase().trim();
+      const search = (document.getElementById('offplanSearchInput')?.value || '').trim().toLowerCase();
       const dev = document.getElementById('offplanDevSelect')?.value || 'all';
       const loc = document.getElementById('offplanLocSelect')?.value || 'all';
       const status = document.getElementById('offplanStatusSelect')?.value || 'all';
       const sortBy = document.getElementById('offplanSortSelect')?.value || 'featured';
-      
+
       let filtered = uaeOffPlanProjects.filter(p => {
-        const matchesCategory = activeOffPlanCat === 'all' || p.category.includes(activeOffPlanCat);
-        const matchesQuery = !query || 
-          p.name.toLowerCase().includes(query) || 
-          p.developer.toLowerCase().includes(query) || 
-          p.location.toLowerCase().includes(query) ||
-          (p.dldProjectNo && p.dldProjectNo.toLowerCase().includes(query));
-        const matchesDev = dev === 'all' || p.developer.toLowerCase().includes(dev.toLowerCase());
-        const matchesLoc = loc === 'all' || p.location.toLowerCase().includes(loc.toLowerCase());
-        const matchesStatus = status === 'all' || p.constructionStatus.toLowerCase().includes(status.toLowerCase());
+        if (activeOffPlanCategory === 'golden-visa' && (Number(p.propertyprice) || 0) < 2000000) return false;
+        if (activeOffPlanCategory === 'apartment') {
+          const t = ((p.propertytype || '') + ' ' + (p.unit_types || []).join(' ')).toLowerCase();
+          if (!t.includes('apartment')) return false;
+        }
+        if (activeOffPlanCategory === 'villa') {
+          const t = ((p.propertytype || '') + ' ' + (p.unit_types || []).join(' ')).toLowerCase();
+          if (!t.includes('villa') && !t.includes('townhouse')) return false;
+        }
+        if (activeOffPlanCategory === 'penthouse') {
+          const t = ((p.propertytype || '') + ' ' + (p.unit_types || []).join(' ')).toLowerCase();
+          if (!t.includes('penthouse')) return false;
+        }
+        if (activeOffPlanCategory === 'dld' && !p.dld_verified) return false;
 
-        return matchesCategory && matchesQuery && matchesDev && matchesLoc && matchesStatus;
+        if (dev !== 'all' && (p.developername || '').trim() !== dev) return false;
+        if (loc !== 'all' && (p.areaname || p.city || '').trim() !== loc) return false;
+        if (status === 'dld-verified' && !p.dld_verified) return false;
+        if (status !== 'all' && status !== 'dld-verified' && (p.projectstatus || p.propertystatus || '').trim() !== status) return false;
+
+        if (search) {
+          const hay = [p.project_name, p.buildingname, p.developername, p.areaname, p.city, p.propertytype, p.id]
+            .filter(Boolean).join(' ').toLowerCase();
+          if (!hay.includes(search)) return false;
+        }
+        return true;
       });
 
-      // Sort
-      if (sortBy === 'completion-desc') {
-        filtered.sort((a, b) => b.constructionProgress - a.constructionProgress);
-      } else if (sortBy === 'yield-high') {
-        filtered.sort((a, b) => parseFloat(b.yieldProjected) - parseFloat(a.yieldProjected));
-      } else if (sortBy === 'price-asc') {
-        filtered.sort((a, b) => a.priceAED - b.priceAED);
+      if (sortBy === 'price-asc') {
+        filtered.sort((a, b) => (Number(a.propertyprice) || Infinity) - (Number(b.propertyprice) || Infinity));
       } else if (sortBy === 'price-desc') {
-        filtered.sort((a, b) => b.priceAED - a.priceAED);
+        filtered.sort((a, b) => (Number(b.propertyprice) || 0) - (Number(a.propertyprice) || 0));
+      } else if (sortBy === 'ppsf-asc') {
+        filtered.sort((a, b) => (Number(a.pricepersqft) || Infinity) - (Number(b.pricepersqft) || Infinity));
+      } else if (sortBy === 'name-asc') {
+        filtered.sort((a, b) => (a.project_name || '').localeCompare(b.project_name || ''));
       }
 
-      renderOffPlanProjects(filtered);
+      const totalPages = Math.max(1, Math.ceil(filtered.length / OFFPLAN_PAGE_SIZE));
+      if (offplanPage > totalPages) offplanPage = totalPages;
+      const start = (offplanPage - 1) * OFFPLAN_PAGE_SIZE;
+      renderOffPlanProjects(filtered.slice(start, start + OFFPLAN_PAGE_SIZE));
+      renderPaginationBar('offplanPagination', offplanPage, totalPages, filtered.length, OFFPLAN_PAGE_SIZE, 'goToOffPlanPage');
     }
 
-    // ==========================================
-    // RENDER ACCREDITED ABROAD AGENCIES
-    // ==========================================
-    function renderAgencies(agencies) {
-      const grid = document.getElementById('agenciesGrid');
-      if (!grid) return;
-
-      grid.innerHTML = agencies.map(a => {
-        const emailBtn = a.email
-          ? `<a href="mailto:${a.email}?subject=Client%20Referral%20-%20UAE%20Off-Plan%20Property&body=Dear%20${encodeURIComponent(a.agentName)},%0D%0A%0D%0AI%20am%20connecting%20regarding%20UAE%20property%20syndication." class="bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-white/15 transition-all">
-               <i data-lucide="mail" class="w-3.5 h-3.5 text-brand-gold"></i> Email
-             </a>`
-          : `<a href="${a.website}" target="_blank" rel="noopener" class="bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-white/15 transition-all">
-               <i data-lucide="globe" class="w-3.5 h-3.5 text-brand-gold"></i> Contact Desk
-             </a>`;
-
-        return `
-          <div class="glass-panel rounded-2xl p-6 border border-white/10 hover:border-brand-gold/40 transition-all flex flex-col justify-between group">
-            <div>
-              
-              <!-- Agency Header & Flag -->
-              <div class="flex items-start justify-between pb-4 mb-4 border-b border-white/10">
-                <div class="flex items-center gap-3">
-                  <div class="relative">
-                    <img src="${a.avatar}" alt="${a.agentName}" class="w-12 h-12 rounded-xl object-cover border border-brand-gold/30">
-                    <span class="w-3 h-3 rounded-full bg-emerald-500 border-2 border-black absolute -bottom-0.5 -right-0.5" title="Verified International Office"></span>
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-base font-extrabold text-white">${a.agentName}</span>
-                      <span class="text-sm">${a.flag}</span>
-                    </div>
-                    <div class="text-xs text-brand-gold font-semibold">${a.agencyName}</div>
-                    <div class="text-[11px] text-slate-400">${a.city}, ${a.country}</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Badges & Office Info -->
-              <div class="space-y-3 mb-5 text-xs text-slate-300">
-                <div class="flex items-center justify-between">
-                  <span class="text-slate-500">Accredited Tier:</span>
-                  <span class="bg-brand-gold/15 text-brand-gold font-bold px-2 py-0.5 rounded text-[10px] border border-brand-gold/30">${a.tier}</span>
-                </div>
-                <div class="flex items-center justify-between gap-2">
-                  <span class="text-slate-500 shrink-0">Office Address:</span>
-                  <span class="text-white text-right text-[11px] truncate" title="${a.officeAddress || ''}">${a.officeAddress || a.city}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-slate-500">Languages:</span>
-                  <span class="text-slate-300">${a.languages}</span>
-                </div>
-                <div class="p-2.5 rounded-lg bg-black/40 border border-white/5 text-[11px] text-slate-400">
-                  <strong class="text-slate-300 block mb-0.5">Specialty:</strong>
-                  ${a.specialty}
-                </div>
-              </div>
-
-            </div>
-
-            <!-- Instant Contact Buttons -->
-            <div class="space-y-2 pt-3 border-t border-white/10">
-              <div class="grid grid-cols-2 gap-2">
-                <a href="${a.website}" target="_blank" rel="noopener" class="bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-black font-bold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-emerald-500/30 transition-all">
-                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Official Site
-                </a>
-                ${emailBtn}
-              </div>
-              <div class="grid grid-cols-2 gap-2">
-                <a href="tel:${a.phone.replace(/[^+\d]/g, '')}" class="bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-white/10 transition-all">
-                  <i data-lucide="phone" class="w-3.5 h-3.5"></i> ${a.phone}
-                </a>
-                <button onclick="openVideoCallFor('${a.agentName.replace(/'/g, "\\'")}', '${a.agencyName.replace(/'/g, "\\'")}', '${a.avatar}', '330 Riverside Crescent')" class="bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white font-bold py-2 px-2.5 rounded-lg text-xs flex items-center justify-center gap-1.5 border border-purple-500/40 transition-all shadow">
-                  <i data-lucide="video" class="w-3.5 h-3.5"></i> Video Call
-                </button>
-              </div>
-            </div>
-
-          </div>
-        `;
-      }).join('');
-
-      lucide.createIcons();
+    function isUaeCountry(country) {
+      const c = (country || '').trim().toLowerCase();
+      return c === 'united arab emirates' || c === 'uae' || c === 'emirates';
     }
 
-    function setAgencyRegion(reg) {
-      activeAgencyRegion = reg;
-      document.querySelectorAll('[id^="agencyTab-"]').forEach(btn => {
-        btn.className = "px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium border border-white/10 shrink-0";
-      });
-      const activeBtn = document.getElementById(`agencyTab-${reg}`);
-      if (activeBtn) {
-        activeBtn.className = "px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold shrink-0 shadow";
+    function populateAgencyDropdowns() {
+      const badge = document.getElementById('agenciesTotalBadge');
+      if (badge) badge.innerText = abroadAgencies.length.toLocaleString();
+
+      const countryCounts = new Map();
+      let outsideCount = 0;
+      let uaeCount = 0;
+      const dlSet = new Set();
+
+      for (const a of abroadAgencies) {
+        const c = (a.country || '').trim();
+        if (isUaeCountry(c)) uaeCount++;
+        else outsideCount++;
+        if (c) countryCounts.set(c, (countryCounts.get(c) || 0) + 1);
+        if (a.name && dlSet.size < 250) dlSet.add(a.name);
+        if (a.city && dlSet.size < 250) dlSet.add(a.city);
       }
+
+      const cSel = document.getElementById('agencyCountrySelect');
+      if (cSel) {
+        const sorted = [...countryCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+        cSel.innerHTML =
+          `<option value="all">All Countries (${abroadAgencies.length.toLocaleString()})</option>` +
+          `<option value="__outside_uae__">Outside UAE Only (${outsideCount.toLocaleString()})</option>` +
+          `<option value="__uae__">UAE Only (${uaeCount.toLocaleString()})</option>` +
+          sorted.map(([c, n]) => `<option value="${escHtml(c)}">${escHtml(c)} (${n.toLocaleString()})</option>`).join('');
+      }
+
+      const dl = document.getElementById('agencyDatalist');
+      if (dl) {
+        dl.innerHTML = [...dlSet].map(v => `<option value="${escHtml(v)}"></option>`).join('');
+      }
+      populateAgencyCities('all');
+    }
+
+    function populateAgencyCities(selectedCountry) {
+      const citySel = document.getElementById('agencyCitySelect');
+      if (!citySel) return;
+      const cityCounts = new Map();
+      for (const a of abroadAgencies) {
+        if (selectedCountry === '__outside_uae__' && isUaeCountry(a.country)) continue;
+        if (selectedCountry === '__uae__' && !isUaeCountry(a.country)) continue;
+        if (selectedCountry !== 'all' && selectedCountry !== '__outside_uae__' && selectedCountry !== '__uae__' && (a.country || '').trim() !== selectedCountry) continue;
+        const city = (a.city || '').trim();
+        if (city) cityCounts.set(city, (cityCounts.get(city) || 0) + 1);
+      }
+      const sorted = [...cityCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 300);
+      citySel.innerHTML = '<option value="all">All Cities (' + sorted.length.toLocaleString() + ')</option>' +
+        sorted.map(([c, n]) => `<option value="${escHtml(c)}">${escHtml(c)} (${n.toLocaleString()})</option>`).join('');
+    }
+
+    function onAgencyCountryChange() {
+      const val = document.getElementById('agencyCountrySelect')?.value || 'all';
+      populateAgencyCities(val);
+      resetAgenciesPageAndFilter();
+    }
+
+    function resetAgenciesPageAndFilter() {
+      agencyPage = 1;
       filterAgencies();
     }
 
-    function filterAgencies() {
-      const query = (document.getElementById('agencySearchInput')?.value || '').toLowerCase().trim();
-      const city = document.getElementById('agencyCitySelect')?.value || 'all';
-      const tier = document.getElementById('agencyTierSelect')?.value || 'all';
-      const lang = document.getElementById('agencyLangSelect')?.value || 'all';
-      const sortBy = document.getElementById('agencySortSelect')?.value || 'volume';
+    function goToAgencyPage(page) {
+      agencyPage = Math.max(1, page);
+      filterAgencies();
+      document.getElementById('abroad-agencies')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-      let filtered = abroadAgencies.filter(a => {
-        const matchesRegion = activeAgencyRegion === 'all' || a.region === activeAgencyRegion;
-        const matchesQuery = !query || 
-          a.agentName.toLowerCase().includes(query) || 
-          a.agencyName.toLowerCase().includes(query) || 
-          a.city.toLowerCase().includes(query) ||
-          a.country.toLowerCase().includes(query) ||
-          a.specialty.toLowerCase().includes(query);
-        const matchesCity = city === 'all' || a.city.toLowerCase().includes(city.toLowerCase());
-        const matchesTier = tier === 'all' || a.tier.includes(tier);
-        const matchesLang = lang === 'all' || a.languages.toLowerCase().includes(lang.toLowerCase());
-
-        return matchesRegion && matchesQuery && matchesCity && matchesTier && matchesLang;
-      });
-
-      // Sorting
-      if (sortBy === 'city') {
-        filtered.sort((a, b) => a.city.localeCompare(b.city));
-      } else if (sortBy === 'name') {
-        filtered.sort((a, b) => a.agentName.localeCompare(b.agentName));
-      } else {
-        filtered.sort((a, b) => b.tier.localeCompare(a.tier));
+    function renderAgencies(list) {
+      const grid = document.getElementById('agenciesGrid');
+      if (!grid) return;
+      if (!list.length) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 glass-card rounded-2xl border border-white/10">No agencies found matching this filter.</div>`;
+        return;
       }
 
-      renderAgencies(filtered);
+      grid.innerHTML = list.map(a => {
+        const loc = [a.city, a.country].filter(Boolean).join(', ') || 'International';
+        const initials = (a.name || 'AG').split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
+        const logoHtml = a.logo
+          ? `<img src="${escHtml(a.logo)}" alt="${escHtml(a.name)}" loading="lazy" onerror="this.style.display='none'" class="w-11 h-11 rounded-xl object-contain bg-white p-1 shrink-0">`
+          : `<div class="w-11 h-11 rounded-xl bg-brand-gold/20 border border-brand-gold/40 text-brand-gold font-bold text-sm flex items-center justify-center shrink-0">${escHtml(initials)}</div>`;
+        const websiteHref = a.website ? (a.website.startsWith('http') ? a.website : 'https://' + a.website) : '';
+
+        return `
+        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between hover:border-brand-gold/40 transition-all">
+          <div>
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div class="flex items-center gap-3 min-w-0">
+                ${logoHtml}
+                <div class="min-w-0">
+                  <h4 class="font-display font-bold text-white text-sm truncate">${escHtml(a.name)}</h4>
+                  <div class="text-[11px] text-slate-400 truncate">${escHtml(loc)}</div>
+                </div>
+              </div>
+              <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 rounded shrink-0">${escHtml(a.source || 'Verified')}</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-[11px] mb-3">
+              <div class="bg-white/5 p-2 rounded-lg">
+                <span class="text-slate-400 block text-[10px]">Agents</span>
+                <strong class="text-white">${(Number(a.agentCount) || 0).toLocaleString()}</strong>
+              </div>
+              <div class="bg-white/5 p-2 rounded-lg">
+                <span class="text-slate-400 block text-[10px]">Listings</span>
+                <strong class="text-white">${(Number(a.totalListings) || 0).toLocaleString()}</strong>
+              </div>
+              <div class="bg-white/5 p-2 rounded-lg">
+                <span class="text-slate-400 block text-[10px]">Rating</span>
+                <strong class="text-brand-gold">${a.avgRating ? Number(a.avgRating).toFixed(1) + ' ★' : 'N/A'}</strong>
+              </div>
+            </div>
+
+            <div class="space-y-1 text-[11px] text-slate-300">
+              ${a.email ? `<div class="truncate">✉️ <a href="mailto:${escHtml(a.email)}" class="hover:text-brand-gold">${escHtml(a.email)}</a></div>` : ''}
+              ${a.phone ? `<div class="truncate">📞 ${escHtml(a.phone)}</div>` : ''}
+              ${websiteHref ? `<div class="truncate">🌐 <a href="${escHtml(websiteHref)}" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline">${escHtml(a.website)}</a></div>` : ''}
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-white/10 flex gap-2">
+            <button onclick="openVideoCallFor('${escHtml(a.name)}', '${escHtml(a.name)}', '', 'UAE Off-Plan Portfolio')" class="flex-1 py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-all">
+              Connect Desk
+            </button>
+          </div>
+        </div>
+        `;
+      }).join('');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function filterAgencies() {
+      const search = (document.getElementById('agencySearchInput')?.value || '').trim().toLowerCase();
+      const country = document.getElementById('agencyCountrySelect')?.value || 'all';
+      const city = document.getElementById('agencyCitySelect')?.value || 'all';
+      const contact = document.getElementById('agencyContactSelect')?.value || 'all';
+      const sortBy = document.getElementById('agencySortSelect')?.value || 'agents';
+
+      let filtered = abroadAgencies.filter(a => {
+        if (country === '__outside_uae__' && isUaeCountry(a.country)) return false;
+        if (country === '__uae__' && !isUaeCountry(a.country)) return false;
+        if (country !== 'all' && country !== '__outside_uae__' && country !== '__uae__' && (a.country || '').trim() !== country) return false;
+        if (city !== 'all' && (a.city || '').trim() !== city) return false;
+        if (contact === 'has-contact' && !(a.email || a.phone || a.website)) return false;
+        if (contact === 'has-email' && !a.email) return false;
+        if (contact === 'has-phone' && !a.phone) return false;
+
+        if (search) {
+          const hay = [a.name, a.city, a.country, a.email, a.website].filter(Boolean).join(' ').toLowerCase();
+          if (!hay.includes(search)) return false;
+        }
+        return true;
+      });
+
+      if (sortBy === 'agents') {
+        filtered.sort((a, b) => (Number(b.agentCount) || 0) - (Number(a.agentCount) || 0));
+      } else if (sortBy === 'listings') {
+        filtered.sort((a, b) => (Number(b.totalListings) || 0) - (Number(a.totalListings) || 0));
+      } else if (sortBy === 'name') {
+        filtered.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      } else if (sortBy === 'country') {
+        filtered.sort((a, b) => (a.country || '').localeCompare(b.country || ''));
+      }
+
+      const totalPages = Math.max(1, Math.ceil(filtered.length / AGENCY_PAGE_SIZE));
+      if (agencyPage > totalPages) agencyPage = totalPages;
+      const start = (agencyPage - 1) * AGENCY_PAGE_SIZE;
+      renderAgencies(filtered.slice(start, start + AGENCY_PAGE_SIZE));
+      renderPaginationBar('agenciesPagination', agencyPage, totalPages, filtered.length, AGENCY_PAGE_SIZE, 'goToAgencyPage');
+    }
+
+    async function populateAgentCountries() {
+      const sel = document.getElementById('agentCountrySelect');
+      if (!sel) return;
+      try {
+        const res = await fetch('./data/agents-countries.json');
+        if (!res.ok) return;
+        const countries = await res.json();
+        if (Array.isArray(countries)) {
+          sel.innerHTML = '<option value="">All Countries (228)</option>' +
+            countries.map(c => `<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('');
+        }
+      } catch (e) {
+        console.warn('Agent countries fetch error:', e);
+      }
+    }
+
+    async function onAgentCountryChange() {
+      const country = document.getElementById('agentCountrySelect')?.value || '';
+      const citySel = document.getElementById('agentCitySelect');
+      if (citySel) {
+        citySel.innerHTML = '<option value="">All Cities</option>';
+        if (country) {
+          try {
+            const res = await fetch('/api/agents?mode=cities&country=' + encodeURIComponent(country));
+            if (res.ok) {
+              const cities = await res.json();
+              if (Array.isArray(cities)) {
+                citySel.innerHTML = '<option value="">All Cities (' + cities.length + ')</option>' +
+                  cities.map(c => `<option value="${escHtml(c)}">${escHtml(c)}</option>`).join('');
+              }
+            }
+          } catch (e) {
+            console.warn('Agent cities fetch error:', e);
+          }
+        }
+      }
+      loadAgents(1);
+    }
+
+    async function loadAgents(page = 1) {
+      agentCurrentPage = Math.max(1, page);
+      const grid = document.getElementById('agentsGrid');
+      const badge = document.getElementById('agentsTotalBadge');
+      if (!grid) return;
+
+      const search = (document.getElementById('agentSearchInput')?.value || '').trim();
+      const country = document.getElementById('agentCountrySelect')?.value || '';
+      const city = document.getElementById('agentCitySelect')?.value || '';
+      const pageSize = Number(document.getElementById('agentPageSizeSelect')?.value || 24);
+
+      grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 text-xs">Loading live agents directory from ai-home.world...</div>';
+
+      const params = new URLSearchParams({ page: String(agentCurrentPage), page_size: String(pageSize) });
+      if (search) params.set('search', search);
+      if (country) params.set('country', country);
+      if (city) params.set('city', city);
+
+      try {
+        const res = await fetch('/api/agents?' + params.toString());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const payload = await res.json();
+        const rows = Array.isArray(payload.data) ? payload.data : [];
+        const total = Number(payload.total) || rows.length;
+        const totalPages = Number(payload.total_pages) || 1;
+        if (badge) badge.innerText = total.toLocaleString() + ' AGENTS';
+
+        if (!rows.length) {
+          grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 glass-card rounded-2xl border border-white/10">No agents found for this query.</div>';
+          renderPaginationBar('agentsPagination', 1, 1, 0, pageSize, 'loadAgents');
+          return;
+        }
+
+        grid.innerHTML = rows.map(ag => {
+          const name = ag.name || ag.aname || 'Real Estate Agent';
+          const loc = [ag.city, ag.state, ag.country].filter(Boolean).join(', ') || 'Global';
+          const phone = ag.phone || ag.mobile || ag.office_tel || '';
+          const initials = name.split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
+          return `
+          <div class="glass-card rounded-2xl p-5 flex flex-col justify-between hover:border-brand-gold/40 transition-all">
+            <div>
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-bold text-xs flex items-center justify-center shrink-0">${escHtml(initials)}</div>
+                <div class="min-w-0">
+                  <h4 class="font-display font-bold text-white text-sm truncate">${escHtml(name)}</h4>
+                  <div class="text-[11px] text-slate-400 truncate">${escHtml(loc)}</div>
+                </div>
+              </div>
+              <div class="space-y-1 text-[11px] text-slate-300">
+                ${ag.address ? `<div class="truncate text-slate-400">📍 ${escHtml(ag.address)}</div>` : ''}
+                ${ag.email ? `<div class="truncate">✉️ <a href="mailto:${escHtml(ag.email)}" class="hover:text-brand-gold">${escHtml(ag.email)}</a></div>` : ''}
+                ${phone ? `<div class="truncate">📞 ${escHtml(phone)}</div>` : ''}
+                ${ag.registration_number ? `<div class="truncate text-emerald-400">🪪 Reg: ${escHtml(ag.registration_number)}</div>` : ''}
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[10px] text-slate-400">
+              <span>${escHtml(ag.type || 'Agent')} · ID #${escHtml(ag.id)}</span>
+              ${ag.link ? `<a href="${escHtml(ag.link)}" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline font-semibold">Profile ↗</a>` : ''}
+            </div>
+          </div>
+          `;
+        }).join('');
+
+        renderPaginationBar('agentsPagination', agentCurrentPage, totalPages, total, pageSize, 'loadAgents');
+      } catch (err) {
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-rose-400 glass-card rounded-2xl border border-rose-500/30">Failed to load live agents: ${escHtml(err.message)}</div>`;
+      }
     }
 
     // ==========================================
@@ -3273,7 +3469,7 @@
       alert("📋 Copied DLD Escrow Verification Details:\n" + msg);
     }
 
-    // Initialize on page load (Hydrate from external JSON data layer with inline fallback)
+    // Initialize on page load (Hydrate from ai-home.world synced datasets + live /api/agents)
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         const [projRes, agencyRes] = await Promise.all([
@@ -3283,10 +3479,14 @@
         if (projRes.ok) uaeOffPlanProjects = await projRes.json();
         if (agencyRes.ok) abroadAgencies = await agencyRes.json();
       } catch (err) {
-        console.warn('Using inline fallback registry:', err);
+        console.warn('Registry fetch error:', err);
       }
-      renderOffPlanProjects(uaeOffPlanProjects);
-      renderAgencies(abroadAgencies);
+      populateOffPlanDropdowns();
+      populateAgencyDropdowns();
+      filterOffPlanProjects();
+      filterAgencies();
+      await populateAgentCountries();
+      loadAgents(1);
       updateCurrency('USD');
       calculateCommission();
     });
