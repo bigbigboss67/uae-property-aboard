@@ -1630,15 +1630,9 @@
           <div id="evRolesRow" class="flex flex-wrap gap-1.5 text-[10px] font-bold"></div>
         </div>
 
-        <div class="my-auto py-3">
-          <h4 id="evSceneTitle" class="text-2xl sm:text-3xl font-display font-extrabold text-white mb-3"></h4>
-          <p id="evSceneDesc" class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl"></p>
-          <div id="evVisualCards" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5"></div>
-        </div>
-
-        <!-- Narration Subtitle Bar -->
-        <div class="mt-5 pt-3 border-t border-white/10 flex items-center justify-between gap-3">
-          <div class="text-xs text-amber-200/90 italic" id="evSubtitle"></div>
+        <div class="my-auto py-2">
+          <h4 id="evSceneTitle" class="text-xl sm:text-2xl font-display font-extrabold text-white mb-2"></h4>
+          <div id="evInteractiveStage"></div>
         </div>
       </div>
 
@@ -2435,80 +2429,81 @@
     }
 
     // ==========================================
-    // GLOBAL A-TO-Z EXPLAINER VIDEO PLAYER ENGINE
+    // GLOBAL A-TO-Z STEP-BY-STEP EXPLAINER VIDEO ENGINE
+    // Shows: Exact Button Clicked -> Screen Shown -> Next Step
     // ==========================================
     const EXPLAINER_SCENES = [
       {
-        step: 'STEP A · 00:00',
-        title: 'Global Discovery on DLD-Verified Inventory',
-        desc: 'Overseas Agents & Buyers browse 2,926 UAE off-plan projects synced from ai-home.world with live multi-currency pricing, DLD status, and instant White-Label Dossiers.',
+        step: 'STEP 1 OF 6 · DISCOVER',
+        time: '00:00',
+        plainSummary: 'Pick a DLD-verified UAE off-plan project and open it in the buyer’s currency.',
         roles: ['Overseas Buyer', 'Overseas Agent'],
-        cards: [
-          { label: 'Inventory', value: '2,926 UAE Projects' },
-          { label: 'Global Reach', value: '13,529 Agencies · 4.37M Agents' },
-          { label: 'Source', value: 'ai-home.world / Dubai REST' }
-        ],
-        subtitle: 'Narrator: "Every off-plan project is verified and ready to present in your client’s local currency."'
+        clickedLabel: 'Click: "Lock Buyer & Auto-Contract"',
+        clickedControl: 'Off-Plan Project Card (2,926 UAE Projects)',
+        nextShownTitle: '4-Party Deal Room Opens Instantly',
+        nextShownDetail: 'Project price converts live (USD/EUR/GBP/AED) and pulls the official ai-home.world DLD listing.',
+        flowSteps: ['1. Filter UAE Projects', '2. Click Lock & Contract', '3. Deal Room Opens'],
+        ctaNext: 'Next: Step 2 (Fee Locks) →'
       },
       {
-        step: 'STEP B · 00:08',
-        title: 'Blind Buyer Lock & Pre-Contact Fee Gate',
-        desc: 'Before either party knows or contacts the other, the Overseas Agent locks the buyer under a masked hash (Lock 1: $350 KYC Bond) and the UAE Seller debits a pre-funded wallet (Lock 2: $500 Unlock Fee).',
-        roles: ['Portal Gate', 'Overseas Agent', 'UAE RERA Agency'],
-        cards: [
-          { label: 'Lock 1 (Buyer Side)', value: '$350 KYC & Audit Paid' },
-          { label: 'Lock 2 (UAE Seller)', value: '$500 Wallet Debited' },
-          { label: 'PII Protection', value: '100% Masked Until Signed' }
-        ],
-        subtitle: 'Narrator: "The portal collects revenue from both sides BEFORE identities or contacts are ever unmasked."'
+        step: 'STEP 2 OF 6 · FEE LOCKS',
+        time: '00:08',
+        plainSummary: 'Both sides pay/authorize the portal BEFORE seeing each other’s contact details.',
+        roles: ['Overseas Agent ($350 KYC)', 'UAE Agency ($500 Wallet)', 'Portal Gate'],
+        clickedLabel: 'Click: "Authorize Lock 1" & "Debit Lock 2"',
+        clickedControl: 'Pre-Contact Fee Gate (Blind Mode Active)',
+        nextShownTitle: 'Portal Collects Fees & Protects Buyer PII',
+        nextShownDetail: 'Buyer name, phone & agency contacts stay [MASKED]. Portal earns $850 upfront before any call.',
+        flowSteps: ['1. Lock 1 ($350 Buyer KYC)', '2. Lock 2 ($500 UAE Wallet)', '3. Ready to Sign'],
+        ctaNext: 'Next: Step 3 (Auto-Send Contract) →'
       },
       {
-        step: 'STEP C · 00:16',
-        title: 'Auto-Dispatched 4-Party Digital Contract',
-        desc: 'The portal automatically sends the NCNDA & Commission Split Agreement to the Buyer, Overseas Agent (55%), UAE RERA Agency (30%), and DLD/Portal (15%) with 180-day non-circumvention.',
-        roles: ['Buyer', 'Overseas Agent', 'UAE RERA Agency', 'DLD / Portal'],
-        cards: [
-          { label: 'Overseas Agent', value: '55% of Gross Comm' },
-          { label: 'UAE RERA Seller', value: '30% of Gross Comm' },
-          { label: 'Portal Platform', value: '15% Override' }
-        ],
-        subtitle: 'Narrator: "Percentages, DLD escrow rules, and 200% anti-circumvention penalties are locked automatically."'
+        step: 'STEP 3 OF 6 · AUTO-CONTRACT',
+        time: '00:16',
+        plainSummary: 'The portal automatically sends one contract with everyone’s exact percentage split.',
+        roles: ['Buyer', 'Overseas Agent (55%)', 'UAE Agency (30%)', 'Portal (15%)'],
+        clickedLabel: 'Auto-Sent: "4-Party Digital Contract"',
+        clickedControl: 'Commission Split: 55% / 30% / 15% + 180-Day Lock',
+        nextShownTitle: 'All 4 Parties Receive E-Sign Link',
+        nextShownDetail: 'Buyer, Overseas Agent, UAE RERA Agency & DLD/Portal see the exact AED payout & anti-bypass rules.',
+        flowSteps: ['1. Auto-Generate PDF/Text', '2. Send to All 4 Parties', '3. Awaiting Signatures'],
+        ctaNext: 'Next: Step 4 (Digital Signatures) →'
       },
       {
-        step: 'STEP D · 00:24',
-        title: 'All-Party Digital Signatures & Deal Confirmation',
-        desc: 'All 4 parties sign digitally with cryptographic timestamps. Once signed, the deal is confirmed, identities unmask, and the 1-Click Video Closing Room opens.',
-        roles: ['Buyer Signed ✓', 'Agent Signed ✓', 'UAE Agency Signed ✓', 'DLD/Portal ✓'],
-        cards: [
-          { label: 'Digital Seal', value: 'SHA-256 + IP Timestamp' },
-          { label: 'Status', value: 'DEAL CONFIRMED' },
-          { label: 'Closing Room', value: 'Video + Floorplan Unmasked' }
-        ],
-        subtitle: 'Narrator: "Signed by Buyer, Overseas Agent, UAE Agency, and DLD/Portal — zero ambiguity."'
+        step: 'STEP 4 OF 6 · 4-PARTY SIGN',
+        time: '00:24',
+        plainSummary: 'Buyer, Agent, UAE Agency & DLD/Portal sign digitally to confirm the deal and unlock contacts.',
+        roles: ['Buyer ✓', 'Overseas Agent ✓', 'UAE RERA Agency ✓', 'DLD & Portal ✓'],
+        clickedLabel: 'Click: "Sign Buyer / Agent / Agency / DLD"',
+        clickedControl: '4 Digital Signature Cards (SHA-256 + UTC)',
+        nextShownTitle: 'DEAL CONFIRMED & Direct Video Room Unlocks',
+        nextShownDetail: 'All 4 cards turn green (SIGNED). Identities unmask and the 1-Click Video Closing Room opens.',
+        flowSteps: ['1. 4 Digital Signatures', '2. Deal Confirmed Seal', '3. Contacts Unmasked'],
+        ctaNext: 'Next: Step 5 (DLD Escrow) →'
       },
       {
-        step: 'STEP E · 00:32',
-        title: 'DLD Project Escrow & Oqood Registration',
-        desc: 'The Overseas Buyer wires the 10%–20% booking deposit directly to the Developer’s official DLD-approved Project Escrow Account (verified in Dubai REST). DLD issues Oqood off-plan title.',
+        step: 'STEP 5 OF 6 · DLD ESCROW',
+        time: '00:32',
+        plainSummary: 'The buyer wires the property deposit straight to the DLD-approved project escrow bank.',
         roles: ['Overseas Buyer', 'UAE Developer', 'Dubai Land Dept (DLD)'],
-        cards: [
-          { label: 'Escrow Law', value: 'Dubai Law No. 8 of 2007' },
-          { label: 'Title Deed', value: 'DLD Oqood Issued' },
-          { label: 'Golden Visa', value: 'Eligible at AED 2M+' }
-        ],
-        subtitle: 'Narrator: "Property funds never touch an intermediary — 100% protected inside DLD Project Escrow."'
+        clickedLabel: 'Click: "Verify DLD Escrow in Dubai REST"',
+        clickedControl: 'Video Closing Room → DLD Escrow Tab',
+        nextShownTitle: '10%–20% Deposit Wired & DLD Oqood Issued',
+        nextShownDetail: 'Money goes only to the official DLD Project Escrow (Law No. 8 of 2007). DLD registers the buyer.',
+        flowSteps: ['1. Verify Escrow IBAN', '2. Wire to DLD Bank', '3. Oqood Title Issued'],
+        ctaNext: 'Next: Step 6 (Commission Payout) →'
       },
       {
-        step: 'STEP Z · 00:40',
-        title: 'Automated Global Commission Settlement',
-        desc: 'Upon SPA execution, the Developer releases gross commission to the UAE RERA Agency, which settles 55% to the Overseas Agent and 15% to the Portal under the Irrevocable Payment Order.',
+        step: 'STEP 6 OF 6 · PAYOUT',
+        time: '00:40',
+        plainSummary: 'Developer pays commission to the UAE Agency, which pays 55% to the Overseas Agent & 15% to the Portal.',
         roles: ['UAE Developer', 'UAE RERA Agency', 'Overseas Agent', 'Portal'],
-        cards: [
-          { label: 'Payout Trigger', value: 'SPA + 20% Cleared' },
-          { label: 'Settlement SLA', value: '5 Business Days' },
-          { label: 'Dispute Venue', value: 'DIFC Small Claims' }
-        ],
-        subtitle: 'Narrator: "A complete, compliant A-to-Z global distribution engine for UAE off-plan real estate."'
+        clickedLabel: 'Triggered: "Irrevocable Payment Order"',
+        clickedControl: 'SPA Signed + 20% Cleared → 5-Day Settlement',
+        nextShownTitle: 'Everyone Gets Paid Automatically',
+        nextShownDetail: '55% wired to Overseas Agent, 30% kept by UAE RERA Agency, 15% settled to Portal.',
+        flowSteps: ['1. Developer Releases 5%', '2. 55% Overseas · 30% UAE', '3. 15% Portal Override'],
+        ctaNext: 'Replay Step 1 ↺'
       }
     ];
 
@@ -2540,9 +2535,15 @@
       stopExplainerTimer();
       if (!evIsPlaying) return;
       evTimer = setInterval(() => {
-        evCurrentScene = (evCurrentScene + 1) % EXPLAINER_SCENES.length;
-        renderExplainerScene();
-      }, 6000);
+        if (evCurrentScene < EXPLAINER_SCENES.length - 1) {
+          evCurrentScene++;
+          renderExplainerScene();
+        } else {
+          evIsPlaying = false;
+          stopExplainerTimer();
+          renderExplainerScene();
+        }
+      }, 6500);
     }
 
     function stopExplainerTimer() {
@@ -2553,11 +2554,13 @@
     }
 
     function toggleExplainerPlay() {
+      if (!evIsPlaying && evCurrentScene >= EXPLAINER_SCENES.length - 1) {
+        evCurrentScene = 0;
+      }
       evIsPlaying = !evIsPlaying;
-      const btn = document.getElementById('evPlayPauseBtn');
-      if (btn) btn.innerText = evIsPlaying ? '⏸ Pause' : '▶ Play';
       if (evIsPlaying) startExplainerTimer();
       else stopExplainerTimer();
+      renderExplainerScene();
     }
 
     function goToExplainerScene(idx) {
@@ -2567,52 +2570,84 @@
     }
 
     function nextExplainerScene() {
-      goToExplainerScene((evCurrentScene + 1) % EXPLAINER_SCENES.length);
+      if (evCurrentScene < EXPLAINER_SCENES.length - 1) {
+        goToExplainerScene(evCurrentScene + 1);
+      } else {
+        goToExplainerScene(0);
+      }
     }
 
     function prevExplainerScene() {
-      goToExplainerScene((evCurrentScene - 1 + EXPLAINER_SCENES.length) % EXPLAINER_SCENES.length);
+      goToExplainerScene(Math.max(0, evCurrentScene - 1));
     }
 
     function renderExplainerScene() {
       const s = EXPLAINER_SCENES[evCurrentScene];
       if (!s) return;
-      const secs = evCurrentScene * 8;
       const tc = document.getElementById('evTimecode');
-      if (tc) tc.innerText = '00:' + String(secs).padStart(2, '0') + ' / 00:48';
+      if (tc) tc.innerText = s.time + ' / 00:48';
       const badge = document.getElementById('evSceneBadge');
-      if (badge) badge.innerText = `SCENE ${evCurrentScene + 1} OF ${EXPLAINER_SCENES.length} · ${s.step}`;
+      if (badge) badge.innerText = s.step;
       const title = document.getElementById('evSceneTitle');
-      if (title) title.innerText = s.title;
-      const desc = document.getElementById('evSceneDesc');
-      if (desc) desc.innerText = s.desc;
-      const sub = document.getElementById('evSubtitle');
-      if (sub) sub.innerText = s.subtitle;
-      const prog = document.getElementById('evProgressBar');
-      if (prog) prog.style.width = (((evCurrentScene + 1) / EXPLAINER_SCENES.length) * 100).toFixed(1) + '%';
+      if (title) title.innerText = s.plainSummary;
 
       const rolesRow = document.getElementById('evRolesRow');
       if (rolesRow) {
         rolesRow.innerHTML = s.roles.map(r => `<span class="px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-white">${escHtml(r)}</span>`).join('');
       }
-      const cardsRow = document.getElementById('evVisualCards');
-      if (cardsRow) {
-        cardsRow.innerHTML = s.cards.map(c => `
-          <div class="bg-black/50 border border-white/10 rounded-xl p-3">
-            <div class="text-[10px] text-slate-400 uppercase">${escHtml(c.label)}</div>
-            <div class="text-sm font-bold text-brand-gold mt-0.5">${escHtml(c.value)}</div>
+
+      const stage = document.getElementById('evInteractiveStage');
+      if (stage) {
+        stage.innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-11 gap-3 items-stretch mt-3">
+            <div class="md:col-span-5 bg-[#0A0D16] border-2 border-brand-gold/60 rounded-2xl p-4 flex flex-col justify-between relative">
+              <div class="text-[10px] font-bold text-brand-gold uppercase tracking-wider">1. What Is Clicked</div>
+              <div class="my-3">
+                <div class="text-[11px] text-slate-400 mb-2">${escHtml(s.clickedControl)}</div>
+                <button onclick="nextExplainerScene()" class="w-full py-2.5 px-3 rounded-xl bg-brand-gold text-black font-extrabold text-xs shadow-lg shadow-brand-gold/25 flex items-center justify-center gap-2 animate-pulse">
+                  <span>👆 ${escHtml(s.clickedLabel)}</span>
+                </button>
+              </div>
+              <div class="text-[10px] text-slate-400">Click the highlighted button or Next to advance</div>
+            </div>
+
+            <div class="md:col-span-1 flex items-center justify-center text-brand-gold font-black text-xl py-1">➔</div>
+
+            <div class="md:col-span-5 bg-[#0A1318] border border-emerald-500/40 rounded-2xl p-4 flex flex-col justify-between">
+              <div class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">2. What Appears Next</div>
+              <div class="my-3">
+                <div class="text-sm font-display font-bold text-white">${escHtml(s.nextShownTitle)}</div>
+                <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">${escHtml(s.nextShownDetail)}</p>
+              </div>
+              <button onclick="nextExplainerScene()" class="w-full py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-bold text-xs transition-all">
+                ${escHtml(s.ctaNext)}
+              </button>
+            </div>
           </div>
-        `).join('');
+
+          <div class="grid grid-cols-3 gap-2 mt-4">
+            ${s.flowSteps.map((fsText, idx) => `
+              <div class="px-3 py-2 rounded-xl border text-[11px] font-semibold ${idx === 2 ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300' : 'bg-white/5 border-white/10 text-slate-200'}">
+                ${escHtml(fsText)}
+              </div>
+            `).join('')}
+          </div>
+        `;
       }
+
+      const prog = document.getElementById('evProgressBar');
+      if (prog) prog.style.width = (((evCurrentScene + 1) / EXPLAINER_SCENES.length) * 100).toFixed(1) + '%';
+
       const chapters = document.getElementById('evChapters');
       if (chapters) {
-        const labels = ['A · Discovery', 'B · Fee Gate', 'C · Contract', 'D · 4-Sign', 'E · DLD Escrow', 'Z · Payout'];
+        const labels = ['1. Discover', '2. Fee Locks', '3. Auto-Send', '4. 4-Sign', '5. DLD Escrow', '6. Payout'];
         chapters.innerHTML = labels.map((lbl, i) => `
-          <button onclick="goToExplainerScene(${i})" class="p-2 rounded-lg text-center font-bold transition-all ${i === evCurrentScene ? 'bg-brand-gold text-black' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">${lbl}</button>
+          <button onclick="goToExplainerScene(${i})" class="p-2 rounded-lg text-center font-bold transition-all ${i === evCurrentScene ? 'bg-brand-gold text-black' : (i < evCurrentScene ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-white/5 text-slate-400 hover:bg-white/10')}">${lbl}</button>
         `).join('');
       }
+
       const btn = document.getElementById('evPlayPauseBtn');
-      if (btn) btn.innerText = evIsPlaying ? '⏸ Pause' : '▶ Play';
+      if (btn) btn.innerText = evIsPlaying ? '⏸ Pause' : (evCurrentScene >= EXPLAINER_SCENES.length - 1 ? '↺ Replay' : '▶ Play');
     }
 
     // ==========================================
