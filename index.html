@@ -3056,10 +3056,13 @@
               <button onclick="openWhiteLabelDossierById('${safeId}')" class="flex-1 bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-3 rounded-xl text-xs transition-all border border-white/10 flex items-center justify-center gap-1.5">
                 <i data-lucide="file-text" class="w-3.5 h-3.5 text-brand-gold"></i> Dossier
               </button>
-              ${p.url ? `<a href="${escHtml(p.url)}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-2 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
+              <a href="https://www.ai-home.world/off-plan/${encodeURIComponent(p.id || p.propertyid || '')}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-2 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
                 <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Listing
-              </a>` : ''}
+              </a>
             </div>
+            <button onclick="openBlindContractForProject('${safeId}')" class="w-full bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 font-bold py-2 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i> Lock Buyer &amp; Auto-Contract (3-Way Split)
+            </button>
           </div>
         </div>
         `;
@@ -3469,6 +3472,166 @@
       alert("📋 Copied DLD Escrow Verification Details:\n" + msg);
     }
 
+    // ==========================================
+    // DOUBLE-BLIND TRI-PARTY CONTRACT & PRE-CONTACT FEE GATE
+    // ==========================================
+    let blindContractState = {
+      projectId: '',
+      projectName: 'UAE Off-Plan Project',
+      developer: 'UAE Developer',
+      priceAED: 2500000,
+      lock1Paid: false,
+      lock2Paid: false,
+      signedOverseas: false,
+      signedUae: false,
+      signedPortal: false,
+      contractId: 'AIH-NCNDA-2026-001'
+    };
+
+    function openBlindContractForProject(id) {
+      const p = uaeOffPlanProjects.find(x => x.id === id || x.propertyid === id) || uaeOffPlanProjects[0];
+      const randomHex = Math.random().toString(16).slice(2, 8).toUpperCase();
+      blindContractState = {
+        projectId: p?.id || 'OPUAE-CUSTOM',
+        projectName: p?.project_name || p?.buildingname || 'UAE Off-Plan Project',
+        developer: p?.developername || 'UAE Developer',
+        priceAED: Number(p?.propertyprice) > 0 ? Number(p.propertyprice) : 2500000,
+        lock1Paid: false,
+        lock2Paid: false,
+        signedOverseas: false,
+        signedUae: false,
+        signedPortal: false,
+        contractId: 'AIH-3P-' + randomHex
+      };
+
+      const modal = document.getElementById('blindContractModal');
+      if (!modal) return;
+      document.getElementById('bcProjectTitle').innerText = blindContractState.projectName;
+      document.getElementById('bcProjectSub').innerText = `${blindContractState.developer} · AED ${blindContractState.priceAED.toLocaleString()}`;
+      document.getElementById('bcPriceInput').value = blindContractState.priceAED;
+      updateBlindContractUI();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeBlindContractModal() {
+      const modal = document.getElementById('blindContractModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleBlindLock(which) {
+      if (which === 1) blindContractState.lock1Paid = !blindContractState.lock1Paid;
+      if (which === 2) blindContractState.lock2Paid = !blindContractState.lock2Paid;
+      updateBlindContractUI();
+    }
+
+    function signBlindParty(party) {
+      if (party === 'overseas') blindContractState.signedOverseas = true;
+      if (party === 'uae') blindContractState.signedUae = true;
+      if (blindContractState.signedOverseas && blindContractState.signedUae) {
+        blindContractState.signedPortal = true;
+      }
+      updateBlindContractUI();
+    }
+
+    function updateBlindContractUI() {
+      const price = Math.max(0, Number(document.getElementById('bcPriceInput')?.value || blindContractState.priceAED));
+      const grossPct = Math.max(0, Number(document.getElementById('bcGrossCommInput')?.value || 5));
+      const ovPct = Math.max(0, Number(document.getElementById('bcOverseasPctInput')?.value || 55));
+      const uaePct = Math.max(0, Number(document.getElementById('bcUaePctInput')?.value || 30));
+      const portalPct = Math.max(0, 100 - ovPct - uaePct);
+
+      const portalPctEl = document.getElementById('bcPortalPctDisplay');
+      if (portalPctEl) portalPctEl.innerText = portalPct.toFixed(0) + '%';
+
+      const grossAED = Math.round(price * (grossPct / 100));
+      const ovAED = Math.round(grossAED * (ovPct / 100));
+      const uaeAED = Math.round(grossAED * (uaePct / 100));
+      const portalAED = Math.max(0, grossAED - ovAED - uaeAED);
+
+      const setEl = (id, txt) => { const e = document.getElementById(id); if (e) e.innerText = txt; };
+      setEl('bcGrossAED', 'AED ' + grossAED.toLocaleString());
+      setEl('bcOverseasAED', 'AED ' + ovAED.toLocaleString());
+      setEl('bcUaeAED', 'AED ' + uaeAED.toLocaleString());
+      setEl('bcPortalAED', 'AED ' + portalAED.toLocaleString());
+
+      const allUnlocked = blindContractState.lock1Paid && blindContractState.lock2Paid && blindContractState.signedOverseas && blindContractState.signedUae;
+      const statusEl = document.getElementById('bcUnlockStatus');
+      if (statusEl) {
+        statusEl.className = allUnlocked
+          ? 'p-3 rounded-xl border border-emerald-500/40 bg-emerald-500/15 text-emerald-300 text-xs font-bold'
+          : 'p-3 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs font-semibold';
+        statusEl.innerText = allUnlocked
+          ? '🔓 ALL 3 LOCKS VERIFIED: Identities & Direct Deal Room Unmasked! Tri-Party Contract Executed.'
+          : '🔒 BLIND MODE ACTIVE: Party contacts & Buyer PII remain masked until Lock 1 ($350 KYC), Lock 2 ($500 Wallet), and Both E-Signatures are completed.';
+      }
+
+      const b1 = document.getElementById('bcBtnLock1');
+      if (b1) b1.innerText = blindContractState.lock1Paid ? '✓ Lock 1 Cleared ($350 KYC)' : 'Authorize Lock 1 ($350 Buyer KYC Bond)';
+      const b2 = document.getElementById('bcBtnLock2');
+      if (b2) b2.innerText = blindContractState.lock2Paid ? '✓ Lock 2 Cleared ($500 Wallet)' : 'Debit Lock 2 ($500 UAE Seller Wallet)';
+
+      const s1 = document.getElementById('bcBtnSignOverseas');
+      if (s1) s1.innerText = blindContractState.signedOverseas ? '✓ Overseas Agent Signed' : 'E-Sign as Overseas Agent';
+      const s2 = document.getElementById('bcBtnSignUae');
+      if (s2) s2.innerText = blindContractState.signedUae ? '✓ UAE Seller Signed' : 'E-Sign as UAE RERA Seller';
+
+      const ovAgency = document.getElementById('bcOverseasAgencyInput')?.value || 'Partner Overseas Agency';
+      const uaeAgency = document.getElementById('bcUaeAgencyInput')?.value || 'RERA Licensed UAE Brokerage';
+      const buyerHash = 'BUYER-' + blindContractState.contractId.slice(-6);
+      const maskedOv = allUnlocked ? ovAgency + ' (UNMASKED · Direct Deal Room Active)' : '[MASKED OVERSEAS AGENCY · Tier-1 Verified]';
+      const maskedUae = allUnlocked ? uaeAgency + ' (UNMASKED · RERA ORN Verified)' : '[MASKED UAE RERA SELLER · Escrow Ready]';
+
+      const preview = document.getElementById('bcContractPreview');
+      if (preview) {
+        preview.value =
+`TRI-PARTY INTERNATIONAL OFF-PLAN CO-BROKERAGE & NCNDA AGREEMENT
+Contract ID: ${blindContractState.contractId} | Date: ${new Date().toISOString().slice(0,10)}
+Project: ${blindContractState.projectName} (${blindContractState.projectId})
+Developer: ${blindContractState.developer}
+Listing Reference: https://www.ai-home.world/off-plan/${blindContractState.projectId}
+Property Value: AED ${price.toLocaleString()}
+
+1. PARTIES (BLIND MODE UNTIL LOCKS 1, 2 & 3 COMPLETE)
+(a) Portal Operator: AI Home Global Platform
+(b) Overseas Agent: ${maskedOv}
+(c) UAE RERA Seller: ${maskedUae}
+(d) Registered Buyer Hash: ${buyerHash} (180-Day Non-Circumvention Lock)
+
+2. PRE-CONTACT FEE COLLECTION (COLLECTED BEFORE UNMASKING)
+- Lock 1 (Overseas Side): $350 Buyer KYC & Legal Audit Fee — ${blindContractState.lock1Paid ? 'CLEARED' : 'PENDING'}
+- Lock 2 (UAE Seller Side): $500 Pre-Funded Wallet Unlock + Commission Hold — ${blindContractState.lock2Paid ? 'CLEARED' : 'PENDING'}
+
+3. COMMISSION SPLIT (GROSS DEVELOPER COMMISSION: ${grossPct}% = AED ${grossAED.toLocaleString()})
+- Overseas Agent (${ovPct}% of Gross): AED ${ovAED.toLocaleString()}
+- UAE RERA Seller (${uaePct}% of Gross): AED ${uaeAED.toLocaleString()}
+- Portal Platform Fee (${portalPct.toFixed(0)}% of Gross): AED ${portalAED.toLocaleString()}
+
+4. DLD ESCROW & DISPUTE RESOLUTION
+All Buyer property deposits wire exclusively to ${blindContractState.developer} DLD Project Escrow Account.
+200% Liquidated Damages on circumvention; DIFC Small Claims Tribunal jurisdiction.
+
+E-SIGNATURES:
+- Overseas Agent: ${blindContractState.signedOverseas ? 'SIGNED (' + new Date().toISOString() + ')' : 'AWAITING SIGNATURE'}
+- UAE RERA Seller: ${blindContractState.signedUae ? 'SIGNED (' + new Date().toISOString() + ')' : 'AWAITING SIGNATURE'}
+- Portal Counter-Sign: ${blindContractState.signedPortal ? 'EXECUTED' : 'AUTO-SIGNS UPON BOTH PARTIES'}`;
+      }
+    }
+
+    function downloadBlindContract() {
+      const text = document.getElementById('bcContractPreview')?.value || '';
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${blindContractState.contractId}_TriParty_NCNDA.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
     // Initialize on page load (Hydrate from ai-home.world synced datasets + live /api/agents)
     document.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -3491,5 +3654,82 @@
       calculateCommission();
     });
   </script>
+
+  <!-- DOUBLE-BLIND TRI-PARTY CONTRACT & PRE-CONTACT FEE GATE MODAL -->
+  <div id="blindContractModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#12151E] border border-emerald-500/40 rounded-2xl max-w-4xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[92vh] overflow-y-auto">
+      <button onclick="closeBlindContractModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="mb-4">
+        <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold px-2.5 py-1 rounded uppercase">Auto-Dispatched Tri-Party NCNDA + Pre-Contact Fee Gate</span>
+        <h3 id="bcProjectTitle" class="text-xl font-display font-extrabold text-white mt-2">UAE Off-Plan Project</h3>
+        <p id="bcProjectSub" class="text-xs text-slate-400">Developer · Price</p>
+      </div>
+
+      <div id="bcUnlockStatus" class="p-3 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs font-semibold mb-5"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 text-xs">
+        <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
+          <div class="font-bold text-brand-gold uppercase text-[11px]">Commission Split &amp; Deal Value</div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-slate-400 block mb-1">Property Value (AED)</label>
+              <input id="bcPriceInput" type="number" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">Gross Dev Comm (%)</label>
+              <input id="bcGrossCommInput" type="number" step="0.5" value="5" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">Overseas Agent (% of Gross)</label>
+              <input id="bcOverseasPctInput" type="number" value="55" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">UAE Seller (% of Gross)</label>
+              <input id="bcUaePctInput" type="number" value="30" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-[11px]">
+            <div>Gross Pool: <strong id="bcGrossAED" class="text-white">AED 0</strong></div>
+            <div>Portal (<span id="bcPortalPctDisplay">15%</span>): <strong id="bcPortalAED" class="text-emerald-400">AED 0</strong></div>
+            <div>Overseas: <strong id="bcOverseasAED" class="text-brand-gold">AED 0</strong></div>
+            <div>UAE Seller: <strong id="bcUaeAED" class="text-sky-400">AED 0</strong></div>
+          </div>
+        </div>
+
+        <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
+          <div class="font-bold text-emerald-400 uppercase text-[11px]">Pre-Contact Collection &amp; E-Sign Locks</div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-slate-400 block mb-1">Overseas Agency</label>
+              <input id="bcOverseasAgencyInput" type="text" placeholder="e.g. Savills Mayfair" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">UAE RERA Agency</label>
+              <input id="bcUaeAgencyInput" type="text" placeholder="e.g. Dubai Prime RERA" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button id="bcBtnLock1" onclick="toggleBlindLock(1)" class="py-2 px-2.5 rounded-lg bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/40 text-brand-gold font-bold text-[11px]">Authorize Lock 1 ($350 Buyer KYC Bond)</button>
+            <button id="bcBtnLock2" onclick="toggleBlindLock(2)" class="py-2 px-2.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 font-bold text-[11px]">Debit Lock 2 ($500 UAE Seller Wallet)</button>
+            <button id="bcBtnSignOverseas" onclick="signBlindParty('overseas')" class="py-2 px-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[11px]">E-Sign as Overseas Agent</button>
+            <button id="bcBtnSignUae" onclick="signBlindParty('uae')" class="py-2 px-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[11px]">E-Sign as UAE RERA Seller</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="text-xs font-bold text-slate-300 block mb-1.5">Auto-Generated Tri-Party Contract (Sent Automatically to Both Parties):</label>
+        <textarea id="bcContractPreview" readonly rows="12" class="w-full bg-[#08090C] border border-white/15 rounded-xl p-3 text-[11px] font-mono text-slate-300 focus:outline-none"></textarea>
+      </div>
+
+      <div class="flex flex-wrap gap-3 justify-end">
+        <button onclick="downloadBlindContract()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Download Contract (.txt)</button>
+        <button onclick="closeBlindContractModal()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold">Done</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
