@@ -8,7 +8,8 @@ const MIME = {
   '.json': 'application/json; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
-  '.md': 'text/markdown; charset=utf-8'
+  '.md': 'text/markdown; charset=utf-8',
+  '.mp4': 'video/mp4'
 };
 
 const server = http.createServer(async (req, res) => {

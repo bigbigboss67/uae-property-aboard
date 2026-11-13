@@ -1623,38 +1623,54 @@
         <div id="evTimecode" class="font-mono text-xs text-brand-gold bg-black/60 px-3 py-1 rounded-lg border border-white/10 mr-8">00:00 / 00:48</div>
       </div>
 
-      <!-- Video Stage -->
-      <div class="relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#101524] via-[#090B11] to-[#121928] p-5 sm:p-8 min-h-[300px] flex flex-col justify-between">
-        <div class="flex items-center justify-between gap-2 mb-4">
-          <span id="evSceneBadge" class="bg-brand-gold/20 text-brand-gold border border-brand-gold/40 text-[11px] font-bold px-3 py-1 rounded-full">SCENE 1 OF 6 · STEP A</span>
-          <div id="evRolesRow" class="flex flex-wrap gap-1.5 text-[10px] font-bold"></div>
+      <!-- Mode Switcher: HD Video (.mp4) vs Interactive Steps -->
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <div class="flex items-center gap-2">
+          <button id="evTabMp4" onclick="setExplainerMode('mp4')" class="px-3.5 py-1.5 rounded-xl bg-brand-gold text-black text-xs font-extrabold">🎬 Watch HD Explainer Video (.mp4)</button>
+          <button id="evTabInteractive" onclick="setExplainerMode('interactive')" class="px-3.5 py-1.5 rounded-xl bg-white/10 text-slate-300 hover:bg-white/20 text-xs font-bold">🖱️ Interactive Step-by-Step</button>
         </div>
-
-        <div class="my-auto py-2">
-          <h4 id="evSceneTitle" class="text-xl sm:text-2xl font-display font-extrabold text-white mb-2"></h4>
-          <div id="evInteractiveStage"></div>
-        </div>
+        <a href="./media/explainer-workflow.mp4" download="AI-Home-Global-A-to-Z-Workflow.mp4" class="text-xs text-emerald-400 hover:underline font-semibold">⬇ Download MP4 (1280×720)</a>
       </div>
 
-      <!-- Progress Bar -->
-      <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden mt-4">
-        <div id="evProgressBar" class="h-full bg-gradient-to-r from-brand-gold to-emerald-400 transition-all duration-300" style="width: 16.6%"></div>
+      <!-- Real Recorded HD MP4 Video Container -->
+      <div id="evMp4Container" class="mb-4">
+        <video id="evMp4Player" controls playsinline preload="metadata" class="w-full rounded-2xl border border-white/15 bg-black aspect-video" src="./media/explainer-workflow.mp4"></video>
       </div>
 
-      <!-- Scene Chapters -->
-      <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-3 text-[11px]" id="evChapters"></div>
+      <!-- Interactive Video Stage -->
+      <div id="evInteractiveContainer" class="hidden">
+        <div class="relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#101524] via-[#090B11] to-[#121928] p-5 sm:p-8 min-h-[300px] flex flex-col justify-between">
+          <div class="flex items-center justify-between gap-2 mb-4">
+            <span id="evSceneBadge" class="bg-brand-gold/20 text-brand-gold border border-brand-gold/40 text-[11px] font-bold px-3 py-1 rounded-full">SCENE 1 OF 6 · STEP A</span>
+            <div id="evRolesRow" class="flex flex-wrap gap-1.5 text-[10px] font-bold"></div>
+          </div>
 
-      <!-- Player Controls -->
-      <div class="flex flex-wrap items-center justify-between gap-3 mt-5 pt-4 border-t border-white/10">
-        <div class="flex items-center gap-2">
-          <button onclick="prevExplainerScene()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">⏮ Prev</button>
-          <button id="evPlayPauseBtn" onclick="toggleExplainerPlay()" class="px-4 py-2 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black text-xs font-extrabold">⏸ Pause</button>
-          <button onclick="nextExplainerScene()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Next ⏭</button>
+          <div class="my-auto py-2">
+            <h4 id="evSceneTitle" class="text-xl sm:text-2xl font-display font-extrabold text-white mb-2"></h4>
+            <div id="evInteractiveStage"></div>
+          </div>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="closeExplainerVideo(); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '');" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold">
-            Launch Live 4-Party Contract →
-          </button>
+
+        <!-- Progress Bar -->
+        <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden mt-4">
+          <div id="evProgressBar" class="h-full bg-gradient-to-r from-brand-gold to-emerald-400 transition-all duration-300" style="width: 16.6%"></div>
+        </div>
+
+        <!-- Scene Chapters -->
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-3 text-[11px]" id="evChapters"></div>
+
+        <!-- Player Controls -->
+        <div class="flex flex-wrap items-center justify-between gap-3 mt-5 pt-4 border-t border-white/10">
+          <div class="flex items-center gap-2">
+            <button onclick="prevExplainerScene()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">⏮ Prev</button>
+            <button id="evPlayPauseBtn" onclick="toggleExplainerPlay()" class="px-4 py-2 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black text-xs font-extrabold">⏸ Pause</button>
+            <button onclick="nextExplainerScene()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Next ⏭</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="closeExplainerVideo(); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '');" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold">
+              Launch Live 4-Party Contract →
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2511,20 +2527,44 @@
     let evIsPlaying = false;
     let evTimer = null;
 
+    function setExplainerMode(mode) {
+      const mp4Box = document.getElementById('evMp4Container');
+      const intBox = document.getElementById('evInteractiveContainer');
+      const tabMp4 = document.getElementById('evTabMp4');
+      const tabInt = document.getElementById('evTabInteractive');
+      const video = document.getElementById('evMp4Player');
+      if (mode === 'mp4') {
+        stopExplainerTimer();
+        evIsPlaying = false;
+        mp4Box?.classList.remove('hidden');
+        intBox?.classList.add('hidden');
+        if (tabMp4) tabMp4.className = 'px-3.5 py-1.5 rounded-xl bg-brand-gold text-black text-xs font-extrabold';
+        if (tabInt) tabInt.className = 'px-3.5 py-1.5 rounded-xl bg-white/10 text-slate-300 hover:bg-white/20 text-xs font-bold';
+        video?.play().catch(() => {});
+      } else {
+        video?.pause();
+        mp4Box?.classList.add('hidden');
+        intBox?.classList.remove('hidden');
+        if (tabInt) tabInt.className = 'px-3.5 py-1.5 rounded-xl bg-brand-gold text-black text-xs font-extrabold';
+        if (tabMp4) tabMp4.className = 'px-3.5 py-1.5 rounded-xl bg-white/10 text-slate-300 hover:bg-white/20 text-xs font-bold';
+        renderExplainerScene();
+      }
+    }
+
     function openExplainerVideo() {
       const modal = document.getElementById('explainerVideoModal');
       if (!modal) return;
       modal.classList.remove('hidden');
       modal.classList.add('flex');
       evCurrentScene = 0;
-      evIsPlaying = true;
-      renderExplainerScene();
-      startExplainerTimer();
+      evIsPlaying = false;
+      setExplainerMode('mp4');
       if (window.lucide) lucide.createIcons();
     }
 
     function closeExplainerVideo() {
       stopExplainerTimer();
+      document.getElementById('evMp4Player')?.pause();
       const modal = document.getElementById('explainerVideoModal');
       if (!modal) return;
       modal.classList.add('hidden');
