@@ -4291,7 +4291,10 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
             </div>
             <div>
               <label class="text-slate-400 block mb-1">UAE RERA Seller</label>
-              <input id="bcUaeAgencyInput" list="bcUaeSellersList" type="text" placeholder="Pick UAE Agency or type..." oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
+              <select id="bcUaeAgencySelect" onchange="if(this.value && this.value!=='__CUSTOM__'){const el=document.getElementById('bcUaeAgencyInput');el.value=this.value;updateBlindContractUI();}else if(this.value==='__CUSTOM__'){document.getElementById('bcUaeAgencyInput').focus();}" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white mb-1">
+                <option value="UAE-RERA-SELLER">UAE-RERA-SELLER</option>
+              </select>
+              <input id="bcUaeAgencyInput" list="bcUaeSellersList" type="text" placeholder="Or type UAE Agency / RERA Seller manually..." oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
             </div>
             <div>
               <label class="text-slate-400 block mb-1">Buyer Ref (Optional)</label>
@@ -4414,8 +4417,12 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           </select>
         </div>
         <div>
-          <label class="text-slate-400 block mb-1">UAE RERA Seller / Agency (Dropdown or Type)</label>
-          <input id="bcSellerRef" list="bcUaeSellersList" type="text" value="AI-HOME-PORTAL" placeholder="Pick UAE Agency/Agent or type..." oninput="generateBroadcastTemplates()" onchange="generateBroadcastTemplates()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white">
+          <label class="text-slate-400 block mb-1">UAE RERA Seller / Agency</label>
+          <select id="bcSellerSelect" onchange="onBcSellerSelectChange()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white mb-1.5">
+            <option value="AI-HOME-PORTAL">AI-HOME-PORTAL</option>
+            <option value="UAE-RERA-SELLER">UAE-RERA-SELLER</option>
+          </select>
+          <input id="bcSellerRef" list="bcUaeSellersList" type="text" value="AI-HOME-PORTAL" placeholder="Or type custom RERA Seller / Agency..." oninput="syncBcSellerSelectFromInput(); generateBroadcastTemplates()" onchange="syncBcSellerSelectFromInput(); generateBroadcastTemplates()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white text-[11px]">
           <datalist id="bcUaeSellersList"></datalist>
         </div>
         <div class="md:col-span-2">
@@ -4607,7 +4614,9 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
 
     async function populateUaeSellersDatalist() {
       const dl = document.getElementById('bcUaeSellersList');
-      if (!dl || dl.options.length > 5) return;
+      const bcSel = document.getElementById('bcSellerSelect');
+      const contractSel = document.getElementById('bcUaeAgencySelect');
+      if (bcSel && bcSel.options.length > 5 && dl && dl.options.length > 5) return;
       const items = new Set(['AI-HOME-PORTAL', 'UAE-RERA-SELLER']);
       if (Array.isArray(abroadAgencies)) {
         for (const a of abroadAgencies) {
@@ -4631,7 +4640,42 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           }
         }
       } catch {}
-      dl.innerHTML = Array.from(items).map(v => `<option value="${String(v).replace(/"/g, '&quot;')}"></option>`).join('');
+      const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+      const list = Array.from(items);
+      if (dl) dl.innerHTML = list.map(v => `<option value="${esc(v)}"></option>`).join('');
+      const selectHtml = list.map(v => `<option value="${esc(v)}">${esc(v)}</option>`).join('') +
+        `<option value="__CUSTOM__">✏️ Type custom seller / agency manually...</option>`;
+      if (bcSel) {
+        const cur = document.getElementById('bcSellerRef')?.value || bcSel.value;
+        bcSel.innerHTML = selectHtml;
+        if (list.includes(cur)) bcSel.value = cur;
+      }
+      if (contractSel) {
+        const curC = document.getElementById('bcUaeAgencyInput')?.value || contractSel.value;
+        contractSel.innerHTML = selectHtml;
+        if (list.includes(curC)) contractSel.value = curC;
+      }
+    }
+
+    function onBcSellerSelectChange() {
+      const sel = document.getElementById('bcSellerSelect');
+      const inp = document.getElementById('bcSellerRef');
+      if (!sel || !inp) return;
+      if (sel.value === '__CUSTOM__') {
+        inp.focus();
+        inp.select();
+        return;
+      }
+      inp.value = sel.value;
+      generateBroadcastTemplates();
+    }
+
+    function syncBcSellerSelectFromInput() {
+      const sel = document.getElementById('bcSellerSelect');
+      const inp = document.getElementById('bcSellerRef');
+      if (!sel || !inp) return;
+      const match = Array.from(sel.options).some(o => o.value === inp.value);
+      sel.value = match ? inp.value : '__CUSTOM__';
     }
 
     let broadcastHtmlTemplate = '';
@@ -4642,6 +4686,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       if (sellerRefEl && (sellerRefEl.value === 'AI-HOME-PORTAL' || sellerRefEl.value === 'UAE-RERA-SELLER')) {
         sellerRefEl.value = role === 'seller' ? 'UAE-RERA-SELLER' : 'AI-HOME-PORTAL';
       }
+      syncBcSellerSelectFromInput();
       const projSel = document.getElementById('bcProjectSelect');
       const selectedId = projSel?.value || uaeOffPlanProjects[0]?.id || 'OPUAE-emaar-properties__golf-place-by-emaar__dubai';
       const p = (Array.isArray(uaeOffPlanProjects) && uaeOffPlanProjects.find(x => x.id === selectedId)) || uaeOffPlanProjects[0] || {
