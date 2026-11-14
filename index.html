@@ -4544,8 +4544,14 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       if (projSel && projSel.options.length === 0) {
         const list = (Array.isArray(uaeOffPlanProjects) && uaeOffPlanProjects.length > 0)
           ? uaeOffPlanProjects.slice(0, 60)
-          : [{ id: 'OPUAE-emaar-properties__golf-place-by-emaar__dubai', title: 'Golf Place by Emaar', developer: 'Emaar Properties', priceAed: 2450000 }];
-        projSel.innerHTML = list.map(p => `<option value="${String(p.id).replace(/"/g, '&quot;')}">${p.title} (${p.developer || 'UAE'} · AED ${Number(p.priceAed || 0).toLocaleString()})</option>`).join('');
+          : [{ id: 'OPUAE-emaar-properties__golf-place-by-emaar__dubai', project_name: 'Golf Place by Emaar', developername: 'Emaar Properties', propertyprice: 2450000 }];
+        projSel.innerHTML = list.map(p => {
+          const title = p.project_name || p.buildingname || p.title || 'UAE Off-Plan Project';
+          const dev = p.developername || p.developer || 'UAE Developer';
+          const price = Number(p.propertyprice || p.priceAed || 0);
+          const priceLabel = price > 0 ? `AED ${price.toLocaleString()}` : 'Price on Request';
+          return `<option value="${String(p.id).replace(/"/g, '&quot;')}">${title} (${dev} · ${priceLabel})</option>`;
+        }).join('');
       }
 
       const countrySel = document.getElementById('bcCountrySelect');
@@ -4577,25 +4583,23 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         ? `RERA-Licensed UAE Seller (${sellerRefEl?.value || 'UAE-RERA-SELLER'}) via AI Home Global`
         : 'AI Home Global Official UAE Off-Plan Desk';
 
-      const subject = `[UAE Off-Plan Co-Brokerage] 55% Overseas Split · ${projectLabel}`;
+      const subject = `[UAE Off-Plan Direct Co-Brokerage] 0% Portal Cut · ${projectLabel}`;
       const emailBody = [
         `Dear {{name}} ({{company}} — {{country}}),`,
         ``,
         `${senderLabel} invites your agency to co-distribute ${projectLabel} to international buyers.`,
         ``,
-        `• Overseas Agency Split: 55% of gross developer commission (protected by 4-Party RERA Form I + DIFC 180-day Non-Circumvention).`,
-        `• Pre-Contact Blind Protection: Buyer & Seller identities stay protected until fee locks & digital signatures clear.`,
-        `• Instant 4-Party Deal Room & White-Label Pitch: {{deal_link}}`,
-        ``,
-        `Open your tracked Deal Room link above to review specs, lock commission splits, and sign digitally.`,
+        `• Direct Split (0% Portal Cut · No DLD Intervention): 100% of developer commission is split directly (e.g. 55% Overseas / 45% UAE Seller).`,
+        `• Direct Digital Contract + Payment Proof Gate: Sign digitally and clear the connection pass to unlock direct WhatsApp, Email & Phone immediately.`,
+        `• Open Tracked Direct Deal Room: {{deal_link}}`,
         ``,
         `Compliance / Opt-Out (GDPR Art. 17 & UAE PDPL): Reply STOP or submit opt-out at https://uae-property-aboard.vercel.app/#legalComplianceModal`
       ].join('\n');
 
       const waBody = [
         `Hi {{name}} ({{company}}), ${senderLabel} here.`,
-        `Co-broker UAE Off-Plan: *${projectLabel}* — *55% commission split* for overseas agencies, protected by 4-Party Digital Contract + DIFC Non-Circumvention.`,
-        `Open Tracked Deal Room: {{deal_link}}`,
+        `Co-broker UAE Off-Plan: *${projectLabel}* — *55% Overseas / 45% UAE direct split* (0% Portal Cut, No DLD gate).`,
+        `Sign Direct Contract & Unlock Contacts: {{deal_link}}`,
         `Reply STOP to opt out (GDPR/PDPL).`
       ].join('\n');
 
