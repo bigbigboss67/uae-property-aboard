@@ -4556,6 +4556,35 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
 
       <div id="bcCampaignStatus" class="hidden mb-4 p-3 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 text-xs font-semibold"></div>
 
+      <!-- Automated Email & WhatsApp Tracking Strip -->
+      <div id="bcTrackingStrip" class="mb-4 p-3 rounded-xl bg-[#0A0C13] border border-white/10">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5 text-xs">
+          <div class="font-bold text-white flex items-center gap-2">
+            <span>📊 Automated Email &amp; WhatsApp Tracking</span>
+            <span id="bcTrackCampaignLabel" class="text-[10px] font-mono text-slate-400">Campaign: ready</span>
+          </div>
+          <button id="bcSyncTrackBtn" onclick="refreshBroadcastTracking()" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/15 text-white font-semibold text-[11px] border border-white/10">🔄 Sync Tracking</button>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <div class="p-2.5 rounded-lg bg-white/5 border border-white/10">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Emails Dispatched</div>
+            <div id="bcTrackEmailCount" class="text-base font-extrabold text-emerald-400 font-mono">0</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-white/5 border border-white/10">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">WhatsApp Dispatched</div>
+            <div id="bcTrackWaCount" class="text-base font-extrabold text-amber-300 font-mono">0</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-white/5 border border-white/10">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Email Opens (Pixel)</div>
+            <div id="bcTrackOpensCount" class="text-base font-extrabold text-sky-400 font-mono">0</div>
+          </div>
+          <div class="p-2.5 rounded-lg bg-white/5 border border-white/10">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Deal Link Clicks</div>
+            <div id="bcTrackClicksCount" class="text-base font-extrabold text-purple-400 font-mono">0</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Recipients Table -->
       <div class="bg-[#0A0C13] border border-white/10 rounded-xl overflow-x-auto">
         <table class="w-full text-left text-xs">
@@ -4922,7 +4951,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
 
       broadcastRecipients = collected.slice(0, limit);
       broadcastWaCursor = 0;
-      renderBroadcastRecipients();
+      await refreshBroadcastTracking();
       if (statsEl) {
         statsEl.innerText = `Loaded ${broadcastRecipients.length} recipients (${liveCount} from live /api/agents) for ${country}.`;
       }
@@ -4944,21 +4973,95 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       }
 
       tbody.innerHTML = broadcastRecipients.map(r => {
+        const isDone = r.status.includes('sent') || r.status.includes('ready') || r.status === 'wa_me_queued' || r.status === 'wa_me_sent';
         const badgeColor = r.status === 'opt_out_suppressed'
           ? 'text-rose-400 bg-rose-500/15 border-rose-500/40'
-          : (r.status.includes('sent') || r.status.includes('ready') || r.status === 'wa_me_queued')
+          : isDone
             ? 'text-emerald-300 bg-emerald-500/15 border-emerald-500/40'
             : 'text-slate-300 bg-white/5 border-white/10';
+        const trackBadges = [
+          r.emailMessageId ? `<span class="px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 text-[9px] font-mono">ID:${String(r.emailMessageId).slice(0, 8)}</span>` : '',
+          r.waMessageId ? `<span class="px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300 text-[9px] font-mono">WA:${String(r.waMessageId).slice(0, 8)}</span>` : '',
+          r.opened ? `<span class="px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 text-[9px] font-bold">OPENED</span>` : '',
+          r.clicked ? `<span class="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[9px] font-bold">CLICKED</span>` : '',
+          r.emailError ? `<div class="text-[9px] text-rose-400 mt-0.5">${r.emailError}</div>` : ''
+        ].filter(Boolean).join(' ');
         return `
           <tr>
             <td class="px-3 py-2 font-semibold text-white">${r.name}<div class="text-[10px] text-slate-400">${r.company}</div></td>
             <td class="px-3 py-2 text-slate-300">${r.country}</td>
             <td class="px-3 py-2 text-sky-300 font-mono text-[11px]">${r.email || '—'}</td>
             <td class="px-3 py-2 text-brand-gold font-mono text-[11px]">${r.phone || '—'}</td>
-            <td class="px-3 py-2"><span class="px-2 py-0.5 rounded border text-[10px] font-bold ${badgeColor}">${r.status}</span></td>
+            <td class="px-3 py-2"><span class="px-2 py-0.5 rounded border text-[10px] font-bold ${badgeColor}">${r.status}</span>${trackBadges ? `<div class="mt-1 flex flex-wrap gap-1">${trackBadges}</div>` : ''}</td>
           </tr>`;
       }).join('');
     }
+
+    let activeCampaignId = localStorage.getItem('ai_home_active_cid') || `cmp-${Date.now()}`;
+    const TRACK_LOG_KEY = 'ai_home_broadcast_log_v1';
+
+    function getLocalTrackStore() {
+      try { return JSON.parse(localStorage.getItem(TRACK_LOG_KEY) || '{}'); } catch { return {}; }
+    }
+    function saveLocalTrackStore(store) {
+      try { localStorage.setItem(TRACK_LOG_KEY, JSON.stringify(store)); } catch {}
+    }
+
+    function updateTrackingStripUI(serverStats) {
+      const store = getLocalTrackStore();
+      const cmp = store[activeCampaignId] || { emailDispatched: 0, waDispatched: 0, opens: {}, clicks: {} };
+      const emailCount = Math.max(cmp.emailDispatched || 0, serverStats?.emailSentCount || 0, broadcastRecipients.filter(r => r.status.includes('sent') || r.status.includes('ready_client_queue')).length);
+      const waCount = Math.max(cmp.waDispatched || 0, serverStats?.waSentCount || 0, broadcastRecipients.filter(r => r.status.includes('wa_me') || r.status.includes('/ sent')).length);
+      const opensCount = Math.max(Object.keys(cmp.opens || {}).length, serverStats?.opensCount || 0);
+      const clicksCount = Math.max(Object.keys(cmp.clicks || {}).length, serverStats?.clicksCount || 0);
+
+      const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = String(val); };
+      setTxt('bcTrackCampaignLabel', `Campaign: ${activeCampaignId}`);
+      setTxt('bcTrackEmailCount', emailCount);
+      setTxt('bcTrackWaCount', waCount);
+      setTxt('bcTrackOpensCount', opensCount);
+      setTxt('bcTrackClicksCount', clicksCount);
+    }
+
+    async function refreshBroadcastTracking() {
+      let serverStats = null;
+      try {
+        const res = await fetch(`/api/track?t=stats&cid=${encodeURIComponent(activeCampaignId)}`);
+        if (res.ok) serverStats = await res.json();
+      } catch {}
+
+      const store = getLocalTrackStore();
+      const cmp = store[activeCampaignId] || { opens: {}, clicks: {} };
+      const opensMap = { ...(cmp.opens || {}), ...(serverStats?.campaign?.opens || {}) };
+      const clicksMap = { ...(cmp.clicks || {}), ...(serverStats?.campaign?.clicks || {}) };
+
+      broadcastRecipients.forEach(r => {
+        const rid = r.email || r.phone || r.name;
+        if (rid && opensMap[rid]) r.opened = true;
+        if (rid && clicksMap[rid]) r.clicked = true;
+      });
+      renderBroadcastRecipients();
+      updateTrackingStripUI(serverStats);
+    }
+
+    (function trackIncomingAttribution() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const cid = params.get('cid');
+        const rid = params.get('rid');
+        if (cid && rid) {
+          const store = getLocalTrackStore();
+          if (!store[cid]) store[cid] = { emailDispatched: 0, waDispatched: 0, opens: {}, clicks: {} };
+          store[cid].clicks[rid] = new Date().toISOString();
+          saveLocalTrackStore(store);
+          fetch('/api/track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'visit', cid, rid })
+          }).catch(() => {});
+        }
+      } catch {}
+    })();
 
     async function sendBroadcastCampaign() {
       if (broadcastRecipients.length === 0) await loadBroadcastRecipients();
@@ -4974,7 +5077,12 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         return;
       }
 
+      activeCampaignId = `cmp-${Date.now()}`;
+      try { localStorage.setItem('ai_home_active_cid', activeCampaignId); } catch {}
+
       const payload = {
+        campaignId: activeCampaignId,
+        baseUrl: window.location.origin,
         channel: document.getElementById('bcChannelSelect')?.value || 'both',
         subject: document.getElementById('bcEmailSubject')?.value || 'UAE Off-Plan Co-Brokerage',
         messageTemplate: document.getElementById('bcEmailBody')?.value || '',
@@ -4990,27 +5098,59 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       });
       const data = await res.json();
 
+      const trackEvents = [];
+      let emailDispatched = 0;
+      let waDispatched = 0;
       if (Array.isArray(data.results)) {
         data.results.forEach(item => {
           const match = broadcastRecipients.find(r => (r.email && r.email === item.id) || (r.phone && r.phone === item.id) || r.name === item.name);
           if (match) {
+            match.emailMessageId = item.emailMessageId || '';
+            match.waMessageId = item.waMessageId || '';
+            match.emailError = item.emailError || '';
             match.status = item.emailStatus !== 'no_email'
               ? `${item.emailStatus} / ${item.waStatus || 'queued'}`
               : (item.waStatus || 'queued');
           }
+          if (item.emailStatus === 'sent' || item.emailStatus === 'ready_client_queue') {
+            emailDispatched++;
+            trackEvents.push({ type: 'email_sent', cid: activeCampaignId, rid: item.id, messageId: item.emailMessageId || item.emailStatus });
+          }
+          if (item.waStatus === 'sent') {
+            waDispatched++;
+            trackEvents.push({ type: 'wa_sent', cid: activeCampaignId, rid: item.id, messageId: item.waMessageId || 'sent' });
+          }
         });
       }
+
+      const store = getLocalTrackStore();
+      store[activeCampaignId] = { emailDispatched, waDispatched, opens: {}, clicks: {}, ts: new Date().toISOString() };
+      saveLocalTrackStore(store);
+
+      if (trackEvents.length > 0) {
+        fetch('/api/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ events: trackEvents })
+        }).catch(() => {});
+      }
+
       renderBroadcastRecipients();
+      updateTrackingStripUI();
 
       if (statusBox) {
         statusBox.classList.remove('hidden');
         const total = data.summary?.totalProcessed || active.length;
-        statusBox.innerText = `✓ Dispatched ${total} recipients · Mode: Email=${data.mode?.email}, WhatsApp=${data.mode?.whatsapp} · Opt-out suppressed: ${broadcastRecipients.length - active.length}`;
+        statusBox.innerText = `✓ Dispatched ${total} recipients (${activeCampaignId}) · Mode: Email=${data.mode?.email}, WhatsApp=${data.mode?.whatsapp} · Opt-out suppressed: ${broadcastRecipients.length - active.length}`;
       }
     }
 
     function personalizeText(tpl, r) {
-      const link = buildTrackedDealLink();
+      let link = buildTrackedDealLink();
+      const rid = r.email || r.phone || r.name || 'partner';
+      if (!link.includes('cid=')) {
+        link += `&cid=${encodeURIComponent(activeCampaignId)}&rid=${encodeURIComponent(rid)}`;
+      }
       return String(tpl || '')
         .replace(/\{\{name\}\}/g, r.name || 'Partner')
         .replace(/\{\{company\}\}/g, r.company || 'Agency')
@@ -5024,10 +5164,25 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       if (eligible.length === 0) return;
       if (broadcastWaCursor >= eligible.length) broadcastWaCursor = 0;
       const target = eligible[broadcastWaCursor++];
+      const rid = target.email || target.phone || target.name;
       const msg = personalizeText(document.getElementById('bcWhatsappBody')?.value || '', target);
       const waUrl = `https://wa.me/${target.phone.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`;
-      target.status = 'wa_me_queued';
+      target.status = 'wa_me_sent';
+      target.waTrackedAt = new Date().toISOString();
+
+      const store = getLocalTrackStore();
+      if (!store[activeCampaignId]) store[activeCampaignId] = { emailDispatched: 0, waDispatched: 0, opens: {}, clicks: {} };
+      store[activeCampaignId].waDispatched = (store[activeCampaignId].waDispatched || 0) + 1;
+      saveLocalTrackStore(store);
+
+      fetch('/api/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'wa_sent', cid: activeCampaignId, rid, channel: 'whatsapp' })
+      }).catch(() => {});
+
       renderBroadcastRecipients();
+      updateTrackingStripUI();
       const statusBox = document.getElementById('bcCampaignStatus');
       if (statusBox) {
         statusBox.classList.remove('hidden');

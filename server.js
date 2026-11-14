@@ -14,7 +14,7 @@ const MIME = {
 
 const server = http.createServer(async (req, res) => {
   const reqUrl = new URL(req.url, `http://127.0.0.1:${PORT}`);
-  if (reqUrl.pathname === '/api/broadcast' || reqUrl.pathname === '/api/deal-unlock') {
+  if (reqUrl.pathname === '/api/broadcast' || reqUrl.pathname === '/api/deal-unlock' || reqUrl.pathname === '/api/track') {
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
     const raw = Buffer.concat(chunks).toString('utf8');
@@ -25,6 +25,8 @@ const server = http.createServer(async (req, res) => {
     }
     const resAdapter = {
       status(code) { res.statusCode = code; return this; },
+      setHeader(k, v) { res.setHeader(k, v); return this; },
+      end(data) { res.end(data); },
       json(obj) {
         if (!res.headersSent) res.setHeader('Content-Type', 'application/json; charset=utf-8');
         res.end(JSON.stringify(obj));
@@ -32,7 +34,11 @@ const server = http.createServer(async (req, res) => {
     };
     try {
       const { pathToFileURL } = require('url');
-      const apiFile = reqUrl.pathname === '/api/deal-unlock' ? 'deal-unlock.js' : 'broadcast.js';
+      const apiFile = reqUrl.pathname === '/api/deal-unlock'
+        ? 'deal-unlock.js'
+        : reqUrl.pathname === '/api/track'
+          ? 'track.js'
+          : 'broadcast.js';
       const mod = await import(pathToFileURL(path.join(__dirname, 'api', apiFile)).href);
       const handler = mod.default || mod;
       await handler(req, resAdapter);
