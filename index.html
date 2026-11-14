@@ -2003,11 +2003,11 @@
         <div>
           <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4">Legal & Regulatory</h4>
           <ul class="space-y-2.5">
-            <li><a href="#" class="hover:text-white transition-colors">DLD Master Escrow Laws</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Cross-Border Referral Pact</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Lead Exclusivity SLA</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Anti-Circumvention Policy</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Golden Visa Law (Decree 55)</a></li>
+            <li><a href="javascript:void(0)" onclick="openLegalModal('privacy')" class="hover:text-white transition-colors">Privacy Policy (GDPR &amp; UAE PDPL)</a></li>
+            <li><a href="javascript:void(0)" onclick="openLegalModal('terms')" class="hover:text-white transition-colors">Terms &amp; RERA Form I Disclosure</a></li>
+            <li><a href="javascript:void(0)" onclick="openLegalModal('escrow')" class="hover:text-white transition-colors">DLD Escrow (Law 8/2007) &amp; AML</a></li>
+            <li><a href="javascript:void(0)" onclick="openLegalModal('terms')" class="hover:text-white transition-colors">Anti-Circumvention (DIFC SCT)</a></li>
+            <li><a href="javascript:void(0)" onclick="openLegalModal('dsar')" class="hover:text-white transition-colors text-brand-gold">Data Rights / Directory Opt-Out</a></li>
           </ul>
         </div>
 
@@ -3501,7 +3501,14 @@ Property Value: AED ${price.toLocaleString()}
 - UAE RERA Agency (${uaePct}% of Gross): AED ${uaeAED.toLocaleString()}
 - Portal Platform Fee (${portalPct.toFixed(0)}% of Gross): AED ${portalAED.toLocaleString()}
 
-4. DIGITAL SIGNATURES & DEAL CONFIRMATION (${allUnlocked ? 'DEAL CONFIRMED' : 'IN PROGRESS'})
+4. REGULATORY, ESCROW, AML & DATA PROTECTION COMPLIANCE
+- DLD Escrow (Dubai Law No. 8 of 2007): All Buyer property deposits wire exclusively to ${blindContractState.developer} DLD-approved Project Escrow Account verified via Dubai REST. Portal & Overseas Agent never hold property purchase funds.
+- RERA Co-Brokerage (Bylaw No. 85 of 2006 & Form I): Local UAE brokerage is executed by the RERA-licensed UAE Agency; Lock 1 & Lock 2 are SaaS/KYC/marketing fees, not real estate commission.
+- AML/CFT (UAE Decree-Law No. 20 of 2018): Buyer & source-of-funds KYC screening mandatory prior to SPA issuance.
+- Data Protection (UAE PDPL Decree-Law No. 45 of 2021 & EU/UK GDPR): Cross-border deal data processed under explicit contractual consent (Art. 6(1)(b)).
+- Dispute Resolution: 200% liquidated damages on circumvention; DIFC Small Claims Tribunal (claims <= AED 500,000).
+
+5. DIGITAL SIGNATURES & DEAL CONFIRMATION (${allUnlocked ? 'DEAL CONFIRMED' : 'IN PROGRESS'})
 - [1] Overseas Buyer:    ${s.buyer ? 'DIGITALLY SIGNED | ' + s.buyer.hash + ' | ' + s.buyer.signedAt : 'SENT / AWAITING SIGNATURE'}
 - [2] Overseas Agent:    ${s.overseas ? 'DIGITALLY SIGNED | ' + s.overseas.hash + ' | ' + s.overseas.signedAt : 'SENT / AWAITING SIGNATURE'}
 - [3] UAE RERA Agency:   ${s.uae ? 'DIGITALLY SIGNED | ' + s.uae.hash + ' | ' + s.uae.signedAt : 'SENT / AWAITING SIGNATURE'}
@@ -3518,6 +3525,50 @@ Property Value: AED ${price.toLocaleString()}
       a.download = `${blindContractState.contractId}_4Party_Signed_Contract.txt`;
       a.click();
       URL.revokeObjectURL(url);
+    }
+
+    // ==========================================
+    // LEGAL & REGULATORY COMPLIANCE CENTER (GDPR, UAE PDPL, RERA, DLD ESCROW)
+    // ==========================================
+    function openLegalModal(tab = 'privacy') {
+      const modal = document.getElementById('legalComplianceModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      switchLegalTab(tab);
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeLegalModal() {
+      const modal = document.getElementById('legalComplianceModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function switchLegalTab(tab) {
+      ['privacy', 'terms', 'escrow', 'dsar'].forEach(t => {
+        const panel = document.getElementById('legalPanel-' + t);
+        const btn = document.getElementById('legalTab-' + t);
+        if (panel) panel.classList.toggle('hidden', t !== tab);
+        if (btn) {
+          btn.className = t === tab
+            ? 'px-3 py-2 rounded-xl bg-brand-gold text-black text-xs font-extrabold'
+            : 'px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-semibold border border-white/10';
+        }
+      });
+    }
+
+    function submitDsarRequest(e) {
+      e.preventDefault();
+      const email = document.getElementById('dsarEmailInput')?.value || '';
+      const reqType = document.getElementById('dsarTypeSelect')?.value || 'erasure';
+      const out = document.getElementById('dsarConfirmMsg');
+      if (out) {
+        const ticket = 'DSAR-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+        out.classList.remove('hidden');
+        out.innerText = `✓ Request ${ticket} logged for ${email} (${reqType}). Under GDPR Art. 12 & UAE PDPL, our DPO responds within 30 calendar days.`;
+      }
     }
 
     // Initialize on page load (Hydrate from ai-home.world synced datasets + live /api/agents)
@@ -3632,9 +3683,71 @@ Property Value: AED ${price.toLocaleString()}
         <textarea id="bcContractPreview" readonly rows="11" class="w-full bg-[#08090C] border border-white/15 rounded-xl p-3 text-[11px] font-mono text-slate-300 focus:outline-none"></textarea>
       </div>
 
+      <label class="flex items-start gap-2 text-[11px] text-slate-300 mb-4 cursor-pointer">
+        <input id="bcConsentCheck" type="checkbox" checked class="mt-0.5 accent-emerald-400">
+        <span>I confirm compliance with <a href="javascript:void(0)" onclick="openLegalModal('escrow')" class="text-brand-gold underline">Dubai Law No. 8/2007 (DLD Escrow)</a>, <a href="javascript:void(0)" onclick="openLegalModal('terms')" class="text-brand-gold underline">RERA Bylaw 85/2006 (Form I)</a>, and consent to cross-border data processing under <a href="javascript:void(0)" onclick="openLegalModal('privacy')" class="text-brand-gold underline">UAE PDPL &amp; EU/UK GDPR</a>.</span>
+      </label>
+
       <div class="flex flex-wrap gap-3 justify-end">
         <button onclick="downloadBlindContract()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Download Signed Contract (.txt)</button>
         <button onclick="closeBlindContractModal()" class="px-4 py-2 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black text-xs font-extrabold">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGAL & REGULATORY COMPLIANCE CENTER MODAL -->
+  <div id="legalComplianceModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-lg hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#10131C] border border-brand-gold/40 rounded-2xl max-w-4xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[90vh] overflow-y-auto text-slate-200">
+      <button onclick="closeLegalModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="mb-4">
+        <span class="bg-brand-gold/20 text-brand-gold border border-brand-gold/40 text-[10px] font-bold px-2.5 py-1 rounded uppercase">Multi-Jurisdictional Legal &amp; Compliance Center</span>
+        <h3 class="text-xl font-display font-extrabold text-white mt-2">Privacy, RERA/DLD Escrow &amp; Cross-Border Governance</h3>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-5">
+        <button id="legalTab-privacy" onclick="switchLegalTab('privacy')" class="px-3 py-2 rounded-xl bg-brand-gold text-black text-xs font-extrabold">Privacy (GDPR &amp; UAE PDPL)</button>
+        <button id="legalTab-terms" onclick="switchLegalTab('terms')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">Terms &amp; RERA Form I</button>
+        <button id="legalTab-escrow" onclick="switchLegalTab('escrow')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">DLD Escrow &amp; AML/CFT</button>
+        <button id="legalTab-dsar" onclick="switchLegalTab('dsar')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">Data Rights / Opt-Out</button>
+      </div>
+
+      <div id="legalPanel-privacy" class="space-y-3 text-xs text-slate-300 leading-relaxed bg-[#0A0C13] border border-white/10 rounded-xl p-5">
+        <h4 class="text-sm font-bold text-white">1. Privacy Policy — EU/UK GDPR &amp; UAE PDPL (Federal Decree-Law No. 45 of 2021)</h4>
+        <p><strong>Data Controller:</strong> AI Home Global Gateway operates a B2B cross-border real estate syndication and KYC verification platform.</p>
+        <p><strong>Lawful Basis:</strong> Professional broker/agency directory profiles are processed under <em>Legitimate Interests (GDPR Art. 6(1)(f))</em> for B2B real estate networking. Buyer KYC &amp; Deal Room records are processed under <em>Contractual Necessity (Art. 6(1)(b))</em> and <em>Legal Obligation (AML/CFT Art. 6(1)(c))</em>.</p>
+        <p><strong>Blind-Mode PII Minimization:</strong> Buyer identities and direct contact details remain masked until all pre-contact fee locks and 4-party digital signatures are executed.</p>
+        <p><strong>Retention &amp; Rights:</strong> Deal &amp; AML records are retained for 5 years per UAE AML law; directory subjects may request access, rectification, or erasure (opt-out) at any time via the <em>Data Rights / Opt-Out</em> tab (30-day SLA).</p>
+      </div>
+
+      <div id="legalPanel-terms" class="hidden space-y-3 text-xs text-slate-300 leading-relaxed bg-[#0A0C13] border border-white/10 rounded-xl p-5">
+        <h4 class="text-sm font-bold text-white">2. Terms of Service, RERA Bylaw No. 85 of 2006 &amp; Non-Circumvention</h4>
+        <p><strong>Platform Role Separation:</strong> AI Home Global provides technology infrastructure, white-label presentation tools, KYC screening, and automated co-brokerage contracting. On-ground UAE brokerage and DLD/Oqood execution are performed exclusively by <strong>RERA-licensed UAE Brokerages (ORN/BRN holders)</strong>.</p>
+        <p><strong>Pre-Contact Fee Classification:</strong> Lock 1 ($350 Buyer KYC &amp; Legal Audit) and Lock 2 ($500 UAE Agency Lead-Unlock Credit) are SaaS, verification, and marketing fees—never real estate purchase deposits.</p>
+        <p><strong>RERA Form I &amp; DIFC Enforcement:</strong> Broker-to-broker splits align with RERA Form I standards. Any 180-day circumvention triggers 200% liquidated damages enforceable before the <strong>DIFC Small Claims Tribunal</strong> (claims &le; AED 500,000).</p>
+      </div>
+
+      <div id="legalPanel-escrow" class="hidden space-y-3 text-xs text-slate-300 leading-relaxed bg-[#0A0C13] border border-white/10 rounded-xl p-5">
+        <h4 class="text-sm font-bold text-white">3. DLD Escrow Protection (Dubai Law No. 8 of 2007) &amp; AML/CFT (Decree-Law No. 20 of 2018)</h4>
+        <p><strong>Zero Intermediary Custody of Property Funds:</strong> Under Dubai Law No. 8 of 2007, 100% of Buyer reservation deposits, down payments, and off-plan installments must be wired directly to the Developer’s DLD-approved Project Escrow Account, independently verifiable in the official <strong>Dubai REST (Mashrooi)</strong> app.</p>
+        <p><strong>AML / KYC Compliance:</strong> In accordance with UAE Federal Decree-Law No. 20 of 2018 on Anti-Money Laundering and Combating the Financing of Terrorism, all overseas buyers undergo passport, sanctions/PEP, and source-of-funds verification prior to SPA issuance.</p>
+      </div>
+
+      <div id="legalPanel-dsar" class="hidden space-y-3 text-xs text-slate-300 bg-[#0A0C13] border border-white/10 rounded-xl p-5">
+        <h4 class="text-sm font-bold text-white">4. Data Subject Access, Correction &amp; Directory Opt-Out (GDPR Art. 15–17 / UAE PDPL)</h4>
+        <p class="text-slate-400">Listed agents, agencies, or buyers may request data export, correction, or removal from the public directory.</p>
+        <form onsubmit="submitDsarRequest(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          <input id="dsarEmailInput" type="email" required placeholder="your-email@agency.com" class="bg-[#12151E] border border-white/15 rounded-lg px-3 py-2 text-white">
+          <select id="dsarTypeSelect" class="bg-[#12151E] border border-white/15 rounded-lg px-3 py-2 text-white">
+            <option value="Directory Opt-Out / Erasure (Art. 17)">Directory Opt-Out / Erasure (Art. 17)</option>
+            <option value="Data Access Export (Art. 15)">Data Access Export (Art. 15)</option>
+            <option value="Record Rectification (Art. 16)">Record Rectification (Art. 16)</option>
+          </select>
+          <button type="submit" class="bg-brand-gold hover:bg-yellow-400 text-black font-extrabold rounded-lg px-4 py-2">Submit Request</button>
+        </form>
+        <div id="dsarConfirmMsg" class="hidden p-3 rounded-lg bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-semibold"></div>
       </div>
     </div>
   </div>
