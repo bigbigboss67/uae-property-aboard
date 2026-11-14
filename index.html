@@ -4508,7 +4508,8 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           <input id="bcAddName" type="text" placeholder="Agency Name" class="bg-[#12151E] border border-white/15 rounded-lg px-2 py-1 text-white text-[11px] w-28">
           <input id="bcAddEmail" type="email" placeholder="email@agency.com" class="bg-[#12151E] border border-white/15 rounded-lg px-2 py-1 text-white text-[11px] w-36">
           <input id="bcAddPhone" type="text" placeholder="+447700900123" class="bg-[#12151E] border border-white/15 rounded-lg px-2 py-1 text-white text-[11px] w-32">
-          <button id="bcAddManualBtn" onclick="addManualBroadcastRecipient()" class="px-2.5 py-1 rounded-lg bg-[#135BEC] text-white font-bold text-[11px]">+ Add</button>
+          <button id="bcAddManualBtn" onclick="addManualBroadcastRecipient(false)" class="px-2.5 py-1 rounded-lg bg-[#135BEC] text-white font-bold text-[11px]">+ Add With List</button>
+          <button id="bcAddAloneBtn" onclick="addManualBroadcastRecipient(true)" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px]">+ Add (Send Alone)</button>
         </div>
       </div>
 
@@ -4548,6 +4549,10 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       <!-- Action Bar -->
       <div class="flex flex-wrap items-center justify-between gap-3 mb-4 p-3 rounded-xl bg-[#0A0C13] border border-white/10">
         <div class="flex flex-wrap items-center gap-2">
+          <select id="bcSendScope" onchange="renderBroadcastRecipients()" class="bg-[#12151E] border border-white/15 rounded-xl px-2.5 py-2 text-white font-semibold text-xs">
+            <option value="all">Send Scope: All Loaded + Manual</option>
+            <option value="manual_only">Send Scope: Manual-Added Only</option>
+          </select>
           <button id="bcSendBtn" onclick="sendBroadcastCampaign()" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs">2. Send Campaign (/api/broadcast)</button>
           <button id="bcNextWaBtn" onclick="stepWhatsappQueue()" class="px-4 py-2.5 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black font-extrabold text-xs">3. Next WhatsApp (wa.me Queue)</button>
           <button id="bcExportCsvBtn" onclick="exportBroadcastCsv()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15">Export Campaign CSV</button>
@@ -5070,13 +5075,19 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
     async function sendBroadcastCampaign() {
       if (broadcastRecipients.length === 0) await loadBroadcastRecipients();
       const optOuts = new Set(getOptOutList());
-      const active = broadcastRecipients.filter(r => !(r.email && optOuts.has(r.email.toLowerCase())));
+      const scope = document.getElementById('bcSendScope')?.value || 'all';
+      const scopedList = scope === 'manual_only'
+        ? broadcastRecipients.filter(r => r.isManual || r.status === 'manual_added')
+        : broadcastRecipients;
+      const active = scopedList.filter(r => !(r.email && optOuts.has(r.email.toLowerCase())));
       const statusBox = document.getElementById('bcCampaignStatus');
 
       if (active.length === 0) {
         if (statusBox) {
           statusBox.classList.remove('hidden');
-          statusBox.innerText = 'All loaded recipients are on the GDPR/PDPL opt-out suppression list.';
+          statusBox.innerText = scope === 'manual_only'
+            ? '⚠ No manual-added recipients found. Add one above or switch Send Scope to "All Loaded + Manual".'
+            : 'All loaded recipients are on the GDPR/PDPL opt-out suppression list.';
         }
         return;
       }
@@ -5164,7 +5175,11 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
 
     function stepWhatsappQueue() {
       const optOuts = new Set(getOptOutList());
-      const eligible = broadcastRecipients.filter(r => r.phone && !(r.email && optOuts.has(r.email.toLowerCase())));
+      const scope = document.getElementById('bcSendScope')?.value || 'all';
+      const scopedList = scope === 'manual_only'
+        ? broadcastRecipients.filter(r => r.isManual || r.status === 'manual_added')
+        : broadcastRecipients;
+      const eligible = scopedList.filter(r => r.phone && !(r.email && optOuts.has(r.email.toLowerCase())));
       if (eligible.length === 0) return;
       if (broadcastWaCursor >= eligible.length) broadcastWaCursor = 0;
       const target = eligible[broadcastWaCursor++];
@@ -5224,7 +5239,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       renderBroadcastRecipients();
     }
 
-    function addManualBroadcastRecipient() {
+    function addManualBroadcastRecipient(onlyManual = false) {
       const name = (document.getElementById('bcAddName')?.value || '').trim() || 'Partner Agency';
       const emailRaw = (document.getElementById('bcAddEmail')?.value || '').trim();
       const phoneRaw = (document.getElementById('bcAddPhone')?.value || '').trim();
@@ -5239,11 +5254,18 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         }
         return;
       }
-      broadcastRecipients.unshift({ name, company: name, country, email, phone, status: 'manual_added' });
+      broadcastRecipients.unshift({ name, company: name, country, email, phone, status: 'manual_added', isManual: true });
       ['bcAddName', 'bcAddEmail', 'bcAddPhone'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      const scopeEl = document.getElementById('bcSendScope');
+      if (scopeEl) scopeEl.value = onlyManual ? 'manual_only' : 'all';
       renderBroadcastRecipients();
+      const manualCount = broadcastRecipients.filter(r => r.isManual).length;
       const statsEl = document.getElementById('bcRecipientStats');
-      if (statsEl) statsEl.innerText = `Total ${broadcastRecipients.length} recipients ready (including manual entry).`;
+      if (statsEl) {
+        statsEl.innerText = onlyManual
+          ? `Send Alone Mode: targeting ONLY ${manualCount} manual-added recipient(s) (loaded list paused).`
+          : `Total ${broadcastRecipients.length} recipients ready (including ${manualCount} manual entry).`;
+      }
     }
 
     async function openBroadcastModal() {
