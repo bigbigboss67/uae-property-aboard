@@ -9,6 +9,7 @@ export default async function handler(req, res) {
       channel = 'both',
       subject = 'UAE Off-Plan Co-Brokerage Opportunity',
       messageTemplate = '',
+      htmlTemplate = '',
       whatsappTemplate = '',
       recipients = []
     } = body;
@@ -49,7 +50,8 @@ export default async function handler(req, res) {
                 from: resendFrom,
                 to: [r.email],
                 subject: personalize(subject, r),
-                text: personalize(messageTemplate, r)
+                text: personalize(messageTemplate, r),
+                ...(htmlTemplate ? { html: personalize(htmlTemplate, r) } : {})
               })
             });
             item.emailStatus = resp.ok ? 'sent' : `error_${resp.status}`;

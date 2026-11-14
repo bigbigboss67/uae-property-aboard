@@ -4450,6 +4450,22 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         <div id="bcRecipientStats" class="text-xs text-slate-300 font-semibold">Click "Load Verified Overseas Recipients" to pull live contacts.</div>
       </div>
 
+      <!-- Selected Property Full Specs & Image Preview (Included in Email & WhatsApp) -->
+      <div id="bcPropertyPreviewCard" class="mb-4 p-3.5 rounded-xl bg-[#0A0C13] border border-white/10 flex flex-col sm:flex-row gap-4 items-start text-xs">
+        <img id="bcPropImg" src="" alt="Property Cover" class="w-full sm:w-44 h-28 object-cover rounded-lg border border-white/10 shrink-0 bg-slate-800">
+        <div class="flex-1 min-w-0 space-y-1.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h4 id="bcPropTitle" class="font-extrabold text-sm text-white truncate">UAE Off-Plan Project</h4>
+            <span id="bcPropPrice" class="px-2.5 py-0.5 rounded-full bg-blue-600 text-white font-extrabold text-[11px]">AED —</span>
+          </div>
+          <div id="bcPropMeta" class="text-slate-300 text-[11px]">Developer · Location · Type · Beds · Sqft · Handover</div>
+          <div class="flex flex-wrap items-center gap-3 text-[11px]">
+            <a id="bcPropOriginalLink" href="https://www.ai-home.world" target="_blank" rel="noopener" class="text-blue-400 underline font-semibold">Original Listing (ai-home.world) ↗</a>
+            <span id="bcPropCoords" class="text-slate-400 font-mono"></span>
+          </div>
+        </div>
+      </div>
+
       <!-- Editable Templates -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 text-xs">
         <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-2">
@@ -4570,6 +4586,8 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       }
     }
 
+    let broadcastHtmlTemplate = '';
+
     function generateBroadcastTemplates() {
       const role = document.getElementById('bcSenderRole')?.value || 'portal';
       const sellerRefEl = document.getElementById('bcSellerRef');
@@ -4577,29 +4595,115 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         sellerRefEl.value = role === 'seller' ? 'UAE-RERA-SELLER' : 'AI-HOME-PORTAL';
       }
       const projSel = document.getElementById('bcProjectSelect');
-      const projectLabel = projSel?.options[projSel.selectedIndex]?.text || 'Dubai Off-Plan Allocation';
+      const selectedId = projSel?.value || uaeOffPlanProjects[0]?.id || 'OPUAE-emaar-properties__golf-place-by-emaar__dubai';
+      const p = (Array.isArray(uaeOffPlanProjects) && uaeOffPlanProjects.find(x => x.id === selectedId)) || uaeOffPlanProjects[0] || {
+        id: selectedId,
+        project_name: 'Golf Place By Emaar',
+        developername: 'Emaar Properties',
+        areaname: 'Dubai Hills Estate',
+        city: 'Dubai',
+        propertytype: 'villa',
+        bedrooms: '4-6',
+        sizesqft: 5459,
+        pricepersqft: 1226,
+        pricepersqm: 13201,
+        propertyprice: 6365888,
+        deliverydate: '2023-02-28',
+        handoverLabel: 'Q1 2023',
+        projectstatus: 'completed',
+        projectimage1url: 'https://nfeuoznhaemgrfumrcfb.supabase.co/storage/v1/object/public/offplan/OPUAE-emaar-properties__golf-place-by-emaar__dubai/cover.jpg',
+        lat: 25.112731,
+        long: 55.274761
+      };
+
+      const title = p.project_name || p.buildingname || 'UAE Off-Plan Project';
+      const developer = p.developername || 'UAE Master Developer';
+      const locationStr = [p.areaname, p.city, p.country || 'United Arab Emirates'].filter(Boolean).join(', ');
+      const propType = (p.unit_types && p.unit_types.length ? p.unit_types.join(', ') : p.propertytype) || 'Off-Plan';
+      const beds = p.bedrooms ? `${p.bedrooms} BR` : 'TBA';
+      const sizeStr = p.sizesqft ? `${Number(p.sizesqft).toLocaleString()} sqft` : 'TBA';
+      const ppsfStr = p.pricepersqft ? `AED ${Number(p.pricepersqft).toLocaleString()}/sqft` : 'TBA';
+      const priceNum = Number(p.propertyprice || 0);
+      const priceStr = priceNum > 0 ? `AED ${priceNum.toLocaleString()}` : 'Price on Request';
+      const handoverStr = [p.handoverLabel, p.deliverydate].filter(Boolean).join(' / ') || 'TBA';
+      const statusStr = (p.projectstatus || p.propertystatus || 'OFF-PLAN').toUpperCase();
+      const imageUrl = p.projectimage1url || '';
+      const coordsStr = (p.lat && p.long) ? `${p.lat}, ${p.long}` : '';
+      const originalListingUrl = `https://www.ai-home.world/off-plan/${p.id}`;
       const dealLink = buildTrackedDealLink();
       const senderLabel = role === 'seller'
         ? `RERA-Licensed UAE Seller (${sellerRefEl?.value || 'UAE-RERA-SELLER'}) via AI Home Global`
         : 'AI Home Global Official UAE Off-Plan Desk';
 
-      const subject = `[UAE Off-Plan Direct Co-Brokerage] 0% Portal Cut · ${projectLabel}`;
+      // Update live visual Property Preview Card inside Broadcast Modal
+      const imgEl = document.getElementById('bcPropImg');
+      if (imgEl && imageUrl) imgEl.src = imageUrl;
+      const tEl = document.getElementById('bcPropTitle');
+      if (tEl) tEl.innerText = title;
+      const pEl = document.getElementById('bcPropPrice');
+      if (pEl) pEl.innerText = priceStr;
+      const mEl = document.getElementById('bcPropMeta');
+      if (mEl) mEl.innerText = `${developer} · ${locationStr} · ${propType} · ${beds} · ${sizeStr} (${ppsfStr}) · Handover: ${handoverStr} · Status: ${statusStr}`;
+      const lEl = document.getElementById('bcPropOriginalLink');
+      if (lEl) lEl.href = originalListingUrl;
+      const cEl = document.getElementById('bcPropCoords');
+      if (cEl) cEl.innerText = coordsStr ? `GPS: ${coordsStr}` : '';
+
+      const subject = `[UAE Property] ${title} (${priceStr} · ${beds}) — Direct 55/45 Co-Brokerage`;
       const emailBody = [
         `Dear {{name}} ({{company}} — {{country}}),`,
         ``,
-        `${senderLabel} invites your agency to co-distribute ${projectLabel} to international buyers.`,
+        `${senderLabel} invites your agency to co-distribute ${title}.`,
         ``,
-        `• Direct Split (0% Portal Cut · No DLD Intervention): 100% of developer commission is split directly (e.g. 55% Overseas / 45% UAE Seller).`,
-        `• Direct Digital Contract + Payment Proof Gate: Sign digitally and clear the connection pass to unlock direct WhatsApp, Email & Phone immediately.`,
-        `• Open Tracked Direct Deal Room: {{deal_link}}`,
+        `=== FULL PROPERTY SPECIFICATIONS ===`,
+        `• Project: ${title}`,
+        `• Developer: ${developer}`,
+        `• Location: ${locationStr}${coordsStr ? ` (GPS: ${coordsStr})` : ''}`,
+        `• Property Type: ${propType}`,
+        `• Bedrooms: ${beds}`,
+        `• Size: ${sizeStr} | Price/Sqft: ${ppsfStr}`,
+        `• Starting Price: ${priceStr}`,
+        `• Handover / Delivery: ${handoverStr} | Status: ${statusStr}`,
+        `• Cover Image: ${imageUrl || 'See listing'}`,
+        `• Original Listing Page: ${originalListingUrl}`,
+        ``,
+        `=== DIRECT CO-BROKERAGE TERMS (0% PORTAL CUT · NO DLD INTERVENTION) ===`,
+        `• Direct Split: 55% Overseas Partner / 45% UAE RERA Seller (100% of gross developer commission).`,
+        `• Direct Digital Contract + Payment Proof Gate: {{deal_link}}`,
         ``,
         `Compliance / Opt-Out (GDPR Art. 17 & UAE PDPL): Reply STOP or submit opt-out at https://uae-property-aboard.vercel.app/#legalComplianceModal`
       ].join('\n');
 
+      broadcastHtmlTemplate = `
+        <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;border:1px solid #E2E8F0;border-radius:16px;overflow:hidden;background:#FFFFFF;color:#0F172A;">
+          ${imageUrl ? `<img src="${imageUrl}" alt="${title}" style="width:100%;height:240px;object-fit:cover;display:block;">` : ''}
+          <div style="padding:20px;">
+            <div style="font-size:11px;font-weight:bold;color:#135BEC;text-transform:uppercase;">${senderLabel}</div>
+            <h2 style="margin:6px 0 4px;font-size:20px;">${title}</h2>
+            <p style="margin:0 0 12px;color:#475569;font-size:13px;">${developer} · ${locationStr}</p>
+            <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:16px;">
+              <tr><td style="padding:6px;border-bottom:1px solid #E2E8F0;"><strong>Price</strong></td><td style="padding:6px;border-bottom:1px solid #E2E8F0;">${priceStr} (${ppsfStr})</td></tr>
+              <tr><td style="padding:6px;border-bottom:1px solid #E2E8F0;"><strong>Type / Beds / Size</strong></td><td style="padding:6px;border-bottom:1px solid #E2E8F0;">${propType} · ${beds} · ${sizeStr}</td></tr>
+              <tr><td style="padding:6px;border-bottom:1px solid #E2E8F0;"><strong>Handover / Status</strong></td><td style="padding:6px;border-bottom:1px solid #E2E8F0;">${handoverStr} · ${statusStr}</td></tr>
+              <tr><td style="padding:6px;border-bottom:1px solid #E2E8F0;"><strong>Commission Split</strong></td><td style="padding:6px;border-bottom:1px solid #E2E8F0;">55% Overseas / 45% UAE Seller (0% Portal Cut)</td></tr>
+            </table>
+            <p style="font-size:13px;">Dear {{name}} ({{company}}),</p>
+            <p style="font-size:13px;">Review full listing on <a href="${originalListingUrl}" style="color:#135BEC;">ai-home.world</a> or sign the Direct Digital Contract &amp; clear the Payment Proof Gate to unlock direct contact:</p>
+            <p style="margin:16px 0;"><a href="${dealLink}" style="display:inline-block;padding:12px 20px;background:#135BEC;color:#FFFFFF;text-decoration:none;border-radius:10px;font-weight:bold;">Open Tracked Direct Deal Room</a></p>
+            <p style="font-size:11px;color:#64748B;">GDPR/PDPL Opt-Out: Reply STOP or visit https://uae-property-aboard.vercel.app/#legalComplianceModal</p>
+          </div>
+        </div>`;
+
       const waBody = [
         `Hi {{name}} ({{company}}), ${senderLabel} here.`,
-        `Co-broker UAE Off-Plan: *${projectLabel}* — *55% Overseas / 45% UAE direct split* (0% Portal Cut, No DLD gate).`,
-        `Sign Direct Contract & Unlock Contacts: {{deal_link}}`,
+        `*${title}* by *${developer}*`,
+        `📍 ${locationStr}`,
+        `🏠 ${propType} · ${beds} · ${sizeStr} (${ppsfStr})`,
+        `💰 *${priceStr}* | Handover: ${handoverStr} (${statusStr})`,
+        `🖼 Photo: ${imageUrl}`,
+        `🔗 Original Listing: ${originalListingUrl}`,
+        `🤝 *55% Overseas / 45% UAE direct split* (0% Portal Cut, No DLD gate)`,
+        `✅ Sign Direct Contract & Unlock Contacts: {{deal_link}}`,
         `Reply STOP to opt out (GDPR/PDPL).`
       ].join('\n');
 
@@ -4738,6 +4842,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         channel: document.getElementById('bcChannelSelect')?.value || 'both',
         subject: document.getElementById('bcEmailSubject')?.value || 'UAE Off-Plan Co-Brokerage',
         messageTemplate: document.getElementById('bcEmailBody')?.value || '',
+        htmlTemplate: broadcastHtmlTemplate || '',
         whatsappTemplate: document.getElementById('bcWhatsappBody')?.value || '',
         recipients: active.map(r => ({ ...r, phoneE164: r.phone || '' }))
       };
