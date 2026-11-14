@@ -4291,7 +4291,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
             </div>
             <div>
               <label class="text-slate-400 block mb-1">UAE RERA Seller</label>
-              <input id="bcUaeAgencyInput" type="text" placeholder="Dubai Prime RERA" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
+              <input id="bcUaeAgencyInput" list="bcUaeSellersList" type="text" placeholder="Pick UAE Agency or type..." oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
             </div>
             <div>
               <label class="text-slate-400 block mb-1">Buyer Ref (Optional)</label>
@@ -4414,8 +4414,9 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           </select>
         </div>
         <div>
-          <label class="text-slate-400 block mb-1">Seller / Ref Tag</label>
-          <input id="bcSellerRef" type="text" value="AI-HOME-PORTAL" oninput="generateBroadcastTemplates()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white">
+          <label class="text-slate-400 block mb-1">UAE RERA Seller / Agency (Dropdown or Type)</label>
+          <input id="bcSellerRef" list="bcUaeSellersList" type="text" value="AI-HOME-PORTAL" placeholder="Pick UAE Agency/Agent or type..." oninput="generateBroadcastTemplates()" onchange="generateBroadcastTemplates()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white">
+          <datalist id="bcUaeSellersList"></datalist>
         </div>
         <div class="md:col-span-2">
           <label class="text-slate-400 block mb-1">UAE Off-Plan Project</label>
@@ -4600,6 +4601,37 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         const ukOpt = Array.from(countrySel.options).find(o => /united kingdom/i.test(o.value));
         if (ukOpt) countrySel.value = ukOpt.value;
       }
+
+      await populateUaeSellersDatalist();
+    }
+
+    async function populateUaeSellersDatalist() {
+      const dl = document.getElementById('bcUaeSellersList');
+      if (!dl || dl.options.length > 5) return;
+      const items = new Set(['AI-HOME-PORTAL', 'UAE-RERA-SELLER']);
+      if (Array.isArray(abroadAgencies)) {
+        for (const a of abroadAgencies) {
+          if (/united arab emirates|\buae\b|dubai|abu dhabi|sharjah/i.test(String(a.country || a.city || ''))) {
+            const label = [a.name, a.city || 'UAE'].filter(Boolean).join(' — ');
+            if (label) items.add(label);
+            if (items.size >= 150) break;
+          }
+        }
+      }
+      try {
+        const res = await fetch('/api/agents?country=United%20Arab%20Emirates&limit=40&page=1');
+        if (res.ok) {
+          const payload = await res.json();
+          const rows = Array.isArray(payload) ? payload : (payload.agents || payload.data || payload.results || []);
+          for (const r of rows) {
+            const name = r.name || r.full_name || r.agent_name;
+            const company = r.company || r.agency;
+            const label = company ? `${name || 'Agent'} (${company} — UAE)` : name;
+            if (label) items.add(label);
+          }
+        }
+      } catch {}
+      dl.innerHTML = Array.from(items).map(v => `<option value="${String(v).replace(/"/g, '&quot;')}"></option>`).join('');
     }
 
     let broadcastHtmlTemplate = '';
