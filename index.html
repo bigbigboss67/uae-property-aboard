@@ -524,6 +524,13 @@
           <span>Register Client (SLA)</span>
         </button>
 
+        <!-- Clerk User Auth Sign In / Profile -->
+        <button id="authSignInBtn" onclick="openAuthOnboardingModal()" class="flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl border border-blue-500/40 bg-[#135BEC] hover:bg-blue-600 text-white shadow-sm transition-all">
+          <span>🔐</span>
+          <span id="authSignInLabel">Sign In</span>
+        </button>
+        <div id="clerkUserButtonMount" class="hidden items-center"></div>
+
         <button onclick="openPartnerModal()" class="b2b-only flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-lg bg-gradient-to-r from-brand-gold via-yellow-500 to-amber-600 hover:brightness-110 text-black shadow-lg shadow-brand-gold/25 transition-all">
           <i data-lucide="user-plus" class="w-4 h-4 text-black"></i>
           <span>Join Network</span>
@@ -5286,6 +5293,329 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         modal.classList.remove('flex');
       }
     }
+  </script>
+
+  <!-- ======================================================== -->
+  <!-- CLERK AUTH + FULL PROFILE + LEGAL T&C & MARKETING MODAL  -->
+  <!-- ======================================================== -->
+  <div id="authOnboardingModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#12151E] border border-blue-500/40 rounded-2xl max-w-4xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[92vh] overflow-y-auto">
+      <button onclick="closeAuthOnboardingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 text-lg font-bold" aria-label="Close Auth Modal">✕</button>
+
+      <div class="mb-5">
+        <span class="inline-block px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-bold uppercase tracking-wider mb-2">
+          Clerk SSO · GDPR Art. 6 &amp; UAE PDPL Compliant Onboarding
+        </span>
+        <h3 class="text-2xl font-display font-extrabold text-white">Portal Sign-In, Partner Profile &amp; Legal Consent</h3>
+        <p class="text-xs text-slate-400 mt-1">Sign in with Clerk, complete your full broker/investor profile, and review our Terms &amp; Conditions, Co-Brokerage Contract, and Marketing Consent.</p>
+      </div>
+
+      <!-- Clerk Mount / Status Banner -->
+      <div id="clerkStatusBox" class="mb-5 p-3.5 rounded-xl bg-white/5 border border-white/10 text-xs">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <strong class="text-white">Step 1 · Clerk Authentication:</strong>
+            <span id="clerkAuthStateText" class="text-slate-300 ml-1">Checking Clerk configuration...</span>
+          </div>
+          <button id="clerkOpenSignInBtn" onclick="triggerClerkSignIn()" class="hidden px-3 py-1.5 rounded-lg bg-[#135BEC] hover:bg-blue-600 text-white font-bold text-[11px]">Sign In / Sign Up with Clerk</button>
+        </div>
+        <div id="clerkMountHost" class="mt-3 hidden"></div>
+      </div>
+
+      <!-- Step 2: Full Information Details -->
+      <form id="authProfileForm" onsubmit="submitAuthProfile(event)" class="space-y-4 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">Full Name *</label>
+            <input id="authFullName" type="text" required placeholder="e.g. Tariq Al Mansoor" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">Work / Personal Email *</label>
+            <input id="authEmail" type="email" required placeholder="name@agency.com" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">WhatsApp / Mobile (E.164) *</label>
+            <input id="authPhone" type="text" required placeholder="+971501234567" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">Portal Role *</label>
+            <select id="authRole" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+              <option value="overseas_agency">Overseas Agency / International Broker</option>
+              <option value="uae_rera_seller">UAE RERA Seller / Developer</option>
+              <option value="investor_buyer">Private Investor / Direct Buyer</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">Company / Agency Name *</label>
+            <input id="authCompany" type="text" required placeholder="e.g. Mayfair Global Realty" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">Country &amp; City *</label>
+            <input id="authLocation" type="text" required placeholder="e.g. London, United Kingdom" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+          <div class="sm:col-span-2 lg:col-span-3">
+            <label class="text-slate-300 font-semibold block mb-1">RERA ORN / BRN or Overseas License Number (Optional)</label>
+            <input id="authLicense" type="text" placeholder="e.g. RERA ORN 12345 / UK Companies House #..." class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+        </div>
+
+        <!-- Legal Contract & T&C Review Tabs (Legal Compliance Checker) -->
+        <div class="p-3.5 rounded-xl bg-[#0A0C13] border border-white/10">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+            <span class="font-bold text-white uppercase text-[11px]">⚖️ Legal Contract, Terms &amp; Conditions &amp; Data Policy (v2026.11)</span>
+            <div class="flex gap-1.5">
+              <button type="button" onclick="switchLegalDocTab('terms')" id="legalTabTerms" class="px-2.5 py-1 rounded-lg bg-[#135BEC] text-white font-bold text-[10px]">1. Terms &amp; Conditions</button>
+              <button type="button" onclick="switchLegalDocTab('contract')" id="legalTabContract" class="px-2.5 py-1 rounded-lg bg-white/10 text-slate-300 font-bold text-[10px]">2. Co-Brokerage Contract</button>
+              <button type="button" onclick="switchLegalDocTab('privacy')" id="legalTabPrivacy" class="px-2.5 py-1 rounded-lg bg-white/10 text-slate-300 font-bold text-[10px]">3. Privacy &amp; Marketing (GDPR/PDPL)</button>
+            </div>
+          </div>
+          <div id="legalDocContent" class="p-3 rounded-lg bg-white/5 border border-white/10 text-[11px] text-slate-300 max-h-36 overflow-y-auto leading-relaxed">
+            <strong>Terms &amp; Conditions (v2026.11):</strong> By registering on AI Home Global (UAE Property Abroad), you confirm all submitted identity, agency, and licensing details are accurate. Portal access is governed by UAE Federal laws and international anti-circumvention standards. You may request data export, rectification, or erasure at any time under GDPR Art. 17 &amp; UAE Federal Decree-Law No. 45/2021 (PDPL).
+          </div>
+        </div>
+
+        <!-- Unbundled Granular Consent Checkboxes (GDPR Art. 6 & UAE PDPL) -->
+        <div class="space-y-2.5 p-3.5 rounded-xl bg-white/5 border border-white/10">
+          <label class="flex items-start gap-2.5 cursor-pointer">
+            <input id="authAcceptTerms" type="checkbox" required class="mt-0.5 w-4 h-4 accent-[#135BEC]">
+            <span class="text-slate-200 leading-snug">
+              <strong>[Required]</strong> I accept the <strong>Terms &amp; Conditions (v2026.11)</strong>, <strong>Privacy Policy</strong>, and <strong>Direct Co-Brokerage &amp; Non-Circumvention Contract</strong> (0% Portal Cut · Direct Split · Payment Proof Gate).
+            </span>
+          </label>
+          <label class="flex items-start gap-2.5 cursor-pointer">
+            <input id="authMarketingConsent" type="checkbox" class="mt-0.5 w-4 h-4 accent-emerald-500">
+            <span class="text-slate-200 leading-snug">
+              <strong>[Marketing Opt-In · Optional]</strong> I explicitly consent to AI Home Global using my contact &amp; agency details (Email, WhatsApp, Phone, Role) for <strong>marketing purposes</strong>, UAE off-plan launches, price sheets, and co-brokerage campaigns (GDPR Art. 6(1)(a) &amp; UAE PDPL; withdraw anytime via STOP or Profile).
+            </span>
+          </label>
+        </div>
+
+        <div id="authProfileStatus" class="hidden p-3 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 text-xs font-semibold"></div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <button type="button" onclick="withdrawAuthConsent()" class="px-3 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 font-bold text-[11px]">Withdraw Marketing / Erase Local Profile (GDPR Art. 17)</button>
+          <button id="authSaveSubmitBtn" type="submit" class="px-5 py-2.5 rounded-xl bg-[#135BEC] hover:bg-blue-600 text-white font-extrabold text-xs">Save Verified Profile &amp; Sign Consent</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const AUTH_PROFILE_KEY = 'ai_home_user_profile_v1';
+    let clerkInstance = null;
+
+    const LEGAL_DOCS = {
+      terms: '<strong>Terms &amp; Conditions (v2026.11):</strong> By registering on AI Home Global (UAE Property Abroad), you confirm all submitted identity, agency, and licensing details are accurate. Portal access is governed by UAE Federal laws and international anti-circumvention standards. You may request data export, rectification, or erasure at any time under GDPR Art. 17 &amp; UAE Federal Decree-Law No. 45/2021 (PDPL).',
+      contract: '<strong>Direct Co-Brokerage &amp; Non-Circumvention Contract (v2026.11):</strong> (1) 0% Portal Intervention &amp; 0% DLD Gate inside this portal. (2) Overseas Agency and UAE RERA Seller agree directly on commission split (default 55% Overseas / 45% UAE or custom split). (3) Contact unlock requires Digital Contract signatures plus Payment Proof Gate (Transaction Ref, Upload Receipt, or Gateway Checkout). (4) Parties agree not to circumvent introduced leads for 24 months.',
+      privacy: '<strong>Privacy &amp; Marketing Policy (GDPR &amp; UAE PDPL):</strong> Personal identifiers (Name, Email, WhatsApp/Phone, Company, License) are processed under Art. 6(1)(b) for contract onboarding and Art. 6(1)(a) <em>only if you check the Marketing Opt-In box</em> for property launches and broadcast alerts. Retention: 24 months or until erasure request. Withdrawal is immediate via STOP or the Withdraw button below.'
+    };
+
+    function switchLegalDocTab(tab) {
+      const box = document.getElementById('legalDocContent');
+      if (box && LEGAL_DOCS[tab]) box.innerHTML = LEGAL_DOCS[tab];
+      ['terms', 'contract', 'privacy'].forEach(k => {
+        const btn = document.getElementById('legalTab' + k.charAt(0).toUpperCase() + k.slice(1));
+        if (!btn) return;
+        btn.className = k === tab
+          ? 'px-2.5 py-1 rounded-lg bg-[#135BEC] text-white font-bold text-[10px]'
+          : 'px-2.5 py-1 rounded-lg bg-white/10 text-slate-300 font-bold text-[10px]';
+      });
+    }
+
+    function openAuthOnboardingModal() {
+      const m = document.getElementById('authOnboardingModal');
+      if (m) { m.classList.remove('hidden'); m.classList.add('flex'); }
+      loadSavedAuthProfileIntoForm();
+    }
+
+    function closeAuthOnboardingModal() {
+      const m = document.getElementById('authOnboardingModal');
+      if (m) { m.classList.add('hidden'); m.classList.remove('flex'); }
+    }
+
+    function loadSavedAuthProfileIntoForm() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(AUTH_PROFILE_KEY) || 'null');
+        if (!saved) return;
+        const setVal = (id, v) => { const el = document.getElementById(id); if (el && v) el.value = v; };
+        setVal('authFullName', saved.fullName);
+        setVal('authEmail', saved.email);
+        setVal('authPhone', saved.phone);
+        setVal('authRole', saved.role);
+        setVal('authCompany', saved.company);
+        setVal('authLocation', saved.location);
+        setVal('authLicense', saved.licenseRef);
+        const t = document.getElementById('authAcceptTerms');
+        const mk = document.getElementById('authMarketingConsent');
+        if (t && saved.acceptedTerms) t.checked = true;
+        if (mk) mk.checked = Boolean(saved.marketingConsent);
+      } catch {}
+    }
+
+    function updateHeaderAuthUI(profile) {
+      const lbl = document.getElementById('authSignInLabel');
+      if (lbl && profile?.fullName) {
+        lbl.innerText = profile.fullName.split(' ')[0] + (profile.marketingConsent ? ' ✓' : '');
+      } else if (lbl) {
+        lbl.innerText = 'Sign In';
+      }
+    }
+
+    async function initClerkAndAuth() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(AUTH_PROFILE_KEY) || 'null');
+        if (saved) updateHeaderAuthUI(saved);
+      } catch {}
+
+      const stateEl = document.getElementById('clerkAuthStateText');
+      const openBtn = document.getElementById('clerkOpenSignInBtn');
+      try {
+        const res = await fetch('/api/config');
+        const cfg = await res.json();
+        if (!cfg.clerkConfigured || !cfg.clerkPublishableKey) {
+          if (stateEl) stateEl.innerHTML = 'Clerk key not set yet in Vercel (<code class="font-mono">CLERK_PUBLISHABLE_KEY</code>). Complete your profile &amp; legal consent below — it will sync to Clerk automatically once keyed.';
+          return;
+        }
+        const fapiBase = cfg.clerkFrontendApi
+          ? `https://${cfg.clerkFrontendApi.replace(/^https?:\/\//, '')}`
+          : 'https://cdn.jsdelivr.net/npm';
+        const uiSrc = cfg.clerkFrontendApi
+          ? `${fapiBase}/npm/@clerk/ui@1/dist/ui.browser.js`
+          : 'https://cdn.jsdelivr.net/npm/@clerk/ui@1/dist/ui.browser.js';
+        const jsSrc = cfg.clerkFrontendApi
+          ? `${fapiBase}/npm/@clerk/clerk-js@6/dist/clerk.browser.js`
+          : 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js';
+
+        await new Promise((resolve) => {
+          const s1 = document.createElement('script');
+          s1.src = uiSrc; s1.crossOrigin = 'anonymous'; s1.onload = resolve; s1.onerror = resolve;
+          document.head.appendChild(s1);
+        });
+        await new Promise((resolve) => {
+          const s2 = document.createElement('script');
+          s2.src = jsSrc; s2.crossOrigin = 'anonymous';
+          s2.setAttribute('data-clerk-publishable-key', cfg.clerkPublishableKey);
+          s2.onload = resolve; s2.onerror = resolve;
+          document.head.appendChild(s2);
+        });
+
+        if (window.Clerk) {
+          await window.Clerk.load({ ui: window.__internal_ClerkUICtor ? { ClerkUI: window.__internal_ClerkUICtor } : undefined });
+          clerkInstance = window.Clerk;
+          if (clerkInstance.isSignedIn && clerkInstance.user) {
+            const u = clerkInstance.user;
+            if (stateEl) stateEl.innerText = `Signed in via Clerk as ${u.primaryEmailAddress?.emailAddress || u.fullName || u.id}`;
+            const mount = document.getElementById('clerkUserButtonMount');
+            if (mount) { mount.classList.remove('hidden'); mount.classList.add('flex'); clerkInstance.mountUserButton(mount); }
+            const fnEl = document.getElementById('authFullName');
+            const emEl = document.getElementById('authEmail');
+            if (fnEl && !fnEl.value && u.fullName) fnEl.value = u.fullName;
+            if (emEl && !emEl.value && u.primaryEmailAddress?.emailAddress) emEl.value = u.primaryEmailAddress.emailAddress;
+            updateHeaderAuthUI({ fullName: u.fullName || u.primaryEmailAddress?.emailAddress, marketingConsent: u.unsafeMetadata?.marketingConsent });
+          } else {
+            if (stateEl) stateEl.innerText = 'Clerk ready — sign in with Google/Email or complete your profile below.';
+            if (openBtn) openBtn.classList.remove('hidden');
+          }
+        }
+      } catch (e) {
+        if (stateEl) stateEl.innerText = 'Profile & legal consent active (offline/fallback mode).';
+      }
+    }
+
+    function triggerClerkSignIn() {
+      if (clerkInstance && typeof clerkInstance.openSignIn === 'function') {
+        clerkInstance.openSignIn();
+      } else {
+        const host = document.getElementById('clerkMountHost');
+        if (host && clerkInstance && typeof clerkInstance.mountSignIn === 'function') {
+          host.classList.remove('hidden');
+          clerkInstance.mountSignIn(host);
+        }
+      }
+    }
+
+    async function submitAuthProfile(e) {
+      e.preventDefault();
+      const statusEl = document.getElementById('authProfileStatus');
+      const acceptedTerms = document.getElementById('authAcceptTerms')?.checked === true;
+      const marketingConsent = document.getElementById('authMarketingConsent')?.checked === true;
+      if (!acceptedTerms) {
+        if (statusEl) {
+          statusEl.classList.remove('hidden');
+          statusEl.innerText = '⚠ You must accept the Terms & Conditions and Co-Brokerage Contract to continue.';
+        }
+        return;
+      }
+
+      const loc = (document.getElementById('authLocation')?.value || '').trim();
+      const [cityPart, ...countryParts] = loc.split(',');
+      const payload = {
+        clerkUserId: clerkInstance?.user?.id || '',
+        fullName: document.getElementById('authFullName')?.value.trim() || '',
+        email: document.getElementById('authEmail')?.value.trim() || '',
+        phone: document.getElementById('authPhone')?.value.trim() || '',
+        role: document.getElementById('authRole')?.value || 'overseas_agency',
+        company: document.getElementById('authCompany')?.value.trim() || '',
+        city: (cityPart || '').trim(),
+        country: countryParts.join(',').trim() || loc,
+        location: loc,
+        licenseRef: document.getElementById('authLicense')?.value.trim() || '',
+        acceptedTerms: true,
+        marketingConsent,
+        termsVersion: '2026.11-v2.1'
+      };
+
+      try {
+        if (clerkInstance?.user && typeof clerkInstance.user.updateMetadata === 'function') {
+          await clerkInstance.user.updateMetadata({
+            unsafeMetadata: {
+              ...payload,
+              consentTimestamp: new Date().toISOString()
+            }
+          });
+        }
+      } catch {}
+
+      const res = await fetch('/api/auth-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        if (statusEl) {
+          statusEl.classList.remove('hidden');
+          statusEl.innerText = `⚠ ${data.error || 'Could not save profile.'}`;
+        }
+        return;
+      }
+
+      try { localStorage.setItem(AUTH_PROFILE_KEY, JSON.stringify({ ...payload, consentId: data.audit?.consentId })); } catch {}
+      updateHeaderAuthUI(payload);
+      if (statusEl) {
+        statusEl.classList.remove('hidden');
+        statusEl.innerText = `✓ Profile & Legal Consent saved (${data.audit?.consentId}) · Marketing Opt-In: ${marketingConsent ? 'GRANTED (GDPR/PDPL)' : 'DECLINED (Contract Only)'}`;
+      }
+    }
+
+    async function withdrawAuthConsent() {
+      try { localStorage.removeItem(AUTH_PROFILE_KEY); } catch {}
+      try {
+        if (clerkInstance?.user && typeof clerkInstance.user.updateMetadata === 'function') {
+          await clerkInstance.user.updateMetadata({ unsafeMetadata: { marketingConsent: false, withdrawnAt: new Date().toISOString() } });
+        }
+      } catch {}
+      const mk = document.getElementById('authMarketingConsent');
+      if (mk) mk.checked = false;
+      updateHeaderAuthUI(null);
+      const statusEl = document.getElementById('authProfileStatus');
+      if (statusEl) {
+        statusEl.classList.remove('hidden');
+        statusEl.innerText = '✓ Marketing consent withdrawn and local profile cleared (GDPR Art. 17).';
+      }
+    }
+
+    window.addEventListener('load', initClerkAndAuth);
   </script>
 </body>
 </html>
