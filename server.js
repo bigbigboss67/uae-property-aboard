@@ -14,7 +14,7 @@ const MIME = {
 
 const server = http.createServer(async (req, res) => {
   const reqUrl = new URL(req.url, `http://127.0.0.1:${PORT}`);
-  if (reqUrl.pathname === '/api/broadcast') {
+  if (reqUrl.pathname === '/api/broadcast' || reqUrl.pathname === '/api/deal-unlock') {
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
     const raw = Buffer.concat(chunks).toString('utf8');
@@ -32,7 +32,8 @@ const server = http.createServer(async (req, res) => {
     };
     try {
       const { pathToFileURL } = require('url');
-      const mod = await import(pathToFileURL(path.join(__dirname, 'api', 'broadcast.js')).href);
+      const apiFile = reqUrl.pathname === '/api/deal-unlock' ? 'deal-unlock.js' : 'broadcast.js';
+      const mod = await import(pathToFileURL(path.join(__dirname, 'api', apiFile)).href);
       const handler = mod.default || mod;
       await handler(req, resAdapter);
     } catch (err) {

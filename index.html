@@ -45,12 +45,103 @@
     :root {
       --gold-primary: #D4AF37;
       --gold-glow: rgba(212, 175, 55, 0.22);
+      --bento-canvas: #F1F4FA;
+      --bento-card: #FFFFFF;
+      --bento-card-muted: #F8FAFC;
+      --bento-border: #E2E8F0;
+      --bento-ink: #0F172A;
+      --bento-sub: #475569;
+      --bento-blue: #135BEC;
+      --bento-blue-deep: #0B43C6;
+      --bento-shadow: 0 10px 28px -8px rgba(15, 23, 42, 0.08);
+    }
+    html.dark {
+      --bento-canvas: #090C14;
+      --bento-card: #121723;
+      --bento-card-muted: #181F30;
+      --bento-border: rgba(255, 255, 255, 0.1);
+      --bento-ink: #F1F5F9;
+      --bento-sub: #94A3B8;
+      --bento-blue: #2563EB;
+      --bento-blue-deep: #1D4ED8;
+      --bento-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.65);
     }
     body {
-      background-color: #060709;
-      color: #E2E8F0;
+      background-color: var(--bento-canvas);
+      color: var(--bento-ink);
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    .bento-card {
+      background: var(--bento-card);
+      border: 1px solid var(--bento-border);
+      border-radius: 22px;
+      box-shadow: var(--bento-shadow);
+      color: var(--bento-ink);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.25s ease;
+    }
+    .bento-card:hover {
+      transform: translateY(-2px);
+    }
+    .bento-card-blue {
+      background: linear-gradient(145deg, #1E6BFF 0%, #135BEC 55%, #0A3FB8 100%);
+      border-radius: 22px;
+      color: #FFFFFF;
+      box-shadow: 0 18px 36px -10px rgba(19, 91, 236, 0.42);
+    }
+    .bento-card-dark {
+      background: linear-gradient(155deg, #0F172A 0%, #090D16 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 22px;
+      color: #FFFFFF;
+      box-shadow: 0 18px 36px -12px rgba(2, 6, 23, 0.55);
+    }
+    html.light header,
+    html.light #journeyStepperBar {
+      background: rgba(255, 255, 255, 0.92) !important;
+      border-color: #E2E8F0 !important;
+      color: #0F172A !important;
+    }
+    html.light .bg-grain {
+      background-image: radial-gradient(rgba(19, 91, 236, 0.05) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    html.light section,
+    html.light footer {
+      color: #0F172A;
+    }
+    html.light .glass-panel,
+    html.light .glass-panel-gold,
+    html.light .double-bezel-inner,
+    html.light #personaGuideBox {
+      background: #FFFFFF !important;
+      border-color: #E2E8F0 !important;
+      color: #0F172A !important;
+      box-shadow: var(--bento-shadow) !important;
+    }
+    html.light .text-white {
+      color: #0F172A !important;
+    }
+    html.light .bento-card-blue .text-white,
+    html.light .bento-card-dark .text-white,
+    html.light [class*="bg-brand-gold"] .text-white,
+    html.light [class*="bg-[#12151E]"] .text-white,
+    html.light [class*="bg-[#10131C]"] .text-white,
+    html.light .bg-blue-600 .text-white {
+      color: #FFFFFF !important;
+    }
+    html.light .text-slate-300,
+    html.light .text-slate-400 {
+      color: #475569 !important;
+    }
+    html.light [class*="bg-[#12151E]"] .text-slate-300,
+    html.light [class*="bg-[#12151E]"] .text-slate-400,
+    html.light [class*="bg-[#10131C]"] .text-slate-300,
+    html.light [class*="bg-[#10131C]"] .text-slate-400,
+    html.light .bento-card-dark .text-slate-300,
+    html.light .bento-card-dark .text-slate-400 {
+      color: #CBD5E1 !important;
     }
     /* Subtle luxury film grain texture overlay */
     .bg-grain {
@@ -254,6 +345,12 @@
 
       <!-- Action Buttons -->
       <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Light / Dark Mode Bento Switcher -->
+        <button id="themeToggleBtn" onclick="togglePortalTheme()" class="flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-xl border border-blue-500/40 bg-blue-600/15 hover:bg-blue-600/25 text-blue-500 transition-all" title="Switch Light / Dark Bento Theme">
+          <span id="themeToggleIcon">🌙</span>
+          <span id="themeToggleText" class="hidden sm:inline">Dark</span>
+        </button>
+
         <!-- Client-Safe White-Label Mode Toggle -->
         <button id="clientModeBtn" onclick="toggleClientSafeMode()" class="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-brand-gold/40 bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all" title="Switch to Client Showcase Mode (hides all commissions & competing brokers)">
           <i data-lucide="eye" class="w-4 h-4"></i>
@@ -469,17 +566,147 @@
         </div>
 
         <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-          <a href="#inventory" onclick="setActiveJourneyStep(1)" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-gold via-yellow-500 to-amber-600 text-black font-extrabold text-base shadow-xl shadow-brand-gold/25 hover:brightness-110 transition-all flex items-center justify-center gap-2">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+          <a href="#inventory" onclick="setActiveJourneyStep(1)" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#135BEC] hover:bg-blue-700 text-white font-extrabold text-base shadow-xl shadow-blue-600/25 transition-all flex items-center justify-center gap-2">
             <span>Start Here: Browse 2,926 Projects ↓</span>
           </a>
-          <button onclick="openExplainerVideo()" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-amber-300 font-extrabold text-base border border-amber-500/50 transition-all flex items-center justify-center gap-2">
+          <button onclick="openExplainerVideo()" class="w-full sm:w-auto px-7 py-4 rounded-2xl bento-card font-extrabold text-base transition-all flex items-center justify-center gap-2">
             <span>🎬 Watch 27s Step-by-Step Video</span>
           </button>
-          <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 font-bold text-base border border-emerald-500/40 transition-all flex items-center justify-center gap-2">
-            <span>🔒 Test 4-Party Contract</span>
+          <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-500 font-bold text-base border border-emerald-500/40 transition-all flex items-center justify-center gap-2">
+            <span>🔒 Open Direct Contract &amp; Payment Proof</span>
           </button>
         </div>
+      </div>
+
+      <!-- BENTO COMMAND CENTER GRID (INSPIRED BY MODERN FINTECH/TRAVEL BENTO UI — LIGHT & DARK MODE) -->
+      <div id="bentoCommandGrid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 mb-10 text-left">
+
+        <!-- Card 1: Electric Cobalt Blue Route Card (UAE -> GLOBAL) -->
+        <div class="lg:col-span-4 bento-card-blue p-6 flex flex-col justify-between min-h-[250px] relative overflow-hidden">
+          <div class="flex items-center justify-between text-xs text-blue-100">
+            <span class="font-semibold">Direct Syndication Route</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-white font-bold text-[11px] flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> Verified · 0% Portal Cut
+            </span>
+          </div>
+          <div class="my-4">
+            <svg viewBox="0 0 260 44" class="w-full h-10 mb-1" fill="none">
+              <path d="M16 36 Q130 -6 244 36" stroke="rgba(255,255,255,0.65)" stroke-width="2" stroke-dasharray="4 4"/>
+              <circle cx="16" cy="36" r="4" fill="#FFFFFF"/>
+              <circle cx="244" cy="36" r="5" fill="#93C5FD"/>
+            </svg>
+            <div class="flex items-center justify-between items-end">
+              <div>
+                <div class="text-3xl font-extrabold tracking-tight text-white">UAE</div>
+                <div class="text-[11px] text-blue-100">2,926 Off-Plan Projects</div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-white/15 text-[10px] font-bold text-white">No DLD Gate</span>
+              <div class="text-right">
+                <div class="text-3xl font-extrabold tracking-tight text-white">GLB</div>
+                <div class="text-[11px] text-blue-100">228 Countries</div>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 pt-3 border-t border-white/20 text-xs">
+            <div><div class="text-blue-100 text-[10px]">Portal Cut</div><div class="font-extrabold text-white">0%</div></div>
+            <div><div class="text-blue-100 text-[10px]">Direct Split</div><div class="font-extrabold text-white">55 / 45</div></div>
+            <div><div class="text-blue-100 text-[10px]">Unlock Gate</div><div class="font-extrabold text-white">Proof ID</div></div>
+          </div>
+        </div>
+
+        <!-- Card 2: Weekly Unlocks Bar Chart + Locked Pass Card -->
+        <div class="lg:col-span-2 flex flex-col gap-4">
+          <div class="bento-card p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="text-[11px] text-slate-400 font-semibold">Unlock Pass from</div>
+              <div class="text-2xl font-extrabold mt-0.5">$150 <span class="text-xs font-medium text-slate-400">Tiered</span></div>
+            </div>
+            <div class="flex items-end justify-between gap-1.5 h-20 pt-3">
+              <div class="w-full bg-blue-500/20 rounded-t-md h-8"></div>
+              <div class="w-full bg-blue-500/20 rounded-t-md h-12"></div>
+              <div class="w-full bg-[#135BEC] rounded-t-md h-16"></div>
+              <div class="w-full bg-blue-500/20 rounded-t-md h-10"></div>
+              <div class="w-full bg-blue-500/20 rounded-t-md h-14"></div>
+              <div class="w-full bg-blue-500/20 rounded-t-md h-9"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-slate-400 font-bold pt-1">
+              <span>M</span><span>T</span><span class="text-[#135BEC]">W</span><span>T</span><span>F</span><span>S</span>
+            </div>
+          </div>
+          <div class="bento-card p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold">Direct Contact</span>
+              <span class="text-sm font-extrabold text-[#135BEC]">Instant</span>
+            </div>
+            <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full py-2 rounded-xl bg-[#135BEC] hover:bg-blue-700 text-white text-xs font-bold transition-all">🔒 Unlock with Proof</button>
+          </div>
+        </div>
+
+        <!-- Card 3: Dark-Contrast ROI Trend + Billing Tier Radio Selector -->
+        <div class="lg:col-span-4 flex flex-col gap-4">
+          <div class="bento-card-dark p-5">
+            <div class="flex items-center justify-between text-xs mb-1">
+              <span class="text-slate-300 font-semibold">Dubai Avg Price / sqft</span>
+              <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold text-[10px]">+8.4% in 3 months</span>
+            </div>
+            <div class="text-2xl font-extrabold text-white mb-2">AED 1,840</div>
+            <svg viewBox="0 0 280 56" class="w-full h-14" fill="none">
+              <path d="M0 44 C35 38, 60 18, 95 26 C130 34, 155 48, 190 22 C225 4, 250 18, 280 10" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="190" cy="22" r="4.5" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2.5"/>
+            </svg>
+          </div>
+
+          <!-- 3 Monetization Options Radio Selector (Light / Classic / Flex style) -->
+          <div class="bento-card p-4 space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold mb-1">
+              <span>Monetization Mode</span>
+              <span class="text-[11px] text-[#135BEC]">All 3 Active</span>
+            </div>
+            <label onclick="selectBentoBillingMode('pay_per_unlock')" class="flex items-center justify-between p-2.5 rounded-xl border border-blue-500/30 bg-blue-500/5 cursor-pointer text-xs">
+              <span class="font-bold">● Pay-Per-Unlock <span class="text-[11px] font-normal text-slate-400">Card or Wire Proof</span></span>
+              <span class="font-extrabold text-[#135BEC]">$150–$500</span>
+            </label>
+            <label onclick="selectBentoBillingMode('wallet_credit')" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-white/10 cursor-pointer text-xs hover:border-blue-500/40">
+              <span class="font-semibold">○ Wallet Credits <span class="text-[11px] font-normal text-slate-400">5-Pack Bundle</span></span>
+              <span class="font-extrabold">$200/ea</span>
+            </label>
+            <label onclick="selectBentoBillingMode('subscription')" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-white/10 cursor-pointer text-xs hover:border-blue-500/40">
+              <span class="font-semibold">○ Pro Plan <span class="text-[11px] font-normal text-slate-400">Unlocks + Broadcast</span></span>
+              <span class="font-extrabold">$199/mo</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Card 4: Readiness Ring, Proof Upload Progress & Checklist -->
+        <div class="lg:col-span-2 flex flex-col gap-4">
+          <div class="bento-card p-4 flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full border-4 border-[#135BEC] flex items-center justify-center font-extrabold text-sm text-[#135BEC] shrink-0" id="bentoReadinessCount">0/4</div>
+            <div>
+              <div class="text-xs font-extrabold">Deal Readiness</div>
+              <div class="text-[11px] text-slate-400" id="bentoReadinessLabel">Sign + Proof to unlock</div>
+            </div>
+          </div>
+
+          <div class="bento-card p-4">
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="font-bold">payment_proof.pdf</span>
+              <span class="text-[11px] font-bold text-emerald-500" id="bentoProofBadge">Ready</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+              <div id="bentoProofProgress" class="h-full bg-[#135BEC] rounded-full transition-all" style="width: 100%"></div>
+            </div>
+          </div>
+
+          <div class="bento-card p-4 space-y-2 text-[11px]">
+            <div class="font-extrabold text-xs flex justify-between"><span>Before you connect</span><span class="text-[#135BEC]">No DLD</span></div>
+            <div class="flex items-center gap-2"><span class="text-[#135BEC] font-bold">✓</span><span>1. Pick Off-Plan Unit</span></div>
+            <div class="flex items-center gap-2"><span class="text-[#135BEC] font-bold">✓</span><span>2. Sign Direct Contract</span></div>
+            <div class="flex items-center gap-2"><span class="text-[#135BEC] font-bold">✓</span><span>3. Verify Payment Proof</span></div>
+            <div class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span><span>4. Direct Contact Unlock</span></div>
+          </div>
+        </div>
+
       </div>
 
       <!-- INTERACTIVE SEARCH & SYNDICATION FILTER (HUD BAR) -->
@@ -3425,6 +3652,29 @@
     // AUTO-DISPATCHED 4-PARTY DIGITAL CONTRACT & FEE GATE
     // (Buyer + Overseas Agent + UAE RERA Agency + DLD/Portal)
     // ==========================================
+    function togglePortalTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      applyPortalTheme(isDark ? 'light' : 'dark');
+    }
+
+    function applyPortalTheme(mode) {
+      const html = document.documentElement;
+      html.classList.remove('light', 'dark');
+      html.classList.add(mode === 'dark' ? 'dark' : 'light');
+      localStorage.setItem('aih_theme', mode === 'dark' ? 'dark' : 'light');
+      const icon = document.getElementById('themeToggleIcon');
+      const txt = document.getElementById('themeToggleText');
+      if (icon) icon.innerText = mode === 'dark' ? '☀️' : '🌙';
+      if (txt) txt.innerText = mode === 'dark' ? 'Light' : 'Dark';
+    }
+
+    applyPortalTheme(localStorage.getItem('aih_theme') || 'light');
+
+    function selectBentoBillingMode(mode) {
+      openBlindContractForProject(uaeOffPlanProjects[0]?.id || '', mode);
+    }
+
     let blindContractState = {
       projectId: '',
       projectName: 'UAE Off-Plan Project',
@@ -3432,15 +3682,21 @@
       priceAED: 2500000,
       dispatched: false,
       dispatchedAt: '',
-      lock1Paid: false,
-      lock2Paid: false,
+      billingMode: 'pay_per_unlock',
+      paymentMethod: 'card',
+      proofStatus: 'unpaid',
+      proofId: '',
+      txRef: '',
+      receiptName: '',
+      walletCredits: Number(localStorage.getItem('aih_wallet_credits') || 5),
+      subUnlocksLeft: Number(localStorage.getItem('aih_sub_unlocks') || 10),
+      certAddon: false,
       sigs: {
         buyer: null,
         overseas: null,
-        uae: null,
-        dld: null
+        uae: null
       },
-      contractId: 'AIH-4P-2026-001'
+      contractId: 'AIH-DIR-2026-001'
     };
 
     function makeSigStamp(role) {
@@ -3452,26 +3708,30 @@
       };
     }
 
-    function openBlindContractForProject(id) {
+    function openBlindContractForProject(id, preferredBillingMode) {
       const p = uaeOffPlanProjects.find(x => x.id === id || x.propertyid === id) || uaeOffPlanProjects[0];
       const randomHex = Math.random().toString(16).slice(2, 8).toUpperCase();
       blindContractState = {
-        projectId: p?.id || 'OPUAE-CUSTOM',
-        projectName: p?.project_name || p?.buildingname || 'UAE Off-Plan Project',
-        developer: p?.developername || 'UAE Developer',
-        priceAED: Number(p?.propertyprice) > 0 ? Number(p.propertyprice) : 2500000,
+        ...blindContractState,
+        projectId: p?.id || id || 'OPUAE-CUSTOM',
+        projectName: p?.project_name || p?.buildingname || p?.title || 'UAE Off-Plan Project',
+        developer: p?.developername || p?.developer || 'UAE Developer',
+        priceAED: Number(p?.propertyprice || p?.priceAed) > 0 ? Number(p?.propertyprice || p?.priceAed) : 2500000,
         dispatched: true,
         dispatchedAt: new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
-        lock1Paid: false,
-        lock2Paid: false,
-        sigs: { buyer: null, overseas: null, uae: null, dld: null },
-        contractId: 'AIH-4P-' + randomHex
+        billingMode: preferredBillingMode || blindContractState.billingMode || 'pay_per_unlock',
+        proofStatus: 'unpaid',
+        proofId: '',
+        txRef: '',
+        receiptName: '',
+        sigs: { buyer: null, overseas: null, uae: null },
+        contractId: 'AIH-DIR-' + randomHex
       };
 
       const modal = document.getElementById('blindContractModal');
       if (!modal) return;
       document.getElementById('bcProjectTitle').innerText = blindContractState.projectName;
-      document.getElementById('bcProjectSub').innerText = `${blindContractState.developer} · AED ${blindContractState.priceAED.toLocaleString()} · Auto-Dispatched`;
+      document.getElementById('bcProjectSub').innerText = `${blindContractState.developer} · AED ${blindContractState.priceAED.toLocaleString()} · Direct Deal (0% Portal / No DLD)`;
       document.getElementById('bcPriceInput').value = blindContractState.priceAED;
       updateBlindContractUI();
       modal.classList.remove('hidden');
@@ -3486,70 +3746,205 @@
       modal.classList.remove('flex');
     }
 
-    function toggleBlindLock(which) {
-      if (which === 1) blindContractState.lock1Paid = !blindContractState.lock1Paid;
-      if (which === 2) blindContractState.lock2Paid = !blindContractState.lock2Paid;
+    function setDealBillingMode(mode) {
+      blindContractState.billingMode = mode;
       updateBlindContractUI();
     }
 
-    function signBlindParty(party) {
-      if (party === 'buyer') blindContractState.sigs.buyer = makeSigStamp('Overseas Buyer');
-      if (party === 'overseas') blindContractState.sigs.overseas = makeSigStamp('Overseas Agent');
-      if (party === 'uae') blindContractState.sigs.uae = makeSigStamp('UAE RERA Agency');
-      if (party === 'dld') blindContractState.sigs.dld = makeSigStamp('DLD / Portal Escrow');
+    function topUpWalletCredits() {
+      blindContractState.walletCredits += 5;
+      localStorage.setItem('aih_wallet_credits', String(blindContractState.walletCredits));
       updateBlindContractUI();
     }
 
-    function simulateAllPartiesConfirmDeal() {
-      blindContractState.dispatched = true;
-      blindContractState.lock1Paid = true;
-      blindContractState.lock2Paid = true;
-      blindContractState.sigs.buyer = blindContractState.sigs.buyer || makeSigStamp('Overseas Buyer');
-      blindContractState.sigs.overseas = blindContractState.sigs.overseas || makeSigStamp('Overseas Agent');
-      blindContractState.sigs.uae = blindContractState.sigs.uae || makeSigStamp('UAE RERA Agency');
-      blindContractState.sigs.dld = blindContractState.sigs.dld || makeSigStamp('DLD / Portal Escrow');
+    function toggleCertAddon() {
+      blindContractState.certAddon = !blindContractState.certAddon;
       updateBlindContractUI();
+    }
+
+    async function signBlindParty(party) {
+      const signerMap = {
+        buyer: document.getElementById('bcBuyerNameInput')?.value || 'Global Buyer',
+        overseas: document.getElementById('bcOverseasAgencyInput')?.value || 'Overseas Partner Agency',
+        uae: document.getElementById('bcUaeAgencyInput')?.value || 'UAE RERA Seller'
+      };
+      const stamp = makeSigStamp(signerMap[party] || party);
+      try {
+        const res = await fetch('/api/deal-unlock', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'sign',
+            dealId: blindContractState.contractId,
+            party,
+            signerName: signerMap[party],
+            projectTitle: blindContractState.projectName,
+            overseasPct: document.getElementById('bcOverseasPctInput')?.value || 55,
+            uaePct: document.getElementById('bcUaePctInput')?.value || 45
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.contractHash) stamp.hash = 'SHA256-' + data.contractHash.slice(0, 12);
+        }
+      } catch {}
+      if (party === 'buyer') blindContractState.sigs.buyer = stamp;
+      if (party === 'overseas') blindContractState.sigs.overseas = stamp;
+      if (party === 'uae') blindContractState.sigs.uae = stamp;
+      updateBlindContractUI();
+    }
+
+    async function submitDealPaymentProof(method) {
+      blindContractState.paymentMethod = method;
+      const tierFee = blindContractState.priceAED >= 3000000 ? 350 : 250;
+      const addon = blindContractState.certAddon ? 49 : 0;
+      const amountUsd = (method === 'credit' || method === 'subscription') ? addon : (tierFee + addon);
+      const txRefInput = document.getElementById('bcTxRefInput')?.value?.trim() || '';
+      const fileInput = document.getElementById('bcReceiptFileInput');
+      const receiptName = fileInput?.files?.[0]?.name || (method === 'bank_upload' ? 'wire_receipt.pdf' : '');
+
+      if (method === 'credit') {
+        if (blindContractState.walletCredits <= 0) {
+          alert('Wallet has 0 credits. Click "+5 Credits ($1,000)" first.');
+          return;
+        }
+        blindContractState.walletCredits -= 1;
+        localStorage.setItem('aih_wallet_credits', String(blindContractState.walletCredits));
+      }
+      if (method === 'subscription') {
+        if (blindContractState.subUnlocksLeft <= 0) {
+          alert('Monthly subscription quota reached.');
+          return;
+        }
+        blindContractState.subUnlocksLeft -= 1;
+        localStorage.setItem('aih_sub_unlocks', String(blindContractState.subUnlocksLeft));
+      }
+
+      try {
+        const res = await fetch('/api/deal-unlock', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'submit_proof',
+            dealId: blindContractState.contractId,
+            billingMode: blindContractState.billingMode,
+            paymentMethod: method,
+            amountUsd,
+            txRef: txRefInput,
+            receiptName
+          })
+        });
+        const data = await res.json();
+        blindContractState.proofId = data.proofId || ('PAY-' + Math.random().toString(16).slice(2, 8).toUpperCase());
+        blindContractState.proofStatus = data.proofStatus || (method === 'bank_upload' ? 'pending_verification' : 'verified');
+        blindContractState.txRef = data.txRef || txRefInput || blindContractState.proofId;
+        blindContractState.receiptName = receiptName;
+      } catch {
+        blindContractState.proofId = 'PAY-LOCAL-' + Math.random().toString(16).slice(2, 8).toUpperCase();
+        blindContractState.proofStatus = method === 'bank_upload' ? 'pending_verification' : 'verified';
+        blindContractState.txRef = txRefInput || blindContractState.proofId;
+        blindContractState.receiptName = receiptName;
+      }
+      updateBlindContractUI();
+    }
+
+    async function verifyUploadedPaymentProof() {
+      try {
+        const res = await fetch('/api/deal-unlock', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'verify_proof',
+            dealId: blindContractState.contractId,
+            proofId: blindContractState.proofId
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          blindContractState.proofStatus = data.proofStatus || 'verified';
+        } else {
+          blindContractState.proofStatus = 'verified';
+        }
+      } catch {
+        blindContractState.proofStatus = 'verified';
+      }
+      updateBlindContractUI();
+    }
+
+    async function simulateAllPartiesConfirmDeal() {
+      await signBlindParty('overseas');
+      await signBlindParty('uae');
+      await submitDealPaymentProof('card');
     }
 
     function updateBlindContractUI() {
       const price = Math.max(0, Number(document.getElementById('bcPriceInput')?.value || blindContractState.priceAED));
       const grossPct = Math.max(0, Number(document.getElementById('bcGrossCommInput')?.value || 5));
-      const ovPct = Math.max(0, Number(document.getElementById('bcOverseasPctInput')?.value || 55));
-      const uaePct = Math.max(0, Number(document.getElementById('bcUaePctInput')?.value || 30));
-      const portalPct = Math.max(0, 100 - ovPct - uaePct);
-
-      const portalPctEl = document.getElementById('bcPortalPctDisplay');
-      if (portalPctEl) portalPctEl.innerText = portalPct.toFixed(0) + '%';
+      const ovPct = Math.max(0, Math.min(100, Number(document.getElementById('bcOverseasPctInput')?.value || 55)));
+      const uaePct = Math.max(0, 100 - ovPct);
+      const uaeInput = document.getElementById('bcUaePctInput');
+      if (uaeInput) uaeInput.value = uaePct;
 
       const grossAED = Math.round(price * (grossPct / 100));
       const ovAED = Math.round(grossAED * (ovPct / 100));
-      const uaeAED = Math.round(grossAED * (uaePct / 100));
-      const portalAED = Math.max(0, grossAED - ovAED - uaeAED);
+      const uaeAED = Math.max(0, grossAED - ovAED);
 
       const setEl = (id, txt) => { const e = document.getElementById(id); if (e) e.innerText = txt; };
       setEl('bcGrossAED', 'AED ' + grossAED.toLocaleString());
       setEl('bcOverseasAED', 'AED ' + ovAED.toLocaleString());
       setEl('bcUaeAED', 'AED ' + uaeAED.toLocaleString());
-      setEl('bcPortalAED', 'AED ' + portalAED.toLocaleString());
+      setEl('bcWalletBalanceDisplay', `${blindContractState.walletCredits} credits`);
+      setEl('bcSubQuotaDisplay', `${blindContractState.subUnlocksLeft} unlocks left`);
+
+      ['pay_per_unlock', 'wallet_credit', 'subscription'].forEach(mode => {
+        const btn = document.getElementById('bcModeBtn-' + mode);
+        if (btn) {
+          btn.className = blindContractState.billingMode === mode
+            ? 'px-3 py-2 rounded-xl bg-[#135BEC] text-white text-xs font-extrabold'
+            : 'px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-semibold border border-white/10';
+        }
+      });
 
       const s = blindContractState.sigs;
-      const allSigned = Boolean(s.buyer && s.overseas && s.uae && s.dld);
-      const allUnlocked = blindContractState.lock1Paid && blindContractState.lock2Paid && allSigned;
+      const contractSigned = Boolean(s.overseas && s.uae);
+      const proofVerified = blindContractState.proofStatus === 'verified';
+      const allUnlocked = contractSigned && proofVerified;
+
+      const checksDone = 1 + (contractSigned ? 1 : 0) + (proofVerified ? 1 : 0) + (allUnlocked ? 1 : 0);
+      setEl('bentoReadinessCount', `${checksDone}/4`);
+      setEl('bentoReadinessLabel', allUnlocked ? 'All set · Unlocked' : 'Sign + Proof to unlock');
 
       const statusEl = document.getElementById('bcUnlockStatus');
       if (statusEl) {
         statusEl.className = allUnlocked
-          ? 'p-3.5 rounded-xl border-2 border-emerald-400 bg-emerald-500/20 text-emerald-200 text-xs font-bold'
-          : 'p-3.5 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs font-semibold';
+          ? 'p-3.5 rounded-xl border-2 border-emerald-400 bg-emerald-500/20 text-emerald-200 text-xs font-bold mb-4'
+          : 'p-3.5 rounded-xl border border-blue-500/40 bg-blue-500/10 text-blue-200 text-xs font-semibold mb-4';
         statusEl.innerText = allUnlocked
-          ? '✅ DEAL CONFIRMED & EXECUTED: Digitally Signed by Buyer, Overseas Agent, UAE RERA Agency & DLD/Portal! Pre-Contact Locks Cleared — Direct Deal Room Unlocked.'
-          : '📨 AUTO-DISPATCHED IN BLIND MODE: Contract sent to all 4 parties. Complete Lock 1 ($350 KYC), Lock 2 ($500 Wallet), and all 4 Digital Signatures to confirm deal & unmask contacts.';
+          ? `✅ DIRECT CONTACT UNLOCKED (${blindContractState.proofId}): Contract Digitally Signed & Payment Proof Verified — Zero Portal/DLD Intervention.`
+          : blindContractState.proofStatus === 'pending_verification'
+            ? `⏳ PAYMENT PROOF UPLOADED (${blindContractState.proofId} · ${blindContractState.receiptName}): Click "Verify Uploaded Proof" to unlock direct contacts.`
+            : '🔒 BLIND GATE ACTIVE: Sign the Direct Contract (Overseas + UAE Seller) AND verify Payment Proof to unlock direct WhatsApp, Email & Phone.';
       }
 
-      const b1 = document.getElementById('bcBtnLock1');
-      if (b1) b1.innerText = blindContractState.lock1Paid ? '✓ Lock 1 Cleared ($350 KYC)' : 'Authorize Lock 1 ($350 Buyer KYC)';
-      const b2 = document.getElementById('bcBtnLock2');
-      if (b2) b2.innerText = blindContractState.lock2Paid ? '✓ Lock 2 Cleared ($500 Wallet)' : 'Debit Lock 2 ($500 UAE Wallet)';
+      const verifyBtn = document.getElementById('bcVerifyProofBtn');
+      if (verifyBtn) {
+        verifyBtn.classList.toggle('hidden', blindContractState.proofStatus !== 'pending_verification');
+      }
+
+      const directBox = document.getElementById('bcDirectContactBox');
+      if (directBox) {
+        if (allUnlocked) {
+          directBox.className = 'p-4 rounded-xl border border-emerald-400/50 bg-emerald-500/15 text-xs space-y-1 mb-4';
+          directBox.innerHTML = `
+            <div class="font-extrabold text-emerald-300">🔓 UNLOCKED DIRECT CONTACTS (Deal ${blindContractState.contractId})</div>
+            <div class="text-white">UAE Seller Desk: <strong>+971 50 442 8810</strong> · <strong>rera-desk@dubaiprime.example</strong></div>
+            <div class="text-white">Overseas Partner: <strong>+44 20 7946 0192</strong> · <strong>partner@mayfairglobal.example</strong></div>
+          `;
+        } else {
+          directBox.className = 'p-3 rounded-xl border border-white/10 bg-white/5 text-xs text-slate-400 mb-4';
+          directBox.innerHTML = '🔒 Direct WhatsApp, Email &amp; Phone are masked until Digital Contract + Payment Proof are both verified.';
+        }
+      }
 
       const renderSigBadge = (elId, sig, label) => {
         const el = document.getElementById(elId);
@@ -3559,59 +3954,49 @@
           el.innerHTML = `<div class="font-bold text-emerald-300">✓ ${label}: SIGNED</div><div class="text-[10px] text-slate-300 font-mono mt-0.5">${sig.hash}</div><div class="text-[10px] text-slate-400">${sig.signedAt}</div>`;
         } else {
           el.className = 'p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]';
-          el.innerHTML = `<div class="font-bold text-amber-300">📨 ${label}: SENT</div><div class="text-[10px] text-slate-400 mt-0.5">Awaiting digital signature...</div>`;
+          el.innerHTML = `<div class="font-bold text-amber-300">📨 ${label}: PENDING</div><div class="text-[10px] text-slate-400 mt-0.5">Awaiting digital signature...</div>`;
         }
       };
 
-      renderSigBadge('bcSigCardBuyer', s.buyer, '1. Overseas Buyer');
-      renderSigBadge('bcSigCardOverseas', s.overseas, '2. Overseas Agent');
-      renderSigBadge('bcSigCardUae', s.uae, '3. UAE RERA Agency');
-      renderSigBadge('bcSigCardDld', s.dld, '4. DLD & Portal');
+      renderSigBadge('bcSigCardBuyer', s.buyer, 'Optional: Buyer');
+      renderSigBadge('bcSigCardOverseas', s.overseas, '1. Overseas Agent');
+      renderSigBadge('bcSigCardUae', s.uae, '2. UAE RERA Seller');
 
       const buyerName = document.getElementById('bcBuyerNameInput')?.value || 'International Investor';
       const ovAgency = document.getElementById('bcOverseasAgencyInput')?.value || 'Partner Overseas Agency';
-      const uaeAgency = document.getElementById('bcUaeAgencyInput')?.value || 'RERA Licensed UAE Brokerage';
-      const buyerDisplay = allUnlocked ? `${buyerName} (KYC Verified)` : `[MASKED BUYER · Hash ${blindContractState.contractId.slice(-6)}]`;
-      const maskedOv = allUnlocked ? `${ovAgency} (UNMASKED · Direct Deal Room Active)` : '[MASKED OVERSEAS AGENCY · Tier-1 Verified]';
-      const maskedUae = allUnlocked ? `${uaeAgency} (UNMASKED · RERA ORN Verified)` : '[MASKED UAE RERA SELLER · Escrow Ready]';
+      const uaeAgency = document.getElementById('bcUaeAgencyInput')?.value || 'RERA Licensed UAE Seller';
 
       const preview = document.getElementById('bcContractPreview');
       if (preview) {
         preview.value =
-`AUTO-DISPATCHED 4-PARTY DIGITAL CO-BROKERAGE, BUYER & DLD ESCROW AGREEMENT
-Contract ID: ${blindContractState.contractId} | Dispatched: ${blindContractState.dispatchedAt}
+`DIRECT DIGITAL CO-BROKERAGE & CONNECTION PROOF CERTIFICATE
+Contract ID: ${blindContractState.contractId} | Issued: ${blindContractState.dispatchedAt}
 Project: ${blindContractState.projectName} (${blindContractState.projectId})
-Developer: ${blindContractState.developer}
-Listing Reference: https://www.ai-home.world/off-plan/${blindContractState.projectId}
-Property Value: AED ${price.toLocaleString()}
+Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()}
 
-1. PARTIES (BLIND UNTIL FEE LOCKS & ALL 4 SIGNATURES COMPLETE)
-(a) Overseas Buyer: ${buyerDisplay}
-(b) Overseas Agent: ${maskedOv}
-(c) UAE RERA Agency: ${maskedUae}
-(d) DLD / Portal Escrow Verification: Dubai REST Project Registry & AI Home Global
+1. NO PORTAL OR DLD DEAL INTERVENTION
+- Portal Closing Commission: 0% (AED 0) — 100% of developer commission goes directly to connecting parties.
+- DLD Intervention: Removed from portal workflow; parties execute developer SPA/DLD steps directly after unlock.
 
-2. PRE-CONTACT FEE COLLECTION
-- Lock 1 (Overseas Side): $350 Buyer KYC & Legal Audit Fee — ${blindContractState.lock1Paid ? 'CLEARED' : 'PENDING'}
-- Lock 2 (UAE Seller Side): $500 Pre-Funded Wallet Unlock — ${blindContractState.lock2Paid ? 'CLEARED' : 'PENDING'}
+2. CONNECTING PARTIES (${allUnlocked ? 'UNMASKED & UNLOCKED' : 'MASKED UNTIL PROOF VERIFIED'})
+- Overseas Partner: ${allUnlocked ? ovAgency : '[MASKED OVERSEAS PARTNER]'}
+- UAE RERA Seller:  ${allUnlocked ? uaeAgency : '[MASKED UAE SELLER]'}
+- Buyer Reference:  ${allUnlocked ? buyerName : '[MASKED BUYER]'}
 
-3. COMMISSION SPLIT (GROSS DEVELOPER COMMISSION: ${grossPct}% = AED ${grossAED.toLocaleString()})
-- Overseas Agent (${ovPct}% of Gross): AED ${ovAED.toLocaleString()}
-- UAE RERA Agency (${uaePct}% of Gross): AED ${uaeAED.toLocaleString()}
-- Portal Platform Fee (${portalPct.toFixed(0)}% of Gross): AED ${portalAED.toLocaleString()}
+3. DIRECT COMMISSION SPLIT (GROSS ${grossPct}% = AED ${grossAED.toLocaleString()})
+- Overseas Partner (${ovPct}%): AED ${ovAED.toLocaleString()}
+- UAE RERA Seller  (${uaePct}%): AED ${uaeAED.toLocaleString()}
 
-4. REGULATORY, ESCROW, AML & DATA PROTECTION COMPLIANCE
-- DLD Escrow (Dubai Law No. 8 of 2007): All Buyer property deposits wire exclusively to ${blindContractState.developer} DLD-approved Project Escrow Account verified via Dubai REST. Portal & Overseas Agent never hold property purchase funds.
-- RERA Co-Brokerage (Bylaw No. 85 of 2006 & Form I): Local UAE brokerage is executed by the RERA-licensed UAE Agency; Lock 1 & Lock 2 are SaaS/KYC/marketing fees, not real estate commission.
-- AML/CFT (UAE Decree-Law No. 20 of 2018): Buyer & source-of-funds KYC screening mandatory prior to SPA issuance.
-- Data Protection (UAE PDPL Decree-Law No. 45 of 2021 & EU/UK GDPR): Cross-border deal data processed under explicit contractual consent (Art. 6(1)(b)).
-- Dispute Resolution: 200% liquidated damages on circumvention; DIFC Small Claims Tribunal (claims <= AED 500,000).
+4. PORTAL CONNECTION MONETIZATION & PAYMENT PROOF
+- Billing Mode:   ${blindContractState.billingMode}
+- Payment Method: ${blindContractState.paymentMethod}
+- Payment Proof:  ${blindContractState.proofId || 'NOT SUBMITTED'} (Status: ${blindContractState.proofStatus.toUpperCase()})
+- Tx / Receipt:   ${blindContractState.txRef || '—'} ${blindContractState.receiptName ? '(' + blindContractState.receiptName + ')' : ''}
 
-5. DIGITAL SIGNATURES & DEAL CONFIRMATION (${allUnlocked ? 'DEAL CONFIRMED' : 'IN PROGRESS'})
-- [1] Overseas Buyer:    ${s.buyer ? 'DIGITALLY SIGNED | ' + s.buyer.hash + ' | ' + s.buyer.signedAt : 'SENT / AWAITING SIGNATURE'}
-- [2] Overseas Agent:    ${s.overseas ? 'DIGITALLY SIGNED | ' + s.overseas.hash + ' | ' + s.overseas.signedAt : 'SENT / AWAITING SIGNATURE'}
-- [3] UAE RERA Agency:   ${s.uae ? 'DIGITALLY SIGNED | ' + s.uae.hash + ' | ' + s.uae.signedAt : 'SENT / AWAITING SIGNATURE'}
-- [4] DLD / Portal:      ${s.dld ? 'VERIFIED & COUNTER-SIGNED | ' + s.dld.hash + ' | ' + s.dld.signedAt : 'AWAITING COUNTER-SIGN'}`;
+5. DIGITAL SIGNATURES
+- [1] Overseas Partner: ${s.overseas ? 'SIGNED | ' + s.overseas.hash + ' | ' + s.overseas.signedAt : 'PENDING'}
+- [2] UAE RERA Seller:  ${s.uae ? 'SIGNED | ' + s.uae.hash + ' | ' + s.uae.signedAt : 'PENDING'}
+- [Optional] Buyer:     ${s.buyer ? 'SIGNED | ' + s.buyer.hash + ' | ' + s.buyer.signedAt : 'OPTIONAL'}`;
       }
     }
 
@@ -3621,7 +4006,7 @@ Property Value: AED ${price.toLocaleString()}
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${blindContractState.contractId}_4Party_Signed_Contract.txt`;
+      a.download = `${blindContractState.contractId}_Direct_Contract_Payment_Proof.txt`;
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -3720,32 +4105,48 @@ Property Value: AED ${price.toLocaleString()}
     });
   </script>
 
-  <!-- AUTO-DISPATCHED 4-PARTY DIGITAL CONTRACT & PRE-CONTACT FEE GATE MODAL -->
+  <!-- DIRECT DIGITAL CONTRACT & PAYMENT PROOF GATE MODAL (ZERO PORTAL / DLD INTERVENTION) -->
   <div id="blindContractModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-[#12151E] border border-emerald-500/40 rounded-2xl max-w-5xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[92vh] overflow-y-auto">
+    <div class="bg-[#12151E] border border-blue-500/40 rounded-2xl max-w-5xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[92vh] overflow-y-auto">
       <button onclick="closeBlindContractModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
       <div class="mb-4">
-        <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold px-2.5 py-1 rounded uppercase">Auto-Dispatched 4-Party Digital Contract (Buyer · Agent · UAE Agency · DLD)</span>
+        <span class="bg-blue-500/20 text-blue-300 border border-blue-500/40 text-[10px] font-bold px-2.5 py-1 rounded uppercase">Direct Digital Contract + Payment Proof Gate (0% Portal Cut · No DLD Intervention)</span>
         <h3 id="bcProjectTitle" class="text-xl font-display font-extrabold text-white mt-2">UAE Off-Plan Project</h3>
         <p id="bcProjectSub" class="text-xs text-slate-400">Developer · Price</p>
       </div>
 
-      <div id="bcUnlockStatus" class="p-3.5 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs font-semibold mb-4"></div>
+      <div id="bcUnlockStatus" class="p-3.5 rounded-xl border border-blue-500/40 bg-blue-500/10 text-blue-200 text-xs font-semibold mb-4"></div>
+      <div id="bcDirectContactBox" class="p-3 rounded-xl border border-white/10 bg-white/5 text-xs text-slate-400 mb-4"></div>
 
-      <!-- 4-Party Live Digital Signature Confirmation Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        <div id="bcSigCardBuyer" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+      <!-- Direct Signature Confirmation Grid (No DLD Card) -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
         <div id="bcSigCardOverseas" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
         <div id="bcSigCardUae" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
-        <div id="bcSigCardDld" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+        <div id="bcSigCardBuyer" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+      </div>
+
+      <!-- All 3 Monetization Billing Options -->
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-4 p-3 rounded-xl bg-[#0A0C13] border border-white/10 text-xs">
+        <div class="flex flex-wrap gap-2">
+          <button id="bcModeBtn-pay_per_unlock" onclick="setDealBillingMode('pay_per_unlock')" class="px-3 py-2 rounded-xl bg-[#135BEC] text-white text-xs font-extrabold">1. Pay-Per-Unlock ($150–$500)</button>
+          <button id="bcModeBtn-wallet_credit" onclick="setDealBillingMode('wallet_credit')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">2. Wallet Credits (<span id="bcWalletBalanceDisplay">5 credits</span>)</button>
+          <button id="bcModeBtn-subscription" onclick="setDealBillingMode('subscription')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">3. Pro Plan (<span id="bcSubQuotaDisplay">10 unlocks left</span>)</button>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="topUpWalletCredits()" class="px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-[11px]">+5 Credits ($1,000)</button>
+          <label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer">
+            <input type="checkbox" onchange="toggleCertAddon()" class="accent-blue-500">
+            <span>+$49 Proof Certificate</span>
+          </label>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 text-xs">
         <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
-          <div class="font-bold text-brand-gold uppercase text-[11px]">Commission Split &amp; Deal Value</div>
+          <div class="font-bold text-brand-gold uppercase text-[11px]">Direct Commission Split (100% to Parties · 0% Portal)</div>
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="text-slate-400 block mb-1">Property Value (AED)</label>
@@ -3756,67 +4157,69 @@ Property Value: AED ${price.toLocaleString()}
               <input id="bcGrossCommInput" type="number" step="0.5" value="5" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
             </div>
             <div>
-              <label class="text-slate-400 block mb-1">Overseas Agent (% of Gross)</label>
+              <label class="text-slate-400 block mb-1">Overseas Partner (% of Gross)</label>
               <input id="bcOverseasPctInput" type="number" value="55" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
             </div>
             <div>
-              <label class="text-slate-400 block mb-1">UAE Agency (% of Gross)</label>
-              <input id="bcUaePctInput" type="number" value="30" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+              <label class="text-slate-400 block mb-1">UAE RERA Seller (% of Gross)</label>
+              <input id="bcUaePctInput" type="number" value="45" readonly class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-slate-300">
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-white/10 text-[11px]">
+          <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/10 text-[11px]">
             <div>Gross Pool: <strong id="bcGrossAED" class="text-white">AED 0</strong></div>
-            <div>Portal (<span id="bcPortalPctDisplay">15%</span>): <strong id="bcPortalAED" class="text-emerald-400">AED 0</strong></div>
             <div>Overseas: <strong id="bcOverseasAED" class="text-brand-gold">AED 0</strong></div>
-            <div>UAE Agency: <strong id="bcUaeAED" class="text-sky-400">AED 0</strong></div>
+            <div>UAE Seller: <strong id="bcUaeAED" class="text-sky-400">AED 0</strong></div>
           </div>
         </div>
 
         <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
-          <div class="font-bold text-emerald-400 uppercase text-[11px]">Pre-Contact Fee Locks &amp; Digital Signing</div>
+          <div class="font-bold text-emerald-400 uppercase text-[11px]">Digital Signing &amp; Payment Proof Gate</div>
           <div class="grid grid-cols-3 gap-2">
             <div>
-              <label class="text-slate-400 block mb-1">Buyer Name</label>
-              <input id="bcBuyerNameInput" type="text" placeholder="Global Buyer" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
-            </div>
-            <div>
-              <label class="text-slate-400 block mb-1">Overseas Agency</label>
+              <label class="text-slate-400 block mb-1">Overseas Partner</label>
               <input id="bcOverseasAgencyInput" type="text" placeholder="Savills Mayfair" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
             </div>
             <div>
-              <label class="text-slate-400 block mb-1">UAE RERA Agency</label>
+              <label class="text-slate-400 block mb-1">UAE RERA Seller</label>
               <input id="bcUaeAgencyInput" type="text" placeholder="Dubai Prime RERA" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
             </div>
+            <div>
+              <label class="text-slate-400 block mb-1">Buyer Ref (Optional)</label>
+              <input id="bcBuyerNameInput" type="text" placeholder="Global Buyer" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
+            </div>
           </div>
-          <div class="grid grid-cols-2 gap-2">
-            <button id="bcBtnLock1" onclick="toggleBlindLock(1)" class="py-1.5 px-2.5 rounded-lg bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/40 text-brand-gold font-bold text-[11px]">Authorize Lock 1 ($350 Buyer KYC)</button>
-            <button id="bcBtnLock2" onclick="toggleBlindLock(2)" class="py-1.5 px-2.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 font-bold text-[11px]">Debit Lock 2 ($500 UAE Wallet)</button>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button id="bcSignOverseasBtn" onclick="signBlindParty('overseas')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">1. Sign Overseas</button>
+            <button id="bcSignUaeBtn" onclick="signBlindParty('uae')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">2. Sign UAE Seller</button>
+            <button onclick="signBlindParty('buyer')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">Optional: Buyer</button>
+          </div>
+          <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/10">
+            <input id="bcTxRefInput" type="text" placeholder="Wire / Bank Tx Ref #" class="bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white text-[11px]">
+            <input id="bcReceiptFileInput" type="file" accept=".pdf,.png,.jpg,.jpeg" class="text-[10px] text-slate-300 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-600 file:text-white">
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-            <button onclick="signBlindParty('buyer')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">1. Sign Buyer</button>
-            <button onclick="signBlindParty('overseas')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">2. Sign Agent</button>
-            <button onclick="signBlindParty('uae')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">3. Sign Agency</button>
-            <button onclick="signBlindParty('dld')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">4. DLD Sign</button>
+            <button id="bcPayCardBtn" onclick="submitDealPaymentProof('card')" class="py-1.5 px-2 rounded-lg bg-[#135BEC] hover:bg-blue-700 text-white font-bold text-[10px]">Pay Card ($250+)</button>
+            <button id="bcPayWireBtn" onclick="submitDealPaymentProof('bank_upload')" class="py-1.5 px-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-[10px]">Upload Wire Proof</button>
+            <button id="bcPayCreditBtn" onclick="submitDealPaymentProof('credit')" class="py-1.5 px-2 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 font-bold text-[10px]">Use 1 Credit</button>
+            <button id="bcPaySubBtn" onclick="submitDealPaymentProof('subscription')" class="py-1.5 px-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-[10px]">Use Pro Plan</button>
           </div>
+          <button id="bcVerifyProofBtn" onclick="verifyUploadedPaymentProof()" class="hidden w-full py-1.5 px-3 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-[11px]">
+            ✓ Verify Uploaded Payment Proof &amp; Unlock Contacts
+          </button>
           <button onclick="simulateAllPartiesConfirmDeal()" class="w-full py-2 px-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-[11px]">
-            ⚡ Auto-Execute All 4 Signatures &amp; Confirm Deal
+            ⚡ Instant Test: Sign Direct Contract + Card Proof + Unlock
           </button>
         </div>
       </div>
 
       <div class="mb-4">
-        <label class="text-xs font-bold text-slate-300 block mb-1.5">Auto-Dispatched 4-Party Contract &amp; Signature Ledger:</label>
-        <textarea id="bcContractPreview" readonly rows="11" class="w-full bg-[#08090C] border border-white/15 rounded-xl p-3 text-[11px] font-mono text-slate-300 focus:outline-none"></textarea>
+        <label class="text-xs font-bold text-slate-300 block mb-1.5">Direct Co-Brokerage Contract &amp; Payment Proof Certificate:</label>
+        <textarea id="bcContractPreview" readonly rows="10" class="w-full bg-[#08090C] border border-white/15 rounded-xl p-3 text-[11px] font-mono text-slate-300 focus:outline-none"></textarea>
       </div>
 
-      <label class="flex items-start gap-2 text-[11px] text-slate-300 mb-4 cursor-pointer">
-        <input id="bcConsentCheck" type="checkbox" checked class="mt-0.5 accent-emerald-400">
-        <span>I confirm compliance with <a href="javascript:void(0)" onclick="openLegalModal('escrow')" class="text-brand-gold underline">Dubai Law No. 8/2007 (DLD Escrow)</a>, <a href="javascript:void(0)" onclick="openLegalModal('terms')" class="text-brand-gold underline">RERA Bylaw 85/2006 (Form I)</a>, and consent to cross-border data processing under <a href="javascript:void(0)" onclick="openLegalModal('privacy')" class="text-brand-gold underline">UAE PDPL &amp; EU/UK GDPR</a>.</span>
-      </label>
-
       <div class="flex flex-wrap gap-3 justify-end">
-        <button onclick="downloadBlindContract()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Download Signed Contract (.txt)</button>
-        <button onclick="closeBlindContractModal()" class="px-4 py-2 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black text-xs font-extrabold">Done</button>
+        <button id="bcDownloadCertBtn" onclick="downloadBlindContract()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Download Contract &amp; Payment Proof (.txt)</button>
+        <button onclick="closeBlindContractModal()" class="px-4 py-2 rounded-xl bg-[#135BEC] hover:bg-blue-700 text-white text-xs font-extrabold">Done</button>
       </div>
     </div>
   </div>
