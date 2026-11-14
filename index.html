@@ -4423,12 +4423,12 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         </div>
         <div>
           <label class="text-slate-400 block mb-1">Target Country</label>
-          <select id="bcCountrySelect" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white"></select>
+          <select id="bcCountrySelect" onchange="loadBroadcastRecipients()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white"></select>
         </div>
         <div>
           <label class="text-slate-400 block mb-1">Batch &amp; Channel</label>
           <div class="flex gap-1.5">
-            <select id="bcBatchSize" class="w-1/2 bg-[#12151E] border border-white/15 rounded-lg px-2 py-2 text-white">
+            <select id="bcBatchSize" onchange="loadBroadcastRecipients()" class="w-1/2 bg-[#12151E] border border-white/15 rounded-lg px-2 py-2 text-white">
               <option value="25" selected>25</option>
               <option value="50">50</option>
               <option value="100">100</option>
@@ -4445,9 +4445,23 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div class="flex flex-wrap items-center gap-2">
           <button id="bcLoadRecipientsBtn" onclick="loadBroadcastRecipients()" class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-black font-extrabold text-xs">1. Load Verified Overseas Recipients</button>
-          <button onclick="generateBroadcastTemplates()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs border border-white/10">Refresh Templates</button>
+          <button id="bcRefreshTemplatesBtn" onclick="generateBroadcastTemplates(true)" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs border border-white/10">Refresh Templates</button>
         </div>
-        <div id="bcRecipientStats" class="text-xs text-slate-300 font-semibold">Click "Load Verified Overseas Recipients" to pull live contacts.</div>
+        <div id="bcRecipientStats" class="text-xs text-slate-300 font-semibold">Loading verified contacts...</div>
+      </div>
+
+      <!-- Activation & Manual Recipient Bar -->
+      <div class="mb-4 p-3 rounded-xl bg-blue-500/10 border border-blue-500/30 flex flex-col lg:flex-row lg:items-center justify-between gap-3 text-xs">
+        <div>
+          <strong class="text-blue-400">Activation Guide:</strong>
+          <span class="text-slate-300">Works right now via <strong>Next WhatsApp (wa.me)</strong> &amp; <strong>CSV Export</strong>. To enable 1-click cloud auto-sending, add <code class="font-mono">RESEND_API_KEY</code> (Email) and <code class="font-mono">WHATSAPP_TOKEN</code> + <code class="font-mono">WHATSAPP_PHONE_ID</code> (WhatsApp Cloud) in Vercel Env Vars.</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-1.5 shrink-0">
+          <input id="bcAddName" type="text" placeholder="Agency Name" class="bg-[#12151E] border border-white/15 rounded-lg px-2 py-1 text-white text-[11px] w-28">
+          <input id="bcAddEmail" type="email" placeholder="email@agency.com" class="bg-[#12151E] border border-white/15 rounded-lg px-2 py-1 text-white text-[11px] w-36">
+          <input id="bcAddPhone" type="text" placeholder="+447700900123" class="bg-[#12151E] border border-white/15 rounded-lg px-2 py-1 text-white text-[11px] w-32">
+          <button id="bcAddManualBtn" onclick="addManualBroadcastRecipient()" class="px-2.5 py-1 rounded-lg bg-[#135BEC] text-white font-bold text-[11px]">+ Add</button>
+        </div>
       </div>
 
       <!-- Selected Property Full Specs & Image Preview (Included in Email & WhatsApp) -->
@@ -4583,12 +4597,14 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           }
         } catch {}
         countrySel.innerHTML = countries.slice(0, 228).map(c => `<option value="${String(c).replace(/"/g, '&quot;')}">${c}</option>`).join('');
+        const ukOpt = Array.from(countrySel.options).find(o => /united kingdom/i.test(o.value));
+        if (ukOpt) countrySel.value = ukOpt.value;
       }
     }
 
     let broadcastHtmlTemplate = '';
 
-    function generateBroadcastTemplates() {
+    function generateBroadcastTemplates(showConfirm = false) {
       const role = document.getElementById('bcSenderRole')?.value || 'portal';
       const sellerRefEl = document.getElementById('bcSellerRef');
       if (sellerRefEl && (sellerRefEl.value === 'AI-HOME-PORTAL' || sellerRefEl.value === 'UAE-RERA-SELLER')) {
@@ -4713,6 +4729,13 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       if (subjEl) subjEl.value = subject;
       if (bodyEl) bodyEl.value = emailBody.replace(/\{\{deal_link\}\}/g, dealLink);
       if (waEl) waEl.value = waBody.replace(/\{\{deal_link\}\}/g, dealLink);
+      if (showConfirm) {
+        const statusBox = document.getElementById('bcCampaignStatus');
+        if (statusBox) {
+          statusBox.classList.remove('hidden');
+          statusBox.innerText = `✓ Templates refreshed for ${title} (${role === 'seller' ? 'UAE RERA Seller' : 'Portal Official'}) with cover image & full specs.`;
+        }
+      }
     }
 
     async function loadBroadcastRecipients() {
@@ -4929,6 +4952,28 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       renderBroadcastRecipients();
     }
 
+    function addManualBroadcastRecipient() {
+      const name = (document.getElementById('bcAddName')?.value || '').trim() || 'Partner Agency';
+      const emailRaw = (document.getElementById('bcAddEmail')?.value || '').trim();
+      const phoneRaw = (document.getElementById('bcAddPhone')?.value || '').trim();
+      const country = document.getElementById('bcCountrySelect')?.value || 'International';
+      const email = isValidEmail(emailRaw) ? emailRaw : '';
+      const phone = normalizePhoneE164(phoneRaw, country);
+      if (!email && !phone) {
+        const statusBox = document.getElementById('bcCampaignStatus');
+        if (statusBox) {
+          statusBox.classList.remove('hidden');
+          statusBox.innerText = '⚠ Enter a valid email or WhatsApp phone number (+countrycode...) to add a recipient.';
+        }
+        return;
+      }
+      broadcastRecipients.unshift({ name, company: name, country, email, phone, status: 'manual_added' });
+      ['bcAddName', 'bcAddEmail', 'bcAddPhone'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      renderBroadcastRecipients();
+      const statsEl = document.getElementById('bcRecipientStats');
+      if (statsEl) statsEl.innerText = `Total ${broadcastRecipients.length} recipients ready (including manual entry).`;
+    }
+
     async function openBroadcastModal() {
       await populateBroadcastDropdowns();
       generateBroadcastTemplates();
@@ -4937,6 +4982,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         modal.classList.remove('hidden');
         modal.classList.add('flex');
       }
+      await loadBroadcastRecipients();
     }
 
     function closeBroadcastModal() {
