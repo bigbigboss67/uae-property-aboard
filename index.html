@@ -343,6 +343,145 @@
     .animate-marquee:hover {
       animation-play-state: paused;
     }
+
+    /* ======================================================== */
+    /* AWARD-WINNING CINEMATIC HERO MOTION SYSTEM (60FPS GPU)   */
+    /* ======================================================== */
+    .hero-cinematic-stage {
+      --mx: 0;
+      --my: 0;
+      position: relative;
+      isolation: isolate;
+    }
+    .hero-grid-floor {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(19, 91, 236, 0.09) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(19, 91, 236, 0.09) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 85% 65% at 50% 35%, #000 35%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 35%, #000 35%, transparent 100%);
+      transform: perspective(900px) rotateX(24deg) translate3d(calc(var(--mx) * -10px), calc(var(--my) * -6px), 0);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0.55;
+    }
+    html.dark .hero-grid-floor {
+      background-image:
+        linear-gradient(to right, rgba(212, 175, 55, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+      opacity: 0.65;
+    }
+    .hero-skyline-layer {
+      transform: translate3d(calc(var(--mx) * 14px), calc(var(--my) * 8px), 0);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-skyline-stroke {
+      stroke: rgba(19, 91, 236, 0.28);
+      stroke-dasharray: 1200;
+      stroke-dashoffset: 1200;
+      animation: heroDrawLine 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    html.dark .hero-skyline-stroke {
+      stroke: rgba(212, 175, 55, 0.38);
+    }
+    .hero-skyline-gold {
+      stroke: rgba(180, 128, 12, 0.45);
+      stroke-dasharray: 900;
+      stroke-dashoffset: 900;
+      animation: heroDrawLine 2.8s 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    html.dark .hero-skyline-gold {
+      stroke: rgba(245, 231, 178, 0.52);
+    }
+    .hero-arc-path {
+      stroke: rgba(19, 91, 236, 0.35);
+      stroke-dasharray: 6 6;
+      animation: heroArcDash 18s linear infinite;
+    }
+    html.dark .hero-arc-path {
+      stroke: rgba(96, 165, 250, 0.45);
+    }
+    @keyframes heroDrawLine {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes heroArcDash {
+      from { stroke-dashoffset: 240; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes heroRevealUp {
+      0% { opacity: 0; transform: translate3d(0, 22px, 0) scale(0.985); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+    }
+    .hero-reveal {
+      opacity: 0;
+      animation: heroRevealUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .hero-delay-1 { animation-delay: 0.08s; }
+    .hero-delay-2 { animation-delay: 0.18s; }
+    .hero-delay-3 { animation-delay: 0.28s; }
+    .hero-delay-4 { animation-delay: 0.38s; }
+    .hero-delay-5 { animation-delay: 0.48s; }
+
+    @keyframes heroShimmerSweep {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .hero-kinetic-gradient {
+      background-size: 200% 200%;
+      animation: heroShimmerSweep 7s ease-in-out infinite;
+    }
+    @keyframes heroBeaconPulse {
+      0% { transform: scale(0.9); opacity: 0.85; }
+      70% { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    .hero-beacon-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: heroBeaconPulse 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+    .hero-cta-sheen {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-cta-sheen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: 45%;
+      background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.35) 50%, transparent 80%);
+      transform: translateX(-160%) skewX(-18deg);
+      animation: heroButtonSheen 5.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes heroButtonSheen {
+      0%, 62% { transform: translateX(-160%) skewX(-18deg); }
+      100% { transform: translateX(320%) skewX(-18deg); }
+    }
+    .hero-telemetry-strip {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid #CBD5E1;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 30px -12px rgba(15, 23, 42, 0.14);
+    }
+    html.dark .hero-telemetry-strip {
+      background: rgba(13, 18, 30, 0.78);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      box-shadow: 0 16px 36px -14px rgba(0, 0, 0, 0.65);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-reveal, .hero-skyline-stroke, .hero-skyline-gold, .hero-arc-path,
+      .hero-kinetic-gradient, .hero-beacon-ring, .hero-cta-sheen::after {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        stroke-dashoffset: 0 !important;
+      }
+    }
     .certificate-watermark {
       background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
     }
@@ -673,40 +812,167 @@
   <!-- ======================================================== -->
   <!-- 3. HERO SECTION (100% TAILORED FOR AGENTS OUTSIDE UAE)    -->
   <!-- ======================================================== -->
-  <section class="relative pt-12 pb-20 overflow-hidden">
-    <!-- Ambient gold and emerald lighting -->
-    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[500px] bg-brand-gold/10 blur-[150px] pointer-events-none rounded-full"></div>
-    <div class="absolute top-1/3 left-10 w-[380px] h-[380px] bg-emerald-500/10 blur-[140px] pointer-events-none rounded-full"></div>
+  <section id="heroCinematicStage" class="hero-cinematic-stage relative pt-10 sm:pt-14 pb-20 overflow-hidden">
+    <!-- Perspective Architectural Blueprint Floor -->
+    <div class="hero-grid-floor"></div>
+
+    <!-- Ambient Volumetric Spotlights -->
+    <div class="absolute top-12 left-1/2 -translate-x-1/2 w-[860px] h-[440px] bg-blue-500/10 dark:bg-brand-gold/12 blur-[140px] pointer-events-none rounded-full" style="transform: translate3d(calc(-50% + var(--mx) * 20px), calc(var(--my) * 14px), 0);"></div>
+    <div class="absolute top-40 -left-24 w-[420px] h-[420px] bg-emerald-500/10 blur-[130px] pointer-events-none rounded-full"></div>
+    <div class="absolute top-24 -right-24 w-[420px] h-[420px] bg-indigo-500/10 blur-[130px] pointer-events-none rounded-full"></div>
+
+    <!-- Cinematic Dubai Architectural Skyline & Global Syndication Arcs (SVG Motion Backdrop) -->
+    <div class="hero-skyline-layer absolute inset-x-0 top-10 sm:top-6 pointer-events-none select-none opacity-85" aria-hidden="true">
+      <svg viewBox="0 0 1440 420" class="w-full max-w-[1440px] mx-auto h-[320px] sm:h-[400px]" fill="none" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="heroHorizonFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#135BEC" stop-opacity="0"/>
+          </linearGradient>
+          <path id="arcToLondon" d="M 720 296 Q 480 95 230 175"/>
+          <path id="arcToNewYork" d="M 720 296 Q 410 45 95 225"/>
+          <path id="arcToSingapore" d="M 720 296 Q 970 90 1225 180"/>
+          <path id="arcToZurich" d="M 720 296 Q 1030 60 1350 225"/>
+        </defs>
+
+        <!-- Horizon Baseline -->
+        <line x1="60" y1="355" x2="1380" y2="355" class="hero-skyline-stroke" stroke-width="1" stroke-opacity="0.4"/>
+
+        <!-- Dubai Architectural Silhouette (Burj Khalifa, Museum of the Future, Marina Towers) -->
+        <path class="hero-skyline-gold" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+          d="M 140 355 L 140 285 L 170 285 L 170 355
+             M 210 355 L 210 245 L 245 230 L 245 355
+             M 310 355 L 310 265 L 350 265 L 350 355
+             M 445 355 L 445 215 L 485 198 L 485 355
+             M 560 355 L 575 275 L 605 275 L 620 355
+             M 686 355 L 698 250 L 707 250 L 712 175 L 717 175 L 720 62 L 723 175 L 728 175 L 733 250 L 742 250 L 754 355
+             M 800 355 C 800 295, 865 295, 865 355
+             M 818 355 C 818 318, 847 318, 847 355
+             M 915 355 L 915 208 L 955 222 L 955 355
+             M 1035 355 L 1035 248 L 1072 248 L 1072 355
+             M 1165 355 L 1165 232 L 1205 218 L 1205 355
+             M 1265 355 L 1265 280 L 1300 280 L 1300 355" />
+
+        <!-- Global Co-Brokerage Capital Arcs -->
+        <use href="#arcToLondon" class="hero-arc-path" stroke-width="1.5"/>
+        <use href="#arcToNewYork" class="hero-arc-path" stroke-width="1.25"/>
+        <use href="#arcToSingapore" class="hero-arc-path" stroke-width="1.5"/>
+        <use href="#arcToZurich" class="hero-arc-path" stroke-width="1.25"/>
+
+        <!-- Animated Traveling Deal Packets -->
+        <circle r="3.5" fill="#D4AF37">
+          <animateMotion dur="4.2s" repeatCount="indefinite" rotate="auto"><mpath href="#arcToLondon"/></animateMotion>
+        </circle>
+        <circle r="3" fill="#3B82F6">
+          <animateMotion dur="5.4s" begin="1.1s" repeatCount="indefinite" rotate="auto"><mpath href="#arcToNewYork"/></animateMotion>
+        </circle>
+        <circle r="3.5" fill="#10B981">
+          <animateMotion dur="4.6s" begin="0.5s" repeatCount="indefinite" rotate="auto"><mpath href="#arcToSingapore"/></animateMotion>
+        </circle>
+        <circle r="3" fill="#D4AF37">
+          <animateMotion dur="5.0s" begin="2.0s" repeatCount="indefinite" rotate="auto"><mpath href="#arcToZurich"/></animateMotion>
+        </circle>
+
+        <!-- DXB Hub & Global Node Beacons -->
+        <g transform="translate(720, 296)">
+          <circle r="10" fill="none" stroke="#D4AF37" stroke-width="1.5" class="hero-beacon-ring"/>
+          <circle r="4.5" fill="#D4AF37"/>
+        </g>
+        <g transform="translate(230, 175)">
+          <circle r="8" fill="none" stroke="#3B82F6" stroke-width="1.2" class="hero-beacon-ring"/>
+          <circle r="3.5" fill="#3B82F6"/>
+        </g>
+        <g transform="translate(95, 225)">
+          <circle r="3.5" fill="#60A5FA"/>
+        </g>
+        <g transform="translate(1225, 180)">
+          <circle r="8" fill="none" stroke="#10B981" stroke-width="1.2" class="hero-beacon-ring"/>
+          <circle r="3.5" fill="#10B981"/>
+        </g>
+        <g transform="translate(1350, 225)">
+          <circle r="3.5" fill="#D4AF37"/>
+        </g>
+      </svg>
+    </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
-      <!-- Exclusive Badge -->
-      <div class="flex items-center justify-center mb-6">
+      <!-- Exclusive Badge + Live Telemetry Pill -->
+      <div class="hero-reveal flex flex-wrap items-center justify-center gap-2.5 mb-6">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold tracking-wide shadow-inner">
           <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
-          <span id="heroBadge">SOVEREIGN B2B GATEWAY FOR OVERSEAS AGENTS & PRIVATE WEALTH ADVISORS</span>
+          <span id="heroBadge">SOVEREIGN B2B GATEWAY FOR OVERSEAS AGENTS &amp; PRIVATE WEALTH ADVISORS</span>
+        </div>
+        <div class="hero-telemetry-strip inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-mono font-bold">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span class="text-emerald-400">DXB LIVE</span>
+          <span class="text-slate-400">·</span>
+          <span class="text-slate-200">228 COUNTRIES</span>
         </div>
       </div>
 
-      <!-- Main Headline -->
+      <!-- Main Kinetic Headline -->
       <div class="text-center max-w-4xl mx-auto">
-        <h1 id="heroHeadline" class="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight leading-[1.1] mb-5">
+        <h1 id="heroHeadline" class="hero-reveal hero-delay-1 text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight leading-[1.08] mb-5">
           Sell UAE Properties <br>
-          <span class="gold-gradient-text">From First Click to DLD Title</span>
+          <span class="gold-gradient-text hero-kinetic-gradient">From First Click to DLD Title</span>
         </h1>
-        <p id="heroSubtext" class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed mb-6">
+        <p id="heroSubtext" class="hero-reveal hero-delay-2 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed mb-6">
           Clear 5-step cross-border workflow: pick from <span class="text-white font-semibold tabular-nums">2,926</span> UAE off-plan projects, lock fees before sharing contacts, auto-sign the 4-party contract, and wire directly to DLD Project Escrow.
         </p>
 
+        <!-- Floating Live Telemetry Strip -->
+        <div class="hero-reveal hero-delay-2 hero-telemetry-strip max-w-3xl mx-auto rounded-2xl px-4 py-2.5 mb-6 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-blue-500/15 text-blue-400 flex items-center justify-center shrink-0">
+              <i data-lucide="building-2" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Verified Stock</div>
+              <div class="text-xs font-extrabold text-white tabular-nums">2,926 Projects</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
+              <i data-lucide="trending-up" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Avg Net Yield</div>
+              <div class="text-xs font-extrabold text-emerald-400 tabular-nums">8.4% Tax-Free</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-amber-500/15 text-brand-gold flex items-center justify-center shrink-0">
+              <i data-lucide="split" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Direct Split</div>
+              <div class="text-xs font-extrabold text-brand-gold tabular-nums">55% / 45%</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center shrink-0">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Portal Cut</div>
+              <div class="text-xs font-extrabold text-white tabular-nums">0% Direct</div>
+            </div>
+          </div>
+        </div>
+
         <!-- Persona Selector: Stupid-Simple Buyer vs Agent vs Critical UAE Seller -->
-        <div class="inline-flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-[#10141F] border border-white/15 mb-6 text-xs">
+        <div class="hero-reveal hero-delay-3 inline-flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-[#10141F] border border-white/15 mb-6 text-xs">
           <button id="personaBtn-buyer" onclick="selectPortalPersona('buyer')" class="px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all inline-flex items-center gap-1.5"><i data-lucide="compass" class="w-3.5 h-3.5"></i> I'm a First-Time Buyer</button>
           <button id="personaBtn-agent" onclick="selectPortalPersona('agent')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5"><i data-lucide="globe" class="w-3.5 h-3.5"></i> I'm an Overseas Agent (55%)</button>
           <button id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5"><i data-lucide="building-2" class="w-3.5 h-3.5"></i> I'm a UAE RERA Seller (30%)</button>
         </div>
 
         <!-- Dynamic Start-to-Finish Card for Selected Persona -->
-        <div id="personaGuideBox" class="max-w-3xl mx-auto bg-[#10141F]/90 border border-brand-gold/30 rounded-2xl p-4 sm:p-5 text-left mb-8">
+        <div id="personaGuideBox" class="hero-reveal hero-delay-3 max-w-3xl mx-auto bg-[#10141F]/90 border border-brand-gold/30 rounded-2xl p-4 sm:p-5 text-left mb-8">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div class="bg-white/5 rounded-xl p-3 border border-white/10">
               <div class="text-[10px] font-bold text-brand-gold uppercase">1. Where You Start</div>
@@ -724,15 +990,18 @@
         </div>
 
         <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-          <a href="#inventory" onclick="setActiveJourneyStep(1)" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#135BEC] hover:bg-blue-700 text-white font-extrabold text-base shadow-xl shadow-blue-600/25 transition-all flex items-center justify-center gap-2">
-            <span>Start Here: Browse 2,926 Projects ↓</span>
+        <div class="hero-reveal hero-delay-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+          <a href="#inventory" onclick="setActiveJourneyStep(1)" class="hero-cta-sheen w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#135BEC] hover:bg-blue-700 text-white font-extrabold text-base shadow-xl shadow-blue-600/25 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
+            <span>Start Here: Browse 2,926 Projects</span>
+            <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
           </a>
-          <button onclick="openExplainerVideo()" class="w-full sm:w-auto px-7 py-4 rounded-2xl bento-card font-extrabold text-base transition-all flex items-center justify-center gap-2">
-            <i data-lucide="clapperboard" class="w-4 h-4 text-brand-gold"></i>
+          <button onclick="openExplainerVideo()" class="w-full sm:w-auto px-7 py-4 rounded-2xl bento-card font-extrabold text-base transition-all flex items-center justify-center gap-2.5 group">
+            <span class="w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center group-hover:scale-110 transition-transform">
+              <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+            </span>
             <span>Watch 27s Step-by-Step Video</span>
           </button>
-          <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-500 font-bold text-base border border-emerald-500/40 transition-all flex items-center justify-center gap-2">
+          <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-500 font-bold text-base border border-emerald-500/40 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
             <i data-lucide="lock" class="w-4 h-4"></i>
             <span>Open Direct Contract &amp; Payment Proof</span>
           </button>
@@ -740,7 +1009,7 @@
       </div>
 
       <!-- BENTO COMMAND CENTER GRID (INSPIRED BY MODERN FINTECH/TRAVEL BENTO UI — LIGHT & DARK MODE) -->
-      <div id="bentoCommandGrid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 mb-10 text-left">
+      <div id="bentoCommandGrid" class="hero-reveal hero-delay-5 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 mb-10 text-left">
 
         <!-- Card 1: Electric Cobalt Blue Route Card (UAE -> GLOBAL) -->
         <div class="lg:col-span-4 bento-card-blue p-6 flex flex-col justify-between min-h-[250px] relative overflow-hidden">
@@ -5634,7 +5903,37 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       }
     }
 
-    window.addEventListener('load', initClerkAndAuth);
+    function initCinematicHeroMotion() {
+      const stage = document.getElementById('heroCinematicStage');
+      if (!stage || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let tx = 0, ty = 0, cx = 0, cy = 0, rafId = 0;
+      const tick = () => {
+        cx += (tx - cx) * 0.08;
+        cy += (ty - cy) * 0.08;
+        stage.style.setProperty('--mx', cx.toFixed(4));
+        stage.style.setProperty('--my', cy.toFixed(4));
+        if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) {
+          rafId = requestAnimationFrame(tick);
+        } else {
+          rafId = 0;
+        }
+      };
+      stage.addEventListener('pointermove', (e) => {
+        const r = stage.getBoundingClientRect();
+        tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+        ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      }, { passive: true });
+      stage.addEventListener('pointerleave', () => {
+        tx = 0; ty = 0;
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      });
+    }
+
+    window.addEventListener('load', () => {
+      initCinematicHeroMotion();
+      initClerkAndAuth();
+    });
   </script>
 </body>
 </html>
