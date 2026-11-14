@@ -260,6 +260,12 @@
           <span id="clientModeBtnText" class="hidden sm:inline">Client View</span>
         </button>
 
+        <!-- Mass WhatsApp & Email Broadcast Hub -->
+        <button id="openBroadcastBtn" onclick="openBroadcastModal()" class="b2b-only flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border border-sky-500/40 bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 transition-all" title="Mass WhatsApp & Email Broadcast to Overseas Agencies">
+          <i data-lucide="send" class="w-4 h-4 text-sky-400"></i>
+          <span class="hidden md:inline">Mass Broadcast</span>
+        </button>
+
         <!-- Dashboard Toggle Button -->
         <button onclick="toggleDashboardView()" class="b2b-only hidden md:flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 transition-all">
           <i data-lucide="layout-dashboard" class="w-4 h-4 text-purple-400"></i>
@@ -3652,10 +3658,30 @@ Property Value: AED ${price.toLocaleString()}
       });
     }
 
+    function getOptOutList() {
+      try {
+        return JSON.parse(localStorage.getItem('aih_optout_list') || '[]').map(e => String(e).trim().toLowerCase()).filter(Boolean);
+      } catch {
+        return [];
+      }
+    }
+
+    function addOptOutEmail(email) {
+      const clean = String(email || '').trim().toLowerCase();
+      if (!clean) return getOptOutList();
+      const list = Array.from(new Set([...getOptOutList(), clean]));
+      localStorage.setItem('aih_optout_list', JSON.stringify(list));
+      return list;
+    }
+
     function submitDsarRequest(e) {
       e.preventDefault();
       const email = document.getElementById('dsarEmailInput')?.value || '';
       const reqType = document.getElementById('dsarTypeSelect')?.value || 'erasure';
+      if (email && reqType.toLowerCase().includes('opt-out')) {
+        addOptOutEmail(email);
+        if (typeof renderBroadcastRecipients === 'function') renderBroadcastRecipients();
+      }
       const out = document.getElementById('dsarConfirmMsg');
       if (out) {
         const ticket = 'DSAR-' + Math.random().toString(36).slice(2, 8).toUpperCase();
@@ -3684,6 +3710,13 @@ Property Value: AED ${price.toLocaleString()}
       loadAgents(1);
       updateCurrency('USD');
       calculateCommission();
+
+      // Deep-link attribution: ?deal=<projectId> auto-opens the 4-Party Contract & Pre-Contact Fee Gate
+      const urlParams = new URLSearchParams(window.location.search);
+      const dealParam = urlParams.get('deal');
+      if (dealParam && typeof openBlindContractForProject === 'function') {
+        openBlindContractForProject(dealParam);
+      }
     });
   </script>
 
@@ -3844,5 +3877,453 @@ Property Value: AED ${price.toLocaleString()}
       </div>
     </div>
   </div>
+
+  <!-- MASS WHATSAPP & EMAIL BROADCAST HUB MODAL -->
+  <div id="broadcastModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#12151E] border border-sky-500/40 rounded-2xl max-w-6xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[92vh] overflow-y-auto">
+      <button onclick="closeBroadcastModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2" aria-label="Close Mass Broadcast Modal">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="mb-5">
+        <span class="bg-sky-500/20 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2.5 py-1 rounded uppercase">Anti-Circumvention · GDPR/PDPL Opt-Out · Tracked ?deal= Attribution</span>
+        <h3 class="text-xl sm:text-2xl font-display font-extrabold text-white mt-2">Mass WhatsApp &amp; Email Broadcast Hub</h3>
+        <p class="text-xs text-slate-400">Dispatch personalized UAE off-plan pitches from the Portal or a UAE RERA Seller to verified overseas agencies—with zero direct-contact leakage.</p>
+      </div>
+
+      <!-- Campaign Controls -->
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-4 text-xs bg-[#0A0C13] border border-white/10 rounded-xl p-4">
+        <div>
+          <label class="text-slate-400 block mb-1">Sender Role</label>
+          <select id="bcSenderRole" onchange="generateBroadcastTemplates()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white">
+            <option value="portal">Portal Official (AI Home Global)</option>
+            <option value="seller">UAE RERA Seller</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-slate-400 block mb-1">Seller / Ref Tag</label>
+          <input id="bcSellerRef" type="text" value="AI-HOME-PORTAL" oninput="generateBroadcastTemplates()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white">
+        </div>
+        <div class="md:col-span-2">
+          <label class="text-slate-400 block mb-1">UAE Off-Plan Project</label>
+          <select id="bcProjectSelect" onchange="generateBroadcastTemplates()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white"></select>
+        </div>
+        <div>
+          <label class="text-slate-400 block mb-1">Target Country</label>
+          <select id="bcCountrySelect" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white"></select>
+        </div>
+        <div>
+          <label class="text-slate-400 block mb-1">Batch &amp; Channel</label>
+          <div class="flex gap-1.5">
+            <select id="bcBatchSize" class="w-1/2 bg-[#12151E] border border-white/15 rounded-lg px-2 py-2 text-white">
+              <option value="25" selected>25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <select id="bcChannelSelect" class="w-1/2 bg-[#12151E] border border-white/15 rounded-lg px-2 py-2 text-white">
+              <option value="both" selected>Both</option>
+              <option value="email">Email</option>
+              <option value="whatsapp">WhatsApp</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="bcLoadRecipientsBtn" onclick="loadBroadcastRecipients()" class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-black font-extrabold text-xs">1. Load Verified Overseas Recipients</button>
+          <button onclick="generateBroadcastTemplates()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs border border-white/10">Refresh Templates</button>
+        </div>
+        <div id="bcRecipientStats" class="text-xs text-slate-300 font-semibold">Click "Load Verified Overseas Recipients" to pull live contacts.</div>
+      </div>
+
+      <!-- Editable Templates -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4 text-xs">
+        <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-emerald-400 uppercase text-[11px]">Email Template (Tokens: {{name}}, {{company}}, {{country}}, {{deal_link}})</span>
+          </div>
+          <input id="bcEmailSubject" type="text" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-3 py-2 text-white font-semibold" placeholder="Email Subject">
+          <textarea id="bcEmailBody" rows="6" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-3 py-2 text-slate-200 font-mono text-[11px]"></textarea>
+        </div>
+        <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-brand-gold uppercase text-[11px]">WhatsApp Pitch (E.164 · Anti-Circumvention Smart Link)</span>
+          </div>
+          <textarea id="bcWhatsappBody" rows="7" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-3 py-2 text-slate-200 font-mono text-[11px]"></textarea>
+        </div>
+      </div>
+
+      <!-- Action Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4 p-3 rounded-xl bg-[#0A0C13] border border-white/10">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="bcSendBtn" onclick="sendBroadcastCampaign()" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs">2. Send Campaign (/api/broadcast)</button>
+          <button id="bcNextWaBtn" onclick="stepWhatsappQueue()" class="px-4 py-2.5 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black font-extrabold text-xs">3. Next WhatsApp (wa.me Queue)</button>
+          <button id="bcExportCsvBtn" onclick="exportBroadcastCsv()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-xs border border-white/15">Export Campaign CSV</button>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs">
+          <input id="bcOptOutQuickInput" type="email" placeholder="Suppress email (GDPR/PDPL)" class="bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white text-xs">
+          <button onclick="suppressQuickEmail()" class="px-2.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold text-[11px]">Opt-Out</button>
+        </div>
+      </div>
+
+      <div id="bcCampaignStatus" class="hidden mb-4 p-3 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 text-xs font-semibold"></div>
+
+      <!-- Recipients Table -->
+      <div class="bg-[#0A0C13] border border-white/10 rounded-xl overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-white/5 text-slate-400 uppercase text-[10px]">
+            <tr>
+              <th class="px-3 py-2.5">Agent / Agency</th>
+              <th class="px-3 py-2.5">Country</th>
+              <th class="px-3 py-2.5">Email</th>
+              <th class="px-3 py-2.5">Phone (E.164)</th>
+              <th class="px-3 py-2.5">Status</th>
+            </tr>
+          </thead>
+          <tbody id="bcRecipientsTbody" class="divide-y divide-white/5 text-slate-200">
+            <tr><td colspan="5" class="px-3 py-6 text-center text-slate-500">No recipients loaded yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let broadcastRecipients = [];
+    let broadcastWaCursor = 0;
+
+    function normalizePhoneE164(raw, country) {
+      if (!raw) return '';
+      let s = String(raw).trim();
+      if (s.startsWith('00')) s = '+' + s.slice(2);
+      const hasPlus = s.startsWith('+');
+      const digits = s.replace(/\D/g, '');
+      if (digits.length < 7) return '';
+      if (hasPlus) return '+' + digits;
+      const dialMap = {
+        'United Kingdom': '44', 'UK': '44', 'Germany': '49', 'France': '33',
+        'United States': '1', 'USA': '1', 'Canada': '1', 'India': '91',
+        'Saudi Arabia': '966', 'Qatar': '974', 'Kuwait': '965', 'Bahrain': '973',
+        'Oman': '968', 'Egypt': '20', 'Spain': '34', 'Italy': '39',
+        'Switzerland': '41', 'Singapore': '65', 'Australia': '61', 'Russia': '7'
+      };
+      const code = dialMap[String(country || '').trim()] || '';
+      if (code && !digits.startsWith(code)) {
+        return '+' + code + digits.replace(/^0+/, '');
+      }
+      return '+' + digits;
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || '').trim());
+    }
+
+    function buildTrackedDealLink() {
+      const projectId = document.getElementById('bcProjectSelect')?.value || (uaeOffPlanProjects[0]?.id || 'OPUAE-emaar-properties__golf-place-by-emaar__dubai');
+      const sellerRef = (document.getElementById('bcSellerRef')?.value || 'AI-HOME-PORTAL').trim();
+      const base = (window.location.origin && window.location.origin.startsWith('http')) ? window.location.origin : 'https://uae-property-aboard.vercel.app';
+      return `${base}/?deal=${encodeURIComponent(projectId)}&seller=${encodeURIComponent(sellerRef)}`;
+    }
+
+    async function populateBroadcastDropdowns() {
+      const projSel = document.getElementById('bcProjectSelect');
+      if (projSel && projSel.options.length === 0) {
+        const list = (Array.isArray(uaeOffPlanProjects) && uaeOffPlanProjects.length > 0)
+          ? uaeOffPlanProjects.slice(0, 60)
+          : [{ id: 'OPUAE-emaar-properties__golf-place-by-emaar__dubai', title: 'Golf Place by Emaar', developer: 'Emaar Properties', priceAed: 2450000 }];
+        projSel.innerHTML = list.map(p => `<option value="${String(p.id).replace(/"/g, '&quot;')}">${p.title} (${p.developer || 'UAE'} · AED ${Number(p.priceAed || 0).toLocaleString()})</option>`).join('');
+      }
+
+      const countrySel = document.getElementById('bcCountrySelect');
+      if (countrySel && countrySel.options.length === 0) {
+        let countries = ['United Kingdom', 'Germany', 'France', 'United States', 'Saudi Arabia', 'India', 'Singapore', 'Switzerland'];
+        try {
+          const res = await fetch('./data/agents-countries.json');
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              countries = data.map(c => c.country || c.name || c).filter(c => c && !/united arab emirates|\buae\b/i.test(String(c)));
+            }
+          }
+        } catch {}
+        countrySel.innerHTML = countries.slice(0, 228).map(c => `<option value="${String(c).replace(/"/g, '&quot;')}">${c}</option>`).join('');
+      }
+    }
+
+    function generateBroadcastTemplates() {
+      const role = document.getElementById('bcSenderRole')?.value || 'portal';
+      const sellerRefEl = document.getElementById('bcSellerRef');
+      if (sellerRefEl && (sellerRefEl.value === 'AI-HOME-PORTAL' || sellerRefEl.value === 'UAE-RERA-SELLER')) {
+        sellerRefEl.value = role === 'seller' ? 'UAE-RERA-SELLER' : 'AI-HOME-PORTAL';
+      }
+      const projSel = document.getElementById('bcProjectSelect');
+      const projectLabel = projSel?.options[projSel.selectedIndex]?.text || 'Dubai Off-Plan Allocation';
+      const dealLink = buildTrackedDealLink();
+      const senderLabel = role === 'seller'
+        ? `RERA-Licensed UAE Seller (${sellerRefEl?.value || 'UAE-RERA-SELLER'}) via AI Home Global`
+        : 'AI Home Global Official UAE Off-Plan Desk';
+
+      const subject = `[UAE Off-Plan Co-Brokerage] 55% Overseas Split · ${projectLabel}`;
+      const emailBody = [
+        `Dear {{name}} ({{company}} — {{country}}),`,
+        ``,
+        `${senderLabel} invites your agency to co-distribute ${projectLabel} to international buyers.`,
+        ``,
+        `• Overseas Agency Split: 55% of gross developer commission (protected by 4-Party RERA Form I + DIFC 180-day Non-Circumvention).`,
+        `• Pre-Contact Blind Protection: Buyer & Seller identities stay protected until fee locks & digital signatures clear.`,
+        `• Instant 4-Party Deal Room & White-Label Pitch: {{deal_link}}`,
+        ``,
+        `Open your tracked Deal Room link above to review specs, lock commission splits, and sign digitally.`,
+        ``,
+        `Compliance / Opt-Out (GDPR Art. 17 & UAE PDPL): Reply STOP or submit opt-out at https://uae-property-aboard.vercel.app/#legalComplianceModal`
+      ].join('\n');
+
+      const waBody = [
+        `Hi {{name}} ({{company}}), ${senderLabel} here.`,
+        `Co-broker UAE Off-Plan: *${projectLabel}* — *55% commission split* for overseas agencies, protected by 4-Party Digital Contract + DIFC Non-Circumvention.`,
+        `Open Tracked Deal Room: {{deal_link}}`,
+        `Reply STOP to opt out (GDPR/PDPL).`
+      ].join('\n');
+
+      const subjEl = document.getElementById('bcEmailSubject');
+      const bodyEl = document.getElementById('bcEmailBody');
+      const waEl = document.getElementById('bcWhatsappBody');
+      if (subjEl) subjEl.value = subject;
+      if (bodyEl) bodyEl.value = emailBody.replace(/\{\{deal_link\}\}/g, dealLink);
+      if (waEl) waEl.value = waBody.replace(/\{\{deal_link\}\}/g, dealLink);
+    }
+
+    async function loadBroadcastRecipients() {
+      const country = document.getElementById('bcCountrySelect')?.value || 'United Kingdom';
+      const limit = parseInt(document.getElementById('bcBatchSize')?.value || '25', 10);
+      const statsEl = document.getElementById('bcRecipientStats');
+      if (statsEl) statsEl.innerText = `Loading up to ${limit} verified contacts in ${country}...`;
+
+      const collected = [];
+      const seenKeys = new Set();
+      let liveCount = 0;
+
+      try {
+        const res = await fetch(`/api/agents?country=${encodeURIComponent(country)}&limit=${encodeURIComponent(limit)}&page=1`);
+        if (res.ok) {
+          const payload = await res.json();
+          const rows = Array.isArray(payload) ? payload : (payload.agents || payload.data || payload.results || []);
+          for (const r of rows) {
+            const email = isValidEmail(r.email) ? String(r.email).trim() : '';
+            const phone = normalizePhoneE164(r.phone || r.mobile || r.office_tel || r.whatsapp, r.country || country);
+            if (!email && !phone) continue;
+            const key = (email || phone).toLowerCase();
+            if (seenKeys.has(key)) continue;
+            seenKeys.add(key);
+            collected.push({
+              name: r.name || r.full_name || r.agent_name || 'Overseas Broker',
+              company: r.company || r.agency || r.office || 'International Realty',
+              country: r.country || country,
+              email,
+              phone,
+              status: 'pending'
+            });
+            liveCount++;
+          }
+        }
+      } catch (err) {
+        console.warn('Live /api/agents broadcast fetch failed:', err);
+      }
+
+      if (collected.length < limit && Array.isArray(abroadAgencies)) {
+        for (const a of abroadAgencies) {
+          if (collected.length >= limit) break;
+          if (country && a.country && a.country.toLowerCase() !== country.toLowerCase()) continue;
+          const email = isValidEmail(a.email) ? String(a.email).trim() : '';
+          const phone = normalizePhoneE164(a.phone, a.country || country);
+          if (!email && !phone) continue;
+          const key = (email || phone).toLowerCase();
+          if (seenKeys.has(key)) continue;
+          seenKeys.add(key);
+          collected.push({
+            name: a.name || 'Partner Agency',
+            company: a.name || 'Partner Agency',
+            country: a.country || country,
+            email,
+            phone,
+            status: 'pending'
+          });
+        }
+      }
+
+      if (collected.length === 0) {
+        collected.push({
+          name: 'Mayfair International Desk',
+          company: 'Mayfair Global Realty',
+          country,
+          email: 'desk@mayfair-partner.example',
+          phone: normalizePhoneE164('+442079460192', country),
+          status: 'pending'
+        });
+      }
+
+      broadcastRecipients = collected.slice(0, limit);
+      broadcastWaCursor = 0;
+      renderBroadcastRecipients();
+      if (statsEl) {
+        statsEl.innerText = `Loaded ${broadcastRecipients.length} recipients (${liveCount} from live /api/agents) for ${country}.`;
+      }
+    }
+
+    function renderBroadcastRecipients() {
+      const tbody = document.getElementById('bcRecipientsTbody');
+      if (!tbody) return;
+      const optOuts = new Set(getOptOutList());
+      broadcastRecipients.forEach(r => {
+        if (r.email && optOuts.has(r.email.toLowerCase())) {
+          r.status = 'opt_out_suppressed';
+        }
+      });
+
+      if (broadcastRecipients.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="px-3 py-6 text-center text-slate-500">No recipients loaded yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = broadcastRecipients.map(r => {
+        const badgeColor = r.status === 'opt_out_suppressed'
+          ? 'text-rose-400 bg-rose-500/15 border-rose-500/40'
+          : (r.status.includes('sent') || r.status.includes('ready') || r.status === 'wa_me_queued')
+            ? 'text-emerald-300 bg-emerald-500/15 border-emerald-500/40'
+            : 'text-slate-300 bg-white/5 border-white/10';
+        return `
+          <tr>
+            <td class="px-3 py-2 font-semibold text-white">${r.name}<div class="text-[10px] text-slate-400">${r.company}</div></td>
+            <td class="px-3 py-2 text-slate-300">${r.country}</td>
+            <td class="px-3 py-2 text-sky-300 font-mono text-[11px]">${r.email || '—'}</td>
+            <td class="px-3 py-2 text-brand-gold font-mono text-[11px]">${r.phone || '—'}</td>
+            <td class="px-3 py-2"><span class="px-2 py-0.5 rounded border text-[10px] font-bold ${badgeColor}">${r.status}</span></td>
+          </tr>`;
+      }).join('');
+    }
+
+    async function sendBroadcastCampaign() {
+      if (broadcastRecipients.length === 0) await loadBroadcastRecipients();
+      const optOuts = new Set(getOptOutList());
+      const active = broadcastRecipients.filter(r => !(r.email && optOuts.has(r.email.toLowerCase())));
+      const statusBox = document.getElementById('bcCampaignStatus');
+
+      if (active.length === 0) {
+        if (statusBox) {
+          statusBox.classList.remove('hidden');
+          statusBox.innerText = 'All loaded recipients are on the GDPR/PDPL opt-out suppression list.';
+        }
+        return;
+      }
+
+      const payload = {
+        channel: document.getElementById('bcChannelSelect')?.value || 'both',
+        subject: document.getElementById('bcEmailSubject')?.value || 'UAE Off-Plan Co-Brokerage',
+        messageTemplate: document.getElementById('bcEmailBody')?.value || '',
+        whatsappTemplate: document.getElementById('bcWhatsappBody')?.value || '',
+        recipients: active.map(r => ({ ...r, phoneE164: r.phone || '' }))
+      };
+
+      const res = await fetch('/api/broadcast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (Array.isArray(data.results)) {
+        data.results.forEach(item => {
+          const match = broadcastRecipients.find(r => (r.email && r.email === item.id) || (r.phone && r.phone === item.id) || r.name === item.name);
+          if (match) {
+            match.status = item.emailStatus !== 'no_email'
+              ? `${item.emailStatus} / ${item.waStatus || 'queued'}`
+              : (item.waStatus || 'queued');
+          }
+        });
+      }
+      renderBroadcastRecipients();
+
+      if (statusBox) {
+        statusBox.classList.remove('hidden');
+        const total = data.summary?.totalProcessed || active.length;
+        statusBox.innerText = `✓ Dispatched ${total} recipients · Mode: Email=${data.mode?.email}, WhatsApp=${data.mode?.whatsapp} · Opt-out suppressed: ${broadcastRecipients.length - active.length}`;
+      }
+    }
+
+    function personalizeText(tpl, r) {
+      const link = buildTrackedDealLink();
+      return String(tpl || '')
+        .replace(/\{\{name\}\}/g, r.name || 'Partner')
+        .replace(/\{\{company\}\}/g, r.company || 'Agency')
+        .replace(/\{\{country\}\}/g, r.country || 'International')
+        .replace(/\{\{deal_link\}\}/g, link);
+    }
+
+    function stepWhatsappQueue() {
+      const optOuts = new Set(getOptOutList());
+      const eligible = broadcastRecipients.filter(r => r.phone && !(r.email && optOuts.has(r.email.toLowerCase())));
+      if (eligible.length === 0) return;
+      if (broadcastWaCursor >= eligible.length) broadcastWaCursor = 0;
+      const target = eligible[broadcastWaCursor++];
+      const msg = personalizeText(document.getElementById('bcWhatsappBody')?.value || '', target);
+      const waUrl = `https://wa.me/${target.phone.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`;
+      target.status = 'wa_me_queued';
+      renderBroadcastRecipients();
+      const statusBox = document.getElementById('bcCampaignStatus');
+      if (statusBox) {
+        statusBox.classList.remove('hidden');
+        statusBox.innerText = `💬 WhatsApp Queue (${broadcastWaCursor}/${eligible.length}): Ready for ${target.name} (${target.phone}) -> ${waUrl.slice(0, 72)}...`;
+      }
+      if (!navigator.webdriver) window.open(waUrl, '_blank', 'noopener');
+      return waUrl;
+    }
+
+    function exportBroadcastCsv() {
+      const dealLink = buildTrackedDealLink();
+      const waTpl = document.getElementById('bcWhatsappBody')?.value || '';
+      const header = ['Name', 'Company', 'Country', 'Email', 'Phone_E164', 'Status', 'Tracked_Deal_Link', 'WhatsApp_URL'];
+      const esc = v => '"' + String(v || '').replace(/"/g, '""') + '"';
+      const rows = broadcastRecipients.map(r => {
+        const waUrl = r.phone ? `https://wa.me/${r.phone.replace(/\D/g, '')}?text=${encodeURIComponent(personalizeText(waTpl, r))}` : '';
+        return [r.name, r.company, r.country, r.email, r.phone, r.status, dealLink, waUrl].map(esc).join(',');
+      });
+      const csv = [header.join(','), ...rows].join('\n');
+      window._lastBroadcastCsv = csv;
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `ai-home-broadcast-${Date.now()}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function suppressQuickEmail() {
+      const input = document.getElementById('bcOptOutQuickInput');
+      if (!input || !input.value.trim()) return;
+      addOptOutEmail(input.value.trim());
+      input.value = '';
+      renderBroadcastRecipients();
+    }
+
+    async function openBroadcastModal() {
+      await populateBroadcastDropdowns();
+      generateBroadcastTemplates();
+      const modal = document.getElementById('broadcastModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeBroadcastModal() {
+      const modal = document.getElementById('broadcastModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+  </script>
 </body>
 </html>

@@ -14,6 +14,33 @@ const MIME = {
 
 const server = http.createServer(async (req, res) => {
   const reqUrl = new URL(req.url, `http://127.0.0.1:${PORT}`);
+  if (reqUrl.pathname === '/api/broadcast') {
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    const raw = Buffer.concat(chunks).toString('utf8');
+    try {
+      req.body = raw ? JSON.parse(raw) : {};
+    } catch {
+      req.body = {};
+    }
+    const resAdapter = {
+      status(code) { res.statusCode = code; return this; },
+      json(obj) {
+        if (!res.headersSent) res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify(obj));
+      }
+    };
+    try {
+      const { pathToFileURL } = require('url');
+      const mod = await import(pathToFileURL(path.join(__dirname, 'api', 'broadcast.js')).href);
+      const handler = mod.default || mod;
+      await handler(req, resAdapter);
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ ok: false, error: err.message }));
+    }
+    return;
+  }
   if (reqUrl.pathname === '/api/agents' || reqUrl.pathname === '/api/dld-developer') {
     try {
       const upstream = await fetch(`https://www.ai-home.world${reqUrl.pathname}${reqUrl.search}`, {
