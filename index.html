@@ -664,17 +664,12 @@
           <span>Register Client (SLA)</span>
         </button>
 
-        <!-- Clerk User Auth Sign In / Profile -->
-        <button id="authSignInBtn" onclick="openAuthOnboardingModal()" class="flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl border border-blue-500/40 bg-[#135BEC] hover:bg-blue-600 text-white shadow-sm transition-all">
-          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-          <span id="authSignInLabel">Sign In</span>
+        <!-- Unified Clerk Auth Sign In & Partner Network Onboarding -->
+        <button id="authSignInBtn" onclick="openAuthOnboardingModal('signin')" class="flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-xl border border-brand-gold/40 bg-gradient-to-r from-[#135BEC] to-blue-700 hover:brightness-110 text-white shadow-md shadow-blue-600/20 transition-all">
+          <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+          <span id="authSignInLabel">Sign In / Join Network</span>
         </button>
         <div id="clerkUserButtonMount" class="hidden items-center"></div>
-
-        <button onclick="openPartnerModal()" class="b2b-only flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-lg bg-gradient-to-r from-brand-gold via-yellow-500 to-amber-600 hover:brightness-110 text-black shadow-lg shadow-brand-gold/25 transition-all">
-          <i data-lucide="user-plus" class="w-4 h-4 text-black"></i>
-          <span>Join Network</span>
-        </button>
 
         <!-- Mobile Menu Toggle -->
         <button id="mobileMenuBtn" class="xl:hidden text-slate-300 hover:text-white p-2">
@@ -725,7 +720,7 @@
     <div class="pt-4 border-t border-white/10 flex flex-col gap-2">
       <button onclick="toggleDashboardView()" class="w-full py-2.5 bg-purple-500/20 text-purple-300 border border-purple-500/40 rounded-lg text-sm font-semibold">Open Partner Portal</button>
       <button onclick="openLeadModal()" class="w-full py-2.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 rounded-lg text-sm font-semibold">Register Overseas Client (SLA)</button>
-      <button onclick="openPartnerModal()" class="w-full py-2.5 bg-brand-gold text-black font-bold rounded-lg text-sm">Join International Network</button>
+      <button onclick="openAuthOnboardingModal('join')" class="w-full py-2.5 bg-brand-gold text-black font-bold rounded-lg text-sm">Sign In / Join Network</button>
     </div>
   </div>
 
@@ -2257,51 +2252,7 @@
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- 12. PARTNER ONBOARDING MODAL                             -->
-  <!-- ======================================================== -->
-  <div id="partnerModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#12151E] border border-brand-gold/40 rounded-2xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl">
-      <button onclick="closePartnerModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
-      <div class="flex items-center gap-2 mb-2">
-        <div class="w-8 h-8 rounded-lg bg-brand-gold/20 text-brand-gold flex items-center justify-center">
-          <i data-lucide="handshake" class="w-5 h-5"></i>
-        </div>
-        <h3 class="text-xl font-display font-extrabold text-white">Apply for International Partner Status</h3>
-      </div>
-      <p class="text-xs text-slate-400 mb-6">
-        No UAE broker license required. Sign a direct cross-border referral agreement and get instant access to unbranded marketing decks and live inventory feeds.
-      </p>
-
-      <form id="partnerForm" onsubmit="handlePartnerSubmit(event)" class="space-y-4">
-        <div>
-          <label class="text-xs font-semibold text-slate-300 block mb-1">Brokerage / Company Name:</label>
-          <input type="text" required placeholder="e.g. Zurich Prime Estates" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-gold">
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="text-xs font-semibold text-slate-300 block mb-1">Country of Operation:</label>
-            <input type="text" required placeholder="e.g. Switzerland" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-gold">
-          </div>
-          <div>
-            <label class="text-xs font-semibold text-slate-300 block mb-1">WhatsApp / Phone:</label>
-            <input type="tel" required placeholder="+41 79 ..." class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-gold">
-          </div>
-        </div>
-        <div>
-          <label class="text-xs font-semibold text-slate-300 block mb-1">Official Work Email:</label>
-          <input type="email" required placeholder="contact@zurichprime.ch" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-gold">
-        </div>
-        <button type="submit" class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-extrabold py-3 px-4 rounded-xl text-sm transition-all shadow-lg shadow-brand-gold/20 flex items-center justify-center gap-2">
-          <i data-lucide="key" class="w-4 h-4"></i>
-          Activate Global Partner Portal
-        </button>
-      </form>
-    </div>
-  </div>
+  <!-- Unified Partner Network Onboarding is merged into #authOnboardingModal -->
 
   <!-- ======================================================== -->
   <!-- 12B. GLOBAL A-TO-Z WORKFLOW EXPLAINER VIDEO PLAYER       -->
@@ -2908,12 +2859,10 @@
     }
 
     function openPartnerModal() {
-      document.getElementById('partnerModal').classList.remove('hidden');
-      document.getElementById('partnerModal').classList.add('flex');
+      openAuthOnboardingModal('join');
     }
     function closePartnerModal() {
-      document.getElementById('partnerModal').classList.add('hidden');
-      document.getElementById('partnerModal').classList.remove('flex');
+      closeAuthOnboardingModal();
     }
 
     function openVirtualTour() {
@@ -5590,10 +5539,20 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
 
       <div class="mb-5">
         <span class="inline-block px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-bold uppercase tracking-wider mb-2">
-          Clerk SSO · GDPR Art. 6 &amp; UAE PDPL Compliant Onboarding
+          Clerk SSO · Partner Network · GDPR Art. 6 &amp; UAE PDPL
         </span>
-        <h3 class="text-2xl font-display font-extrabold text-white">Portal Sign-In, Partner Profile &amp; Legal Consent</h3>
-        <p class="text-xs text-slate-400 mt-1">Sign in with Clerk, complete your full broker/investor profile, and review our Terms &amp; Conditions, Co-Brokerage Contract, and Marketing Consent.</p>
+        <h3 id="authModalTitle" class="text-2xl font-display font-extrabold text-white">Sign In &amp; Partner Network Onboarding</h3>
+        <p id="authModalSubtitle" class="text-xs text-slate-400 mt-1">Sign in with Clerk or join the international partner network — complete your profile, Co-Brokerage Contract, and Marketing Consent in one unified flow.</p>
+
+        <!-- Unified Mode Switcher: Existing Member Sign In vs New Partner Join Network -->
+        <div class="inline-flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-[#0A0C13] border border-white/15 mt-3 text-xs">
+          <button type="button" id="authModeBtnSignin" onclick="switchAuthMode('signin')" class="px-3.5 py-1.5 rounded-lg bg-[#135BEC] text-white font-bold inline-flex items-center gap-1.5 transition-all">
+            <i data-lucide="log-in" class="w-3.5 h-3.5"></i> Sign In (Existing Member)
+          </button>
+          <button type="button" id="authModeBtnJoin" onclick="switchAuthMode('join')" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:bg-white/10 font-semibold inline-flex items-center gap-1.5 transition-all">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Join Partner Network (New)
+          </button>
+        </div>
       </div>
 
       <!-- Clerk Mount / Status Banner -->
@@ -5708,10 +5667,48 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       });
     }
 
-    function openAuthOnboardingModal() {
+    let currentAuthMode = 'signin';
+
+    function switchAuthMode(mode) {
+      currentAuthMode = mode === 'join' ? 'join' : 'signin';
+      const btnSign = document.getElementById('authModeBtnSignin');
+      const btnJoin = document.getElementById('authModeBtnJoin');
+      const titleEl = document.getElementById('authModalTitle');
+      const subEl = document.getElementById('authModalSubtitle');
+      const submitBtn = document.getElementById('authSaveSubmitBtn');
+      if (btnSign) {
+        btnSign.className = currentAuthMode === 'signin'
+          ? 'px-3.5 py-1.5 rounded-lg bg-[#135BEC] text-white font-bold inline-flex items-center gap-1.5 transition-all'
+          : 'px-3.5 py-1.5 rounded-lg text-slate-300 hover:bg-white/10 font-semibold inline-flex items-center gap-1.5 transition-all';
+      }
+      if (btnJoin) {
+        btnJoin.className = currentAuthMode === 'join'
+          ? 'px-3.5 py-1.5 rounded-lg bg-brand-gold text-black font-extrabold inline-flex items-center gap-1.5 transition-all'
+          : 'px-3.5 py-1.5 rounded-lg text-slate-300 hover:bg-white/10 font-semibold inline-flex items-center gap-1.5 transition-all';
+      }
+      if (titleEl) {
+        titleEl.innerText = currentAuthMode === 'join'
+          ? 'Join International Partner Network'
+          : 'Sign In & Partner Network Onboarding';
+      }
+      if (subEl) {
+        subEl.innerText = currentAuthMode === 'join'
+          ? 'No UAE broker license required — verify via Clerk, sign your 55/45 Co-Brokerage & Marketing Consent, and activate your Partner Portal.'
+          : 'Sign in with Clerk or update your broker/investor profile, Co-Brokerage Contract, and Marketing Consent.';
+      }
+      if (submitBtn) {
+        submitBtn.innerText = currentAuthMode === 'join'
+          ? 'Activate Global Partner Portal & Sign Consent'
+          : 'Save Verified Profile & Sign Consent';
+      }
+    }
+
+    function openAuthOnboardingModal(mode = 'signin') {
       const m = document.getElementById('authOnboardingModal');
       if (m) { m.classList.remove('hidden'); m.classList.add('flex'); }
+      switchAuthMode(mode);
       loadSavedAuthProfileIntoForm();
+      if (window.lucide) lucide.createIcons();
     }
 
     function closeAuthOnboardingModal() {
@@ -5741,9 +5738,13 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
     function updateHeaderAuthUI(profile) {
       const lbl = document.getElementById('authSignInLabel');
       if (lbl && profile?.fullName) {
-        lbl.innerText = profile.fullName.split(' ')[0] + (profile.marketingConsent ? ' ✓' : '');
+        lbl.innerText = profile.fullName.split(' ')[0] + ' · Partner';
       } else if (lbl) {
-        lbl.innerText = 'Sign In';
+        lbl.innerText = 'Sign In / Join Network';
+      }
+      const dashPartner = document.getElementById('dashPartnerName');
+      if (dashPartner && (profile?.company || profile?.fullName)) {
+        dashPartner.innerText = profile.company || profile.fullName;
       }
     }
 
