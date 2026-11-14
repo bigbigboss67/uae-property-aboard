@@ -285,6 +285,24 @@
     </div>
   </header>
 
+  <!-- STICKY 5-STEP START-TO-FINISH JOURNEY BAR -->
+  <div id="journeyStepperBar" class="sticky top-[73px] z-30 bg-[#0B0E16]/95 backdrop-blur-md border-b border-white/10 py-2 px-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto no-scrollbar text-[11px]">
+      <span class="text-slate-400 font-bold uppercase tracking-wider shrink-0 hidden sm:inline">Your Path:</span>
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <a href="#inventory" onclick="setActiveJourneyStep(1)" id="jStep1" class="px-2.5 py-1 rounded-lg bg-brand-gold text-black font-extrabold whitespace-nowrap">1. Pick Project (Start)</a>
+        <span class="text-slate-600">➔</span>
+        <a href="#calculator" onclick="setActiveJourneyStep(2)" id="jStep2" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">2. Check Numbers</a>
+        <span class="text-slate-600">➔</span>
+        <button onclick="setActiveJourneyStep(3); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" id="jStep3" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">3. Lock &amp; 4-Party Sign</button>
+        <span class="text-slate-600">➔</span>
+        <a href="#escrow" onclick="setActiveJourneyStep(4)" id="jStep4" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">4. DLD Escrow</a>
+        <span class="text-slate-600">➔</span>
+        <button onclick="setActiveJourneyStep(5); openLegalModal('escrow')" id="jStep5" class="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-bold whitespace-nowrap">5. Deal Confirmed (End)</button>
+      </div>
+    </div>
+  </div>
+
   <!-- CLIENT SHOWCASE BANNER (VISIBLE ONLY IN CLIENT-SAFE MODE) -->
   <div id="clientSafeBanner" class="hidden bg-gradient-to-r from-[#0F131D] via-[#171C2B] to-[#0F131D] border-b border-brand-gold/40 py-3 px-4">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
@@ -411,27 +429,50 @@
 
       <!-- Main Headline -->
       <div class="text-center max-w-4xl mx-auto">
-        <h1 id="heroHeadline" class="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight leading-[1.1] mb-6">
+        <h1 id="heroHeadline" class="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight leading-[1.1] mb-5">
           Sell UAE Properties <br>
-          <span class="gold-gradient-text">To Your Local Clients Worldwide</span>
+          <span class="gold-gradient-text">From First Click to DLD Title</span>
         </h1>
-        <p id="heroSubtext" class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed mb-10">
-          The only B2B syndication portal built exclusively for brokers outside the UAE. Access pre-allocated Tier-1 off-plan developments, generate <span class="text-brand-gold font-semibold">unbranded client pitch decks</span> in seconds, and collect <span class="text-emerald-400 font-semibold">up to 7% direct commission</span> with complete client lead protection.
+        <p id="heroSubtext" class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed mb-6">
+          Clear 5-step cross-border workflow: pick from <span class="text-white font-semibold tabular-nums">2,926</span> UAE off-plan projects, lock fees before sharing contacts, auto-sign the 4-party contract, and wire directly to DLD Project Escrow.
         </p>
 
+        <!-- Persona Selector: Stupid-Simple Buyer vs Agent vs Critical UAE Seller -->
+        <div class="inline-flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-[#10141F] border border-white/15 mb-6 text-xs">
+          <button id="personaBtn-buyer" onclick="selectPortalPersona('buyer')" class="px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all">🧭 I'm a First-Time Buyer</button>
+          <button id="personaBtn-agent" onclick="selectPortalPersona('agent')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all">🌍 I'm an Overseas Agent (55%)</button>
+          <button id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all">🏢 I'm a UAE RERA Seller (30%)</button>
+        </div>
+
+        <!-- Dynamic Start-to-Finish Card for Selected Persona -->
+        <div id="personaGuideBox" class="max-w-3xl mx-auto bg-[#10141F]/90 border border-brand-gold/30 rounded-2xl p-4 sm:p-5 text-left mb-8">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="bg-white/5 rounded-xl p-3 border border-white/10">
+              <div class="text-[10px] font-bold text-brand-gold uppercase">1. Where You Start</div>
+              <div id="pgStart" class="text-white font-semibold mt-1">Pick any UAE project below in your own currency (USD/EUR/GBP).</div>
+            </div>
+            <div class="bg-white/5 rounded-xl p-3 border border-white/10">
+              <div class="text-[10px] font-bold text-sky-400 uppercase">2. What Happens Next</div>
+              <div id="pgMiddle" class="text-white font-semibold mt-1">Lock buyer KYC ($350) &amp; auto-sign the 4-party contract with RERA agency + DLD.</div>
+            </div>
+            <div class="bg-emerald-500/10 rounded-xl p-3 border border-emerald-500/30">
+              <div class="text-[10px] font-bold text-emerald-400 uppercase">3. Where It Ends</div>
+              <div id="pgEnd" class="text-white font-semibold mt-1">Wire deposit only to the Developer's DLD Escrow Bank &amp; get your Oqood title.</div>
+            </div>
+          </div>
+        </div>
+
         <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <button onclick="openExplainerVideo()" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-amber-500/25 to-yellow-600/25 hover:from-amber-500/35 hover:to-yellow-600/35 text-amber-300 font-extrabold text-base border-2 border-amber-500/50 hover:border-amber-400 transition-all shadow-xl shadow-amber-500/10 flex items-center justify-center gap-2">
-            <span>🎬 Watch A-to-Z Deal Workflow Explainer Video</span>
-          </button>
-          <button onclick="openLeadModal()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-gold via-yellow-500 to-amber-600 text-black font-extrabold text-base shadow-xl shadow-brand-gold/25 hover:brightness-110 transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
-            <i data-lucide="shield-check" class="w-5 h-5 text-black"></i>
-            <span>Register Client Lead (90-Day SLA)</span>
-          </button>
-          <a href="#white-label" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-base border border-white/15 hover:border-brand-gold/40 transition-all flex items-center justify-center gap-2">
-            <i data-lucide="file-down" class="w-5 h-5 text-brand-gold"></i>
-            <span>1-Click White-Label Presentation</span>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+          <a href="#inventory" onclick="setActiveJourneyStep(1)" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-gold via-yellow-500 to-amber-600 text-black font-extrabold text-base shadow-xl shadow-brand-gold/25 hover:brightness-110 transition-all flex items-center justify-center gap-2">
+            <span>Start Here: Browse 2,926 Projects ↓</span>
           </a>
+          <button onclick="openExplainerVideo()" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-amber-300 font-extrabold text-base border border-amber-500/50 transition-all flex items-center justify-center gap-2">
+            <span>🎬 Watch 27s Step-by-Step Video</span>
+          </button>
+          <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 font-bold text-base border border-emerald-500/40 transition-all flex items-center justify-center gap-2">
+            <span>🔒 Test 4-Party Contract</span>
+          </button>
         </div>
       </div>
 
@@ -2410,22 +2451,74 @@
       openWhiteLabelDossierModal(uaeOffPlanProjects[0]);
     }
 
-    function applyFilters() {
-      const strategy = document.getElementById('strategyFilter').value;
-      const area = document.getElementById('areaFilter').value;
-      const dev = document.getElementById('developerFilter')?.value || 'all';
-      if (document.getElementById('offplanDevSelect')) document.getElementById('offplanDevSelect').value = dev;
-      if (document.getElementById('offplanLocSelect')) document.getElementById('offplanLocSelect').value = area;
-      if (strategy !== 'all' && ['golden-visa', 'monthly', 'luxury', 'marjan'].includes(strategy)) {
-        setOffPlanCategory(strategy);
-      } else {
-        setOffPlanCategory('all');
+    function selectPortalPersona(persona) {
+      const data = {
+        buyer: {
+          start: 'Pick any UAE project below in your own currency (USD/EUR/GBP).',
+          middle: 'Lock buyer KYC ($350) & auto-sign the 4-party contract with RERA agency + DLD.',
+          end: "Wire deposit only to the Developer's DLD Escrow Bank & get your Oqood title."
+        },
+        agent: {
+          start: 'Pick a project & generate a White-Label Dossier with your agency brand.',
+          middle: 'Lock your buyer ($350 KYC) & auto-send the 4-party contract (55% gross split).',
+          end: 'Close in the Video Room & receive your 55% payout within 5 business days.'
+        },
+        seller: {
+          start: 'Load your Portal Wallet ($500 unlock) to claim KYC-verified overseas buyers.',
+          middle: 'Zero fake leads: Lock 1 ($350 KYC) + 180-day NCNDA (200% penalty / DIFC SCT) are signed first.',
+          end: 'Execute SPA, verify DLD Escrow, keep 30% & settle 55% Overseas / 15% Portal.'
+        }
+      };
+      const p = data[persona] || data.buyer;
+      const setTxt = (id, t) => { const e = document.getElementById(id); if (e) e.innerText = t; };
+      setTxt('pgStart', p.start);
+      setTxt('pgMiddle', p.middle);
+      setTxt('pgEnd', p.end);
+
+      ['buyer', 'agent', 'seller'].forEach(k => {
+        const b = document.getElementById('personaBtn-' + k);
+        if (!b) return;
+        b.className = k === persona
+          ? 'px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all'
+          : 'px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all';
+      });
+    }
+
+    function setActiveJourneyStep(step) {
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById('jStep' + i);
+        if (!el) continue;
+        if (i === step) {
+          el.className = 'px-2.5 py-1 rounded-lg bg-brand-gold text-black font-extrabold whitespace-nowrap';
+        } else if (i < step) {
+          el.className = 'px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold whitespace-nowrap';
+        } else {
+          el.className = 'px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap';
+        }
       }
+    }
+
+    function applyFilters() {
+      const strategy = document.getElementById('strategyFilter')?.value || 'all';
+      const area = document.getElementById('areaFilter')?.value || 'all';
+      const dev = document.getElementById('developerFilter')?.value || 'all';
+      const searchTerms = [];
+      if (area !== 'all') searchTerms.push(area);
+      if (dev !== 'all') searchTerms.push(dev);
+      const searchEl = document.getElementById('offplanSearchInput');
+      if (searchEl) searchEl.value = searchTerms.join(' ');
+      if (document.getElementById('offplanDevSelect')) document.getElementById('offplanDevSelect').value = 'all';
+      if (document.getElementById('offplanLocSelect')) document.getElementById('offplanLocSelect').value = 'all';
+
+      if (strategy === 'golden-visa') setOffPlanCategory('golden-visa');
+      else if (strategy === 'luxury') setOffPlanCategory('penthouse');
+      else setOffPlanCategory('all');
+      setActiveJourneyStep(1);
       document.getElementById('inventory')?.scrollIntoView({ behavior: 'smooth' });
     }
 
     function quickFilter(type) {
-      if (['golden-visa', 'monthly', 'luxury', 'marjan'].includes(type)) {
+      if (['golden-visa', 'apartment', 'villa', 'penthouse', 'dld'].includes(type)) {
         setOffPlanCategory(type);
       } else {
         setOffPlanCategory('all');
