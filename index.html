@@ -84,6 +84,25 @@
       color: var(--bento-ink);
       transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.25s ease;
     }
+    @keyframes logoOrbitSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes logoFloatGlow {
+      0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.35)); }
+      50% { transform: translateY(-1.5px); filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.65)); }
+    }
+    .logo-orbit-ring {
+      animation: logoOrbitSpin 16s linear infinite;
+      transform-origin: center;
+    }
+    .logo-emblem-motion {
+      animation: logoFloatGlow 3.6s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .logo-orbit-ring, .logo-emblem-motion { animation: none !important; }
+    }
+    }
     .bento-card:hover {
       transform: translateY(-2px);
     }
@@ -714,15 +733,46 @@
   <header class="sticky top-0 z-40 bg-[#08090C]/95 backdrop-blur-2xl border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
       
-      <!-- Brand Logo -->
-      <a href="#" class="flex items-center gap-3 shrink-0">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-gold via-yellow-500 to-amber-700 flex items-center justify-center text-black font-extrabold shadow-lg shadow-brand-gold/20 shrink-0">
-          <i data-lucide="globe-2" class="w-6 h-6 text-black"></i>
+      <!-- Brand Logo (Creative Skyline + Orbital Globe with Motion) -->
+      <a href="#" class="group flex items-center gap-3 shrink-0">
+        <div class="relative w-11 h-11 flex items-center justify-center shrink-0 logo-emblem-motion group-hover:scale-105 transition-transform duration-300">
+          <!-- Rotating Golden Orbital Ring -->
+          <svg viewBox="0 0 48 48" class="absolute inset-0 w-full h-full logo-orbit-ring" fill="none" aria-hidden="true">
+            <circle cx="24" cy="24" r="22" stroke="url(#goldOrbitGrad)" stroke-width="1.5" stroke-dasharray="6 4 2 4" stroke-linecap="round" />
+            <circle cx="43.5" cy="15" r="2.2" fill="#34D399" />
+            <defs>
+              <linearGradient id="goldOrbitGrad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FDE047" />
+                <stop offset="50%" stop-color="#D4AF37" />
+                <stop offset="100%" stop-color="#38BDF8" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <!-- Core Architectural Spire + Globe Emblem -->
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#171C2B] via-[#0F131D] to-[#08090C] border border-brand-gold/60 flex items-center justify-center shadow-lg shadow-brand-gold/25">
+            <svg viewBox="0 0 32 32" class="w-6 h-6" fill="none" aria-hidden="true">
+              <circle cx="16" cy="16" r="11" stroke="#D4AF37" stroke-width="1.3" stroke-opacity="0.55" />
+              <ellipse cx="16" cy="16" rx="5.5" ry="11" stroke="#D4AF37" stroke-width="1.1" stroke-opacity="0.45" />
+              <path d="M5.5 16h21" stroke="#D4AF37" stroke-width="1.1" stroke-opacity="0.45" />
+              <!-- Dubai Spire & Penthouse Roofline -->
+              <path d="M16 4.5L17.4 13H20.5V24H11.5V13H14.6L16 4.5Z" fill="url(#spireGold)" />
+              <path d="M9.5 24V17.5H12.5V24H9.5ZM19.5 24V16H22.5V24H19.5Z" fill="#FDE047" fill-opacity="0.85" />
+              <defs>
+                <linearGradient id="spireGold" x1="16" y1="4.5" x2="16" y2="24" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FEF08A" />
+                  <stop offset="55%" stop-color="#D4AF37" />
+                  <stop offset="100%" stop-color="#B45309" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="font-display font-extrabold tracking-tight text-xl text-white whitespace-nowrap">AI HOME</span>
-            <span class="bg-brand-gold/15 text-brand-gold text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded border border-brand-gold/30">GLOBAL</span>
+            <span class="font-display font-extrabold tracking-tight text-xl text-white whitespace-nowrap group-hover:text-brand-gold transition-colors">AI HOME</span>
+            <span class="bg-brand-gold/15 text-brand-gold text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded border border-brand-gold/30 inline-flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> GLOBAL
+            </span>
           </div>
           <p data-i18n="brandTagline" class="text-[10px] text-slate-400 tracking-wider uppercase font-medium whitespace-nowrap hidden sm:block">UAE Partner Gateway for Outside-UAE Agents</p>
         </div>
@@ -1810,7 +1860,7 @@
   <!-- ======================================================== -->
   <!-- 7B. GLOBAL PARTNER AGENCIES & ABROAD BROKERS (OUTSIDE UAE)-->
   <!-- ======================================================== -->
-  <section id="abroad-agencies" class="b2b-only py-20 bg-[#0B0D15] border-t border-white/10">
+  <section id="abroad-agencies" class="py-20 bg-[#0B0D15] border-t border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-4">
