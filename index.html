@@ -4591,7 +4591,7 @@
           const loc = [ag.city, ag.state, ag.country].filter(Boolean).join(', ') || 'Global';
           const phone = ag.phone || ag.mobile || ag.office_tel || '';
           const initials = name.split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
-          const photoSrc = ag.photo_link || ag.avatar || ag.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=135BEC&color=FFFFFF&size=128&bold=true&format=svg`;
+          const photoSrc = ag.photo_link || ag.avatar || ag.image || `https://randomuser.me/api/portraits/med/men/${((Number(ag.id) || 1) % 90) + 1}.jpg`;
           const cleanAddr = ag.address && !/^\s*p\.?\s*o\.?\s*box/i.test(ag.address) ? ag.address : '';
           return `
           <div class="bento-card p-5 flex flex-col justify-between hover:border-[#135BEC]/40 transition-all text-start">
