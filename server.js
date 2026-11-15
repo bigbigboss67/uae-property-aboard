@@ -19,8 +19,11 @@ const server = http.createServer(async (req, res) => {
     reqUrl.pathname === '/api/deal-unlock' ||
     reqUrl.pathname === '/api/track' ||
     reqUrl.pathname === '/api/config' ||
-    reqUrl.pathname === '/api/auth-profile'
+    reqUrl.pathname === '/api/auth-profile' ||
+    reqUrl.pathname === '/api/stripe-checkout' ||
+    reqUrl.pathname === '/api/ledger'
   ) {
+    req.query = Object.fromEntries(reqUrl.searchParams.entries());
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
     const raw = Buffer.concat(chunks).toString('utf8');
@@ -45,7 +48,9 @@ const server = http.createServer(async (req, res) => {
         '/api/track': 'track.js',
         '/api/config': 'config.js',
         '/api/auth-profile': 'auth-profile.js',
-        '/api/broadcast': 'broadcast.js'
+        '/api/broadcast': 'broadcast.js',
+        '/api/stripe-checkout': 'stripe-checkout.js',
+        '/api/ledger': 'ledger.js'
       };
       const apiFile = map[reqUrl.pathname] || 'broadcast.js';
       const mod = await import(pathToFileURL(path.join(__dirname, 'api', apiFile)).href);
