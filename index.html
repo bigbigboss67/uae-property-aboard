@@ -982,6 +982,37 @@
         </div>
       </div>
 
+      <!-- Portal Enquiry Forwarding Inbox (Overseas Requests Routed to Developer / UAE Partner) -->
+      <div class="bg-[#12151E] border border-sky-500/25 rounded-2xl overflow-hidden mt-6">
+        <div class="p-4 border-b border-white/10 flex flex-wrap items-center justify-between gap-2">
+          <h3 class="font-bold text-white text-sm flex items-center gap-2">
+            <i data-lucide="inbox" class="w-4 h-4 text-sky-400"></i> Portal Enquiry Inbox (Forward to Developer / UAE Agent)
+          </h3>
+          <span id="enquiriesCountBadge" class="text-[11px] bg-sky-500/20 text-sky-300 border border-sky-500/40 px-2.5 py-0.5 rounded-full font-bold">0 Queued</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-white/[0.02] text-slate-400 border-b border-white/5">
+              <tr>
+                <th class="p-3">Enquiry ID</th>
+                <th class="p-3">From (Buyer / Broker)</th>
+                <th class="p-3">Project &amp; Developer</th>
+                <th class="p-3">Country &amp; Contact</th>
+                <th class="p-3">Status</th>
+                <th class="p-3 text-right">Forward Action</th>
+              </tr>
+            </thead>
+            <tbody id="liveEnquiriesTableBody" class="divide-y divide-white/5 text-slate-300">
+              <tr>
+                <td colspan="6" class="p-5 text-center text-slate-400">
+                  No overseas enquiries received yet. Buyers and brokers can submit free enquiries on any project card.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -5231,8 +5262,11 @@
                 <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Listing
               </a>
             </div>
+            <button onclick="openEnquiryModal('${safeId}')" class="w-full bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/35 font-bold py-2 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
+              <i data-lucide="mail" class="w-3.5 h-3.5"></i> Send Enquiry (Free · Portal Forwarded)
+            </button>
             <button onclick="openBlindContractForProject('${safeId}')" class="w-full bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 font-bold py-2 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
-              <i data-lucide="lock" class="w-3.5 h-3.5"></i> Lock Buyer &amp; Auto-Contract (3-Way Split)
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i> Instant Deal Room Unlock (SaaS)
             </button>
           </div>
         </div>
@@ -5915,22 +5949,115 @@
         if (Array.isArray(data.leads) && data.leads.length) {
           registeredSessionLeads.splice(0, registeredSessionLeads.length, ...data.leads);
         }
+        if (Array.isArray(data.enquiries)) {
+          registeredSessionEnquiries.splice(0, registeredSessionEnquiries.length, ...data.enquiries);
+          renderEnquiriesTable();
+        }
       } catch {}
     }
 
-    function setPortalFeeType(feeType) {
-      blindContractState.portalFeeType = feeType === 'percentage' ? 'percentage' : 'fixed';
-      const fixedBtn = document.getElementById('bcFeeType-fixed');
-      const pctBtn = document.getElementById('bcFeeType-percentage');
-      const pctRow = document.getElementById('bcPortalPctRow');
-      if (fixedBtn) fixedBtn.className = blindContractState.portalFeeType === 'fixed'
-        ? 'px-2.5 py-1 rounded-lg bg-brand-gold text-black font-extrabold'
-        : 'px-2.5 py-1 rounded-lg bg-white/10 text-slate-300 hover:bg-white/20 font-bold';
-      if (pctBtn) pctBtn.className = blindContractState.portalFeeType === 'percentage'
-        ? 'px-2.5 py-1 rounded-lg bg-brand-gold text-black font-extrabold'
-        : 'px-2.5 py-1 rounded-lg bg-white/10 text-slate-300 hover:bg-white/20 font-bold';
-      if (pctRow) pctRow.classList.toggle('hidden', blindContractState.portalFeeType !== 'percentage');
-      updateBlindContractUI();
+    const registeredSessionEnquiries = [];
+    let activeEnquiryProject = null;
+
+    function openEnquiryModal(projectId) {
+      const p = uaeOffPlanProjects.find(x => (x.id || x.propertyid) === projectId) || uaeOffPlanProjects[0] || {};
+      activeEnquiryProject = p;
+      const modal = document.getElementById('portalEnquiryModal');
+      if (!modal) return;
+      const titleEl = document.getElementById('enqProjectTitle');
+      const devEl = document.getElementById('enqProjectSub');
+      if (titleEl) titleEl.innerText = p.name || p.title || 'UAE Off-Plan Project';
+      if (devEl) devEl.innerText = `${p.developer || 'Dubai Developer'} · ${p.location || 'UAE'}`;
+      const form = document.getElementById('portalEnquiryForm');
+      const successBox = document.getElementById('enqSuccessBox');
+      if (form) form.classList.remove('hidden');
+      if (successBox) successBox.classList.add('hidden');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeEnquiryModal() {
+      const modal = document.getElementById('portalEnquiryModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    async function submitPortalEnquiry(e) {
+      e.preventDefault();
+      const p = activeEnquiryProject || {};
+      const enqId = `ENQ-${Date.now().toString().slice(-6)}`;
+      const enquiry = {
+        enqId,
+        projectId: p.id || p.propertyid || 'UAE-PROJECT',
+        projectName: p.name || p.title || 'UAE Off-Plan Project',
+        developer: p.developer || 'UAE Developer',
+        fullName: document.getElementById('enqFullName')?.value.trim() || 'Overseas Client',
+        contact: document.getElementById('enqContact')?.value.trim() || '',
+        country: document.getElementById('enqCountry')?.value.trim() || 'International',
+        senderRole: document.getElementById('enqRole')?.value || 'Direct Buyer',
+        budget: document.getElementById('enqBudget')?.value.trim() || 'Flexible',
+        message: document.getElementById('enqMessage')?.value.trim() || '',
+        status: 'QUEUED_FOR_FORWARDING'
+      };
+      registeredSessionEnquiries.unshift(enquiry);
+      renderEnquiriesTable();
+      try {
+        await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'submit_enquiry', enquiry })
+        });
+      } catch {}
+      document.getElementById('portalEnquiryForm')?.classList.add('hidden');
+      const successBox = document.getElementById('enqSuccessBox');
+      const refEl = document.getElementById('enqSuccessRef');
+      if (refEl) refEl.innerText = enqId;
+      if (successBox) successBox.classList.remove('hidden');
+    }
+
+    async function forwardPortalEnquiry(enqId) {
+      const target = 'Developer / Licensed UAE Partner';
+      const idx = registeredSessionEnquiries.findIndex(x => x.enqId === enqId);
+      if (idx !== -1) {
+        registeredSessionEnquiries[idx].status = 'FORWARDED_TO_PARTNER';
+        registeredSessionEnquiries[idx].forwardedTo = target;
+      }
+      renderEnquiriesTable();
+      try {
+        await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'forward_enquiry', enqId, forwardedTo: target })
+        });
+      } catch {}
+      if (typeof showToast === 'function') showToast(`Enquiry ${enqId} marked forwarded to ${target}.`);
+    }
+
+    function renderEnquiriesTable() {
+      const tbody = document.getElementById('liveEnquiriesTableBody');
+      const badge = document.getElementById('enquiriesCountBadge');
+      const queued = registeredSessionEnquiries.filter(x => x.status !== 'FORWARDED_TO_PARTNER').length;
+      if (badge) badge.innerText = `${queued} Queued · ${registeredSessionEnquiries.length} Total`;
+      if (!tbody) return;
+      if (!registeredSessionEnquiries.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-5 text-center text-slate-400">No overseas enquiries received yet. Buyers and brokers can submit free enquiries on any project card.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = registeredSessionEnquiries.map(eq => {
+        const forwarded = eq.status === 'FORWARDED_TO_PARTNER';
+        return `
+          <tr>
+            <td class="p-3 font-mono text-sky-300">${escHtml(eq.enqId)}</td>
+            <td class="p-3 font-semibold text-white">${escHtml(eq.fullName)}<span class="block text-[10px] text-slate-400">${escHtml(eq.senderRole)}</span></td>
+            <td class="p-3">${escHtml(eq.projectName)}<span class="block text-[10px] text-slate-400">${escHtml(eq.developer)} · ${escHtml(eq.budget)}</span></td>
+            <td class="p-3">${escHtml(eq.country)}<span class="block text-[10px] text-slate-400">${escHtml(eq.contact)}</span></td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${forwarded ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${forwarded ? 'FORWARDED' : 'QUEUED'}</span></td>
+            <td class="p-3 text-right">${forwarded ? '<span class="text-emerald-400 text-[11px] font-semibold">Sent to Partner</span>' : `<button onclick="forwardPortalEnquiry('${escHtml(eq.enqId)}')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 font-bold text-[11px]">Forward Now</button>`}</td>
+          </tr>
+        `;
+      }).join('');
     }
 
     async function topUpWalletCredits() {
@@ -6373,6 +6500,63 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       }
     });
   </script>
+
+  <!-- FREE PORTAL ENQUIRY MODAL (ROUTED TO PORTAL INBOX -> DEVELOPER / UAE AGENT) -->
+  <div id="portalEnquiryModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="cinema-dark bg-[#12151E] border border-sky-500/40 rounded-2xl max-w-lg w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs">
+      <div class="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
+        <div>
+          <span class="bg-sky-500/20 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2.5 py-0.5 rounded uppercase">Free Portal Enquiry · 0% Buyer Fee</span>
+          <h3 id="enqProjectTitle" class="text-lg font-display font-extrabold text-white mt-1">UAE Off-Plan Project</h3>
+          <p id="enqProjectSub" class="text-xs text-slate-400">Developer · Location</p>
+        </div>
+        <button onclick="closeEnquiryModal()" aria-label="Close Enquiry Modal" style="background-color:#EF4444;color:#FFFFFF;" class="px-3 py-1.5 rounded-lg text-xs font-extrabold flex items-center gap-1 hover:brightness-110 transition-all shadow shrink-0">
+          <i data-lucide="x" class="w-4 h-4"></i> Close
+        </button>
+      </div>
+
+      <form id="portalEnquiryForm" onsubmit="submitPortalEnquiry(event)" class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">Your Full Name *</label>
+            <input id="enqFullName" type="text" required placeholder="e.g. Sarah Miller" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">WhatsApp or Email *</label>
+            <input id="enqContact" type="text" required placeholder="+44 7700 900077 / email" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">Country *</label>
+            <input id="enqCountry" type="text" required placeholder="e.g. United States / UK" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+          <div>
+            <label class="text-slate-300 font-semibold block mb-1">I am a *</label>
+            <select id="enqRole" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+              <option value="Direct Buyer">Direct Buyer / Investor</option>
+              <option value="Broker Abroad">Broker / Agency Abroad</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="text-slate-300 font-semibold block mb-1">Target Budget / Unit Type</label>
+          <input id="enqBudget" type="text" placeholder="e.g. 2BR Apartment · AED 2.2M" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+        </div>
+        <div>
+          <label class="text-slate-300 font-semibold block mb-1">Question or Request</label>
+          <textarea id="enqMessage" rows="2" placeholder="Ask about availability, payment plan, or floor plans..." class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white"></textarea>
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-black font-extrabold text-xs transition-all">
+          Send Free Enquiry to Portal Desk →
+        </button>
+      </form>
+
+      <div id="enqSuccessBox" class="hidden p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-200 space-y-2">
+        <div class="font-extrabold text-emerald-300 text-sm">✓ Enquiry Received (<span id="enqSuccessRef" class="font-mono">ENQ-000000</span>)</div>
+        <p class="text-xs text-slate-200">Your request is queued in the AI Home Global Portal Inbox and will be forwarded to the Developer Desk or a licensed UAE Partner Agent.</p>
+        <button onclick="closeEnquiryModal()" class="px-4 py-1.5 rounded-lg bg-emerald-500 text-black font-bold text-xs">Done</button>
+      </div>
+    </div>
+  </div>
 
   <!-- DIRECT DIGITAL CONTRACT & PAYMENT PROOF GATE MODAL (GUIDED 3-STEP WIZARD) -->
   <div id="blindContractModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-start justify-center p-2 sm:p-4 overflow-hidden">

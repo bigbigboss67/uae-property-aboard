@@ -5,6 +5,7 @@ const DEFAULT_LEDGER = {
   walletCredits: 5,
   subQuota: 10,
   leads: [],
+  enquiries: [],
   contracts: {}
 };
 
@@ -22,6 +23,7 @@ function readLocalLedger() {
       walletCredits: typeof parsed.walletCredits === 'number' ? parsed.walletCredits : 5,
       subQuota: typeof parsed.subQuota === 'number' ? parsed.subQuota : 10,
       leads: Array.isArray(parsed.leads) ? parsed.leads : [],
+      enquiries: Array.isArray(parsed.enquiries) ? parsed.enquiries : [],
       contracts: parsed.contracts && typeof parsed.contracts === 'object' ? parsed.contracts : {}
     };
   } catch {
@@ -113,6 +115,20 @@ export default async function handler(req, res) {
         return res.status(400).json({ ok: false, error: 'No Pro Plan quota remaining' });
       }
       ledger.subQuota -= 1;
+    } else if (action === 'submit_enquiry' && body.enquiry) {
+      ledger.enquiries = Array.isArray(ledger.enquiries) ? ledger.enquiries : [];
+      ledger.enquiries.unshift({
+        ...body.enquiry,
+        status: 'QUEUED_FOR_FORWARDING',
+        createdAt: new Date().toISOString()
+      });
+    } else if (action === 'forward_enquiry' && body.enqId) {
+      ledger.enquiries = Array.isArray(ledger.enquiries) ? ledger.enquiries : [];
+      ledger.enquiries = ledger.enquiries.map(eq =>
+        eq.enqId === body.enqId
+          ? { ...eq, status: 'FORWARDED_TO_PARTNER', forwardedTo: body.forwardedTo || 'Developer / RERA Partner Desk', forwardedAt: new Date().toISOString() }
+          : eq
+      );
     } else if (action === 'save_contract' && body.contract?.dealId) {
       ledger.contracts[body.contract.dealId] = {
         ...body.contract,
