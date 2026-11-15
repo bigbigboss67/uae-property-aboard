@@ -991,13 +991,16 @@
         </div>
       </div>
 
-      <!-- Portal Enquiry Forwarding Inbox (Overseas Requests Routed to Developer / UAE Partner) -->
-      <div class="bg-[#12151E] border border-sky-500/25 rounded-2xl overflow-hidden mt-6">
+      <!-- Portal Enquiry Forwarding Inbox (Strictly Gated for Portal Owner Only) -->
+      <div id="portalOwnerInboxCard" class="hidden bg-[#12151E] border border-sky-500/25 rounded-2xl overflow-hidden mt-6">
         <div class="p-4 border-b border-white/10 flex flex-wrap items-center justify-between gap-2">
           <h3 class="font-bold text-white text-sm flex items-center gap-2">
-            <i data-lucide="inbox" class="w-4 h-4 text-sky-400"></i> Portal Enquiry Inbox (Forward to Developer / UAE Agent)
+            <i data-lucide="inbox" class="w-4 h-4 text-sky-400"></i> Portal Owner Enquiry Inbox (Forward to Developer / UAE Agent)
           </h3>
-          <span id="enquiriesCountBadge" class="text-[11px] bg-sky-500/20 text-sky-300 border border-sky-500/40 px-2.5 py-0.5 rounded-full font-bold">0 Queued</span>
+          <div class="flex items-center gap-2">
+            <span id="enquiriesCountBadge" class="text-[11px] bg-sky-500/20 text-sky-300 border border-sky-500/40 px-2.5 py-0.5 rounded-full font-bold">0 Queued</span>
+            <button type="button" onclick="logoutPortalOwner()" class="text-[11px] px-2.5 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/35 font-bold">Lock Owner Session</button>
+          </div>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs">
@@ -2968,7 +2971,7 @@
             <li><a href="#calculator" class="hover:text-white transition-colors">Commission Escrow Payouts</a></li>
             <li><a href="#drone" class="hover:text-white transition-colors">4K FPV Drone Library</a></li>
             <li><a href="#why-dubai" class="hover:text-white transition-colors">Global Tax & Yield Index</a></li>
-            <li><button type="button" onclick="openPortalOwnerInbox()" class="text-sky-400 hover:text-sky-300 transition-colors font-semibold text-left">Portal Owner Inbox (Admin)</button></li>
+            <li><button type="button" onclick="openPortalOwnerInbox()" class="text-sky-400 hover:text-sky-300 transition-colors font-semibold text-left">Portal Owner Sign In</button></li>
           </ul>
         </div>
 
@@ -6109,7 +6112,13 @@
       if (successBox) successBox.classList.remove('hidden');
     }
 
+    let isPortalOwnerVerified = false;
+
     async function forwardPortalEnquiry(enqId) {
+      if (!isPortalOwnerVerified) {
+        openPortalOwnerInbox();
+        return;
+      }
       const target = 'Developer / Licensed UAE Partner';
       const idx = registeredSessionEnquiries.findIndex(x => x.enqId === enqId);
       if (idx !== -1) {
@@ -6128,16 +6137,89 @@
     }
 
     async function openPortalOwnerInbox() {
+      const token = sessionStorage.getItem('aih_owner_token') || '';
+      if (token) {
+        try {
+          const vRes = await fetch(`/api/owner-auth?token=${encodeURIComponent(token)}`);
+          const vData = await vRes.json();
+          isPortalOwnerVerified = Boolean(vData.verified);
+        } catch {
+          isPortalOwnerVerified = false;
+        }
+      } else {
+        isPortalOwnerVerified = false;
+      }
+
+      if (!isPortalOwnerVerified) {
+        const modal = document.getElementById('ownerLoginModal');
+        const errEl = document.getElementById('ownerLoginError');
+        if (errEl) errEl.classList.add('hidden');
+        if (modal) {
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+          document.getElementById('ownerPasscodeInput')?.focus();
+          if (window.lucide) lucide.createIcons();
+        }
+        return;
+      }
+
       await syncPortalLedger();
       const dash = document.getElementById('partnerDashboardOverlay');
       if (dash) dash.classList.remove('hidden');
+      const inboxCard = document.getElementById('portalOwnerInboxCard');
+      if (inboxCard) inboxCard.classList.remove('hidden');
       const partnerName = document.getElementById('dashPartnerName');
-      if (partnerName) partnerName.innerText = 'Portal Owner (Admin View)';
+      if (partnerName) partnerName.innerText = 'Portal Owner (Verified Admin)';
       const btnText = document.getElementById('dashboardBtnText');
-      if (btnText) btnText.innerText = 'Exit Owner Inbox';
+      if (btnText) btnText.innerText = 'Close Portal';
       const inbox = document.getElementById('liveEnquiriesTableBody');
       if (inbox) inbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      if (typeof showToast === 'function') showToast('Portal Owner Inbox opened — all ENQ enquiries loaded.');
+      if (typeof showToast === 'function') showToast('Portal Owner Inbox unlocked.');
+    }
+
+    function closeOwnerLoginModal() {
+      const modal = document.getElementById('ownerLoginModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    async function submitOwnerLogin(e) {
+      e.preventDefault();
+      const passcode = document.getElementById('ownerPasscodeInput')?.value || '';
+      const errEl = document.getElementById('ownerLoginError');
+      try {
+        const res = await fetch('/api/owner-auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok || !data.ownerToken) {
+          if (errEl) {
+            errEl.innerText = data.error || 'Invalid Portal Owner passcode.';
+            errEl.classList.remove('hidden');
+          }
+          return;
+        }
+        sessionStorage.setItem('aih_owner_token', data.ownerToken);
+        isPortalOwnerVerified = true;
+        closeOwnerLoginModal();
+        await openPortalOwnerInbox();
+      } catch {
+        if (errEl) {
+          errEl.innerText = 'Could not verify passcode.';
+          errEl.classList.remove('hidden');
+        }
+      }
+    }
+
+    function logoutPortalOwner() {
+      sessionStorage.removeItem('aih_owner_token');
+      isPortalOwnerVerified = false;
+      document.getElementById('portalOwnerInboxCard')?.classList.add('hidden');
+      document.getElementById('partnerDashboardOverlay')?.classList.add('hidden');
+      if (typeof showToast === 'function') showToast('Portal Owner session locked.');
     }
 
     function renderEnquiriesTable() {
@@ -6634,6 +6716,33 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       }
     });
   </script>
+
+  <!-- PORTAL OWNER PASSCODE LOGIN MODAL (GATED ADMIN ACCESS) -->
+  <div id="ownerLoginModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="modal-panel-animate cinema-dark bg-[#12151E] border border-gold-400/40 rounded-2xl max-w-md w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs">
+      <div class="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
+        <div>
+          <span class="bg-gold-500/20 text-gold-300 border border-gold-400/40 text-[10px] font-bold px-2.5 py-0.5 rounded uppercase">Restricted Admin Gate</span>
+          <h3 class="font-serif text-lg text-white font-bold mt-1">Portal Owner Sign In</h3>
+        </div>
+        <button type="button" onclick="closeOwnerLoginModal()" class="text-slate-400 hover:text-white text-sm px-2.5 py-1 rounded-lg bg-white/5 border border-white/10">✕</button>
+      </div>
+      <form onsubmit="submitOwnerLogin(event)" class="space-y-4">
+        <p class="text-xs text-slate-400 leading-relaxed">
+          This inbox is strictly restricted to the Portal Owner. Visitors, buyers, overseas partners, and UAE RERA sellers have no access.
+        </p>
+        <div>
+          <label for="ownerPasscodeInput" class="block text-[11px] uppercase tracking-wider text-slate-300 font-semibold mb-1.5">Owner Passcode</label>
+          <input id="ownerPasscodeInput" type="password" required autocomplete="current-password" placeholder="Enter Portal Owner passcode..." class="w-full px-3.5 py-2.5 rounded-xl bg-navy-950 border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-400">
+        </div>
+        <div id="ownerLoginError" class="hidden text-xs text-rose-300 bg-rose-500/10 border border-rose-500/30 rounded-xl px-3 py-2"></div>
+        <div class="flex items-center justify-end gap-2 pt-1">
+          <button type="button" onclick="closeOwnerLoginModal()" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-semibold border border-white/10">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-gold-500 hover:bg-gold-400 text-navy-950 text-xs font-bold transition">Verify &amp; Unlock Inbox</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- FREE PORTAL ENQUIRY MODAL (ROUTED TO PORTAL INBOX -> DEVELOPER / UAE AGENT) -->
   <div id="portalEnquiryModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
