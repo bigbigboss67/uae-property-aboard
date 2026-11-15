@@ -233,6 +233,19 @@
     html.light .cinema-dark .text-emerald-400 {
       color: #34D399 !important;
     }
+    html.light .cinema-dark .bg-white\/5,
+    html.light .cinema-dark .bg-white\/10,
+    html.light .cinema-dark .bg-white\/20 {
+      background-color: rgba(255, 255, 255, 0.14) !important;
+      color: #FFFFFF !important;
+      border: 1px solid rgba(255, 255, 255, 0.24) !important;
+    }
+    html.light .cinema-dark .bg-brand-gold,
+    html.light .cinema-dark .bg-brand-gold.text-black {
+      background-color: #EAB308 !important;
+      color: #0F172A !important;
+      border-color: #EAB308 !important;
+    }
     /* High-contrast emerald & sky badges in both Light & Dark modes */
     .bg-emerald-500\/90,
     html.light .bg-emerald-500\/90.text-white {
@@ -1856,8 +1869,8 @@
             Search Global Agents
           </button>
           <button id="agentViewToggleBtn" onclick="toggleAgentViewMode()" title="Switch Table / Card View" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/15 shrink-0 inline-flex items-center gap-1.5">
-            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
-            <span id="agentViewToggleLabel">Cards</span>
+            <i data-lucide="table-2" class="w-3.5 h-3.5"></i>
+            <span id="agentViewToggleLabel">Table</span>
           </button>
         </div>
       </div>
@@ -2490,7 +2503,7 @@
       </div>
 
       <!-- Bottom Call Toolbar -->
-      <div class="p-3 bg-black/90 border-t border-white/10 flex items-center justify-center gap-4 shrink-0">
+      <div class="cinema-dark p-3 bg-black/90 border-t border-white/10 flex items-center justify-center gap-4 shrink-0">
         <button class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white" title="Mute/Unmute">
           <i data-lucide="mic" class="w-5 h-5"></i>
         </button>
@@ -4577,13 +4590,13 @@
       loadAgents(1);
     }
 
-    let agentViewMode = 'table';
+    let agentViewMode = 'cards';
     let lastLoadedAgents = [];
 
     function toggleAgentViewMode() {
-      agentViewMode = agentViewMode === 'table' ? 'cards' : 'table';
+      agentViewMode = agentViewMode === 'cards' ? 'table' : 'cards';
       const lbl = document.getElementById('agentViewToggleLabel');
-      if (lbl) lbl.innerText = agentViewMode === 'table' ? 'Cards' : 'Table';
+      if (lbl) lbl.innerText = agentViewMode === 'cards' ? 'Table' : 'Cards';
       renderAgentResults(lastLoadedAgents);
     }
 
@@ -4688,6 +4701,21 @@
                   </div>
                 </div>
                 <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full shrink-0">${ag.verified_broker ? 'Verified' : escHtml(ag.type || 'Agent')}</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 text-[11px] mb-4">
+                <div class="bg-white/5 border border-white/10 p-2 rounded-xl text-center">
+                  <span class="text-slate-400 block text-[10px] font-medium">For Sale</span>
+                  <strong class="text-white font-mono text-xs mt-0.5 block">${(Number(ag.sale) || 0).toLocaleString()}</strong>
+                </div>
+                <div class="bg-white/5 border border-white/10 p-2 rounded-xl text-center">
+                  <span class="text-slate-400 block text-[10px] font-medium">For Rent</span>
+                  <strong class="text-white font-mono text-xs mt-0.5 block">${(Number(ag.rent) || 0).toLocaleString()}</strong>
+                </div>
+                <div class="bg-white/5 border border-white/10 p-2 rounded-xl text-center">
+                  <span class="text-slate-400 block text-[10px] font-medium">Role</span>
+                  <strong class="text-brand-gold font-mono text-xs mt-0.5 block truncate">${escHtml(ag.type || 'Agent')}</strong>
+                </div>
               </div>
 
               <div class="space-y-1.5 text-[11px] text-slate-300 mb-1">
