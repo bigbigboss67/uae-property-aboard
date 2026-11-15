@@ -736,25 +736,25 @@
           <span id="themeToggleText" class="hidden sm:inline">Dark</span>
         </button>
 
-        <!-- Client-Safe White-Label Mode Toggle -->
-        <button id="clientModeBtn" onclick="toggleClientSafeMode()" class="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-brand-gold/40 bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all whitespace-nowrap shrink-0" title="Switch to Client Showcase Mode (hides all commissions & competing brokers)">
+        <!-- Client-Safe White-Label Mode Toggle (Brokers & UAE SLA Desk only) -->
+        <button id="clientModeBtn" onclick="toggleClientSafeMode()" class="hidden items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-brand-gold/40 bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all whitespace-nowrap shrink-0" title="Switch to Client Showcase Mode (hides all commissions & competing brokers)">
           <i data-lucide="eye" class="w-4 h-4"></i>
           <span id="clientModeBtnText" data-i18n="btnClientView" class="hidden sm:inline">Client View</span>
         </button>
 
-        <!-- Mass WhatsApp & Email Broadcast Hub -->
-        <button id="openBroadcastBtn" onclick="openBroadcastModal()" class="b2b-only flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border border-sky-500/40 bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 transition-all whitespace-nowrap shrink-0" title="Mass WhatsApp & Email Broadcast to Overseas Agencies">
+        <!-- Mass WhatsApp & Email Broadcast Hub (Brokers & UAE SLA Desk only) -->
+        <button id="openBroadcastBtn" onclick="openBroadcastModal()" class="b2b-only hidden items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border border-sky-500/40 bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 transition-all whitespace-nowrap shrink-0" title="Mass WhatsApp & Email Broadcast to Overseas Agencies">
           <i data-lucide="send" class="w-4 h-4 text-sky-400"></i>
           <span data-i18n="btnMassBroadcast" class="hidden md:inline">Mass Broadcast</span>
         </button>
 
-        <!-- Dashboard Toggle Button -->
-        <button onclick="toggleDashboardView()" class="b2b-only hidden md:flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 transition-all whitespace-nowrap shrink-0">
+        <!-- Dashboard Toggle Button (Brokers & UAE SLA Desk only) -->
+        <button id="partnerPortalBtn" onclick="toggleDashboardView()" class="b2b-only hidden items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 transition-all whitespace-nowrap shrink-0">
           <i data-lucide="layout-dashboard" class="w-4 h-4 text-purple-400"></i>
           <span id="dashboardBtnText" data-i18n="btnPartnerPortal">Partner Portal</span>
         </button>
 
-        <button onclick="openLeadModal()" class="b2b-only hidden sm:flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 transition-all whitespace-nowrap shrink-0">
+        <button id="registerSlaBtn" onclick="openLeadModal()" class="b2b-only hidden items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 transition-all whitespace-nowrap shrink-0">
           <i data-lucide="shield-check" class="w-4 h-4"></i>
           <span data-i18n="btnRegisterSla">Register Client (SLA)</span>
         </button>
@@ -3846,8 +3846,50 @@
     // ==========================================
     // ROLE-GATED CLIENT SHOWCASE MODE TOGGLE
     // ==========================================
-    let isClientSafeMode = false;
+    let currentPortalRole = 'guest';
+    let isClientSafeMode = true;
+
+    function applyRoleAccessGating(role) {
+      currentPortalRole = role || 'guest';
+      const isPartner = currentPortalRole === 'overseas_agency' || currentPortalRole === 'uae_rera_seller';
+      const clientModeBtn = document.getElementById('clientModeBtn');
+      const broadcastBtn = document.getElementById('openBroadcastBtn');
+      const partnerBtn = document.getElementById('partnerPortalBtn');
+      const slaBtn = document.getElementById('registerSlaBtn');
+
+      if (clientModeBtn) {
+        clientModeBtn.classList.toggle('hidden', !isPartner);
+        clientModeBtn.classList.toggle('flex', isPartner);
+      }
+      if (broadcastBtn) {
+        broadcastBtn.classList.toggle('hidden', !isPartner);
+        broadcastBtn.classList.toggle('flex', isPartner);
+      }
+      if (partnerBtn) {
+        partnerBtn.classList.toggle('hidden', !isPartner);
+        partnerBtn.classList.toggle('md:flex', isPartner);
+      }
+      if (slaBtn) {
+        slaBtn.classList.toggle('hidden', !isPartner);
+        slaBtn.classList.toggle('sm:flex', isPartner);
+      }
+
+      isClientSafeMode = !isPartner;
+      document.querySelectorAll('.b2b-only').forEach(node => {
+        node.classList.toggle('hidden', !isPartner);
+      });
+      const banner = document.getElementById('clientSafeBanner');
+      if (banner) banner.classList.add('hidden');
+      const btnText = document.getElementById('clientModeBtnText');
+      if (btnText) btnText.innerText = isPartner ? 'Client View' : 'Client View';
+    }
+
     function toggleClientSafeMode() {
+      if (currentPortalRole !== 'overseas_agency' && currentPortalRole !== 'uae_rera_seller') {
+        if (typeof showToast === 'function') showToast('Sign in as a Broker Abroad or UAE SLA Desk to switch to Broker Cockpit.');
+        if (typeof openAuthOnboardingModal === 'function') openAuthOnboardingModal('signin');
+        return;
+      }
       isClientSafeMode = !isClientSafeMode;
       const b2bNodes = document.querySelectorAll('.b2b-only');
       const banner = document.getElementById('clientSafeBanner');
@@ -7465,14 +7507,14 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           </div>
           <div>
             <label class="text-slate-300 font-semibold block mb-1">Portal Role *</label>
-            <select id="authRole" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
-              <option value="overseas_agency">Overseas Agency / International Broker</option>
-              <option value="uae_rera_seller">UAE RERA Seller / Developer</option>
-              <option value="investor_buyer">Private Investor / Direct Buyer</option>
+            <select id="authRole" onchange="onAuthRoleChange()" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+              <option value="overseas_agency">Broker Abroad (Overseas Agency)</option>
+              <option value="uae_rera_seller">UAE RERA Seller / SLA Desk</option>
+              <option value="investor_buyer">Client / Private Investor (Buyer)</option>
             </select>
           </div>
           <div>
-            <label class="text-slate-300 font-semibold block mb-1">Company / Agency Name *</label>
+            <label id="authCompanyLabel" class="text-slate-300 font-semibold block mb-1">Company / Agency Name *</label>
             <input id="authCompany" type="text" required placeholder="e.g. Mayfair Global Realty" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
           </div>
           <div>
@@ -7616,10 +7658,32 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       } catch {}
     }
 
+    function onAuthRoleChange() {
+      const role = document.getElementById('authRole')?.value || 'overseas_agency';
+      const companyEl = document.getElementById('authCompany');
+      const companyLbl = document.getElementById('authCompanyLabel');
+      const isClient = role === 'investor_buyer';
+      if (companyEl) {
+        companyEl.required = !isClient;
+        companyEl.placeholder = isClient ? 'Optional (Private Investor)' : 'e.g. Mayfair Global Realty';
+      }
+      if (companyLbl) {
+        companyLbl.innerText = isClient ? 'Company / Family Office (Optional)' : 'Company / Agency Name *';
+      }
+    }
+
     function updateHeaderAuthUI(profile) {
+      const role = profile?.role || 'guest';
+      applyRoleAccessGating(role);
+      const roleTagMap = {
+        overseas_agency: 'Broker Abroad',
+        uae_rera_seller: 'UAE SLA Desk',
+        investor_buyer: 'Client'
+      };
       const lbl = document.getElementById('authSignInLabel');
       if (lbl && profile?.fullName) {
-        lbl.innerText = profile.fullName.split(' ')[0] + ' · Partner';
+        const tag = roleTagMap[role] || 'Partner';
+        lbl.innerText = profile.fullName.split(' ')[0] + ' · ' + tag;
       } else if (lbl) {
         lbl.innerText = 'Sign In / Join Network';
       }
@@ -7630,10 +7694,11 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
     }
 
     async function initClerkAndAuth() {
+      let savedProfile = null;
       try {
-        const saved = JSON.parse(localStorage.getItem(AUTH_PROFILE_KEY) || 'null');
-        if (saved) updateHeaderAuthUI(saved);
+        savedProfile = JSON.parse(localStorage.getItem(AUTH_PROFILE_KEY) || 'null');
       } catch {}
+      updateHeaderAuthUI(savedProfile);
 
       const stateEl = document.getElementById('clerkAuthStateText');
       const openBtn = document.getElementById('clerkOpenSignInBtn');
@@ -7679,7 +7744,12 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
             const emEl = document.getElementById('authEmail');
             if (fnEl && !fnEl.value && u.fullName) fnEl.value = u.fullName;
             if (emEl && !emEl.value && u.primaryEmailAddress?.emailAddress) emEl.value = u.primaryEmailAddress.emailAddress;
-            updateHeaderAuthUI({ fullName: u.fullName || u.primaryEmailAddress?.emailAddress, marketingConsent: u.unsafeMetadata?.marketingConsent });
+            updateHeaderAuthUI({
+              fullName: u.fullName || u.primaryEmailAddress?.emailAddress,
+              role: savedProfile?.role || u.unsafeMetadata?.role || 'investor_buyer',
+              company: savedProfile?.company || u.unsafeMetadata?.company || '',
+              marketingConsent: u.unsafeMetadata?.marketingConsent
+            });
           } else {
             if (stateEl) stateEl.innerText = 'Clerk ready — sign in with Google/Email or complete your profile below.';
             if (openBtn) openBtn.classList.remove('hidden');
@@ -7724,7 +7794,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         email: document.getElementById('authEmail')?.value.trim() || '',
         phone: document.getElementById('authPhone')?.value.trim() || '',
         role: document.getElementById('authRole')?.value || 'overseas_agency',
-        company: document.getElementById('authCompany')?.value.trim() || '',
+        company: document.getElementById('authCompany')?.value.trim() || (document.getElementById('authRole')?.value === 'investor_buyer' ? 'Private Investor' : ''),
         city: (cityPart || '').trim(),
         country: countryParts.join(',').trim() || loc,
         location: loc,
