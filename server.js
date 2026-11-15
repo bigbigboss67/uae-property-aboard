@@ -87,8 +87,15 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(JSON.stringify({ ...payload, data: cleaned }));
     } catch (err) {
-      res.writeHead(502, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: err.message }));
+      try {
+        const localAgencies = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'abroad-agencies.json'), 'utf8'));
+        const requestedSize = Math.max(1, Math.min(100, Number(reqUrl.searchParams.get('page_size')) || 24));
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ data: localAgencies.slice(0, requestedSize), fallback: true }));
+      } catch {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ data: [], fallback: true }));
+      }
     }
     return;
   }

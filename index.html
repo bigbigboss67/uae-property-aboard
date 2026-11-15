@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI HOME GLOBAL | UAE Real Estate Gateway for International Agents</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F131D'/%3E%3Ccircle cx='16' cy='16' r='11' stroke='%23D4AF37' stroke-width='1.5' fill='none'/%3E%3Cpath d='M16 5l2 9h3v11H11V14h3z' fill='%23D4AF37'/%3E%3C/svg%3E">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons CDN -->
@@ -46,6 +47,8 @@
   </script>
   <style>
     :root {
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration-ui: 180ms;
       --gold-primary: #D4AF37;
       --gold-glow: rgba(212, 175, 55, 0.22);
       --bento-canvas: #F1F4FA;
@@ -98,9 +101,6 @@
     }
     .logo-emblem-motion {
       animation: logoFloatGlow 3.6s ease-in-out infinite;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .logo-orbit-ring, .logo-emblem-motion { animation: none !important; }
     }
     }
     .bento-card:hover {
@@ -557,9 +557,18 @@
       border: 1px solid rgba(212, 175, 55, 0.28);
       box-shadow: 0 16px 36px -14px rgba(0, 0, 0, 0.65);
     }
+    @keyframes modalEnter {
+      from { opacity: 0; transform: translate3d(0, 8px, 0) scale(0.985); }
+      to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+    }
+    .modal-panel-animate {
+      animation: modalEnter var(--duration-ui) var(--ease-out-expo);
+    }
     @media (prefers-reduced-motion: reduce) {
       .hero-reveal, .hero-skyline-stroke, .hero-skyline-gold, .hero-arc-path,
-      .hero-kinetic-gradient, .hero-beacon-ring, .hero-cta-sheen::after {
+      .hero-kinetic-gradient, .hero-beacon-ring, .hero-cta-sheen::after,
+      .logo-orbit-ring, .logo-emblem-motion, .modal-panel-animate,
+      .animate-pulse, .animate-marquee {
         animation: none !important;
         opacity: 1 !important;
         transform: none !important;
@@ -947,9 +956,9 @@
           <div class="text-[11px] text-slate-400 mt-0.5">Milestone-cleared settlement</div>
         </div>
         <div class="glass-panel p-4 rounded-xl border border-white/10">
-          <div class="text-xs text-slate-400">UAE Master Desk</div>
-          <div class="text-base font-bold text-white mt-1">RERA-Licensed Master Desk</div>
-          <div class="text-[11px] text-brand-gold mt-0.5">Direct Escalation via Portal</div>
+          <div class="text-xs text-slate-400">UAE Partner Network</div>
+          <div class="text-base font-bold text-white mt-1">Licensed UAE Sellers &amp; Developers</div>
+          <div class="text-[11px] text-brand-gold mt-0.5">0% Portal Brokerage · SaaS Routing</div>
         </div>
       </div>
 
@@ -2767,7 +2776,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-slate-300">
           <div class="p-3 rounded-lg bg-white/[0.02] border border-white/5 space-y-1">
             <span class="text-brand-gold font-bold block">1. Provisional Lock (Day 0)</span>
-            <p class="text-[11px] text-slate-400">Broker submits client KYC hash. UAE Master Desk verifies zero prior conflict in Developer CRM within 24h.</p>
+            <p class="text-[11px] text-slate-400">Broker submits client KYC hash or Free Enquiry. Licensed UAE Partner verifies zero prior conflict in Developer CRM within 24h.</p>
           </div>
           <div class="p-3 rounded-lg bg-white/[0.02] border border-white/5 space-y-1">
             <span class="text-brand-gold font-bold block">2. Direct DLD Escrow (Day 3-7)</span>
@@ -2892,7 +2901,7 @@
             <div class="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold">Party B · UAE Developer &amp; Escrow</div>
             <div id="dossierPartyBDev" class="font-bold text-white">Developer: UAE Developer</div>
             <div id="dossierPartyBEscrow" class="text-slate-300">Escrow: DLD Regulated Project Escrow (Law 8/2007)</div>
-            <div id="dossierPartyBSplit" class="b2b-only text-blue-300 font-semibold">UAE Master Desk: 45% Split · 0% Portal Cut</div>
+            <div id="dossierPartyBSplit" class="b2b-only text-blue-300 font-semibold">Licensed UAE Seller: 45% Split · 0% Portal Cut</div>
           </div>
         </div>
           </div>
@@ -4297,16 +4306,16 @@
         jumpSelector: '#top'
       },
       {
-        step: 'SECTION 2 OF 11 · UPPER MENU & CLIENT VIEW',
-        shortLabel: '2. Menu & Client View',
+        step: 'SECTION 2 OF 11 · ROLE-GATED ACCESS & CLIENT VIEW',
+        shortLabel: '2. Sign In & Role View',
         time: '00:05',
-        plainSummary: 'Turn on "Client View" before sharing your screen so your client never sees your commission.',
-        roles: ['Overseas Broker', 'Client / Buyer'],
-        clickedLabel: 'Click: "Client View" in Top Menu',
-        clickedControl: 'Upper Menu + 5-Step "Your Path" Bar',
-        nextShownTitle: 'All Broker Commissions & Competing Agents Hide Instantly',
-        nextShownDetail: 'You can safely sit next to your client or share your screen on Zoom. Your 5-step path bar guides them from Step 1 to Step 5.',
-        flowSteps: ['1. Click Client View', '2. Commissions Hide', '3. Follow Steps 1 → 5'],
+        plainSummary: 'Visitors start in clean Client View automatically. Sign in as a Client, Broker Abroad, or UAE Seller to unlock your exact tools.',
+        roles: ['Client (Clean View)', 'Broker Abroad', 'UAE Seller'],
+        clickedLabel: 'Sign In / Join Network ➔ Pick Your Role',
+        clickedControl: 'Role-Gated Header + Client Showcase Toggle',
+        nextShownTitle: 'Clients Stay Protected · Brokers Unlock Deal Room & Free Enquiry',
+        nextShownDetail: 'Clients never see internal broker commissions. Brokers can still toggle "Client View" when sharing their screen on Zoom.',
+        flowSteps: ['1. Sign In & Pick Role', '2. Guests Start in Client View', '3. Follow Steps 1 → 5'],
         ctaNext: 'Next: Section 3 (Hero & Explainer) →',
         jumpSelector: 'header'
       },
@@ -4455,16 +4464,16 @@
       },
       {
         step: 'SCENARIO A · STEP 2 OF 5 (DIRECT BUYER)',
-        shortLabel: '2. Live Video Call',
+        shortLabel: '2. Free Enquiry / Video',
         time: '00:06',
-        plainSummary: 'You join a 1-click Live Video Call directly with the UAE Master Desk / Developer.',
-        roles: ['Buyer (Outside UAE)', 'UAE Developer / Desk'],
-        clickedLabel: 'Click: "Video Call" on Verified UAE Desk Card',
-        clickedControl: 'Live Closing Room (Jitsi WebRTC)',
+        plainSummary: 'Send a Free Portal Enquiry (forwarded by AI Home Global) OR join a 1-click Live Video Call with the UAE Developer / Licensed Seller.',
+        roles: ['Buyer (Outside UAE)', 'UAE Developer / Seller'],
+        clickedLabel: 'Click: "Send Enquiry (Free)" or "Video Call"',
+        clickedControl: 'Portal Enquiry Inbox + Live Closing Room',
         nextShownTitle: 'Confirm Unit Availability, Floorplan & Payment Schedule Live',
-        nextShownDetail: 'The UAE Desk shows you live developer inventory, payment plan (e.g. 60/40), and answers your questions face-to-face.',
-        paymentHighlight: 'Commission Note: UAE Developer pays the UAE Desk from their marketing budget (list price stays the same).',
-        flowSteps: ['1. Join Live Video Room', '2. Pick Exact Unit #', '3. Lock Unit Reservation'],
+        nextShownDetail: 'Your enquiry is logged in the Portal Inbox and forwarded directly to the Developer Sales Desk or Licensed UAE Partner — zero buyer fee.',
+        paymentHighlight: 'Portal Rule: 0% Buyer Fee · 0% Portal Brokerage Cut (Pure SaaS & Lead Routing Platform).',
+        flowSteps: ['1. Send Free Portal Enquiry', '2. Join Live Video Room', '3. Pick Exact Unit #'],
         ctaNext: 'Next: Step 3 (Passport KYC & SPA) →'
       },
       {
@@ -4514,29 +4523,29 @@
     const SCENARIO_B_SCENES = [
       {
         step: 'SCENARIO B · STEP 1 OF 5 (VIA USA AGENCY)',
-        shortLabel: '1. USA Agency Pitch',
+        shortLabel: '1. Sign In & Pitch',
         time: '00:00',
-        plainSummary: 'Your USA Agency turns on "Client View", prints a White-Label PDF with their USA logo, and shows you Dubai.',
+        plainSummary: 'Your USA Agency signs in as "Broker Abroad", switches to "Client View" for screen-sharing, and prints a White-Label PDF with their logo.',
         roles: ['USA Agency (55%)', 'Buyer (In USA)'],
-        clickedLabel: 'USA Agency: Turn ON "Client View" & Print White-Label PDF',
-        clickedControl: 'Client View + White-Label Dossier (#white-label)',
+        clickedLabel: 'USA Agency: Sign In (Broker Abroad) + White-Label PDF',
+        clickedControl: 'Role-Gated Workspace + White-Label Dossier (#white-label)',
         nextShownTitle: 'You View Projects in USD with Zero Confusion & Fly 3D Drone',
         nextShownDetail: 'Your USA advisor walks you through World Benchmark (Dubai vs NYC/Miami) and flies over the exact plot in 3D Satellite view.',
         paymentHighlight: 'No Extra Buyer Fee: Off-plan price is the exact same developer list price.',
-        flowSteps: ['1. USA Agency Uses Client View', '2. Sends White-Label PDF', '3. 3D Drone Tour Together'],
-        ctaNext: 'Next: Step 2 (Agency Locks SLA) →'
+        flowSteps: ['1. Sign In as Broker Abroad', '2. Share White-Label PDF', '3. 3D Drone Tour Together'],
+        ctaNext: 'Next: Step 2 (Free Enquiry or SaaS Unlock) →'
       },
       {
         step: 'SCENARIO B · STEP 2 OF 5 (VIA USA AGENCY)',
-        shortLabel: '2. SLA & 55/45 Lock',
+        shortLabel: '2. Enquiry or Unlock',
         time: '00:06',
-        plainSummary: 'Your USA Agency registers your lead ("Register Client SLA") and signs the 55% / 45% split with the UAE Desk.',
-        roles: ['USA Agency (55%)', 'UAE Master Desk (45%)'],
-        clickedLabel: 'USA Agency Clicks: "Register Client (SLA)" + Direct Contract',
-        clickedControl: '180-Day Anti-Circumvention SLA + Form I Split',
-        nextShownTitle: 'USA Agency’s Commission Is Legally Protected (55% USA / 45% UAE)',
-        nextShownDetail: 'This happens behind the scenes between the two agencies so your USA advisor gets paid fairly without charging you extra.',
-        paymentHighlight: 'Commission Rule: Developer pays 5%–7% ➔ Split 55% USA Agency / 45% UAE Desk (0% Portal Cut).',
+        plainSummary: 'Your USA Agency either sends a Free Portal Enquiry OR uses Value-Tiered SaaS Unlock ($250–$1,500) to lock the 55% / 45% split instantly.',
+        roles: ['USA Agency (55%)', 'UAE Seller (45%)'],
+        clickedLabel: 'USA Agency: Free Enquiry OR Instant SaaS Deal Room ($250–$1,500)',
+        clickedControl: '180-Day SLA + Auto-Filled Developer DLD/RERA Deal Room',
+        nextShownTitle: 'USA Agency’s Commission Is Protected (55% USA / 45% UAE · 0% Portal Cut)',
+        nextShownDetail: 'The portal charges only a Value-Tiered SaaS software access fee ($250 under 2M, $450 for 2M–5M, $850 for 5M–10M, $1,500 for 10M+) — 0% brokerage.',
+        paymentHighlight: 'SaaS Rule: Portal takes 0% brokerage · 100% of developer commission splits 55% USA / 45% UAE.',
         flowSteps: ['1. Register Client (180-Day SLA)', '2. Sign 55% / 45% Split', '3. 3-Way Live Video Call'],
         ctaNext: 'Next: Step 3 (KYC & Your Name) →'
       },
@@ -4722,10 +4731,10 @@
         ]
       },
       developer: {
-        name: '3. UAE Developer / Master Desk',
+        name: '3. UAE Developer / Licensed Seller',
         color: 'blue',
         badge: '45% COMMISSION SPLIT · VERIFIED INVENTORY',
-        summary: 'The UAE developer or RERA master desk provides the verified units, joins live 3-way video calls, and builds the project.',
+        summary: 'The UAE developer or RERA-licensed seller provides the verified units, receives forwarded enquiries, and joins live 3-way video calls.',
         steps: [
           { stage: 'Step 1 · Supply', action: 'Lists RERA-registered project with DLD Project ID & Escrow IBAN', result: 'Appears in the 2,926+ UAE Off-Plan Directory.' },
           { stage: 'Step 2 · Live Call', action: 'Joins Jitsi Live Video Closing Room with Overseas Broker & Buyer', result: 'Answers floorplan, payment plan, and unit availability questions live.' },
@@ -6611,7 +6620,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
 
   <!-- FREE PORTAL ENQUIRY MODAL (ROUTED TO PORTAL INBOX -> DEVELOPER / UAE AGENT) -->
   <div id="portalEnquiryModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
-    <div class="cinema-dark bg-[#12151E] border border-sky-500/40 rounded-2xl max-w-lg w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs">
+    <div class="modal-panel-animate cinema-dark bg-[#12151E] border border-sky-500/40 rounded-2xl max-w-lg w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs">
       <div class="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
         <div>
           <span class="bg-sky-500/20 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2.5 py-0.5 rounded uppercase">Free Portal Enquiry · 0% Buyer Fee</span>
@@ -6668,7 +6677,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
 
   <!-- DIRECT DIGITAL CONTRACT & PAYMENT PROOF GATE MODAL (GUIDED 3-STEP WIZARD) -->
   <div id="blindContractModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-start justify-center p-2 sm:p-4 overflow-hidden">
-    <div class="cinema-dark bg-[#12151E] border border-blue-500/40 rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden relative shadow-2xl my-2 sm:my-4">
+    <div class="modal-panel-animate cinema-dark bg-[#12151E] border border-blue-500/40 rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden relative shadow-2xl my-2 sm:my-4">
 
       <!-- Pinned Top Header + Stepper -->
       <div class="shrink-0 px-5 sm:px-6 py-3.5 bg-[#12151E] border-b border-white/10" style="background-color:#12151E;color:#FFFFFF;">
@@ -6814,7 +6823,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           <!-- Billing Options -->
           <div class="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-[#0A0C13] border border-white/10 text-xs">
             <div class="flex flex-wrap gap-2">
-              <button id="bcModeBtn-pay_per_unlock" onclick="setDealBillingMode('pay_per_unlock')" class="px-3 py-2 rounded-xl bg-[#135BEC] text-white text-xs font-extrabold">1. Pay-Per-Unlock ($150–$500)</button>
+              <button id="bcModeBtn-pay_per_unlock" onclick="setDealBillingMode('pay_per_unlock')" class="px-3 py-2 rounded-xl bg-[#135BEC] text-white text-xs font-extrabold">1. Value-Tiered SaaS Unlock ($250–$1,500)</button>
               <button id="bcModeBtn-wallet_credit" onclick="setDealBillingMode('wallet_credit')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">2. Wallet Credits (<span id="bcWalletBalanceDisplay">5 credits</span>)</button>
               <button id="bcModeBtn-subscription" onclick="setDealBillingMode('subscription')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">3. Pro Plan (<span id="bcSubQuotaDisplay">10 unlocks left</span>)</button>
             </div>
