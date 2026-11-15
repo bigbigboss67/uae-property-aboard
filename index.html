@@ -4677,60 +4677,70 @@
         grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
         grid.innerHTML = rows.map(ag => {
           const name = ag.name || ag.aname || 'Real Estate Advisor';
-          const agency = ag.aname && ag.aname !== name ? ag.aname : '';
+          const agency = ag.aname && ag.aname !== name ? ag.aname : 'Independent Brokerage';
           const loc = [ag.city, ag.state, ag.country].filter(Boolean).join(', ') || 'Global';
           const phone = ag.phone || ag.mobile || ag.office_tel || '';
+          const waDigits = phone.replace(/\D/g, '');
           const initials = name.split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
           const photoSrc = ag.photo_link || ag.avatar || ag.image || `https://randomuser.me/api/portraits/med/men/${((Number(ag.id) || 1) % 90) + 1}.jpg`;
-          const cleanAddr = ag.address && !/^\s*p\.?\s*o\.?\s*box/i.test(ag.address) ? ag.address : '';
+          const cleanAddr = ag.address && !/^\s*p\.?\s*o\.?\s*box/i.test(ag.address) ? ag.address : loc;
+          const langsStr = Array.isArray(ag.langs) && ag.langs.length ? ag.langs.join(', ') : '-';
+          const listingsCount = (Number(ag.sale) || 0) + (Number(ag.rent) || 0);
           return `
-          <div class="bento-card p-5 flex flex-col justify-between hover:border-[#135BEC]/40 transition-all text-start">
+          <div class="bento-card overflow-hidden flex flex-col justify-between hover:border-[#135BEC]/50 transition-all text-start">
             <div>
-              <div class="flex items-start justify-between gap-3 mb-4">
-                <div class="flex items-center gap-3 min-w-0">
-                  <div class="relative shrink-0">
-                    <img src="${escHtml(photoSrc)}" alt="${escHtml(name)}" loading="lazy"
-                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-                      class="w-12 h-12 rounded-full object-cover border-2 border-[#135BEC]/30 shadow-sm bg-[#135BEC]/10">
-                    <div style="display:none" class="w-12 h-12 rounded-full bg-[#135BEC]/15 border-2 border-[#135BEC]/30 text-[#135BEC] font-bold text-xs items-center justify-center">${escHtml(initials)}</div>
-                  </div>
-                  <div class="min-w-0">
-                    <h4 class="font-display font-extrabold text-white text-sm truncate">${escHtml(name)}</h4>
-                    ${agency ? `<div class="text-[11px] font-semibold text-[#135BEC] truncate">${escHtml(agency)}</div>` : ''}
-                    <div class="text-[11px] text-slate-400 truncate mt-0.5">${escHtml(loc)}</div>
-                  </div>
-                </div>
-                <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full shrink-0">${ag.verified_broker ? 'Verified' : escHtml(ag.type || 'Agent')}</span>
+              <!-- Dark Navy Top Banner -->
+              <div class="h-20 relative" style="background-color:#182032;"></div>
+              <!-- Centered Overlapping Circular Avatar -->
+              <div class="-mt-10 flex justify-center relative z-10 px-5">
+                <img src="${escHtml(photoSrc)}" alt="${escHtml(name)}" loading="lazy"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                  class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md bg-[#135BEC]/10">
+                <div style="display:none" class="w-20 h-20 rounded-full bg-[#135BEC] border-4 border-white shadow-md text-white font-bold text-lg items-center justify-center">${escHtml(initials)}</div>
               </div>
 
-              <div class="grid grid-cols-3 gap-2 text-[11px] mb-4">
-                <div class="bg-white/5 border border-white/10 p-2 rounded-xl text-center">
-                  <span class="text-slate-400 block text-[10px] font-medium">For Sale</span>
-                  <strong class="text-white font-mono text-xs mt-0.5 block">${(Number(ag.sale) || 0).toLocaleString()}</strong>
+              <div class="p-5 pt-3 space-y-2.5">
+                <div>
+                  <h4 class="font-display font-extrabold text-white text-sm uppercase tracking-wide truncate">${escHtml(name)}</h4>
+                  <div class="text-xs text-slate-400 mt-0.5">${escHtml(ag.type || 'Sales Agent')}</div>
+                  <div class="text-xs font-bold text-[#135BEC] uppercase truncate mt-0.5">${escHtml(agency)}</div>
                 </div>
-                <div class="bg-white/5 border border-white/10 p-2 rounded-xl text-center">
-                  <span class="text-slate-400 block text-[10px] font-medium">For Rent</span>
-                  <strong class="text-white font-mono text-xs mt-0.5 block">${(Number(ag.rent) || 0).toLocaleString()}</strong>
-                </div>
-                <div class="bg-white/5 border border-white/10 p-2 rounded-xl text-center">
-                  <span class="text-slate-400 block text-[10px] font-medium">Role</span>
-                  <strong class="text-brand-gold font-mono text-xs mt-0.5 block truncate">${escHtml(ag.type || 'Agent')}</strong>
-                </div>
-              </div>
 
-              <div class="space-y-1.5 text-[11px] text-slate-300 mb-1">
-                ${cleanAddr ? `<div class="truncate text-slate-400 flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 shrink-0"></i><span class="truncate">${escHtml(cleanAddr)}</span></div>` : ''}
-                ${ag.email ? `<div class="truncate flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i><a href="mailto:${escHtml(ag.email)}" class="hover:text-[#135BEC] underline-offset-2 hover:underline truncate">${escHtml(ag.email)}</a></div>` : ''}
-                ${phone ? `<div class="truncate flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i><span dir="ltr">${escHtml(phone)}</span></div>` : ''}
-                ${ag.registration_number ? `<div class="truncate text-emerald-400 flex items-center gap-1.5"><i data-lucide="badge-check" class="w-3.5 h-3.5 shrink-0"></i><span class="truncate">Reg: ${escHtml(ag.registration_number)}</span></div>` : ''}
+                <div class="text-[11px] text-slate-400 flex items-start gap-1.5 min-h-[32px]">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#135BEC]"></i>
+                  <span class="line-clamp-2">${escHtml(cleanAddr)}</span>
+                </div>
+
+                <div class="text-[11px] text-slate-400">— yrs exp</div>
+
+                <div class="pt-2 border-t border-white/10 divide-y divide-white/10 text-[11px]">
+                  <div class="py-1.5 flex items-center justify-between gap-2">
+                    <span class="text-slate-400">Specialization</span>
+                    <strong class="text-white font-semibold">Real Estate</strong>
+                  </div>
+                  <div class="py-1.5 flex items-center justify-between gap-2">
+                    <span class="text-slate-400">Languages</span>
+                    <strong class="text-white font-semibold truncate">${escHtml(langsStr)}</strong>
+                  </div>
+                  <div class="py-1.5 flex items-center justify-between gap-2">
+                    <span class="text-slate-400">Listings</span>
+                    <strong class="text-[#135BEC] font-mono font-bold">${listingsCount > 0 ? listingsCount : '-'}</strong>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="mt-4 pt-3 border-t border-white/10 flex items-center gap-2">
-              <button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency || loc)}', '', 'UAE Off-Plan Portfolio')" class="flex-1 py-2 px-3 rounded-xl bg-[#135BEC] hover:bg-blue-600 text-white text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-1.5">
-                Connect Desk <span>→</span>
+            <!-- Bottom 5-Button Action Bar -->
+            <div class="px-5 pb-5 pt-1 flex items-center gap-1.5">
+              <button onclick="openLeadModalFor('${escHtml(name)}')" title="Register Lead / Chat" class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#2B4C7E] to-[#C89B3C] text-white flex items-center justify-center shrink-0 hover:opacity-90 transition-opacity">
+                <i data-lucide="message-circle" class="w-4 h-4"></i>
               </button>
-              ${ag.link ? `<a href="${escHtml(ag.link)}" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/10 inline-flex items-center gap-1">Profile <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>` : ''}
+              ${phone ? `<a href="tel:${escHtml(phone)}" class="flex-1 h-9 rounded-lg bg-[#0B63CE] hover:bg-blue-700 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"><i data-lucide="phone" class="w-3.5 h-3.5"></i> Call</a>` : `<button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" class="flex-1 h-9 rounded-lg bg-[#0B63CE] hover:bg-blue-700 text-white text-[11px] font-bold flex items-center justify-center gap-1"><i data-lucide="phone" class="w-3.5 h-3.5"></i> Call</button>`}
+              ${waDigits ? `<a href="https://wa.me/${waDigits}" target="_blank" rel="noopener noreferrer" class="flex-1 h-9 rounded-lg bg-[#16A34A] hover:bg-green-700 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> WhatsApp</a>` : `<button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" class="flex-1 h-9 rounded-lg bg-[#16A34A] hover:bg-green-700 text-white text-[11px] font-bold flex items-center justify-center gap-1"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> WhatsApp</button>`}
+              ${ag.email ? `<a href="mailto:${escHtml(ag.email)}" class="flex-1 h-9 rounded-lg bg-[#1D4ED8] hover:bg-blue-800 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"><i data-lucide="mail" class="w-3.5 h-3.5"></i> Email</a>` : `<button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" class="flex-1 h-9 rounded-lg bg-[#1D4ED8] hover:bg-blue-800 text-white text-[11px] font-bold flex items-center justify-center gap-1"><i data-lucide="mail" class="w-3.5 h-3.5"></i> Email</button>`}
+              <button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" title="Live Closing Room" class="w-9 h-9 rounded-lg bg-[#2563EB] hover:bg-blue-700 text-white flex items-center justify-center shrink-0 transition-colors">
+                <i data-lucide="video" class="w-4 h-4"></i>
+              </button>
             </div>
           </div>
           `;
