@@ -589,10 +589,14 @@
         <div class="flex items-center gap-1">
           <select id="langSelect" onchange="switchLanguage(this.value)" class="bg-[#10131B] border border-white/20 rounded px-1.5 py-0.5 text-xs text-white focus:outline-none focus:border-brand-gold">
             <option value="EN" selected>EN</option>
-            <option value="AR">العربية</option>
-            <option value="ZH">中文</option>
-            <option value="FR">FR</option>
-            <option value="RU">RU</option>
+            <option value="AR">العربية (AR)</option>
+            <option value="DE">Deutsch (DE)</option>
+            <option value="FR">Français (FR)</option>
+            <option value="ES">Español (ES)</option>
+            <option value="RU">Русский (RU)</option>
+            <option value="UR">اردو (UR)</option>
+            <option value="TR">Türkçe (TR)</option>
+            <option value="ZH">中文 (ZH)</option>
           </select>
         </div>
 
@@ -617,7 +621,7 @@
             <span class="font-display font-extrabold tracking-tight text-xl text-white">AI HOME</span>
             <span class="bg-brand-gold/15 text-brand-gold text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded border border-brand-gold/30">GLOBAL</span>
           </div>
-          <p class="text-[10px] text-slate-400 tracking-wider uppercase font-medium">UAE Partner Gateway for Outside-UAE Agents</p>
+          <p data-i18n="brandTagline" class="text-[10px] text-slate-400 tracking-wider uppercase font-medium">UAE Partner Gateway for Outside-UAE Agents</p>
         </div>
       </a>
 
@@ -625,31 +629,31 @@
       <nav class="hidden xl:flex items-center gap-5 text-sm font-medium text-slate-300">
         <button onclick="openExplainerVideo()" class="bg-gradient-to-r from-amber-500/20 to-yellow-500/20 hover:from-amber-500/30 hover:to-yellow-500/30 border border-brand-gold/40 text-brand-gold font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs transition-all shadow">
           <i data-lucide="clapperboard" class="w-3.5 h-3.5"></i>
-          <span>A-to-Z Explainer Video</span>
+          <span data-i18n="navExplainer">A-to-Z Explainer Video</span>
         </button>
         <a href="#inventory" class="hover:text-brand-gold transition-colors flex items-center gap-1.5">
           <i data-lucide="building-2" class="w-4 h-4 text-brand-gold"></i>
-          <span>UAE Off-Plan</span>
+          <span data-i18n="navOffplan">UAE Off-Plan</span>
         </a>
         <a href="#abroad-agencies" class="hover:text-brand-gold transition-colors flex items-center gap-1.5">
           <i data-lucide="users" class="w-4 h-4 text-brand-gold"></i>
-          <span>Abroad Agencies</span>
+          <span data-i18n="navAgencies">Abroad Agencies</span>
         </a>
         <a href="#why-dubai" class="hover:text-brand-gold transition-colors flex items-center gap-1.5">
           <i data-lucide="bar-chart-3" class="w-4 h-4 text-brand-gold"></i>
-          <span>World Benchmark</span>
+          <span data-i18n="navBenchmark">World Benchmark</span>
         </a>
         <a href="#calculator" class="hover:text-brand-gold transition-colors flex items-center gap-1.5">
           <i data-lucide="calculator" class="w-4 h-4 text-brand-gold"></i>
-          <span>Commission Tool</span>
+          <span data-i18n="navCalc">Commission Tool</span>
         </a>
         <a href="#white-label" class="hover:text-brand-gold transition-colors flex items-center gap-1.5">
           <i data-lucide="file-text" class="w-4 h-4 text-brand-gold"></i>
-          <span>White-Label</span>
+          <span data-i18n="navWhiteLabel">White-Label</span>
         </a>
         <a href="#drone" class="hover:text-brand-gold transition-colors flex items-center gap-1.5">
           <i data-lucide="video" class="w-4 h-4 text-brand-gold"></i>
-          <span>4K Drone Suite</span>
+          <span data-i18n="navDrone">4K Drone Suite</span>
         </a>
       </nav>
 
@@ -664,30 +668,30 @@
         <!-- Client-Safe White-Label Mode Toggle -->
         <button id="clientModeBtn" onclick="toggleClientSafeMode()" class="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-brand-gold/40 bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold transition-all" title="Switch to Client Showcase Mode (hides all commissions & competing brokers)">
           <i data-lucide="eye" class="w-4 h-4"></i>
-          <span id="clientModeBtnText" class="hidden sm:inline">Client View</span>
+          <span id="clientModeBtnText" data-i18n="btnClientView" class="hidden sm:inline">Client View</span>
         </button>
 
         <!-- Mass WhatsApp & Email Broadcast Hub -->
         <button id="openBroadcastBtn" onclick="openBroadcastModal()" class="b2b-only flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-lg border border-sky-500/40 bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 transition-all" title="Mass WhatsApp & Email Broadcast to Overseas Agencies">
           <i data-lucide="send" class="w-4 h-4 text-sky-400"></i>
-          <span class="hidden md:inline">Mass Broadcast</span>
+          <span data-i18n="btnMassBroadcast" class="hidden md:inline">Mass Broadcast</span>
         </button>
 
         <!-- Dashboard Toggle Button -->
         <button onclick="toggleDashboardView()" class="b2b-only hidden md:flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-lg border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 transition-all">
           <i data-lucide="layout-dashboard" class="w-4 h-4 text-purple-400"></i>
-          <span id="dashboardBtnText">Partner Portal</span>
+          <span id="dashboardBtnText" data-i18n="btnPartnerPortal">Partner Portal</span>
         </button>
 
         <button onclick="openLeadModal()" class="b2b-only hidden sm:flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 transition-all">
           <i data-lucide="shield-check" class="w-4 h-4"></i>
-          <span>Register Client (SLA)</span>
+          <span data-i18n="btnRegisterSla">Register Client (SLA)</span>
         </button>
 
         <!-- Unified Clerk Auth Sign In & Partner Network Onboarding -->
         <button id="authSignInBtn" onclick="openAuthOnboardingModal('signin')" class="flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-xl border border-brand-gold/40 bg-gradient-to-r from-[#135BEC] to-blue-700 hover:brightness-110 text-white shadow-md shadow-blue-600/20 transition-all">
           <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
-          <span id="authSignInLabel">Sign In / Join Network</span>
+          <span id="authSignInLabel" data-i18n="btnSignInJoin">Sign In / Join Network</span>
         </button>
         <div id="clerkUserButtonMount" class="hidden items-center"></div>
 
@@ -703,17 +707,17 @@
   <!-- STICKY 5-STEP START-TO-FINISH JOURNEY BAR -->
   <div id="journeyStepperBar" class="sticky top-[73px] z-30 bg-[#0B0E16]/95 backdrop-blur-md border-b border-white/10 py-2 px-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto no-scrollbar text-[11px]">
-      <span class="text-slate-400 font-bold uppercase tracking-wider shrink-0 hidden sm:inline">Your Path:</span>
+      <span data-i18n="pathLabel" class="text-slate-400 font-bold uppercase tracking-wider shrink-0 hidden sm:inline">Your Path:</span>
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <a href="#inventory" onclick="setActiveJourneyStep(1)" id="jStep1" class="px-2.5 py-1 rounded-lg bg-brand-gold text-black font-extrabold whitespace-nowrap">1. Pick Project (Start)</a>
+        <a href="#inventory" onclick="setActiveJourneyStep(1)" id="jStep1" data-i18n="jStep1" class="px-2.5 py-1 rounded-lg bg-brand-gold text-black font-extrabold whitespace-nowrap">1. Pick Project (Start)</a>
         <span class="text-slate-600">➔</span>
-        <a href="#calculator" onclick="setActiveJourneyStep(2)" id="jStep2" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">2. Check Numbers</a>
+        <a href="#calculator" onclick="setActiveJourneyStep(2)" id="jStep2" data-i18n="jStep2" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">2. Check Numbers</a>
         <span class="text-slate-600">➔</span>
-        <button onclick="setActiveJourneyStep(3); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" id="jStep3" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">3. Lock &amp; 4-Party Sign</button>
+        <button onclick="setActiveJourneyStep(3); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" id="jStep3" data-i18n="jStep3" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">3. Sign Direct Contract</button>
         <span class="text-slate-600">➔</span>
-        <a href="#escrow" onclick="setActiveJourneyStep(4)" id="jStep4" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">4. DLD Escrow</a>
+        <a href="#escrow" onclick="setActiveJourneyStep(4)" id="jStep4" data-i18n="jStep4" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">4. DLD Escrow</a>
         <span class="text-slate-600">➔</span>
-        <button onclick="setActiveJourneyStep(5); openLegalModal('escrow')" id="jStep5" class="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-bold whitespace-nowrap">5. Deal Confirmed (End)</button>
+        <button onclick="setActiveJourneyStep(5); openLegalModal('escrow')" id="jStep5" data-i18n="jStep5" class="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-bold whitespace-nowrap">5. Deal Confirmed (End)</button>
       </div>
     </div>
   </div>
@@ -946,8 +950,8 @@
               <i data-lucide="building-2" class="w-4 h-4"></i>
             </div>
             <div>
-              <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Verified Stock</div>
-              <div class="text-xs font-extrabold text-white tabular-nums">2,926 Projects</div>
+              <div data-i18n="telStockLabel" class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Verified Stock</div>
+              <div data-i18n="telStockVal" class="text-xs font-extrabold text-white tabular-nums">2,926 Projects</div>
             </div>
           </div>
           <div class="flex items-center gap-2.5">
@@ -955,8 +959,8 @@
               <i data-lucide="trending-up" class="w-4 h-4"></i>
             </div>
             <div>
-              <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Avg Net Yield</div>
-              <div class="text-xs font-extrabold text-emerald-400 tabular-nums">8.4% Tax-Free</div>
+              <div data-i18n="telYieldLabel" class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Avg Net Yield</div>
+              <div data-i18n="telYieldVal" class="text-xs font-extrabold text-emerald-400 tabular-nums">8.4% Tax-Free</div>
             </div>
           </div>
           <div class="flex items-center gap-2.5">
@@ -964,7 +968,7 @@
               <i data-lucide="split" class="w-4 h-4"></i>
             </div>
             <div>
-              <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Direct Split</div>
+              <div data-i18n="telSplitLabel" class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Direct Split</div>
               <div class="text-xs font-extrabold text-brand-gold tabular-nums">55% / 45%</div>
             </div>
           </div>
@@ -973,32 +977,32 @@
               <i data-lucide="shield-check" class="w-4 h-4"></i>
             </div>
             <div>
-              <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Portal Cut</div>
-              <div class="text-xs font-extrabold text-white tabular-nums">0% Direct</div>
+              <div data-i18n="telCutLabel" class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Portal Cut</div>
+              <div data-i18n="telCutVal" class="text-xs font-extrabold text-white tabular-nums">0% Direct</div>
             </div>
           </div>
         </div>
 
         <!-- Persona Selector: Stupid-Simple Buyer vs Agent vs Critical UAE Seller -->
         <div class="hero-reveal hero-delay-3 inline-flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-[#10141F] border border-white/15 mb-6 text-xs">
-          <button id="personaBtn-buyer" onclick="selectPortalPersona('buyer')" class="px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all inline-flex items-center gap-1.5"><i data-lucide="compass" class="w-3.5 h-3.5"></i> I'm a First-Time Buyer</button>
-          <button id="personaBtn-agent" onclick="selectPortalPersona('agent')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5"><i data-lucide="globe" class="w-3.5 h-3.5"></i> I'm an Overseas Agent (55%)</button>
-          <button id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5"><i data-lucide="building-2" class="w-3.5 h-3.5"></i> I'm a UAE RERA Seller (45%)</button>
+          <button id="personaBtn-buyer" onclick="selectPortalPersona('buyer')" class="px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all inline-flex items-center gap-1.5"><i data-lucide="compass" class="w-3.5 h-3.5"></i> <span data-i18n="personaBuyer">I'm a First-Time Buyer</span></button>
+          <button id="personaBtn-agent" onclick="selectPortalPersona('agent')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5"><i data-lucide="globe" class="w-3.5 h-3.5"></i> <span data-i18n="personaAgent">I'm an Overseas Agent (55%)</span></button>
+          <button id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5"><i data-lucide="building-2" class="w-3.5 h-3.5"></i> <span data-i18n="personaSeller">I'm a UAE RERA Seller (45%)</span></button>
         </div>
 
         <!-- Dynamic Start-to-Finish Card for Selected Persona -->
         <div id="personaGuideBox" class="hero-reveal hero-delay-3 max-w-3xl mx-auto bg-[#10141F]/90 border border-brand-gold/30 rounded-2xl p-4 sm:p-5 text-left mb-8">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div class="bg-white/5 rounded-xl p-3 border border-white/10">
-              <div class="text-[10px] font-bold text-brand-gold uppercase">1. Where You Start</div>
+              <div data-i18n="pgStartLabel" class="text-[10px] font-bold text-brand-gold uppercase">1. Where You Start</div>
               <div id="pgStart" class="text-white font-semibold mt-1">Pick any home or villa below. Prices show in your own money (USD, EUR, GBP).</div>
             </div>
             <div class="bg-white/5 rounded-xl p-3 border border-white/10">
-              <div class="text-[10px] font-bold text-sky-400 uppercase">2. What Happens Next</div>
+              <div data-i18n="pgMiddleLabel" class="text-[10px] font-bold text-sky-400 uppercase">2. What Happens Next</div>
               <div id="pgMiddle" class="text-white font-semibold mt-1">Your agent signs a simple Direct Contract &amp; verifies payment proof — zero portal fees.</div>
             </div>
             <div class="bg-emerald-500/10 rounded-xl p-3 border border-emerald-500/30">
-              <div class="text-[10px] font-bold text-emerald-400 uppercase">3. Where It Ends</div>
+              <div data-i18n="pgEndLabel" class="text-[10px] font-bold text-emerald-400 uppercase">3. Where It Ends</div>
               <div id="pgEnd" class="text-white font-semibold mt-1">You pay only to the official Dubai bank escrow account and get your Oqood title.</div>
             </div>
           </div>
@@ -1007,18 +1011,18 @@
         <!-- CTA Buttons -->
         <div class="hero-reveal hero-delay-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
           <a href="#inventory" onclick="setActiveJourneyStep(1)" class="hero-cta-sheen w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#135BEC] hover:bg-blue-700 text-white font-extrabold text-base shadow-xl shadow-blue-600/25 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
-            <span>Start Here: Browse 2,926 Projects</span>
+            <span data-i18n="ctaBrowse">Start Here: Browse 2,926 Projects</span>
             <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
           </a>
           <button onclick="openExplainerVideo()" class="w-full sm:w-auto px-7 py-4 rounded-2xl bento-card font-extrabold text-base transition-all flex items-center justify-center gap-2.5 group">
             <span class="w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center group-hover:scale-110 transition-transform">
               <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
             </span>
-            <span>Watch 27s Step-by-Step Video</span>
+            <span data-i18n="ctaVideo">Watch 27s Step-by-Step Video</span>
           </button>
           <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-500 font-bold text-base border border-emerald-500/40 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
             <i data-lucide="lock" class="w-4 h-4"></i>
-            <span>Open Direct Contract &amp; Payment Proof</span>
+            <span data-i18n="ctaContract">Open Direct Contract &amp; Payment Proof</span>
           </button>
         </div>
       </div>
@@ -1029,9 +1033,9 @@
         <!-- Card 1: Electric Cobalt Blue Route Card (UAE -> GLOBAL) -->
         <div class="lg:col-span-4 bento-card-blue p-6 flex flex-col justify-between min-h-[250px] relative overflow-hidden">
           <div class="flex items-center justify-between text-xs text-blue-100">
-            <span class="font-semibold">Direct Syndication Route</span>
+            <span data-i18n="bentoRouteTitle" class="font-semibold">Direct Syndication Route</span>
             <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-white font-bold text-[11px] flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> Verified · 0% Portal Cut
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> <span data-i18n="bentoRouteBadge">Verified · 0% Portal Cut</span>
             </span>
           </div>
           <div class="my-4">
@@ -1080,10 +1084,10 @@
           </div>
           <div class="bento-card p-4">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-bold">Direct Contact</span>
-              <span class="text-sm font-extrabold text-[#135BEC]">Instant</span>
+              <span data-i18n="bentoDirectContact" class="text-xs font-bold">Direct Contact</span>
+              <span data-i18n="bentoInstant" class="text-sm font-extrabold text-[#135BEC]">Instant</span>
             </div>
-            <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full py-2 rounded-xl bg-[#135BEC] hover:bg-blue-700 text-white text-xs font-bold transition-all inline-flex items-center justify-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5"></i> Unlock with Proof</button>
+            <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full py-2 rounded-xl bg-[#135BEC] hover:bg-blue-700 text-white text-xs font-bold transition-all inline-flex items-center justify-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5"></i> <span data-i18n="bentoUnlockBtn">Unlock with Proof</span></button>
           </div>
         </div>
 
@@ -2748,40 +2752,596 @@
       }
     }
 
-    // Language Localization Dictionary
+    // Language Localization Dictionary (EN, AR, DE, FR, ES, RU, UR, TR, ZH)
+    let activePortalLang = 'EN';
+    let activePortalPersona = 'buyer';
+
     const translations = {
       EN: {
         badge: "SOVEREIGN B2B GATEWAY FOR OVERSEAS AGENTS & PRIVATE WEALTH ADVISORS",
-        headline: "Sell UAE Properties <br><span class='gold-gradient-text'>To Your Local Clients Worldwide</span>",
-        subtext: "The only B2B syndication portal built exclusively for brokers outside the UAE. Access pre-allocated Tier-1 off-plan developments, generate unbranded client pitch decks in seconds, and collect up to 7% direct commission with complete client lead protection."
+        headline: "Sell UAE Properties <br><span class='gold-gradient-text hero-kinetic-gradient'>From First Click to DLD Title</span>",
+        subtext: "Clear 5-step cross-border workflow: pick from <span class='text-white font-semibold tabular-nums'>2,926</span> UAE off-plan projects, lock fees before sharing contacts, auto-sign the direct contract, and wire directly to DLD Project Escrow.",
+        brandTagline: "UAE Partner Gateway for Outside-UAE Agents",
+        navExplainer: "A-to-Z Explainer Video",
+        navOffplan: "UAE Off-Plan",
+        navAgencies: "Abroad Agencies",
+        navBenchmark: "World Benchmark",
+        navCalc: "Commission Tool",
+        navWhiteLabel: "White-Label",
+        navDrone: "4K Drone Suite",
+        btnClientView: "Client View",
+        btnMassBroadcast: "Mass Broadcast",
+        btnPartnerPortal: "Partner Portal",
+        btnRegisterSla: "Register Client (SLA)",
+        btnSignInJoin: "Sign In / Join Network",
+        pathLabel: "Your Path:",
+        jStep1: "1. Pick Project (Start)",
+        jStep2: "2. Check Numbers",
+        jStep3: "3. Sign Direct Contract",
+        jStep4: "4. DLD Escrow",
+        jStep5: "5. Deal Confirmed (End)",
+        telStockLabel: "Verified Stock",
+        telStockVal: "2,926 Projects",
+        telYieldLabel: "Avg Net Yield",
+        telYieldVal: "8.4% Tax-Free",
+        telSplitLabel: "Direct Split",
+        telCutLabel: "Portal Cut",
+        telCutVal: "0% Direct",
+        personaBuyer: "I'm a First-Time Buyer",
+        personaAgent: "I'm an Overseas Agent (55%)",
+        personaSeller: "I'm a UAE RERA Seller (45%)",
+        pgStartLabel: "1. Where You Start",
+        pgMiddleLabel: "2. What Happens Next",
+        pgEndLabel: "3. Where It Ends",
+        ctaBrowse: "Start Here: Browse 2,926 Projects",
+        ctaVideo: "Watch 27s Step-by-Step Video",
+        ctaContract: "Open Direct Contract & Payment Proof",
+        bentoRouteTitle: "Direct Syndication Route",
+        bentoRouteBadge: "Verified · 0% Portal Cut",
+        bentoDirectContact: "Direct Contact",
+        bentoInstant: "Instant",
+        bentoUnlockBtn: "Unlock with Proof",
+        personas: {
+          buyer: {
+            start: "Pick any home or villa below. Prices show in your own money (USD, EUR, GBP).",
+            middle: "Your agent signs a simple Direct Contract & verifies payment proof — zero portal fees.",
+            end: "You pay only to the official Dubai bank escrow account and get your Oqood title."
+          },
+          agent: {
+            start: "Click \"Sign In / Join Network\" once, then pick any UAE project for your buyer.",
+            middle: "Both agents sign the Direct Contract + verify Payment Proof to unlock direct WhatsApp & Email.",
+            end: "Keep 55% of the commission (UAE Seller keeps 45%, 0% Portal Cut)."
+          },
+          seller: {
+            start: "Click \"Sign In / Join Network\" or \"Mass Broadcast\" to pitch projects to global agents.",
+            middle: "Sign the Direct Contract + verify Payment Proof before any phone or email is shared.",
+            end: "Talk directly with the overseas agent, close the sale, and split 55% / 45% with 0% Portal Cut."
+          }
+        }
       },
       AR: {
         badge: "البوابة السيادية الحصرية للوسطاء ومدراء الثروات خارج دولة الإمارات",
-        headline: "سوّق عقارات دبي والإمارات <br><span class='gold-gradient-text'>لعملائك في جميع أنحاء العالم</span>",
-        subtext: "المنصة المخصصة للوسطاء الدوليين خارج الإمارات: احصل على مشاريع حصرية مباشرة من كبار المطورين، وأنشئ عروضاً تسويقية خالية من بيانات المطور بعلامتك التجارية، مع حماية 100% للعمولة."
+        headline: "سوّق عقارات الإمارات <br><span class='gold-gradient-text hero-kinetic-gradient'>من أول نقرة حتى صك الملكية</span>",
+        subtext: "سير عمل واضح من 5 خطوات: اختر من بين <span class='text-white font-semibold tabular-nums'>2,926</span> مشروعاً إماراتياً، وقّع العقد المباشر، وحوّل الدفعة مباشرة إلى حساب الضمان العقاري بدبي (DLD).",
+        brandTagline: "بوابة الشركاء العقاريين خارج الإمارات",
+        navExplainer: "فيديو الشرح الكامل",
+        navOffplan: "مشاريع الإمارات",
+        navAgencies: "الوكالات الدولية",
+        navBenchmark: "المؤشر العالمي",
+        navCalc: "حاسبة العمولة",
+        navWhiteLabel: "العروض الخاصة",
+        navDrone: "جولة الدرون 4K",
+        btnClientView: "عرض العميل",
+        btnMassBroadcast: "الإرسال الجماعي",
+        btnPartnerPortal: "بوابة الشريك",
+        btnRegisterSla: "تسجيل عميل (SLA)",
+        btnSignInJoin: "تسجيل الدخول / الانضمام",
+        pathLabel: "مسارك:",
+        jStep1: "1. اختر المشروع (البداية)",
+        jStep2: "2. راجع الأرقام",
+        jStep3: "3. وقّع العقد المباشر",
+        jStep4: "4. حساب الضمان DLD",
+        jStep5: "5. تأكيد الصفقة (النهاية)",
+        telStockLabel: "مشاريع موثقة",
+        telStockVal: "2,926 مشروع",
+        telYieldLabel: "متوسط العائد الصافي",
+        telYieldVal: "8.4% معفى من الضرائب",
+        telSplitLabel: "التقسيم المباشر",
+        telCutLabel: "عمولة البوابة",
+        telCutVal: "0% مباشر",
+        personaBuyer: "أنا مشتري لأول مرة",
+        personaAgent: "أنا وسيط دولي (55%)",
+        personaSeller: "أنا بائع مرخص بالإمارات (45%)",
+        pgStartLabel: "1. من أين تبدأ",
+        pgMiddleLabel: "2. ماذا يحدث تالياً",
+        pgEndLabel: "3. أين تنتهي الصفقة",
+        ctaBrowse: "ابدأ هنا: تصفح 2,926 مشروعاً",
+        ctaVideo: "شاهد فيديو الشرح (27 ثانية)",
+        ctaContract: "افتح العقد المباشر وإثبات الدفع",
+        bentoRouteTitle: "مسار التوزيع المباشر",
+        bentoRouteBadge: "موثق · 0% عمولة بوابة",
+        bentoDirectContact: "تواصل مباشر",
+        bentoInstant: "فوري",
+        bentoUnlockBtn: "فتح بالإثبات",
+        personas: {
+          buyer: {
+            start: "اختر أي شقة أو فيلا أدناه. تظهر الأسعار بعملتك المحلية (دولار، يورو، إسترليني).",
+            middle: "يوقّع وكيلك العقد المباشر ويتحقق من إثبات الدفع بدون أي رسوم إضافية.",
+            end: "تحوّل الدفعة فقط إلى حساب الضمان الرسمي لبنك دبي وتحصل على شهادة عقود."
+          },
+          agent: {
+            start: "اضغط «تسجيل الدخول / الانضمام» مرة واحدة ثم اختر أي مشروع إماراتي لعميلك.",
+            middle: "يوقّع الطرفان العقد المباشر وإثبات الدفع لفتح واتساب والبريد المباشر فوراً.",
+            end: "احتفظ بنسبة 55% من العمولة (45% للبائع الإماراتي، 0% للبوابة)."
+          },
+          seller: {
+            start: "استخدم «الإرسال الجماعي» لإرسال المشاريع إلى الوكالات الدولية بضغطة واحدة.",
+            middle: "وقّع العقد المباشر وتحقق من إثبات الدفع قبل كشف أي رقم هاتف أو بريد.",
+            end: "تواصل مباشرة مع الوسيط الدولي وأغلق الصفقة بتقسيم 55% / 45% و0% عمولة بوابة."
+          }
+        }
       },
-      ZH: {
-        badge: "专为阿联酋境外房产经纪人与私人财富顾问打造的B2B主权门户",
-        headline: "面向全球客户 <br><span class='gold-gradient-text'>分销阿联酋顶级房产项目</span>",
-        subtext: "专为海外经纪人量身定制：获取迪拜一级开发商预分配房源，一键生成无开发商联系方式的专属白标PPT，享受高达7%的佣金返还及90天DLD客户保护协议。"
+      DE: {
+        badge: "SOUVERÄNES B2B-GATEWAY FÜR INTERNATIONALE MAKLER & WEALTH ADVISORS",
+        headline: "UAE-Immobilien verkaufen <br><span class='gold-gradient-text hero-kinetic-gradient'>Vom ersten Klick bis zur DLD-Urkunde</span>",
+        subtext: "Klarer 5-Schritte-Prozess: Wählen Sie aus <span class='text-white font-semibold tabular-nums'>2.926</span> UAE-Off-Plan-Projekten, signieren Sie den Direktvertrag und überweisen Sie direkt auf das DLD-Treuhandkonto.",
+        brandTagline: "VAE-Partner-Gateway für internationale Makler",
+        navExplainer: "Erklärvideo (A–Z)",
+        navOffplan: "VAE Off-Plan",
+        navAgencies: "Partneragenturen",
+        navBenchmark: "Welt-Benchmark",
+        navCalc: "Provisionsrechner",
+        navWhiteLabel: "White-Label",
+        navDrone: "4K-Drohnen-Suite",
+        btnClientView: "Kundenansicht",
+        btnMassBroadcast: "Massenversand",
+        btnPartnerPortal: "Partnerportal",
+        btnRegisterSla: "Kunde registrieren (SLA)",
+        btnSignInJoin: "Anmelden / Beitreten",
+        pathLabel: "Ihr Weg:",
+        jStep1: "1. Projekt wählen (Start)",
+        jStep2: "2. Zahlen prüfen",
+        jStep3: "3. Direktvertrag",
+        jStep4: "4. DLD-Treuhand",
+        jStep5: "5. Abschluss (Ende)",
+        telStockLabel: "Verifizierter Bestand",
+        telStockVal: "2.926 Projekte",
+        telYieldLabel: "Ø Nettorendite",
+        telYieldVal: "8,4% Steuerfrei",
+        telSplitLabel: "Direkt-Split",
+        telCutLabel: "Portal-Anteil",
+        telCutVal: "0% Direkt",
+        personaBuyer: "Ich bin Erstkäufer",
+        personaAgent: "Ich bin Auslands-Makler (55%)",
+        personaSeller: "Ich bin VAE-RERA-Verkäufer (45%)",
+        pgStartLabel: "1. Wo Sie starten",
+        pgMiddleLabel: "2. Was als Nächstes passiert",
+        pgEndLabel: "3. Wie es endet",
+        ctaBrowse: "Hier starten: 2.926 Projekte ansehen",
+        ctaVideo: "27s Schritt-für-Schritt-Video",
+        ctaContract: "Direktvertrag & Zahlungsnachweis",
+        bentoRouteTitle: "Direkte Syndizierungsroute",
+        bentoRouteBadge: "Verifiziert · 0% Portalgebühr",
+        bentoDirectContact: "Direktkontakt",
+        bentoInstant: "Sofort",
+        bentoUnlockBtn: "Mit Nachweis freischalten",
+        personas: {
+          buyer: {
+            start: "Wählen Sie unten ein Projekt. Alle Preise erscheinen in Ihrer Währung (EUR/USD/GBP).",
+            middle: "Ihr Makler unterzeichnet den Direktvertrag & prüft den Zahlungsnachweis – ohne Portalgebühr.",
+            end: "Sie überweisen nur auf das offizielle DLD-Treuhandkonto und erhalten Ihren Oqood-Titel."
+          },
+          agent: {
+            start: "Klicken Sie auf «Anmelden / Beitreten» und wählen Sie ein VAE-Projekt für Ihren Käufer.",
+            middle: "Beide Seiten signieren den Vertrag + Zahlungsnachweis, um WhatsApp & E-Mail freizuschalten.",
+            end: "Behalten Sie 55% Provision (45% für den VAE-Verkäufer, 0% Portalanteil)."
+          },
+          seller: {
+            start: "Nutzen Sie «Massenversand», um Projekte weltweit an Partneragenturen zu senden.",
+            middle: "Direktvertrag & Zahlungsnachweis sichern Ihre Kontakte vor jeder Freigabe.",
+            end: "Sprechen Sie direkt mit dem Auslandsmakler und teilen Sie 55% / 45% bei 0% Portalgebühr."
+          }
+        }
       },
       FR: {
-        badge: "PORTAIL B2B SOUVERAIN POUR COURTIERS ET BANQUES PRIVÉES HORS DES ÉMIRATS",
-        headline: "Vendez l'Immobilier des EAU <br><span class='gold-gradient-text'>À Vos Clients Dans Le Monde Entier</span>",
-        subtext: "La seule plateforme de syndication conçue exclusivement pour les courtiers internationaux. Accédez à des lancements exclusifs, générez des dossiers clients sans marque en un clic, et touchez jusqu'à 7% de commission."
+        badge: "PORTAIL B2B SOUVERAIN POUR COURTIERS ET CONSEILLERS PATRIMONIAUX",
+        headline: "Vendez l'Immobilier des EAU <br><span class='gold-gradient-text hero-kinetic-gradient'>Du Premier Clic au Titre DLD</span>",
+        subtext: "Processus clair en 5 étapes : choisissez parmi <span class='text-white font-semibold tabular-nums'>2 926</span> projets aux EAU, signez le contrat direct et virez directement sur le compte séquestre DLD.",
+        brandTagline: "Passerelle Partenaires EAU pour Agents Internationaux",
+        navExplainer: "Vidéo Explicative A–Z",
+        navOffplan: "Projets EAU",
+        navAgencies: "Agences Monde",
+        navBenchmark: "Comparatif Mondial",
+        navCalc: "Calculateur",
+        navWhiteLabel: "Marque Blanche",
+        navDrone: "Suite Drone 4K",
+        btnClientView: "Vue Client",
+        btnMassBroadcast: "Diffusion Masse",
+        btnPartnerPortal: "Portail Partenaire",
+        btnRegisterSla: "Enregistrer Client (SLA)",
+        btnSignInJoin: "Connexion / Rejoindre",
+        pathLabel: "Votre Parcours :",
+        jStep1: "1. Choisir Projet (Début)",
+        jStep2: "2. Vérifier Chiffres",
+        jStep3: "3. Contrat Direct",
+        jStep4: "4. Séquestre DLD",
+        jStep5: "5. Accord Confirmé (Fin)",
+        telStockLabel: "Stock Vérifié",
+        telStockVal: "2 926 Projets",
+        telYieldLabel: "Rendement Net Moy.",
+        telYieldVal: "8,4% Sans Impôt",
+        telSplitLabel: "Partage Direct",
+        telCutLabel: "Frais Portail",
+        telCutVal: "0% Direct",
+        personaBuyer: "Je suis Acheteur",
+        personaAgent: "Agent International (55%)",
+        personaSeller: "Vendeur RERA EAU (45%)",
+        pgStartLabel: "1. Où vous commencez",
+        pgMiddleLabel: "2. Ce qui suit",
+        pgEndLabel: "3. Où cela se termine",
+        ctaBrowse: "Commencer : Voir 2 926 Projets",
+        ctaVideo: "Vidéo Étape par Étape (27s)",
+        ctaContract: "Ouvrir Contrat Direct & Preuve",
+        bentoRouteTitle: "Route de Syndication Directe",
+        bentoRouteBadge: "Vérifié · 0% Commission Portail",
+        bentoDirectContact: "Contact Direct",
+        bentoInstant: "Instantané",
+        bentoUnlockBtn: "Débloquer avec Preuve",
+        personas: {
+          buyer: {
+            start: "Choisissez un bien ci-dessous. Les prix s'affichent dans votre devise (EUR, USD, GBP).",
+            middle: "Votre agent signe le Contrat Direct et vérifie la preuve de paiement sans frais de portail.",
+            end: "Vous virez l'acompte uniquement sur le compte séquestre officiel DLD pour recevoir votre titre Oqood."
+          },
+          agent: {
+            start: "Cliquez sur « Connexion / Rejoindre » puis sélectionnez un projet EAU pour votre client.",
+            middle: "Les deux parties signent le contrat + preuve de paiement pour débloquer WhatsApp et E-mail.",
+            end: "Gardez 55% de commission (45% vendeur EAU, 0% portail)."
+          },
+          seller: {
+            start: "Utilisez « Diffusion Masse » pour envoyer vos projets aux agences internationales.",
+            middle: "Contrat Direct + Preuve de Paiement protègent vos contacts avant tout partage.",
+            end: "Échangez directement avec l'agent étranger et partagez 55% / 45% avec 0% de frais portail."
+          }
+        }
+      },
+      ES: {
+        badge: "PORTAL B2B SOBERANO PARA AGENTES INTERNACIONALES Y BANCA PRIVADA",
+        headline: "Vende Propiedades en EAU <br><span class='gold-gradient-text hero-kinetic-gradient'>Del Primer Clic al Título DLD</span>",
+        subtext: "Flujo claro en 5 pasos: elige entre <span class='text-white font-semibold tabular-nums'>2.926</span> proyectos en EAU, firma el contrato directo y transfiere directamente al fideicomiso oficial DLD.",
+        brandTagline: "Pasarela EAU para Agentes Internacionales",
+        navExplainer: "Video Explicativo A–Z",
+        navOffplan: "Proyectos EAU",
+        navAgencies: "Agencias Globales",
+        navBenchmark: "Comparativa Global",
+        navCalc: "Calculadora",
+        navWhiteLabel: "Marca Blanca",
+        navDrone: "Dron 4K",
+        btnClientView: "Vista Cliente",
+        btnMassBroadcast: "Envío Masivo",
+        btnPartnerPortal: "Portal Socio",
+        btnRegisterSla: "Registrar Cliente (SLA)",
+        btnSignInJoin: "Entrar / Unirse",
+        pathLabel: "Tu Ruta:",
+        jStep1: "1. Elegir Proyecto (Inicio)",
+        jStep2: "2. Ver Números",
+        jStep3: "3. Contrato Directo",
+        jStep4: "4. Escrow DLD",
+        jStep5: "5. Trato Cerrado (Fin)",
+        telStockLabel: "Stock Verificado",
+        telStockVal: "2.926 Proyectos",
+        telYieldLabel: "Rentabilidad Neta",
+        telYieldVal: "8,4% Libre Impuestos",
+        telSplitLabel: "Reparto Directo",
+        telCutLabel: "Comisión Portal",
+        telCutVal: "0% Directo",
+        personaBuyer: "Soy Comprador Nuevo",
+        personaAgent: "Agente Exterior (55%)",
+        personaSeller: "Vendedor RERA EAU (45%)",
+        pgStartLabel: "1. Dónde Empiezas",
+        pgMiddleLabel: "2. Qué Pasa Después",
+        pgEndLabel: "3. Cómo Termina",
+        ctaBrowse: "Empezar: Ver 2.926 Proyectos",
+        ctaVideo: "Ver Video Paso a Paso (27s)",
+        ctaContract: "Abrir Contrato Directo y Prueba",
+        bentoRouteTitle: "Ruta de Sindicación Directa",
+        bentoRouteBadge: "Verificado · 0% Comisión Portal",
+        bentoDirectContact: "Contacto Directo",
+        bentoInstant: "Al Instante",
+        bentoUnlockBtn: "Desbloquear con Prueba",
+        personas: {
+          buyer: {
+            start: "Elige cualquier vivienda abajo. Los precios se muestran en tu moneda (USD, EUR, GBP).",
+            middle: "Tu agente firma el Contrato Directo y verifica el comprobante sin comisiones de portal.",
+            end: "Pagas solo a la cuenta bancaria oficial DLD Escrow y recibes tu título Oqood."
+          },
+          agent: {
+            start: "Pulsa «Entrar / Unirse» una vez y elige cualquier proyecto de EAU para tu cliente.",
+            middle: "Ambos firman el Contrato Directo + Prueba de Pago para desbloquear WhatsApp y Email.",
+            end: "Quédate el 55% de la comisión (45% vendedor EAU, 0% portal)."
+          },
+          seller: {
+            start: "Usa «Envío Masivo» para enviar proyectos por Email o WhatsApp a agencias globales.",
+            middle: "Contrato Directo + Prueba de Pago protegen los contactos antes de compartir nada.",
+            end: "Habla directo con el agente exterior, cierra la venta y reparte 55% / 45% con 0% comisión portal."
+          }
+        }
       },
       RU: {
         badge: "B2B ПОРТАЛ ДЛЯ ЗАРУБЕЖНЫХ АГЕНТОВ И СЕМЕЙНЫХ ОФИСОВ ВНЕ ОАЭ",
-        headline: "Продавайте Недвижимость ОАЭ <br><span class='gold-gradient-text'>Своим Клиентам По Всему Миру</span>",
-        subtext: "Эксклюзивный доступ для зарубежных брокеров к проектам девелоперов ОАЭ. Создавайте брендированные презентации без контактов застройщиков и получайте до 7% гарантированной комиссии."
+        headline: "Продавайте Недвижимость ОАЭ <br><span class='gold-gradient-text hero-kinetic-gradient'>От Первого Клика до Титула DLD</span>",
+        subtext: "Понятный процесс из 5 шагов: выберите из <span class='text-white font-semibold tabular-nums'>2 926</span> проектов ОАЭ, подпишите прямой договор и переведите депозит на эскроу-счёт DLD.",
+        brandTagline: "Шлюз ОАЭ для международных агентов",
+        navExplainer: "Видео-инструкция",
+        navOffplan: "Проекты ОАЭ",
+        navAgencies: "Агентства мира",
+        navBenchmark: "Сравнение рынков",
+        navCalc: "Калькулятор",
+        navWhiteLabel: "White-Label",
+        navDrone: "4K Дрон-туры",
+        btnClientView: "Режим клиента",
+        btnMassBroadcast: "Рассылка",
+        btnPartnerPortal: "Кабинет партнёра",
+        btnRegisterSla: "Регистрация клиента",
+        btnSignInJoin: "Войти / Присоединиться",
+        pathLabel: "Ваш путь:",
+        jStep1: "1. Выбор проекта (Старт)",
+        jStep2: "2. Расчёт цифр",
+        jStep3: "3. Прямой договор",
+        jStep4: "4. Эскроу DLD",
+        jStep5: "5. Сделка закрыта",
+        telStockLabel: "Проверено объектов",
+        telStockVal: "2 926 проектов",
+        telYieldLabel: "Средняя доходность",
+        telYieldVal: "8,4% без налогов",
+        telSplitLabel: "Прямой сплит",
+        telCutLabel: "Комиссия портала",
+        telCutVal: "0% напрямую",
+        personaBuyer: "Я Покупатель",
+        personaAgent: "Зарубежный агент (55%)",
+        personaSeller: "Продавец ОАЭ RERA (45%)",
+        pgStartLabel: "1. С чего начать",
+        pgMiddleLabel: "2. Что дальше",
+        pgEndLabel: "3. Итог сделки",
+        ctaBrowse: "Начать: 2 926 проектов",
+        ctaVideo: "Смотреть видео (27 сек)",
+        ctaContract: "Прямой договор и подтверждение",
+        bentoRouteTitle: "Прямой канал сделок",
+        bentoRouteBadge: "Проверено · 0% порталу",
+        bentoDirectContact: "Прямой контакт",
+        bentoInstant: "Мгновенно",
+        bentoUnlockBtn: "Открыть по чеку",
+        personas: {
+          buyer: {
+            start: "Выберите любой объект ниже — цены указаны в вашей валюте (USD, EUR, GBP).",
+            middle: "Ваш агент подписывает прямой договор и подтверждает оплату без комиссий портала.",
+            end: "Депозит переводится только на официальный эскроу-счёт DLD с получением титула Oqood."
+          },
+          agent: {
+            start: "Нажмите «Войти / Присоединиться» и выберите проект в ОАЭ для своего клиента.",
+            middle: "Обе стороны подписывают договор + чек оплаты, чтобы открыть прямой WhatsApp и Email.",
+            end: "Вы получаете 55% комиссии (45% продавцу в ОАЭ, 0% порталу)."
+          },
+          seller: {
+            start: "Используйте «Рассылку», чтобы отправить проекты агентам по всему миру в 1 клик.",
+            middle: "Прямой договор и проверка оплаты защищают контакты до их раскрытия.",
+            end: "Общайтесь напрямую с зарубежным агентом и делите комиссию 55% / 45% без удержаний портала."
+          }
+        }
+      },
+      UR: {
+        badge: "متحدہ عرب امارات سے باہر بین الاقوامی ایجنٹس اور سرمایہ کاروں کے لیے B2B پورٹل",
+        headline: "یو اے ای پراپرٹی فروخت کریں <br><span class='gold-gradient-text hero-kinetic-gradient'>پہلے کلک سے ڈی ایل ڈی ٹائٹل تک</span>",
+        subtext: "آسان 5 مراحل: <span class='text-white font-semibold tabular-nums'>2,926</span> یو اے ای منصوبوں میں سے انتخاب کریں، براہِ راست معاہدہ سائن کریں اور رقم سرکاری DLD ایسکرو بینک میں بھیجیں۔",
+        brandTagline: "بیرون ملک ایجنٹس کے لیے یو اے ای پارٹنر گیٹ وے",
+        navExplainer: "مکمل ویڈیو گائیڈ",
+        navOffplan: "یو اے ای منصوبے",
+        navAgencies: "عالمی ایجنسیاں",
+        navBenchmark: "عالمی موازنہ",
+        navCalc: "کمیشن کیلکولیٹر",
+        navWhiteLabel: "وائٹ لیبل",
+        navDrone: "4K ڈرون ٹور",
+        btnClientView: "کلائنٹ ویو",
+        btnMassBroadcast: "اجتماعی پیغام",
+        btnPartnerPortal: "پارٹنر پورٹل",
+        btnRegisterSla: "کلائنٹ رجسٹریشن",
+        btnSignInJoin: "سائن ان / نیٹ ورک جوائن کریں",
+        pathLabel: "آپ کا راستہ:",
+        jStep1: "1. پروجیکٹ منتخب کریں",
+        jStep2: "2. حساب دیکھیں",
+        jStep3: "3. معاہدہ سائن کریں",
+        jStep4: "4. DLD ایسکرو",
+        jStep5: "5. ڈیل مکمل",
+        telStockLabel: "تصدیق شدہ اسٹاک",
+        telStockVal: "2,926 منصوبے",
+        telYieldLabel: "اوسط خالص منافع",
+        telYieldVal: "8.4% ٹیکس فری",
+        telSplitLabel: "براہ راست تقسیم",
+        telCutLabel: "پورٹل فیس",
+        telCutVal: "0% براہ راست",
+        personaBuyer: "میں نیا خریدار ہوں",
+        personaAgent: "بیرون ملک ایجنٹ (55%)",
+        personaSeller: "یو اے ای سیلر (45%)",
+        pgStartLabel: "1. کہاں سے شروع کریں",
+        pgMiddleLabel: "2. آگے کیا ہوگا",
+        pgEndLabel: "3. ڈیل کیسے مکمل ہوگی",
+        ctaBrowse: "شروع کریں: 2,926 منصوبے دیکھیں",
+        ctaVideo: "27 سیکنڈ کی ویڈیو گائیڈ دیکھیں",
+        ctaContract: "براہ راست معاہدہ اور پیمنٹ پروف کھولیں",
+        bentoRouteTitle: "براہ راست سنڈیکیشن روٹ",
+        bentoRouteBadge: "تصدیق شدہ · 0% پورٹل کٹ",
+        bentoDirectContact: "براہ راست رابطہ",
+        bentoInstant: "فوری",
+        bentoUnlockBtn: "پروف کے ساتھ ان لاک کریں",
+        personas: {
+          buyer: {
+            start: "نیچے کوئی بھی گھر یا ولا منتخب کریں۔ قیمتیں آپ کی اپنی کرنسی میں نظر آئیں گی۔",
+            middle: "آپ کا ایجنٹ سادہ معاہدہ سائن کرتا ہے اور پیمنٹ پروف چیک کرتا ہے — زیرو پورٹل فیس۔",
+            end: "آپ رقم صرف سرکاری دبئی بینک ایسکرو اکاؤنٹ میں بھیجتے ہیں اور عقود ٹائٹل حاصل کرتے ہیں۔"
+          },
+          agent: {
+            start: "«سائن ان / جوائن» پر کلک کریں اور اپنے خریدار کے لیے یو اے ای پروجیکٹ منتخب کریں۔",
+            middle: "دونوں فریق معاہدہ سائن کر کے پیمنٹ پروف اپ لوڈ کرتے ہیں تو واٹس ایپ اور ای میل کھل جاتے ہیں۔",
+            end: "کمیشن کا 55% حصہ رکھیں (45% یو اے ای سیلر کا، 0% پورٹل کٹ)۔"
+          },
+          seller: {
+            start: "عالمی ایجنٹس کو پروجیکٹ بھیجنے کے لیے «اجتماعی پیغام» استعمال کریں۔",
+            middle: "رابطہ نمبر کھلنے سے پہلے براہ راست معاہدہ اور پیمنٹ پروف ضروری ہے۔",
+            end: "بیرون ملک ایجنٹ سے براہ راست بات کریں اور 55% / 45% پر ڈیل مکمل کریں۔"
+          }
+        }
+      },
+      TR: {
+        badge: "BAE DIŞINDAKİ ULUSLARARASI EMLAK DANIŞMANLARI İÇİN B2B PORTAL",
+        headline: "BAE Gayrimenkulü Satın <br><span class='gold-gradient-text hero-kinetic-gradient'>İlk Tıktan DLD Tapusuna</span>",
+        subtext: "Net 5 adımlı süreç: <span class='text-white font-semibold tabular-nums'>2.926</span> BAE projesi arasından seçin, doğrudan sözleşmeyi imzalayın ve ödemeyi resmi DLD Escrow hesabına gönderin.",
+        brandTagline: "BAE Dışı Acenteler İçin Ortak Geçidi",
+        navExplainer: "A'dan Z'ye Video Rehber",
+        navOffplan: "BAE Projeleri",
+        navAgencies: "Global Acenteler",
+        navBenchmark: "Dünya Kıyaslaması",
+        navCalc: "Komisyon Aracı",
+        navWhiteLabel: "White-Label",
+        navDrone: "4K Drone Turu",
+        btnClientView: "Müşteri Modu",
+        btnMassBroadcast: "Toplu Gönderim",
+        btnPartnerPortal: "Ortak Portalı",
+        btnRegisterSla: "Müşteri Kaydı (SLA)",
+        btnSignInJoin: "Giriş / Ağa Katıl",
+        pathLabel: "Yolunuz:",
+        jStep1: "1. Proje Seç (Başlangıç)",
+        jStep2: "2. Rakamları Gör",
+        jStep3: "3. Doğrudan Sözleşme",
+        jStep4: "4. DLD Escrow",
+        jStep5: "5. İşlem Onaylandı",
+        telStockLabel: "Doğrulanmış Stok",
+        telStockVal: "2.926 Proje",
+        telYieldLabel: "Ort. Net Getiri",
+        telYieldVal: "%8,4 Vergisiz",
+        telSplitLabel: "Doğrudan Paylaşım",
+        telCutLabel: "Portal Kesintisi",
+        telCutVal: "%0 Doğrudan",
+        personaBuyer: "İlk Kez Alıcıyım",
+        personaAgent: "Yurt Dışı Acenteyim (%55)",
+        personaSeller: "BAE RERA Satıcısıyım (%45)",
+        pgStartLabel: "1. Nereden Başlarsınız",
+        pgMiddleLabel: "2. Sonra Ne Olur",
+        pgEndLabel: "3. Nasıl Tamamlanır",
+        ctaBrowse: "Buradan Başla: 2.926 Proje",
+        ctaVideo: "27sn Adım Adım Videoyu İzle",
+        ctaContract: "Doğrudan Sözleşme & Ödeme Kanıtı",
+        bentoRouteTitle: "Doğrudan Dağıtım Hattı",
+        bentoRouteBadge: "Doğrulandı · %0 Portal Payı",
+        bentoDirectContact: "Doğrudan İletişim",
+        bentoInstant: "Anında",
+        bentoUnlockBtn: "Kanıtla Kilidi Aç",
+        personas: {
+          buyer: {
+            start: "Aşağıdan bir proje seçin. Fiyatlar kendi para biriminizde (USD, EUR, GBP) görünür.",
+            middle: "Danışmanınız doğrudan sözleşmeyi imzalar ve ödeme kanıtını doğrular — sıfır portal ücreti.",
+            end: "Ödemeyi yalnızca resmi Dubai DLD Escrow hesabına yapar ve Oqood tapunuzu alırsınız."
+          },
+          agent: {
+            start: "«Giriş / Ağa Katıl» butonuna tıklayın ve alıcınız için bir BAE projesi seçin.",
+            middle: "Her iki taraf sözleşmeyi imzalayıp ödeme kanıtını doğruladığında WhatsApp ve E-posta açılır.",
+            end: "Komisyonun %55'ini alın (%45 BAE satıcısına, %0 portal kesintisi)."
+          },
+          seller: {
+            start: "Global acentelere proje göndermek için «Toplu Gönderim» aracını kullanın.",
+            middle: "İletişim bilgileri açılmadan önce Doğrudan Sözleşme ve Ödeme Kanıtı zorunludur.",
+            end: "Yurt dışı acenteyle doğrudan görüşün ve %55 / %45 paylaşım ile satışı kapatın."
+          }
+        }
+      },
+      ZH: {
+        badge: "专为阿联酋境外房产经纪人与私人财富顾问打造的B2B主权门户",
+        headline: "面向全球客户 <br><span class='gold-gradient-text hero-kinetic-gradient'>从点击到DLD产权直通</span>",
+        subtext: "清晰5步跨境流程：从 <span class='text-white font-semibold tabular-nums'>2,926</span> 个阿联酋项目中挑选房源，在线签署直签协议，验证付款凭证后直接对接DLD官方托管账户。",
+        brandTagline: "阿联酋境外经纪人官方合作网关",
+        navExplainer: "视频教程",
+        navOffplan: "阿联酋期房",
+        navAgencies: "海外合作机构",
+        navBenchmark: "全球收益对比",
+        navCalc: "佣金计算器",
+        navWhiteLabel: "白标方案",
+        navDrone: "4K航拍",
+        btnClientView: "客户模式",
+        btnMassBroadcast: "群发推广",
+        btnPartnerPortal: "合作伙伴后台",
+        btnRegisterSla: "登记客户 (SLA)",
+        btnSignInJoin: "登录 / 加入网络",
+        pathLabel: "您的流程：",
+        jStep1: "1. 挑选项目（开始）",
+        jStep2: "2. 核算收益",
+        jStep3: "3. 签署直签协议",
+        jStep4: "4. DLD银行托管",
+        jStep5: "5. 交易完成",
+        telStockLabel: "核验房源",
+        telStockVal: "2,926 个项目",
+        telYieldLabel: "平均净回报",
+        telYieldVal: "8.4% 免税",
+        telSplitLabel: "直签分成",
+        telCutLabel: "平台抽成",
+        telCutVal: "0% 直连",
+        personaBuyer: "我是首次买家",
+        personaAgent: "我是海外经纪人 (55%)",
+        personaSeller: "我是阿联酋卖家 (45%)",
+        pgStartLabel: "1. 从哪里开始",
+        pgMiddleLabel: "2. 接下来做什么",
+        pgEndLabel: "3. 如何完成交易",
+        ctaBrowse: "立即开始：浏览 2,926 个项目",
+        ctaVideo: "观看 27 秒分步视频",
+        ctaContract: "打开直签协议与付款凭证",
+        bentoRouteTitle: "直连分销通道",
+        bentoRouteBadge: "已认证 · 0% 平台抽成",
+        bentoDirectContact: "直连联系方式",
+        bentoInstant: "即时解锁",
+        bentoUnlockBtn: "凭凭证解锁",
+        personas: {
+          buyer: {
+            start: "在下方选择任意房源，价格自动显示为您的常用货币。",
+            middle: "您的经纪人签署直签协议并核验付款凭证，零平台附加费。",
+            end: "资金仅转入迪拜土地局(DLD)官方托管银行并获得Oqood产权。"
+          },
+          agent: {
+            start: "点击“登录 / 加入网络”，为您的客户挑选阿联酋项目。",
+            middle: "双方签署直签协议并核验付款凭证后，立即解锁真实WhatsApp和邮箱。",
+            end: "保留55%佣金（阿联酋卖家45%，平台0%抽成）。"
+          },
+          seller: {
+            start: "使用“群发推广”一键向全球合作机构发送项目。",
+            middle: "公开联系方式前必须先签署直签协议并验证付款凭证。",
+            end: "直接与海外经纪人沟通成交，按55%/45%分配佣金。"
+          }
+        }
       }
     };
 
     function switchLanguage(lang) {
-      const data = translations[lang] || translations.EN;
-      document.getElementById('heroBadge').innerHTML = data.badge;
-      document.getElementById('heroHeadline').innerHTML = data.headline;
-      document.getElementById('heroSubtext').innerHTML = data.subtext;
+      activePortalLang = translations[lang] ? lang : 'EN';
+      const data = translations[activePortalLang];
+      const isRtl = activePortalLang === 'AR' || activePortalLang === 'UR';
+      document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
+      document.documentElement.lang = activePortalLang.toLowerCase();
+      try { localStorage.setItem('aih_lang', activePortalLang); } catch {}
+      const sel = document.getElementById('langSelect');
+      if (sel && sel.value !== activePortalLang) sel.value = activePortalLang;
+
+      const badge = document.getElementById('heroBadge');
+      const headline = document.getElementById('heroHeadline');
+      const subtext = document.getElementById('heroSubtext');
+      if (badge) badge.innerHTML = data.badge;
+      if (headline) headline.innerHTML = data.headline;
+      if (subtext) subtext.innerHTML = data.subtext;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (key && data[key]) {
+          el.innerText = data[key];
+        }
+      });
+
+      selectPortalPersona(activePortalPersona);
     }
 
     // Commission Calculator Engine (Dual-Sided 1% + 1% Formulation)
@@ -3083,24 +3643,10 @@
     }
 
     function selectPortalPersona(persona) {
-      const data = {
-        buyer: {
-          start: 'Pick any home or villa below. Prices show in your own money (USD, EUR, GBP).',
-          middle: 'Your agent signs a simple Direct Contract & verifies payment proof — zero portal fees.',
-          end: 'You pay only to the official Dubai bank escrow account and get your Oqood title.'
-        },
-        agent: {
-          start: 'Click "Sign In / Join Network" once, then pick any UAE project for your buyer.',
-          middle: 'Both agents sign the Direct Contract + verify Payment Proof to unlock direct WhatsApp & Email.',
-          end: 'Keep 55% of the commission (UAE Seller keeps 45%, 0% Portal Cut).'
-        },
-        seller: {
-          start: 'Click "Sign In / Join Network" or "Mass Broadcast" to pitch projects to global agents.',
-          middle: 'Sign the Direct Contract + verify Payment Proof before any phone or email is shared.',
-          end: 'Talk directly with the overseas agent, close the sale, and split 55% / 45% with 0% Portal Cut.'
-        }
-      };
-      const p = data[persona] || data.buyer;
+      activePortalPersona = persona || 'buyer';
+      const dict = translations[activePortalLang] || translations.EN;
+      const data = dict.personas || translations.EN.personas;
+      const p = data[activePortalPersona] || data.buyer;
       const setTxt = (id, t) => { const e = document.getElementById(id); if (e) e.innerText = t; };
       setTxt('pgStart', p.start);
       setTxt('pgMiddle', p.middle);
@@ -3109,7 +3655,7 @@
       ['buyer', 'agent', 'seller'].forEach(k => {
         const b = document.getElementById('personaBtn-' + k);
         if (!b) return;
-        b.className = k === persona
+        b.className = k === activePortalPersona
           ? 'px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all inline-flex items-center gap-1.5'
           : 'px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5';
       });
@@ -5940,6 +6486,8 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
     }
 
     window.addEventListener('load', () => {
+      const savedLang = localStorage.getItem('aih_lang') || 'EN';
+      if (savedLang && savedLang !== 'EN') switchLanguage(savedLang);
       initCinematicHeroMotion();
       initClerkAndAuth();
     });
