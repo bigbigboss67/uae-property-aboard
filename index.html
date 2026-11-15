@@ -243,6 +243,14 @@
       color: #FFFFFF !important;
       border: 1px solid rgba(255, 255, 255, 0.24) !important;
     }
+    html.light .cinema-dark .bg-black\/60,
+    html.light .cinema-dark .bg-black\/70,
+    html.light .cinema-dark .bg-black\/80,
+    html.light .cinema-dark .bg-black\/85,
+    html.light .cinema-dark .bg-black\/90 {
+      background-color: rgba(13, 16, 23, 0.92) !important;
+      color: #FFFFFF !important;
+    }
     html.light .cinema-dark .bg-brand-gold,
     html.light .cinema-dark .bg-brand-gold.text-black {
       background-color: #EAB308 !important;
@@ -2108,14 +2116,22 @@
   <!-- ======================================================== -->
   <div id="droneModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
     <div class="cinema-dark bg-[#10131B] border border-brand-gold/40 rounded-2xl max-w-5xl w-full overflow-hidden shadow-2xl relative text-white">
-      <div class="p-4 bg-black/70 border-b border-white/10 flex items-center justify-between gap-3">
+      <div class="p-3.5 border-b border-white/15 flex flex-wrap items-center justify-between gap-3" style="background-color:#0D1017;color:#FFFFFF;">
         <div class="flex items-center gap-2 min-w-0">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
-          <span class="text-sm font-bold text-white truncate">Live 3D Satellite Drone Flight · Click Anywhere on Map to Fly</span>
+          <span class="text-sm font-bold truncate" style="color:#FFFFFF;">Live 3D Satellite Drone Flight · Click Map or Search Location</span>
         </div>
-        <button onclick="closeDroneModal()" class="text-slate-300 hover:text-white p-1.5 rounded-lg bg-white/10 hover:bg-white/20 shrink-0">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+        <div class="flex items-center gap-2">
+          <form onsubmit="event.preventDefault(); searchDroneLocation();" class="flex items-center gap-1.5">
+            <input id="droneSearchInput" type="text" placeholder="Search UAE location (e.g. Burj Al Arab)..." class="px-2.5 py-1.5 rounded-lg text-xs border border-white/20 w-48 sm:w-60 focus:outline-none" style="background-color:#182032 !important;color:#FFFFFF !important;border-color:rgba(255,255,255,0.25) !important;">
+            <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-bold shrink-0" style="background-color:#EAB308;color:#0F172A;">
+              Fly Here
+            </button>
+          </form>
+          <button onclick="closeDroneModal()" aria-label="Close Drone Modal" class="px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shrink-0 hover:opacity-90" style="background-color:#EF4444;color:#FFFFFF;">
+            <i data-lucide="x" class="w-4 h-4"></i> Close
+          </button>
+        </div>
       </div>
 
       <div class="relative bg-black h-[70vh] min-h-[420px]">
@@ -3623,6 +3639,23 @@
         droneOrbitRaf = requestAnimationFrame(tick);
       };
       droneOrbitRaf = requestAnimationFrame(tick);
+    }
+
+    async function searchDroneLocation() {
+      const q = (document.getElementById('droneSearchInput')?.value || '').trim();
+      if (!q) return;
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q + ', UAE')}`);
+        const items = await res.json();
+        if (Array.isArray(items) && items.length > 0) {
+          const hit = items[0];
+          flyDroneTo(parseFloat(hit.lon), parseFloat(hit.lat), hit.display_name.split(',').slice(0, 2).join(', '));
+        } else {
+          showToast('Location not found — click anywhere on the map to fly there.');
+        }
+      } catch {
+        showToast('Could not search location — click anywhere on the map.');
+      }
     }
 
     function toggleDroneOrbit() {
