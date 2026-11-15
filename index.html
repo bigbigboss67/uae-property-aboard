@@ -2968,6 +2968,7 @@
             <li><a href="#calculator" class="hover:text-white transition-colors">Commission Escrow Payouts</a></li>
             <li><a href="#drone" class="hover:text-white transition-colors">4K FPV Drone Library</a></li>
             <li><a href="#why-dubai" class="hover:text-white transition-colors">Global Tax & Yield Index</a></li>
+            <li><button type="button" onclick="openPortalOwnerInbox()" class="text-sky-400 hover:text-sky-300 transition-colors font-semibold text-left">Portal Owner Inbox (Admin)</button></li>
           </ul>
         </div>
 
@@ -6126,6 +6127,19 @@
       if (typeof showToast === 'function') showToast(`Enquiry ${enqId} marked forwarded to ${target}.`);
     }
 
+    async function openPortalOwnerInbox() {
+      await syncPortalLedger();
+      const dash = document.getElementById('partnerDashboardOverlay');
+      if (dash) dash.classList.remove('hidden');
+      const partnerName = document.getElementById('dashPartnerName');
+      if (partnerName) partnerName.innerText = 'Portal Owner (Admin View)';
+      const btnText = document.getElementById('dashboardBtnText');
+      if (btnText) btnText.innerText = 'Exit Owner Inbox';
+      const inbox = document.getElementById('liveEnquiriesTableBody');
+      if (inbox) inbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (typeof showToast === 'function') showToast('Portal Owner Inbox opened — all ENQ enquiries loaded.');
+    }
+
     function renderEnquiriesTable() {
       const tbody = document.getElementById('liveEnquiriesTableBody');
       const badge = document.getElementById('enquiriesCountBadge');
@@ -6614,6 +6628,9 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       const dealParam = urlParams.get('deal');
       if (dealParam && typeof openBlindContractForProject === 'function') {
         openBlindContractForProject(dealParam);
+      }
+      if ((urlParams.get('owner') === '1' || urlParams.get('admin') === '1') && typeof openPortalOwnerInbox === 'function') {
+        openPortalOwnerInbox();
       }
     });
   </script>
