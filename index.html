@@ -6086,6 +6086,11 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'submit_enquiry', enquiry })
         });
+        fetch('/api/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ event: 'enquiry_submitted', enquiry, origin: window.location.origin })
+        }).catch(() => {});
       } catch {}
       document.getElementById('portalEnquiryForm')?.classList.add('hidden');
       const successBox = document.getElementById('enqSuccessBox');
@@ -6214,6 +6219,19 @@
           }
         })
       }).catch(() => {});
+      fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: 'party_signed',
+          dealId: blindContractState.contractId,
+          projectId: blindContractState.projectId,
+          projectName: blindContractState.projectName,
+          party,
+          signerName: stamp.role,
+          origin: window.location.origin
+        })
+      }).catch(() => {});
       updateBlindContractUI();
     }
 
@@ -6323,6 +6341,19 @@
         }
       } catch {
         blindContractState.proofStatus = 'verified';
+      }
+      if (blindContractState.proofStatus === 'verified') {
+        fetch('/api/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'deal_unlocked',
+            dealId: blindContractState.contractId,
+            projectId: blindContractState.projectId,
+            projectName: blindContractState.projectName,
+            origin: window.location.origin
+          })
+        }).catch(() => {});
       }
       updateBlindContractUI();
     }
