@@ -2407,25 +2407,31 @@
   <!-- ======================================================== -->
   <!-- 12B. GLOBAL A-TO-Z WORKFLOW EXPLAINER VIDEO PLAYER       -->
   <!-- ======================================================== -->
-  <div id="explainerVideoModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-[#0B0E16] border-2 border-brand-gold/50 rounded-3xl max-w-4xl w-full p-5 sm:p-7 relative shadow-2xl my-6 text-slate-200">
-      <button onclick="closeExplainerVideo()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 z-10">
-        <i data-lucide="x" class="w-6 h-6"></i>
-      </button>
+  <div id="explainerVideoModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden items-start justify-center p-2 sm:p-4 overflow-hidden">
+    <div class="cinema-dark bg-[#0B0E16] border-2 border-brand-gold/50 rounded-2xl sm:rounded-3xl max-w-5xl w-full max-h-[92vh] flex flex-col overflow-hidden relative shadow-2xl my-2 sm:my-4 text-slate-200">
 
-      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+      <!-- Pinned Top Header with Always-Visible Close Button -->
+      <div class="shrink-0 px-4 sm:px-6 py-3.5 bg-[#0B0E16] border-b border-white/10 flex flex-wrap items-center justify-between gap-2" style="background-color:#0B0E16;color:#FFFFFF;">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-gold to-amber-600 flex items-center justify-center text-black font-black shadow"><i data-lucide="play" class="w-5 h-5 fill-current"></i></div>
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-gold to-amber-600 flex items-center justify-center text-black font-black shadow shrink-0"><i data-lucide="play" class="w-4 h-4 fill-current"></i></div>
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="text-lg sm:text-xl font-display font-extrabold text-white">A-to-Z Global UAE Off-Plan Deal Workflow</h3>
-              <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-emerald-500/30">EXPLAINER VIDEO</span>
+              <h3 class="text-base sm:text-lg font-display font-extrabold text-white">A-to-Z Global UAE Off-Plan Deal Workflow</h3>
+              <span class="hidden sm:inline bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-emerald-500/30">EXPLAINER VIDEO</span>
             </div>
-            <p class="text-xs text-slate-400">How Buyer, Overseas Agent, UAE RERA Agency &amp; DLD/Portal close safely without circumvention</p>
+            <p class="text-[11px] text-slate-400">Direct Buyer vs. Overseas Agency · Payment &amp; Title Deed Guide</p>
           </div>
         </div>
-        <div id="evTimecode" class="font-mono text-xs text-brand-gold bg-black/60 px-3 py-1 rounded-lg border border-white/10 mr-8">00:00 / 00:30</div>
+        <div class="flex items-center gap-2">
+          <div id="evTimecode" class="font-mono text-xs text-brand-gold bg-black/60 px-2.5 py-1 rounded-lg border border-white/10">00:00 / 00:30</div>
+          <button onclick="closeExplainerVideo()" aria-label="Close Explainer Modal" style="background-color:#EF4444;color:#FFFFFF;" class="px-3 py-1.5 rounded-lg text-xs font-extrabold flex items-center gap-1 hover:brightness-110 transition-all shadow shrink-0">
+            <i data-lucide="x" class="w-4 h-4"></i> Close
+          </button>
+        </div>
       </div>
+
+      <!-- Scrollable Modal Body (Fits 100% Inside Viewport) -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6">
 
       <!-- Mode Switcher: HD Video (.mp4) vs Interactive Video Walkthrough vs Interactive Parties Chart -->
       <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
@@ -2519,6 +2525,7 @@
         </div>
 
         <div id="evPartyChartStage" class="space-y-4"></div>
+      </div>
       </div>
     </div>
   </div>
