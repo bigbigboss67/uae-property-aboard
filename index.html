@@ -3342,6 +3342,89 @@
       });
 
       selectPortalPersona(activePortalPersona);
+      applyFullPortalTranslation(activePortalLang);
+    }
+
+    // Full-Portal DOM Translation Engine (covers all sections, filters, tables, modals & dynamic cards)
+    window._i18nPhrases = null;
+    window._i18nFetchPromise = null;
+    const _i18nTextOrig = new WeakMap();
+    const _i18nPlaceholderOrig = new WeakMap();
+
+    async function ensureI18nPhrases() {
+      if (window._i18nPhrases) return window._i18nPhrases;
+      if (!window._i18nFetchPromise) {
+        window._i18nFetchPromise = fetch('/data/i18n-phrases.json')
+          .then(r => r.ok ? r.json() : {})
+          .then(json => { window._i18nPhrases = json || {}; return window._i18nPhrases; })
+          .catch(() => ({}));
+      }
+      return window._i18nFetchPromise;
+    }
+
+    async function applyFullPortalTranslation(lang) {
+      const targetLang = lang || activePortalLang || 'EN';
+      const dict = await ensureI18nPhrases();
+      if (!dict || !document.body) return;
+      if (targetLang !== activePortalLang) return;
+
+      const skipTags = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'CODE', 'PRE', 'NOSCRIPT', 'SVG']);
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          const parent = node.parentElement;
+          if (!parent) return NodeFilter.FILTER_REJECT;
+          if (skipTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+          if (parent.closest('#langSelect, #currencySelect, [data-i18n], [data-no-i18n]')) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+
+      const nodes = [];
+      let cur;
+      while ((cur = walker.nextNode())) nodes.push(cur);
+
+      for (const node of nodes) {
+        let orig = _i18nTextOrig.get(node);
+        if (!orig) {
+          const raw = node.nodeValue;
+          const m = raw.match(/^(\s*)([\s\S]*?)(\s*)$/);
+          if (!m) continue;
+          const norm = m[2].replace(/\s+/g, ' ').trim();
+          if (!norm) continue;
+          orig = { lead: m[1], norm, trail: m[3] };
+          _i18nTextOrig.set(node, orig);
+        }
+
+        if (targetLang === 'EN') {
+          const expected = orig.lead + orig.norm + orig.trail;
+          if (node.nodeValue !== expected) node.nodeValue = expected;
+        } else {
+          const entry = dict[orig.norm];
+          if (entry && entry[targetLang]) {
+            const nextVal = orig.lead + entry[targetLang] + orig.trail;
+            if (node.nodeValue !== nextVal) node.nodeValue = nextVal;
+          } else {
+            const expected = orig.lead + orig.norm + orig.trail;
+            if (node.nodeValue !== expected) node.nodeValue = expected;
+          }
+        }
+      }
+
+      document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach(el => {
+        if (el.closest('#langSelect, #currencySelect')) return;
+        let origPh = _i18nPlaceholderOrig.get(el);
+        if (!origPh) {
+          origPh = (el.getAttribute('placeholder') || '').replace(/\s+/g, ' ').trim();
+          if (!origPh) return;
+          _i18nPlaceholderOrig.set(el, origPh);
+        }
+        if (targetLang === 'EN') {
+          el.setAttribute('placeholder', origPh);
+        } else if (dict[origPh] && dict[origPh][targetLang]) {
+          el.setAttribute('placeholder', dict[origPh][targetLang]);
+        }
+      });
     }
 
     // Commission Calculator Engine (Dual-Sided 1% + 1% Formulation)
@@ -4184,6 +4267,7 @@
         `;
       }).join('');
       if (window.lucide) lucide.createIcons();
+      if (activePortalLang !== 'EN' && typeof applyFullPortalTranslation === 'function') applyFullPortalTranslation(activePortalLang);
     }
 
     function setOffPlanCategory(cat) {
@@ -4386,6 +4470,7 @@
         `;
       }).join('');
       if (window.lucide) lucide.createIcons();
+      if (activePortalLang !== 'EN' && typeof applyFullPortalTranslation === 'function') applyFullPortalTranslation(activePortalLang);
     }
 
     function filterAgencies() {
@@ -4532,6 +4617,7 @@
 
         renderPaginationBar('agentsPagination', agentCurrentPage, totalPages, total, pageSize, 'loadAgents');
         if (window.lucide) lucide.createIcons();
+        if (activePortalLang !== 'EN' && typeof applyFullPortalTranslation === 'function') applyFullPortalTranslation(activePortalLang);
       } catch (err) {
         grid.innerHTML = `<div class="col-span-full text-center py-10 text-rose-400 glass-card rounded-2xl border border-rose-500/30">Failed to load live agents: ${escHtml(err.message)}</div>`;
       }

@@ -1,0 +1,3362 @@
+{
+  "GLOBAL AGENT DESK": {
+    "AR": "مكتب الوسطاء العالمي",
+    "DE": "GLOBALER MAKLER-DESK",
+    "FR": "BUREAU MONDIAL DES AGENTS",
+    "ES": "MESA GLOBAL DE AGENTES",
+    "RU": "ГЛОБАЛЬНЫЙ ОФИС АГЕНТОВ",
+    "UR": "عالمی ایجنٹ ڈیسک",
+    "TR": "KÜRESEL DANIŞMAN MASASI",
+    "ZH": "全球经纪人服务台"
+  },
+  "Desk:": {
+    "AR": "المكتب:",
+    "DE": "Standort:",
+    "FR": "Bureau :",
+    "ES": "Oficina:",
+    "RU": "Офис:",
+    "UR": "ڈیسک:",
+    "TR": "Masa:",
+    "ZH": "服务台："
+  },
+  "UK & Europe": {
+    "AR": "المملكة المتحدة وأوروبا",
+    "DE": "UK & Europa",
+    "FR": "Royaume-Uni & Europe",
+    "ES": "Reino Unido y Europa",
+    "RU": "Великобритания и Европа",
+    "UR": "برطانیہ اور یورپ",
+    "TR": "İngiltere & Avrupa",
+    "ZH": "英国及欧洲"
+  },
+  "Americas (US/Canada)": {
+    "AR": "الأمريكتان (الولايات المتحدة/كندا)",
+    "DE": "Amerika (USA/Kanada)",
+    "FR": "Amériques (É.-U./Canada)",
+    "ES": "Américas (EE. UU./Canadá)",
+    "RU": "Америка (США/Канада)",
+    "UR": "امریکہ اور کینیڈا",
+    "TR": "Amerika (ABD/Kanada)",
+    "ZH": "美洲（美国/加拿大）"
+  },
+  "East Asia (China/SG)": {
+    "AR": "شرق آسيا (الصين/سنغافورة)",
+    "DE": "Ostasien (China/SG)",
+    "FR": "Asie de l'Est (Chine/SG)",
+    "ES": "Asia Oriental (China/SG)",
+    "RU": "Восточная Азия (Китай/Сингапур)",
+    "UR": "مشرقی ایشیا (چین/سنگاپور)",
+    "TR": "Doğu Asya (Çin/SG)",
+    "ZH": "东亚（中国/新加坡）"
+  },
+  "South Asia (India)": {
+    "AR": "جنوب آسيا (الهند)",
+    "DE": "Südasien (Indien)",
+    "FR": "Asie du Sud (Inde)",
+    "ES": "Asia del Sur (India)",
+    "RU": "Южная Азия (Индия)",
+    "UR": "جنوبی ایشیا (بھارت)",
+    "TR": "Güney Asya (Hindistan)",
+    "ZH": "南亚（印度）"
+  },
+  "GCC & Levant": {
+    "AR": "الخليج والمشرق العربي",
+    "DE": "GCC & Levante",
+    "FR": "CCG & Levant",
+    "ES": "CCG y Levante",
+    "RU": "ССАГПЗ и Левант",
+    "UR": "خلیج اور لیونٹ",
+    "TR": "Körfez & Levant",
+    "ZH": "海湾及黎凡特"
+  },
+  "Currency:": {
+    "AR": "العملة:",
+    "DE": "Währung:",
+    "FR": "Devise :",
+    "ES": "Moneda:",
+    "RU": "Валюта:",
+    "UR": "کرنسی:",
+    "TR": "Para Birimi:",
+    "ZH": "货币："
+  },
+  "UAE Partner Gateway for Outside-UAE Agents": {
+    "AR": "بوابة شركاء الإمارات للوسطاء الدوليين",
+    "DE": "VAE-Partnerportal für internationale Makler",
+    "FR": "Portail partenaire ÉAU pour agents internationaux",
+    "ES": "Portal de socios EAU para agentes internacionales",
+    "RU": "Партнерский шлюз ОАЭ для зарубежных брокеров",
+    "UR": "بیرون ملک ایجنٹس کے لیے یو اے ای پارٹنر گیٹ وے",
+    "TR": "Yurt Dışı Danışmanlar İçin BAE Partner Kapısı",
+    "ZH": "阿联酋海外经纪人合作门户"
+  },
+  "A-to-Z Explainer Video": {
+    "AR": "فيديو الشرح الكامل",
+    "DE": "A-bis-Z-Erklärvideo",
+    "FR": "Vidéo explicative A à Z",
+    "ES": "Video explicativo A-Z",
+    "RU": "Видео-инструкция А–Я",
+    "UR": "مکمل وضاحتی ویڈیو",
+    "TR": "A'dan Z'ye Anlatım Videosu",
+    "ZH": "全流程解说视频"
+  },
+  "UAE Off-Plan": {
+    "AR": "عقارات قيد الإنشاء",
+    "DE": "VAE Off-Plan",
+    "FR": "VEFA Émirats",
+    "ES": "Sobre Plano EAU",
+    "RU": "Новостройки ОАЭ",
+    "UR": "یو اے ای آف پلان",
+    "TR": "BAE Lansman Projeleri",
+    "ZH": "阿联酋期房"
+  },
+  "Abroad Agencies": {
+    "AR": "الوكالات الدولية",
+    "DE": "Auslandsagenturen",
+    "FR": "Agences internationales",
+    "ES": "Agencias en el Exterior",
+    "RU": "Зарубежные агентства",
+    "UR": "بیرون ملک ایجنسیاں",
+    "TR": "Yurt Dışı Ajanslar",
+    "ZH": "海外合作机构"
+  },
+  "World Benchmark": {
+    "AR": "المقارنة العالمية",
+    "DE": "Welt-Benchmark",
+    "FR": "Indice mondial",
+    "ES": "Comparativa Global",
+    "RU": "Мировой рейтинг",
+    "UR": "عالمی موازنہ",
+    "TR": "Küresel Kıyaslama",
+    "ZH": "全球收益对比"
+  },
+  "Commission Tool": {
+    "AR": "حاسبة العمولات",
+    "DE": "Provisionsrechner",
+    "FR": "Outil de commission",
+    "ES": "Calculadora de Comisión",
+    "RU": "Калькулятор комиссии",
+    "UR": "کمیشن کیلکولیٹر",
+    "TR": "Komisyon Aracı",
+    "ZH": "佣金计算器"
+  },
+  "White-Label": {
+    "AR": "العلامة البيضاء",
+    "DE": "White-Label",
+    "FR": "Marque Blanche",
+    "ES": "Marca Blanca",
+    "RU": "White-Label",
+    "UR": "وائٹ لیبل",
+    "TR": "Beyaz Etiket",
+    "ZH": "白标定制"
+  },
+  "4K Drone Suite": {
+    "AR": "جولات درون 4K",
+    "DE": "4K-Drohnen-Suite",
+    "FR": "Suite Drone 4K",
+    "ES": "Suite Dron 4K",
+    "RU": "4K Дрон-туры",
+    "UR": "4K ڈرون سوئٹ",
+    "TR": "4K Drone Turu",
+    "ZH": "4K无人机看房"
+  },
+  "Dark": {
+    "AR": "داكن",
+    "DE": "Dunkel",
+    "FR": "Sombre",
+    "ES": "Oscuro",
+    "RU": "Тёмная",
+    "UR": "ڈارک",
+    "TR": "Koyu",
+    "ZH": "深色"
+  },
+  "Light": {
+    "AR": "فاتح",
+    "DE": "Hell",
+    "FR": "Clair",
+    "ES": "Claro",
+    "RU": "Светлая",
+    "UR": "لائٹ",
+    "TR": "Açık",
+    "ZH": "浅色"
+  },
+  "Client View": {
+    "AR": "وضع العميل",
+    "DE": "Kundenansicht",
+    "FR": "Vue Client",
+    "ES": "Vista Cliente",
+    "RU": "Режим клиента",
+    "UR": "کلائنٹ ویو",
+    "TR": "Müşteri Görünümü",
+    "ZH": "客户视图"
+  },
+  "Mass Broadcast": {
+    "AR": "البث الجماعي",
+    "DE": "Massenversand",
+    "FR": "Diffusion groupée",
+    "ES": "Difusión Masiva",
+    "RU": "Массовая рассылка",
+    "UR": "ماس براڈکاسٹ",
+    "TR": "Toplu Yayın",
+    "ZH": "群发中心"
+  },
+  "Partner Portal": {
+    "AR": "بوابة الشريك",
+    "DE": "Partner-Portal",
+    "FR": "Portail Partenaire",
+    "ES": "Portal de Socios",
+    "RU": "Кабинет партнёра",
+    "UR": "پارٹنر پورٹل",
+    "TR": "Partner Portalı",
+    "ZH": "合作商后台"
+  },
+  "Register Client (SLA)": {
+    "AR": "تسجيل عميل (SLA)",
+    "DE": "Kunde registrieren (SLA)",
+    "FR": "Enregistrer client (SLA)",
+    "ES": "Registrar Cliente (SLA)",
+    "RU": "Регистрация клиента (SLA)",
+    "UR": "کلائنٹ رجسٹر کریں",
+    "TR": "Müşteri Kaydet (SLA)",
+    "ZH": "客户锁客登记 (SLA)"
+  },
+  "Sign In / Join Network": {
+    "AR": "تسجيل الدخول / الانضمام",
+    "DE": "Anmelden / Beitreten",
+    "FR": "Connexion / Rejoindre",
+    "ES": "Iniciar Sesión / Unirse",
+    "RU": "Войти / Присоединиться",
+    "UR": "سائن ان / نیٹ ورک جوائن کریں",
+    "TR": "Giriş Yap / Katıl",
+    "ZH": "登录 / 加入网络"
+  },
+  "Your Path:": {
+    "AR": "مسارك:",
+    "DE": "Ihr Pfad:",
+    "FR": "Votre parcours :",
+    "ES": "Tu Ruta:",
+    "RU": "Ваш путь:",
+    "UR": "آپ کا راستہ:",
+    "TR": "Yolunuz:",
+    "ZH": "您的流程："
+  },
+  "1. Pick Project (Start)": {
+    "AR": "1. اختر المشروع (البداية)",
+    "DE": "1. Projekt wählen (Start)",
+    "FR": "1. Choisir un projet (Début)",
+    "ES": "1. Elegir Proyecto (Inicio)",
+    "RU": "1. Выбрать проект (Старт)",
+    "UR": "1. پروجیکٹ منتخب کریں",
+    "TR": "1. Proje Seç (Başlangıç)",
+    "ZH": "1. 选择项目（开始）"
+  },
+  "2. Check Numbers": {
+    "AR": "2. راجع الأرقام",
+    "DE": "2. Zahlen prüfen",
+    "FR": "2. Vérifier les chiffres",
+    "ES": "2. Verificar Cifras",
+    "RU": "2. Проверить расчёты",
+    "UR": "2. اعداد چیک کریں",
+    "TR": "2. Rakamları Kontrol Et",
+    "ZH": "2. 核对收益"
+  },
+  "3. Sign Direct Contract": {
+    "AR": "3. وقّع العقد المباشر",
+    "DE": "3. Direktvertrag unterzeichnen",
+    "FR": "3. Signer contrat direct",
+    "ES": "3. Firmar Contrato Directo",
+    "RU": "3. Подписать прямой контракт",
+    "UR": "3. براہ راست معاہدہ",
+    "TR": "3. Doğrudan Sözleşme İmzala",
+    "ZH": "3. 签署直连合约"
+  },
+  "4. DLD Escrow": {
+    "AR": "4. حساب الضمان DLD",
+    "DE": "4. DLD-Treuhandkonto",
+    "FR": "4. Séquestre DLD",
+    "ES": "4. Escrow DLD",
+    "RU": "4. Эскроу DLD",
+    "UR": "4. DLD ایسکرو",
+    "TR": "4. DLD Emanet Hesabı",
+    "ZH": "4. DLD 监管账户"
+  },
+  "5. Deal Confirmed (End)": {
+    "AR": "5. تأكيد الصفقة (النهاية)",
+    "DE": "5. Deal bestätigt (Ende)",
+    "FR": "5. Affaire confirmée (Fin)",
+    "ES": "5. Trato Confirmado (Fin)",
+    "RU": "5. Сделка подтверждена (Финиш)",
+    "UR": "5. ڈیل کی تصدیق (اختتام)",
+    "TR": "5. İşlem Onaylandı (Son)",
+    "ZH": "5. 交易确认（完成）"
+  },
+  "PRIVATE CLIENT SHOWCASE": {
+    "AR": "عرض العميل الخاص",
+    "DE": "PRIVATE KUNDENPRÄSENTATION",
+    "FR": "PRÉSENTATION CLIENT PRIVÉE",
+    "ES": "EXHIBICIÓN PARA CLIENTE PRIVADO",
+    "RU": "ПРЕЗЕНТАЦИЯ ДЛЯ КЛИЕНТА",
+    "UR": "پرائیویٹ کلائنٹ شوکیس",
+    "TR": "ÖZEL MÜŞTERİ SUNUMU",
+    "ZH": "私人客户展示模式"
+  },
+  "Exit Client Showcase ➔ Return to Broker Cockpit": {
+    "AR": "الخروج من عرض العميل ➔ العودة للوحة الوسيط",
+    "DE": "Kundenansicht verlassen ➔ Zurück zum Makler-Cockpit",
+    "FR": "Quitter la vue client ➔ Retour au cockpit",
+    "ES": "Salir de Vista Cliente ➔ Volver al Panel",
+    "RU": "Выйти из режима клиента ➔ Вернуться в панель",
+    "UR": "کلائنٹ شوکیس بند کریں ➔ بروکر پینل پر واپس",
+    "TR": "Müşteri Görünümünden Çık ➔ Panele Dön",
+    "ZH": "退出客户视图 ➔ 返回经纪人控制台"
+  },
+  "Off-Plan Launches": {
+    "AR": "إطلاقات قيد الإنشاء",
+    "DE": "Off-Plan-Projekte",
+    "FR": "Lancements sur plan",
+    "ES": "Lanzamientos sobre Plano",
+    "RU": "Старт продаж",
+    "UR": "آف پلان لانچز",
+    "TR": "Lansman Projeleri",
+    "ZH": "期房新盘"
+  },
+  "World Benchmark (Dubai vs London/NYC)": {
+    "AR": "المقارنة العالمية (دبي مقابل لندن/نيويورك)",
+    "DE": "Welt-Benchmark (Dubai vs. London/NYC)",
+    "FR": "Indice mondial (Dubaï vs Londres/NYC)",
+    "ES": "Comparativa Global (Dubái vs Londres/NYC)",
+    "RU": "Мировой бенчмарк (Дубай против Лондона/Нью-Йорка)",
+    "UR": "عالمی موازنہ (دبئی بمقابلہ لندن/نیویارک)",
+    "TR": "Küresel Kıyaslama (Dubai vs Londra/NYC)",
+    "ZH": "全球基准对比（迪拜 vs 伦敦/纽约）"
+  },
+  "Commission & ROI Calculator": {
+    "AR": "حاسبة العمولات والعائد",
+    "DE": "Provisions- & ROI-Rechner",
+    "FR": "Calculateur Commission & ROI",
+    "ES": "Calculadora de Comisión y ROI",
+    "RU": "Калькулятор комиссии и ROI",
+    "UR": "کمیشن اور ROI کیلکولیٹر",
+    "TR": "Komisyon ve Getiri Hesaplayıcı",
+    "ZH": "佣金与投资回报计算器"
+  },
+  "1-Click White-Label Decks": {
+    "AR": "ملفات عرض بعلامتك بنقرة",
+    "DE": "1-Klick White-Label-Präsentationen",
+    "FR": "Dossiers Marque Blanche en 1 clic",
+    "ES": "Dossiers Marca Blanca en 1 Clic",
+    "RU": "White-Label презентации в 1 клик",
+    "UR": "1 کلک وائٹ لیبل ڈیک",
+    "TR": "Tek Tıkla Beyaz Etiket Sunumlar",
+    "ZH": "一键白标推介资料"
+  },
+  "Commission Tiers (Up to 7%)": {
+    "AR": "شرائح العمولات (حتى 7%)",
+    "DE": "Provisionsstufen (Bis zu 7%)",
+    "FR": "Paliers de commission (Jusqu'à 7%)",
+    "ES": "Niveles de Comisión (Hasta 7%)",
+    "RU": "Уровни комиссии (до 7%)",
+    "UR": "کمیشن کی سطحیں (7% تک)",
+    "TR": "Komisyon Kademeleri (%7'ye Kadar)",
+    "ZH": "佣金阶梯（最高 7%）"
+  },
+  "4K FPV Drone Showroom": {
+    "AR": "صالة عرض درون 4K",
+    "DE": "4K-FPV-Drohnen-Showroom",
+    "FR": "Showroom Drone FPV 4K",
+    "ES": "Showroom Dron FPV 4K",
+    "RU": "4K FPV Дрон-шоурум",
+    "UR": "4K FPV ڈرون شوروم",
+    "TR": "4K FPV Drone Sergi Salonu",
+    "ZH": "4K FPV 无人机展厅"
+  },
+  "Open Partner Portal": {
+    "AR": "فتح بوابة الشريك",
+    "DE": "Partner-Portal öffnen",
+    "FR": "Ouvrir le portail partenaire",
+    "ES": "Abrir Portal de Socios",
+    "RU": "Открыть кабинет партнёра",
+    "UR": "پارٹنر پورٹل کھولیں",
+    "TR": "Partner Portalını Aç",
+    "ZH": "打开合作商门户"
+  },
+  "Register Overseas Client (SLA)": {
+    "AR": "تسجيل عميل دولي (SLA)",
+    "DE": "Auslandskunden registrieren (SLA)",
+    "FR": "Enregistrer client étranger (SLA)",
+    "ES": "Registrar Cliente Extranjero (SLA)",
+    "RU": "Зарегистрировать зарубежного клиента (SLA)",
+    "UR": "بیرون ملک کلائنٹ رجسٹر کریں",
+    "TR": "Yurt Dışı Müşteri Kaydet (SLA)",
+    "ZH": "登记海外客户 (SLA)"
+  },
+  "PARTNER PORTAL BACKOFFICE": {
+    "AR": "لوحة تحكم الشريك الخلفية",
+    "DE": "PARTNER-PORTAL BACKOFFICE",
+    "FR": "BACKOFFICE PORTAIL PARTENAIRE",
+    "ES": "BACKOFFICE PORTAL DE SOCIOS",
+    "RU": "БЭК-ОФИС ПАРТНЁРА",
+    "UR": "پارٹنر پورٹل بیک آفس",
+    "TR": "PARTNER PORTALI YÖNETİMİ",
+    "ZH": "合作商后台管理"
+  },
+  "Your International Deal Pipeline": {
+    "AR": "مسار صفقاتك الدولية",
+    "DE": "Ihre internationale Deal-Pipeline",
+    "FR": "Votre pipeline d'affaires internationales",
+    "ES": "Tu Cartera de Operaciones Internacionales",
+    "RU": "Ваша воронка международных сделок",
+    "UR": "آپ کی بین الاقوامی ڈیل پائپ لائن",
+    "TR": "Uluslararası İşlem Hattınız",
+    "ZH": "您的国际交易管线"
+  },
+  "Exit Dashboard": {
+    "AR": "إغلاق اللوحة",
+    "DE": "Dashboard schließen",
+    "FR": "Quitter le tableau",
+    "ES": "Salir del Panel",
+    "RU": "Закрыть панель",
+    "UR": "ڈیش بورڈ بند کریں",
+    "TR": "Panelden Çık",
+    "ZH": "退出后台"
+  },
+  "Active Protected Leads": {
+    "AR": "العملاء المحميون النشطون",
+    "DE": "Aktive geschützte Leads",
+    "FR": "Prospects protégés actifs",
+    "ES": "Prospectos Protegidos Activos",
+    "RU": "Активные защищённые лиды",
+    "UR": "فعال محفوظ لیڈز",
+    "TR": "Aktif Korumalı Müşteriler",
+    "ZH": "有效受保护客户"
+  },
+  "0 Registered": {
+    "AR": "0 مسجل",
+    "DE": "0 Registriert",
+    "FR": "0 Enregistré",
+    "ES": "0 Registrados",
+    "RU": "0 Зарегистрировано",
+    "UR": "0 رجسٹرڈ",
+    "TR": "0 Kayıtlı",
+    "ZH": "0 已登记"
+  },
+  "90-Day SLA Protection Active": {
+    "AR": "حماية SLA لمدة 90 يوماً مفعلة",
+    "DE": "90-Tage-SLA-Schutz aktiv",
+    "FR": "Protection SLA 90 jours active",
+    "ES": "Protección SLA de 90 días activa",
+    "RU": "Защита SLA на 90 дней активна",
+    "UR": "90 دن کا SLA تحفظ فعال",
+    "TR": "90 Günlük SLA Koruması Aktif",
+    "ZH": "90天 SLA 保护生效中"
+  },
+  "Session Pipeline Value": {
+    "AR": "قيمة صفقات الجلسة",
+    "DE": "Sitzungs-Pipeline-Wert",
+    "FR": "Valeur du pipeline",
+    "ES": "Valor de Cartera en Sesión",
+    "RU": "Объём сделок за сессию",
+    "UR": "سیشن پائپ لائن مالیت",
+    "TR": "Oturum İşlem Değeri",
+    "ZH": "当前会话管线总值"
+  },
+  "Live on Registration": {
+    "AR": "مباشر عند التسجيل",
+    "DE": "Live bei Registrierung",
+    "FR": "En direct à l'inscription",
+    "ES": "En vivo al registrar",
+    "RU": "Обновляется при регистрации",
+    "UR": "رجسٹریشن پر لائیو",
+    "TR": "Kayıtta Canlı",
+    "ZH": "登记后实时更新"
+  },
+  "Calculated from registered units": {
+    "AR": "محسوب من الوحدات المسجلة",
+    "DE": "Berechnet aus registrierten Einheiten",
+    "FR": "Calculé depuis les unités enregistrées",
+    "ES": "Calculado según unidades registradas",
+    "RU": "Рассчитано по зарегистрированным юнитам",
+    "UR": "رجسٹرڈ یونٹس سے حساب شدہ",
+    "TR": "Kayıtlı birimlerden hesaplandı",
+    "ZH": "根据已登记房源计算"
+  },
+  "Commission Rate": {
+    "AR": "نسبة العمولة",
+    "DE": "Provisionssatz",
+    "FR": "Taux de commission",
+    "ES": "Tasa de Comisión",
+    "RU": "Ставка комиссии",
+    "UR": "کمیشن کی شرح",
+    "TR": "Komisyon Oranı",
+    "ZH": "佣金比例"
+  },
+  "1% + 1% Protocol": {
+    "AR": "بروتوكول 1% + 1%",
+    "DE": "1% + 1% Protokoll",
+    "FR": "Protocole 1% + 1%",
+    "ES": "Protocolo 1% + 1%",
+    "RU": "Протокол 1% + 1%",
+    "UR": "1% + 1% پروٹوکول",
+    "TR": "%1 + %1 Protokolü",
+    "ZH": "1% + 1% 协议"
+  },
+  "Milestone-cleared settlement": {
+    "AR": "تسوية عند استيفاء المراحل",
+    "DE": "Meilenstein-basierte Abrechnung",
+    "FR": "Règlement par étapes",
+    "ES": "Liquidación por hitos",
+    "RU": "Выплата по этапам DLD",
+    "UR": "سنگ میل کی تکمیل پر ادائیگی",
+    "TR": "Aşama onaylı ödeme",
+    "ZH": "按里程碑结算"
+  },
+  "UAE Master Desk": {
+    "AR": "المكتب الرئيسي بالإمارات",
+    "DE": "VAE Master-Desk",
+    "FR": "Bureau Master ÉAU",
+    "ES": "Mesa Maestra EAU",
+    "RU": "Главный офис ОАЭ",
+    "UR": "یو اے ای ماسٹر ڈیسک",
+    "TR": "BAE Ana Masası",
+    "ZH": "阿联酋主服务台"
+  },
+  "RERA-Licensed Master Desk": {
+    "AR": "مكتب رئيسي مرخص من ريرا",
+    "DE": "RERA-lizenziertes Master-Desk",
+    "FR": "Bureau Master agréé RERA",
+    "ES": "Mesa Maestra con licencia RERA",
+    "RU": "Лицензированный RERA главный офис",
+    "UR": "RERA لائسنس یافتہ ماسٹر ڈیسک",
+    "TR": "RERA Lisanslı Ana Masa",
+    "ZH": "RERA 持牌主服务台"
+  },
+  "Direct Escalation via Portal": {
+    "AR": "تصعيد مباشر عبر البوابة",
+    "DE": "Direkte Eskalation über Portal",
+    "FR": "Escalade directe via le portail",
+    "ES": "Escalado directo vía portal",
+    "RU": "Прямая эскалация через портал",
+    "UR": "پورٹل کے ذریعے براہ راست رابطہ",
+    "TR": "Portal Üzerinden Doğrudan İletişim",
+    "ZH": "通过门户直接对接"
+  },
+  "Live Protected Client Registry": {
+    "AR": "سجل العملاء المحميين المباشر",
+    "DE": "Live-Register geschützter Kunden",
+    "FR": "Registre en direct des clients protégés",
+    "ES": "Registro en Vivo de Clientes Protegidos",
+    "RU": "Реестр защищённых клиентов",
+    "UR": "لائیو محفوظ کلائنٹ رجسٹری",
+    "TR": "Canlı Korumalı Müşteri Kaydı",
+    "ZH": "实时受保护客户名录"
+  },
+  "Certificate ID": {
+    "AR": "رقم الشهادة",
+    "DE": "Zertifikat-ID",
+    "FR": "ID Certificat",
+    "ES": "ID Certificado",
+    "RU": "ID сертификата",
+    "UR": "سرٹیفکیٹ ID",
+    "TR": "Sertifika ID",
+    "ZH": "证书编号"
+  },
+  "Client Name": {
+    "AR": "اسم العميل",
+    "DE": "Kundenname",
+    "FR": "Nom du client",
+    "ES": "Nombre del Cliente",
+    "RU": "Имя клиента",
+    "UR": "کلائنٹ کا نام",
+    "TR": "Müşteri Adı",
+    "ZH": "客户姓名"
+  },
+  "Target Project": {
+    "AR": "المشروع المستهدف",
+    "DE": "Zielprojekt",
+    "FR": "Projet cible",
+    "ES": "Proyecto Objetivo",
+    "RU": "Целевой проект",
+    "UR": "مطلوبہ پروجیکٹ",
+    "TR": "Hedef Proje",
+    "ZH": "目标项目"
+  },
+  "Jurisdiction": {
+    "AR": "الولاية القضائية",
+    "DE": "Gerichtsstand",
+    "FR": "Juridiction",
+    "ES": "Jurisdicción",
+    "RU": "Юрисдикция",
+    "UR": "دائرہ اختیار",
+    "TR": "Yargı Yetkisi",
+    "ZH": "管辖区"
+  },
+  "SLA Status": {
+    "AR": "حالة SLA",
+    "DE": "SLA-Status",
+    "FR": "Statut SLA",
+    "ES": "Estado SLA",
+    "RU": "Статус SLA",
+    "UR": "SLA اسٹیٹس",
+    "TR": "SLA Durumu",
+    "ZH": "SLA 状态"
+  },
+  "KYC Hash": {
+    "AR": "بصمة KYC",
+    "DE": "KYC-Hash",
+    "FR": "Empreinte KYC",
+    "ES": "Hash KYC",
+    "RU": "KYC-хэш",
+    "UR": "KYC ہیش",
+    "TR": "KYC Özeti",
+    "ZH": "KYC 哈希"
+  },
+  "Action": {
+    "AR": "إجراء",
+    "DE": "Aktion",
+    "FR": "Action",
+    "ES": "Acción",
+    "RU": "Действие",
+    "UR": "عمل",
+    "TR": "İşlem",
+    "ZH": "操作"
+  },
+  "SOVEREIGN B2B GATEWAY FOR OVERSEAS AGENTS & PRIVATE WEALTH ADVISORS": {
+    "AR": "البوابة السيادية للوسطاء الدوليين ومستشاري الثروات",
+    "DE": "SOUVERÄNES B2B-PORTAL FÜR AUSLANDSMAKLER & VERMÖGENSBERATER",
+    "FR": "PORTAIL B2B SOUVERAIN POUR AGENTS ÉTRANGERS & CONSEILLERS EN PATRIMOINE",
+    "ES": "PORTAL B2B SOBERANO PARA AGENTES EXTRANJEROS Y ASESORES PATRIMONIALES",
+    "RU": "СУВЕРЕННЫЙ B2B-ШЛЮЗ ДЛЯ ЗАРУБЕЖНЫХ БРОКЕРОВ И ЧАСТНЫХ БАНКИРОВ",
+    "UR": "بیرون ملک ایجنٹس اور ویلتھ ایڈوائزرز کے لیے B2B گیٹ وے",
+    "TR": "YURT DIŞI DANIŞMANLAR VE SERVET YÖNETİCİLERİ İÇİN B2B KAPI",
+    "ZH": "面向海外经纪人与私人财富顾问的主权 B2B 门户"
+  },
+  "228 COUNTRIES": {
+    "AR": "228 دولة",
+    "DE": "228 LÄNDER",
+    "FR": "228 PAYS",
+    "ES": "228 PAÍSES",
+    "RU": "228 СТРАН",
+    "UR": "228 ممالک",
+    "TR": "228 ÜLKE",
+    "ZH": "228 个国家"
+  },
+  "Verified Stock": {
+    "AR": "مخزون موثق",
+    "DE": "Geprüfter Bestand",
+    "FR": "Stock vérifié",
+    "ES": "Stock Verificado",
+    "RU": "Проверенная база",
+    "UR": "تصدیق شدہ اسٹاک",
+    "TR": "Doğrulanmış Stok",
+    "ZH": "核验房源"
+  },
+  "2,926 Projects": {
+    "AR": "2,926 مشروعاً",
+    "DE": "2.926 Projekte",
+    "FR": "2 926 Projets",
+    "ES": "2,926 Proyectos",
+    "RU": "2 926 проектов",
+    "UR": "2,926 پروجیکٹس",
+    "TR": "2.926 Proje",
+    "ZH": "2,926 个项目"
+  },
+  "Avg Net Yield": {
+    "AR": "متوسط العائد الصافي",
+    "DE": "Ø Nettorendite",
+    "FR": "Rendement net moy.",
+    "ES": "Rentabilidad Neta",
+    "RU": "Средняя чистая доходность",
+    "UR": "اوسط خالص منافع",
+    "TR": "Ort. Net Getiri",
+    "ZH": "平均净收益"
+  },
+  "8.4% Tax-Free": {
+    "AR": "8.4% معفى من الضرائب",
+    "DE": "8,4% Steuerfrei",
+    "FR": "8,4% Sans impôt",
+    "ES": "8.4% Libre de Impuestos",
+    "RU": "8,4% Без налогов",
+    "UR": "8.4% ٹیکس فری",
+    "TR": "%8,4 Vergisiz",
+    "ZH": "8.4% 免税"
+  },
+  "Direct Split": {
+    "AR": "تقسيم مباشر",
+    "DE": "Direkt-Split",
+    "FR": "Partage direct",
+    "ES": "Reparto Directo",
+    "RU": "Прямой сплит",
+    "UR": "براہ راست تقسیم",
+    "TR": "Doğrudan Paylaşım",
+    "ZH": "直接分成"
+  },
+  "Portal Cut": {
+    "AR": "عمولة البوابة",
+    "DE": "Portal-Anteil",
+    "FR": "Frais portail",
+    "ES": "Comisión Portal",
+    "RU": "Комиссия портала",
+    "UR": "پورٹل کٹوتی",
+    "TR": "Portal Payı",
+    "ZH": "平台抽成"
+  },
+  "0% Direct": {
+    "AR": "0% مباشر",
+    "DE": "0% Direkt",
+    "FR": "0% Direct",
+    "ES": "0% Directo",
+    "RU": "0% Прямо",
+    "UR": "0% براہ راست",
+    "TR": "%0 Doğrudan",
+    "ZH": "0% 直连"
+  },
+  "Direct Syndication Route": {
+    "AR": "مسار التوزيع المباشر",
+    "DE": "Direkte Syndizierungsroute",
+    "FR": "Voie de syndication directe",
+    "ES": "Ruta de Sindicación Directa",
+    "RU": "Прямой маршрут синдикации",
+    "UR": "براہ راست سنڈیکیشن روٹ",
+    "TR": "Doğrudan Dağıtım Hattı",
+    "ZH": "直连分销路径"
+  },
+  "Verified · 0% Portal Cut": {
+    "AR": "موثق · 0% عمولة للبوابة",
+    "DE": "Verifiziert · 0% Portalgebühr",
+    "FR": "Vérifié · 0% Frais portail",
+    "ES": "Verificado · 0% Comisión Portal",
+    "RU": "Проверено · 0% комиссия портала",
+    "UR": "تصدیق شدہ · 0% پورٹل کٹ",
+    "TR": "Doğrulandı · %0 Portal Payı",
+    "ZH": "已核验 · 0% 平台抽成"
+  },
+  "2,926 Off-Plan Projects": {
+    "AR": "2,926 مشروعاً قيد الإنشاء",
+    "DE": "2.926 Off-Plan-Projekte",
+    "FR": "2 926 Projets sur plan",
+    "ES": "2,926 Proyectos sobre Plano",
+    "RU": "2 926 новостроек",
+    "UR": "2,926 آف پلان پروجیکٹس",
+    "TR": "2.926 Lansman Projesi",
+    "ZH": "2,926 个期房项目"
+  },
+  "No DLD Gate": {
+    "AR": "دون تدخل DLD",
+    "DE": "Kein DLD-Gate",
+    "FR": "Sans barrière DLD",
+    "ES": "Sin Barrera DLD",
+    "RU": "Без шлюза DLD",
+    "UR": "بغیر DLD گیٹ",
+    "TR": "DLD Engeli Yok",
+    "ZH": "无 DLD 网关拦截"
+  },
+  "228 Countries": {
+    "AR": "228 دولة",
+    "DE": "228 Länder",
+    "FR": "228 Pays",
+    "ES": "228 Países",
+    "RU": "228 стран",
+    "UR": "228 ممالک",
+    "TR": "228 Ülke",
+    "ZH": "228 个国家"
+  },
+  "Unlock Gate": {
+    "AR": "بوابة الفتح",
+    "DE": "Freischalt-Gate",
+    "FR": "Portail de déblocage",
+    "ES": "Puerta de Desbloqueo",
+    "RU": "Шлюз доступа",
+    "UR": "ان لاک گیٹ",
+    "TR": "Kilit Açma Kapısı",
+    "ZH": "解锁网关"
+  },
+  "Proof ID": {
+    "AR": "رقم الإثبات",
+    "DE": "Nachweis-ID",
+    "FR": "ID Preuve",
+    "ES": "ID Comprobante",
+    "RU": "ID платежа",
+    "UR": "پروف ID",
+    "TR": "Kanıt ID",
+    "ZH": "凭证编号"
+  },
+  "Unlock Pass from": {
+    "AR": "بطاقة الفتح تبدأ من",
+    "DE": "Freischalt-Pass ab",
+    "FR": "Pass à partir de",
+    "ES": "Pase desde",
+    "RU": "Доступ от",
+    "UR": "ان لاک پاس از",
+    "TR": "Açılış Paketi",
+    "ZH": "解锁通行证低至"
+  },
+  "Tiered": {
+    "AR": "متدرج",
+    "DE": "Gestaffelt",
+    "FR": "Échelonné",
+    "ES": "Escalonado",
+    "RU": "По уровням",
+    "UR": "درجہ بندی",
+    "TR": "Kademeli",
+    "ZH": "阶梯定价"
+  },
+  "Direct Contact": {
+    "AR": "تواصل مباشر",
+    "DE": "Direktkontakt",
+    "FR": "Contact direct",
+    "ES": "Contacto Directo",
+    "RU": "Прямой контакт",
+    "UR": "براہ راست رابطہ",
+    "TR": "Doğrudan İletişim",
+    "ZH": "直接联系"
+  },
+  "Instant": {
+    "AR": "فوري",
+    "DE": "Sofort",
+    "FR": "Instantané",
+    "ES": "Instantáneo",
+    "RU": "Мгновенно",
+    "UR": "فوری",
+    "TR": "Anında",
+    "ZH": "即时"
+  },
+  "Unlock with Proof": {
+    "AR": "افتح بالإثبات",
+    "DE": "Mit Nachweis freischalten",
+    "FR": "Débloquer avec preuve",
+    "ES": "Desbloquear con Comprobante",
+    "RU": "Открыть по чеку",
+    "UR": "ثبوت کے ساتھ کھولیں",
+    "TR": "Kanıtla Kilidi Aç",
+    "ZH": "凭付款凭证解锁"
+  },
+  "Dubai Avg Price / sqft": {
+    "AR": "متوسط سعر القدم المربع بدبي",
+    "DE": "Dubai Ø Preis / sqft",
+    "FR": "Prix moy. Dubaï / pi²",
+    "ES": "Precio Promedio Dubái / sqft",
+    "RU": "Средняя цена / кв.фт в Дубае",
+    "UR": "دبئی اوسط قیمت / مربع فٹ",
+    "TR": "Dubai Ort. Fiyat / sqft",
+    "ZH": "迪拜均价 / 平方英尺"
+  },
+  "+8.4% in 3 months": {
+    "AR": "+8.4% خلال 3 أشهر",
+    "DE": "+8,4% in 3 Monaten",
+    "FR": "+8,4% en 3 mois",
+    "ES": "+8.4% en 3 meses",
+    "RU": "+8,4% за 3 месяца",
+    "UR": "3 ماہ میں +8.4%",
+    "TR": "3 ayda +%8,4",
+    "ZH": "3个月上涨 +8.4%"
+  },
+  "Monetization Mode": {
+    "AR": "نظام الرسوم",
+    "DE": "Tarifmodell",
+    "FR": "Mode tarifaire",
+    "ES": "Modo de Tarifas",
+    "RU": "Режим тарификации",
+    "UR": "مونٹائزیشن موڈ",
+    "TR": "Ücretlendirme Modu",
+    "ZH": "收费模式"
+  },
+  "All 3 Active": {
+    "AR": "الكل نشط (3)",
+    "DE": "Alle 3 aktiv",
+    "FR": "Les 3 actifs",
+    "ES": "Los 3 Activos",
+    "RU": "Все 3 активны",
+    "UR": "تینوں فعال",
+    "TR": "3'ü de Aktif",
+    "ZH": "全部 3 项已启用"
+  },
+  "Card or Wire Proof": {
+    "AR": "بطاقة أو إثبات تحويل",
+    "DE": "Karte oder Überweisungsbeleg",
+    "FR": "Carte ou preuve de virement",
+    "ES": "Tarjeta o Comprobante",
+    "RU": "Карта или платёжка",
+    "UR": "کارڈ یا وائر ثبوت",
+    "TR": "Kart veya Havale Dekontu",
+    "ZH": "银行卡或汇款凭证"
+  },
+  "5-Pack Bundle": {
+    "AR": "باقة 5 عمليات",
+    "DE": "5er-Paket",
+    "FR": "Pack de 5",
+    "ES": "Paquete de 5",
+    "RU": "Пакет из 5",
+    "UR": "5 پیک بنڈل",
+    "TR": "5'li Paket",
+    "ZH": "5次套餐包"
+  },
+  "Unlocks + Broadcast": {
+    "AR": "فتح جهات + بث جماعي",
+    "DE": "Freischaltungen + Versand",
+    "FR": "Déblocages + Diffusion",
+    "ES": "Desbloqueos + Difusión",
+    "RU": "Доступы + Рассылка",
+    "UR": "ان لاکس + براڈکاسٹ",
+    "TR": "Kilit Açma + Toplu Yayın",
+    "ZH": "无限解锁 + 群发"
+  },
+  "Deal Readiness": {
+    "AR": "جاهزية الصفقة",
+    "DE": "Deal-Bereitschaft",
+    "FR": "État du dossier",
+    "ES": "Estado del Trato",
+    "RU": "Готовность сделки",
+    "UR": "ڈیل کی تیاری",
+    "TR": "İşlem Hazırlığı",
+    "ZH": "交易就绪度"
+  },
+  "Sign + Proof to unlock": {
+    "AR": "التوقيع + الإثبات للفتح",
+    "DE": "Signieren + Nachweis zum Freischalten",
+    "FR": "Signer + Preuve pour débloquer",
+    "ES": "Firmar + Comprobante para abrir",
+    "RU": "Подпись + чек для доступа",
+    "UR": "کھولنے کے لیے دستخط + ثبوت",
+    "TR": "Açmak için İmza + Dekont",
+    "ZH": "签署 + 凭证即可解锁"
+  },
+  "Ready": {
+    "AR": "جاهز",
+    "DE": "Bereit",
+    "FR": "Prêt",
+    "ES": "Listo",
+    "RU": "Готово",
+    "UR": "تیار",
+    "TR": "Hazır",
+    "ZH": "就绪"
+  },
+  "Before you connect": {
+    "AR": "قبل التواصل",
+    "DE": "Vor der Verbindung",
+    "FR": "Avant de connecter",
+    "ES": "Antes de Conectar",
+    "RU": "Перед связью",
+    "UR": "رابطہ کرنے سے پہلے",
+    "TR": "Bağlanmadan Önce",
+    "ZH": "对接前须知"
+  },
+  "1. Pick Off-Plan Unit": {
+    "AR": "1. اختر وحدة قيد الإنشاء",
+    "DE": "1. Off-Plan-Einheit wählen",
+    "FR": "1. Choisir une unité sur plan",
+    "ES": "1. Elegir Unidad sobre Plano",
+    "RU": "1. Выбрать юнит",
+    "UR": "1. آف پلان یونٹ چنیں",
+    "TR": "1. Lansman Birimi Seç",
+    "ZH": "1. 选择期房单元"
+  },
+  "2. Sign Direct Contract": {
+    "AR": "2. توقيع العقد المباشر",
+    "DE": "2. Direktvertrag signieren",
+    "FR": "2. Signer contrat direct",
+    "ES": "2. Firmar Contrato Directo",
+    "RU": "2. Подписать прямой договор",
+    "UR": "2. براہ راست معاہدہ سائن کریں",
+    "TR": "2. Doğrudan Sözleşme İmzala",
+    "ZH": "2. 签署直连合约"
+  },
+  "3. Verify Payment Proof": {
+    "AR": "3. التحقق من إثبات الدفع",
+    "DE": "3. Zahlungsnachweis prüfen",
+    "FR": "3. Vérifier la preuve de paiement",
+    "ES": "3. Verificar Comprobante",
+    "RU": "3. Проверить чек оплаты",
+    "UR": "3. ادائیگی کا ثبوت چیک کریں",
+    "TR": "3. Ödeme Dekontunu Doğrula",
+    "ZH": "3. 核验付款凭证"
+  },
+  "4. Direct Contact Unlock": {
+    "AR": "4. فتح التواصل المباشر",
+    "DE": "4. Direktkontakt freischalten",
+    "FR": "4. Débloquer le contact direct",
+    "ES": "4. Desbloquear Contacto Directo",
+    "RU": "4. Открыть прямой контакт",
+    "UR": "4. براہ راست رابطہ کھولیں",
+    "TR": "4. Doğrudan İletişimi Aç",
+    "ZH": "4. 解锁直接联系方式"
+  },
+  "All Strategies": {
+    "AR": "كل الاستراتيجيات",
+    "DE": "Alle Strategien",
+    "FR": "Toutes stratégies",
+    "ES": "Todas las Estrategias",
+    "RU": "Все стратегии",
+    "UR": "تمام حکمت عملیاں",
+    "TR": "Tüm Stratejiler",
+    "ZH": "全部策略"
+  },
+  "10-Yr Golden Visa ($545K+)": {
+    "AR": "إقامة ذهبية 10 سنوات (+$545K)",
+    "DE": "10-J. Golden Visa ($545K+)",
+    "FR": "Golden Visa 10 ans ($545K+)",
+    "ES": "Golden Visa 10 Años ($545K+)",
+    "RU": "Золотая виза 10 лет ($545K+)",
+    "UR": "10 سالہ گولڈن ویزا ($545K+)",
+    "TR": "10 Yıllık Altın Vize ($545K+)",
+    "ZH": "10年黄金签证 ($545K+)"
+  },
+  "High Yield (8%+ Net)": {
+    "AR": "عائد مرتفع (+8% صافي)",
+    "DE": "Hohe Rendite (8%+ Netto)",
+    "FR": "Haut rendement (8%+ Net)",
+    "ES": "Alto Rendimiento (8%+ Neto)",
+    "RU": "Высокая доходность (8%+)",
+    "UR": "اعلیٰ منافع (8%+ نیٹ)",
+    "TR": "Yüksek Getiri (%8+ Net)",
+    "ZH": "高净回报 (8%+)"
+  },
+  "1% Monthly Plans": {
+    "AR": "خطط سداد 1% شهرياً",
+    "DE": "1% Monatspläne",
+    "FR": "Plans 1% par mois",
+    "ES": "Planes 1% Mensual",
+    "RU": "Рассрочка 1% в месяц",
+    "UR": "ماہانہ 1% ادائیگی پلان",
+    "TR": "Aylık %1 Ödeme Planı",
+    "ZH": "月付 1% 分期"
+  },
+  "Ultra-Luxury Penthouses": {
+    "AR": "بنتهاوس فائق الفخامة",
+    "DE": "Ultra-Luxus-Penthouses",
+    "FR": "Penthouses ultra-luxe",
+    "ES": "Penthouses de Ultra Lujo",
+    "RU": "Ультра-люкс пентхаусы",
+    "UR": "الٹرا لگژری پینٹ ہاؤسز",
+    "TR": "Ultra Lüks Penthouse",
+    "ZH": "顶级奢华顶层公寓"
+  },
+  "Wynn Casino Al Marjan": {
+    "AR": "كازينو وين جزيرة المرجان",
+    "DE": "Wynn Casino Al Marjan",
+    "FR": "Wynn Casino Al Marjan",
+    "ES": "Wynn Casino Al Marjan",
+    "RU": "Казино Wynn Аль-Марджан",
+    "UR": "وین کیسینو المرجان",
+    "TR": "Wynn Casino Al Marjan",
+    "ZH": "马里安岛永利赌场"
+  },
+  "All UAE Locations": {
+    "AR": "كل مناطق الإمارات",
+    "DE": "Alle VAE-Standorte",
+    "FR": "Tous lieux ÉAU",
+    "ES": "Todas las Ubicaciones",
+    "RU": "Все локации ОАЭ",
+    "UR": "یو اے ای کے تمام مقامات",
+    "TR": "Tüm BAE Konumları",
+    "ZH": "阿联酋全部区域"
+  },
+  "All Master Developers": {
+    "AR": "كل المطورين الرئيسيين",
+    "DE": "Alle Bauträger",
+    "FR": "Tous promoteurs",
+    "ES": "Todos los Desarrolladores",
+    "RU": "Все застройщики",
+    "UR": "تمام ماسٹر ڈویلپرز",
+    "TR": "Tüm Geliştiriciler",
+    "ZH": "全部主开发商"
+  },
+  "Any Budget": {
+    "AR": "أي ميزانية",
+    "DE": "Jedes Budget",
+    "FR": "Tout budget",
+    "ES": "Cualquier Presupuesto",
+    "RU": "Любой бюджет",
+    "UR": "کوئی بھی بجٹ",
+    "TR": "Her Bütçe",
+    "ZH": "不限预算"
+  },
+  "Under $300,000 USD (High Velocity)": {
+    "AR": "أقل من $300,000 (بيع سريع)",
+    "DE": "Unter $300.000 (Schnelldreher)",
+    "FR": "Moins de $300 000 (Rapide)",
+    "ES": "Menos de $300,000 (Alta Rotación)",
+    "RU": "До $300,000 (Высокая ликвидность)",
+    "UR": "$300,000 سے کم (تیز فروخت)",
+    "TR": "$300.000 Altı (Hızlı Satış)",
+    "ZH": "低于 $300,000（高周转）"
+  },
+  "$300K - $550K USD (Core Rental)": {
+    "AR": "$300K - $550K (إيجار أساسي)",
+    "DE": "$300K - $550K (Kernmiete)",
+    "FR": "$300K - $550K (Locatif)",
+    "ES": "$300K - $550K (Alquiler Core)",
+    "RU": "$300K - $550K (Арендный доход)",
+    "UR": "$300K - $550K (بنیادی کرایہ)",
+    "TR": "$300K - $550K (Kira Getirisi)",
+    "ZH": "$300K - $550K（核心收租）"
+  },
+  "$550K - $1.5M USD (Golden Visa)": {
+    "AR": "$550K - $1.5M (إقامة ذهبية)",
+    "DE": "$550K - $1,5M (Golden Visa)",
+    "FR": "$550K - $1,5M (Golden Visa)",
+    "ES": "$550K - $1.5M (Golden Visa)",
+    "RU": "$550K - $1.5M (Золотая виза)",
+    "UR": "$550K - $1.5M (گولڈن ویزا)",
+    "TR": "$550K - $1.5M (Altın Vize)",
+    "ZH": "$550K - $1.5M（黄金签证）"
+  },
+  "$1.5M - $20M+ USD (Trophy Waterfront)": {
+    "AR": "$1.5M - $20M+ (واجهات بحرية فاخرة)",
+    "DE": "$1,5M - $20M+ (Trophy-Waterfront)",
+    "FR": "$1,5M - $20M+ (Front de mer)",
+    "ES": "$1.5M - $20M+ (Frente al Mar)",
+    "RU": "$1.5M - $20M+ (Элитный берег)",
+    "UR": "$1.5M - $20M+ (لگژری واٹر فرنٹ)",
+    "TR": "$1.5M - $20M+ (Prestijli Sahil)",
+    "ZH": "$1.5M - $20M+（顶级海滨豪宅）"
+  },
+  "Match Units": {
+    "AR": "مطابقة الوحدات",
+    "DE": "Einheiten finden",
+    "FR": "Trouver des unités",
+    "ES": "Buscar Unidades",
+    "RU": "Подобрать юниты",
+    "UR": "یونٹس تلاش کریں",
+    "TR": "Birimleri Eşleştir",
+    "ZH": "匹配房源"
+  },
+  "Popular Global Filters:": {
+    "AR": "فلاتر شائعة:",
+    "DE": "Beliebte Filter:",
+    "FR": "Filtres populaires :",
+    "ES": "Filtros Populares:",
+    "RU": "Популярные фильтры:",
+    "UR": "مقبول عالمی فلٹرز:",
+    "TR": "Popüler Filtreler:",
+    "ZH": "热门筛选："
+  },
+  "100% DLD & RERA Regulated Escrows": {
+    "AR": "حسابات ضمان منظمة 100% من DLD وريرا",
+    "DE": "100% DLD- & RERA-regulierte Treuhandkonten",
+    "FR": "Séquestres 100% régulés DLD & RERA",
+    "ES": "Cuentas Escrow 100% reguladas DLD y RERA",
+    "RU": "Эскроу-счета 100% под контролем DLD и RERA",
+    "UR": "100% DLD اور RERA منظور شدہ ایسکرو",
+    "TR": "%100 DLD & RERA Denetimli Emanet Hesapları",
+    "ZH": "100% DLD 与 RERA 监管托管账户"
+  },
+  "Overseas Sales Closed": {
+    "AR": "مبيعات دولية منجزة",
+    "DE": "Abgeschlossene Auslandsverkäufe",
+    "FR": "Ventes internationales clôturées",
+    "ES": "Ventas Internacionales Cerradas",
+    "RU": "Закрыто зарубежных сделок",
+    "UR": "مکمل بیرون ملک فروخت",
+    "TR": "Tamamlanan Yurt Dışı Satış",
+    "ZH": "海外成交总额"
+  },
+  "Partner Countries": {
+    "AR": "دولة شريكة",
+    "DE": "Partnerländer",
+    "FR": "Pays partenaires",
+    "ES": "Países Socios",
+    "RU": "Стран-партнёров",
+    "UR": "شراکت دار ممالک",
+    "TR": "Partner Ülke",
+    "ZH": "合作国家"
+  },
+  "Up to 7.0%": {
+    "AR": "حتى 7.0%",
+    "DE": "Bis zu 7,0%",
+    "FR": "Jusqu'à 7,0%",
+    "ES": "Hasta 7.0%",
+    "RU": "До 7,0%",
+    "UR": "7.0% تک",
+    "TR": "%7,0'a Kadar",
+    "ZH": "最高 7.0%"
+  },
+  "Partner Commission": {
+    "AR": "عمولة الشريك",
+    "DE": "Partnerprovision",
+    "FR": "Commission partenaire",
+    "ES": "Comisión de Socio",
+    "RU": "Комиссия партнёра",
+    "UR": "پارٹنر کمیشن",
+    "TR": "Partner Komisyonu",
+    "ZH": "合作佣金"
+  },
+  "0% TAX": {
+    "AR": "0% ضرائب",
+    "DE": "0% STEUER",
+    "FR": "0% IMPÔT",
+    "ES": "0% IMPUESTOS",
+    "RU": "0% НАЛОГ",
+    "UR": "0% ٹیکس",
+    "TR": "%0 VERGİ",
+    "ZH": "0% 税率"
+  },
+  "Capital Gains & Rental": {
+    "AR": "أرباح رأس المال والإيجار",
+    "DE": "Kapitalgewinne & Miete",
+    "FR": "Plus-values & Loyers",
+    "ES": "Ganancias de Capital y Alquiler",
+    "RU": "Налог на прирост и аренду",
+    "UR": "کیپٹل گینز اور کرایہ",
+    "TR": "Sermaye Kazancı & Kira",
+    "ZH": "资本利得及租金"
+  },
+  "48 Hours": {
+    "AR": "48 ساعة",
+    "DE": "48 Stunden",
+    "FR": "48 Heures",
+    "ES": "48 Horas",
+    "RU": "48 часов",
+    "UR": "48 گھنٹے",
+    "TR": "48 Saat",
+    "ZH": "48 小时"
+  },
+  "SLA Lead Protection": {
+    "AR": "حماية العميل بـ SLA",
+    "DE": "SLA-Lead-Schutz",
+    "FR": "Protection prospect SLA",
+    "ES": "Protección SLA de Cliente",
+    "RU": "Защита лида по SLA",
+    "UR": "SLA لیڈ تحفظ",
+    "TR": "SLA Müşteri Koruması",
+    "ZH": "SLA 客户保护"
+  },
+  "Escrow Account Backed": {
+    "AR": "مدعوم بحساب الضمان",
+    "DE": "Treuhandkonto-gesichert",
+    "FR": "Garanti par compte séquestre",
+    "ES": "Respaldado por Cuenta Escrow",
+    "RU": "Обеспечено эскроу-счётом",
+    "UR": "ایسکرو اکاؤنٹ سے محفوظ",
+    "TR": "Emanet Hesabı Güvenceli",
+    "ZH": "托管账户保障"
+  },
+  "Dual-Sided 1% Commission & Escrow Formulation": {
+    "AR": "معادلة العمولة المزدوجة 1% وحساب الضمان",
+    "DE": "Zweiseitige 1%-Provision & Treuhandmodell",
+    "FR": "Modèle de commission bilatérale 1% & séquestre",
+    "ES": "Fórmula de Comisión Bilateral 1% y Escrow",
+    "RU": "Двусторонняя комиссия 1% + эскроу-модель",
+    "UR": "دو طرفہ 1% کمیشن اور ایسکرو فارمولیشن",
+    "TR": "Çift Taraflı %1 Komisyon & Emanet Formülü",
+    "ZH": "双边 1% 佣金与托管清算公式"
+  },
+  "Property Deal Value:": {
+    "AR": "قيمة الصفقة العقارية:",
+    "DE": "Objektwert der Transaktion:",
+    "FR": "Valeur de la transaction :",
+    "ES": "Valor de la Operación:",
+    "RU": "Стоимость сделки:",
+    "UR": "پراپرٹی ڈیل کی مالیت:",
+    "TR": "Mülk İşlem Değeri:",
+    "ZH": "房产交易金额："
+  },
+  "$10M (Bulk Floor)": {
+    "AR": "$10M (طابق كامل)",
+    "DE": "$10M (Etagenpaket)",
+    "FR": "$10M (Plateau)",
+    "ES": "$10M (Planta Completa)",
+    "RU": "$10M (Целый этаж)",
+    "UR": "$10M (بلک فلور)",
+    "TR": "$10M (Toplu Kat)",
+    "ZH": "$10M（整层大宗）"
+  },
+  "Gross Master Developer Commission:": {
+    "AR": "إجمالي عمولة المطور الرئيسي:",
+    "DE": "Brutto-Bauträgerprovision:",
+    "FR": "Commission brute promoteur :",
+    "ES": "Comisión Bruta del Desarrollador:",
+    "RU": "Валовая комиссия застройщика:",
+    "UR": "مجموعی ماسٹر ڈویلپر کمیشن:",
+    "TR": "Brüt Geliştirici Komisyonu:",
+    "ZH": "开发商总佣金："
+  },
+  "4.5% (Standard)": {
+    "AR": "4.5% (قياسي)",
+    "DE": "4,5% (Standard)",
+    "FR": "4,5% (Standard)",
+    "ES": "4.5% (Estándar)",
+    "RU": "4,5% (Стандарт)",
+    "UR": "4.5% (معیاری)",
+    "TR": "%4,5 (Standart)",
+    "ZH": "4.5%（标准）"
+  },
+  "5.5% - 6.0% (Premier Tier)": {
+    "AR": "5.5% - 6.0% (فئة ممتازة)",
+    "DE": "5,5% - 6,0% (Premier-Stufe)",
+    "FR": "5,5% - 6,0% (Niveau Premier)",
+    "ES": "5.5% - 6.0% (Nivel Premier)",
+    "RU": "5,5% - 6,0% (Премьер)",
+    "UR": "5.5% - 6.0% (پریمیئر)",
+    "TR": "%5,5 - %6,0 (Premier)",
+    "ZH": "5.5% - 6.0%（优选级）"
+  },
+  "7.0% (Institutional Floor)": {
+    "AR": "7.0% (مؤسسي)",
+    "DE": "7,0% (Institutionell)",
+    "FR": "7,0% (Institutionnel)",
+    "ES": "7.0% (Institucional)",
+    "RU": "7,0% (Институциональный)",
+    "UR": "7.0% (ادارہ جاتی)",
+    "TR": "%7,0 (Kurumsal)",
+    "ZH": "7.0%（机构级）"
+  },
+  "AUDITED FORMULATION": {
+    "AR": "معادلة مدققة",
+    "DE": "GEPRÜFTE FORMEL",
+    "FR": "FORMULE AUDITÉE",
+    "ES": "FÓRMULA AUDITADA",
+    "RU": "ПРОВЕРЕННАЯ ФОРМУЛА",
+    "UR": "آڈٹ شدہ فارمولیشن",
+    "TR": "DENETLENMİŞ FORMÜL",
+    "ZH": "审计级清算公式"
+  },
+  "1. Party A: Legal, Golden Visa & Tax Dossier (1.0%)": {
+    "AR": "1. الطرف أ: الملف القانوني والإقامة الذهبية والضرائب (1.0%)",
+    "DE": "1. Partei A: Recht, Golden Visa & Steuerdossier (1,0%)",
+    "FR": "1. Partie A : Dossier juridique, Golden Visa & fiscal (1,0%)",
+    "ES": "1. Parte A: Legal, Golden Visa y Dossier Fiscal (1.0%)",
+    "RU": "1. Сторона A: Юридическое сопровождение, Golden Visa и налоги (1,0%)",
+    "UR": "1. پارٹی A: قانونی، گولڈن ویزا اور ٹیکس ڈوزیئر (1.0%)",
+    "TR": "1. Taraf A: Hukuk, Altın Vize ve Vergi Dosyası (%1,0)",
+    "ZH": "1. 甲方：法务、黄金签证及税务文件包 (1.0%)"
+  },
+  "Optional conveyancing retainer (or 1% developer rebate offset). 100% unit price wires direct to DLD Escrow.": {
+    "AR": "أتعاب اختيارية لنقل الملكية (أو تُخصم من حسم المطور 1%). 100% من سعر الوحدة يُحول مباشرة لحساب الضمان DLD.",
+    "DE": "Optionale Abwicklungsgebühr (oder 1% Bauträger-Rabatt). 100% des Kaufpreises fließen direkt auf das DLD-Treuhandkonto.",
+    "FR": "Honoraires optionnels (ou compensés par remise promoteur 1%). 100% du prix est viré au compte séquestre DLD.",
+    "ES": "Honorarios opcionales (o compensados con reembolso del 1%). El 100% del precio va directo al Escrow DLD.",
+    "RU": "Опциональный сбор за оформление (или скидка 1%). 100% стоимости объекта идёт напрямую на эскроу DLD.",
+    "UR": "اختیاری کنوینسنگ فیس۔ یونٹ کی 100% قیمت براہ راست DLD ایسکرو میں جاتی ہے۔",
+    "TR": "İsteğe bağlı devir ücreti (veya %1 geliştirici indirimi). Mülk bedelinin %100'ü doğrudan DLD Emanet hesabına gider.",
+    "ZH": "可选过户服务费（或以开发商 1% 返佣抵扣）。100% 房款直接汇入 DLD 监管账户。"
+  },
+  "2. Party B: Master ORN Platform Retainer (1.0%)": {
+    "AR": "2. الطرف ب: رسوم المنصة المرخصة ORN (1.0%)",
+    "DE": "2. Partei B: Master-ORN-Plattformgebühr (1,0%)",
+    "FR": "2. Partie B : Frais plateforme Master ORN (1,0%)",
+    "ES": "2. Parte B: Retención Plataforma Master ORN (1.0%)",
+    "RU": "2. Сторона B: Комиссия лицензированной платформы ORN (1,0%)",
+    "UR": "2. پارٹی B: ماسٹر ORN پلیٹ فارم فیس (1.0%)",
+    "TR": "2. Taraf B: Ana ORN Platform Payı (%1,0)",
+    "ZH": "2. 乙方：持牌主 ORN 平台留存费 (1.0%)"
+  },
+  "Retained by UAE RERA-Licensed Master Entity upon developer payout. Covers 90-Day SLA & White-Label suite.": {
+    "AR": "تُستقطع من المطور عند الصرف عبر الكيان المرخص من ريرا. تغطي حماية 90 يوماً وحزمة العلامة البيضاء.",
+    "DE": "Einbehalten durch RERA-lizenzierte Master-Einheit bei Auszahlung. Deckt 90-Tage-SLA & White-Label-Suite.",
+    "FR": "Retenue par l'entité Master agréée RERA au paiement promoteur. Couvre le SLA 90 jours et la Marque Blanche.",
+    "ES": "Retenido por la entidad Master con licencia RERA al cobrar del desarrollador. Cubre SLA 90 días y Marca Blanca.",
+    "RU": "Удерживается лицензированной RERA компанией при выплате. Покрывает 90-дневный SLA и White-Label.",
+    "UR": "ڈویلپر کی ادائیگی پر RERA لائسنس یافتہ ادارہ رکھتا ہے۔ 90 دن کا SLA اور وائٹ لیبل شامل ہے۔",
+    "TR": "Geliştirici ödemesinde RERA lisanslı ana kurum tarafından tutulur. 90 günlük SLA ve Beyaz Etiketi kapsar.",
+    "ZH": "由阿联酋 RERA 持牌主机构在开发商放款时留存，涵盖 90 天 SLA 保护及白标工具包。"
+  },
+  "Total AI HOME GLOBAL Revenue (1% + 1% = 2%):": {
+    "AR": "إجمالي عائد AI HOME GLOBAL (1% + 1% = 2%):",
+    "DE": "Gesamteinnahmen AI HOME GLOBAL (1% + 1% = 2%):",
+    "FR": "Revenu total AI HOME GLOBAL (1% + 1% = 2%) :",
+    "ES": "Ingresos Totales AI HOME GLOBAL (1% + 1% = 2%):",
+    "RU": "Итого доход AI HOME GLOBAL (1% + 1% = 2%):",
+    "UR": "کل AI HOME GLOBAL آمدنی (1% + 1% = 2%):",
+    "TR": "Toplam AI HOME GLOBAL Geliri (%1 + %1 = %2):",
+    "ZH": "AI HOME GLOBAL 总费率 (1% + 1% = 2%)："
+  },
+  "Covenant: 100% Funds routed to Central Bank / DLD Trust Accounts": {
+    "AR": "التعهد: توجيه 100% من الأموال لحسابات المصرف المركزي / أمانات DLD",
+    "DE": "Verpflichtung: 100% der Gelder auf Zentralbank- / DLD-Treuhandkonten",
+    "FR": "Engagement : 100% des fonds vers Banque Centrale / Séquestre DLD",
+    "ES": "Pacto: 100% de fondos a cuentas fiduciarias del Banco Central / DLD",
+    "RU": "Гарантия: 100% средств направляются в ЦБ ОАЭ / эскроу DLD",
+    "UR": "عہد: 100% فنڈز سینٹرل بینک / DLD ٹرسٹ اکاؤنٹس میں",
+    "TR": "Taahhüt: Fonların %100'ü Merkez Bankası / DLD Emanet hesaplarına gider",
+    "ZH": "合规承诺：100% 资金直入阿联酋央行 / DLD 监管信托账户"
+  },
+  "View Full Legal & Financial SOP Dossier": {
+    "AR": "عرض ملف الإجراءات القانونية والمالية الكامل",
+    "DE": "Vollständiges Rechts- & Finanz-SOP-Dossier ansehen",
+    "FR": "Voir le dossier SOP juridique et financier complet",
+    "ES": "Ver Dossier SOP Legal y Financiero Completo",
+    "RU": "Открыть полный юридический и финансовый протокол (SOP)",
+    "UR": "مکمل قانونی اور مالی SOP ڈوزیئر دیکھیں",
+    "TR": "Tam Hukuki ve Finansal SOP Dosyasını Gör",
+    "ZH": "查看完整法务与财务标准操作规程 (SOP)"
+  },
+  "Abroad Broker Net Cash Payout": {
+    "AR": "صافي المستحق النقدي للوسيط الدولي",
+    "DE": "Netto-Barauszahlung Auslandsmakler",
+    "FR": "Paiement net courtier étranger",
+    "ES": "Pago Neto en Efectivo al Agente",
+    "RU": "Чистая выплата зарубежному брокеру",
+    "UR": "بیرون ملک بروکر کی خالص نقد ادائیگی",
+    "TR": "Yurt Dışı Danışman Net Nakit Ödemesi",
+    "ZH": "海外经纪人净现金佣金"
+  },
+  "5.0% Net of Sales Value (Direct Wire)": {
+    "AR": "5.0% صافي من قيمة البيع (تحويل بنكي مباشر)",
+    "DE": "5,0% Netto vom Verkaufswert (Direktüberweisung)",
+    "FR": "5,0% Net du prix de vente (Virement direct)",
+    "ES": "5.0% Neto del Valor de Venta (Transferencia Directa)",
+    "RU": "5,0% чистыми от цены продажи (Прямой перевод)",
+    "UR": "فروخت کا 5.0% خالص (براہ راست وائر)",
+    "TR": "Satış Değerinin Net %5,0'i (Doğrudan Havale)",
+    "ZH": "成交额的 5.0% 净佣（银行直汇）"
+  },
+  "Gross Developer Rate:": {
+    "AR": "نسبة المطور الإجمالية:",
+    "DE": "Brutto-Bauträgersatz:",
+    "FR": "Taux brut promoteur :",
+    "ES": "Tasa Bruta Desarrollador:",
+    "RU": "Ставка застройщика:",
+    "UR": "مجموعی ڈویلپر شرح:",
+    "TR": "Brüt Geliştirici Oranı:",
+    "ZH": "开发商总佣金率："
+  },
+  "Broker Platform Share (1%):": {
+    "AR": "حصة منصة الوسيط (1%):",
+    "DE": "Makler-Plattformanteil (1%):",
+    "FR": "Part plateforme courtier (1%) :",
+    "ES": "Parte Plataforma Agente (1%):",
+    "RU": "Доля платформы с брокера (1%):",
+    "UR": "بروکر پلیٹ فارم شیئر (1%):",
+    "TR": "Danışman Platform Payı (%1):",
+    "ZH": "经纪端平台费 (1%)："
+  },
+  "Buyer Platform Fee (1%):": {
+    "AR": "رسوم منصة المشتري (1%):",
+    "DE": "Käufer-Plattformgebühr (1%):",
+    "FR": "Frais plateforme acheteur (1%) :",
+    "ES": "Tarifa Plataforma Comprador (1%):",
+    "RU": "Сбор с покупателя (1%):",
+    "UR": "خریدار پلیٹ فارم فیس (1%):",
+    "TR": "Alıcı Platform Ücreti (%1):",
+    "ZH": "买方平台服务费 (1%)："
+  },
+  "Disbursement Trigger:": {
+    "AR": "شرط الصرف:",
+    "DE": "Auszahlungsauslöser:",
+    "FR": "Déclencheur de paiement :",
+    "ES": "Disparador de Pago:",
+    "RU": "Условие выплаты:",
+    "UR": "ادائیگی کی شرط:",
+    "TR": "Ödeme Tetikleyicisi:",
+    "ZH": "放款触发条件："
+  },
+  "UAE Broker License Required:": {
+    "AR": "هل يتطلب رخصة وساطة إماراتية:",
+    "DE": "VAE-Maklerlizenz erforderlich:",
+    "FR": "Licence courtier ÉAU requise :",
+    "ES": "¿Requiere Licencia de EAU?:",
+    "RU": "Требуется ли лицензия ОАЭ:",
+    "UR": "یو اے ای بروکر لائسنس درکار:",
+    "TR": "BAE Lisansı Gerekli mi:",
+    "ZH": "是否需要阿联酋经纪牌照："
+  },
+  "THE INVESTOR SALES PITCH": {
+    "AR": "حجة الإقناع للمستثمر",
+    "DE": "DAS INVESTOREN-VERKAUFSARGUMENT",
+    "FR": "L'ARGUMENTAIRE INVESTISSEUR",
+    "ES": "EL ARGUMENTO PARA INVERSORES",
+    "RU": "АРГУМЕНТЫ ДЛЯ ИНВЕСТОРА",
+    "UR": "سرمایہ کار کے لیے سیلز پچ",
+    "TR": "YATIRIMCI SATIŞ SUNUMU",
+    "ZH": "投资者核心卖点"
+  },
+  "Global City Benchmark: Dubai vs World Capitals": {
+    "AR": "مؤشر المدن العالمي: دبي مقابل عواصم العالم",
+    "DE": "Globaler Städte-Benchmark: Dubai vs. Weltmetropolen",
+    "FR": "Indice mondial des villes : Dubaï vs Capitales mondiales",
+    "ES": "Comparativa Global de Ciudades: Dubái vs Capitales Mundiales",
+    "RU": "Мировой рейтинг городов: Дубай против мировых столиц",
+    "UR": "عالمی شہروں کا موازنہ: دبئی بمقابلہ عالمی دارالحکومت",
+    "TR": "Küresel Şehir Kıyaslaması: Dubai vs Dünya Başkentleri",
+    "ZH": "全球城市基准对比：迪拜 vs 世界主要首都"
+  },
+  "Give your foreign buyers undeniable mathematical reasons to re-allocate capital from London, New York, Paris, or Mumbai to the UAE.": {
+    "AR": "قدّم لمشتريك الدوليين أسباباً رياضية لا تقبل الجدل لإعادة توجيه رؤوس أموالهم من لندن أو نيويورك أو باريس إلى الإمارات.",
+    "DE": "Geben Sie Ihren internationalen Käufern unbestreitbare mathematische Gründe, Kapital von London, New York oder Paris in die VAE umzuschichten.",
+    "FR": "Offrez à vos acheteurs étrangers des raisons mathématiques irréfutables de réallouer leur capital de Londres, New York ou Paris vers les ÉAU.",
+    "ES": "Ofrece a tus compradores extranjeros razones matemáticas irrefutables para reasignar capital de Londres, Nueva York o París a los EAU.",
+    "RU": "Дайте зарубежным покупателям неоспоримые математические аргументы для перевода капитала из Лондона, Нью-Йорка или Парижа в ОАЭ.",
+    "UR": "اپنے غیر ملکی خریداروں کو لندن، نیویارک یا پیرس سے یو اے ای میں سرمایہ لگانے کے مضبوط دلائل دیں۔",
+    "TR": "Yabancı alıcılarınıza sermayelerini Londra, New York veya Paris'ten BAE'ye taşımaları için net matematiksel nedenler sunun.",
+    "ZH": "为您的海外买家提供无可辩驳的数据依据，将资金从伦敦、纽约、巴黎或孟买配置到阿联酋。"
+  },
+  "Comparison Index:": {
+    "AR": "مؤشر المقارنة:",
+    "DE": "Vergleichsindex:",
+    "FR": "Indice comparatif :",
+    "ES": "Índice Comparativo:",
+    "RU": "Индекс сравнения:",
+    "UR": "موازنہ انڈیکس:",
+    "TR": "Kıyaslama Endeksi:",
+    "ZH": "对比指标："
+  },
+  "Net Rental Yield & Tax Free Status": {
+    "AR": "صافي العائد الإيجاري والإعفاء الضريبي",
+    "DE": "Netto-Mietrendite & Steuerfreiheit",
+    "FR": "Rendement locatif net & exonération fiscale",
+    "ES": "Rentabilidad Neta y Exención Fiscal",
+    "RU": "Чистая доходность от аренды и отсутствие налогов",
+    "UR": "خالص کرایہ منافع اور ٹیکس فری حیثیت",
+    "TR": "Net Kira Getirisi & Vergisiz Statü",
+    "ZH": "净租金回报率与免税政策"
+  },
+  "City / Global Hub": {
+    "AR": "المدينة / المركز العالمي",
+    "DE": "Stadt / Globales Zentrum",
+    "FR": "Ville / Pôle mondial",
+    "ES": "Ciudad / Centro Global",
+    "RU": "Город / Мировой центр",
+    "UR": "شہر / عالمی مرکز",
+    "TR": "Şehir / Küresel Merkez",
+    "ZH": "城市 / 全球枢纽"
+  },
+  "Avg Gross Rental Yield": {
+    "AR": "متوسط العائد الإيجاري الإجمالي",
+    "DE": "Ø Brutto-Mietrendite",
+    "FR": "Rendement locatif brut moy.",
+    "ES": "Rentabilidad Bruta Alquiler",
+    "RU": "Средняя доходность аренды",
+    "UR": "اوسط مجموعی کرایہ منافع",
+    "TR": "Ort. Brüt Kira Getirisi",
+    "ZH": "平均毛租金回报"
+  },
+  "Capital Gains Tax": {
+    "AR": "ضريبة أرباح رأس المال",
+    "DE": "Kapitalertragsteuer",
+    "FR": "Impôt sur plus-value",
+    "ES": "Impuesto Plusvalía",
+    "RU": "Налог на прирост капитала",
+    "UR": "کیپٹل گینز ٹیکس",
+    "TR": "Sermaye Kazancı Vergisi",
+    "ZH": "资本利得税"
+  },
+  "Price Per Sq. Ft.": {
+    "AR": "السعر للقدم المربع",
+    "DE": "Preis pro Sq. Ft.",
+    "FR": "Prix par pi²",
+    "ES": "Precio por Sq. Ft.",
+    "RU": "Цена за кв. фут",
+    "UR": "فی مربع فٹ قیمت",
+    "TR": "Sq. Ft. Başına Fiyat",
+    "ZH": "每平方英尺均价"
+  },
+  "Residency by Investment": {
+    "AR": "الإقامة عبر الاستثمار",
+    "DE": "Aufenthalt durch Investment",
+    "FR": "Résidence par investissement",
+    "ES": "Residencia por Inversión",
+    "RU": "ВНЖ за инвестиции",
+    "UR": "سرمایہ کاری سے رہائش",
+    "TR": "Yatırımla Oturum",
+    "ZH": "投资居留权"
+  },
+  "Investor Rating": {
+    "AR": "تصنيف المستثمر",
+    "DE": "Investoren-Rating",
+    "FR": "Note investisseur",
+    "ES": "Calificación Inversor",
+    "RU": "Рейтинг инвестора",
+    "UR": "سرمایہ کار درجہ بندی",
+    "TR": "Yatırımcı Notu",
+    "ZH": "投资者评级"
+  },
+  "#1 GLOBAL DESTINATION": {
+    "AR": "الوجهة العالمية رقم 1",
+    "DE": "#1 WELTWEITES ZIEL",
+    "FR": "#1 DESTINATION MONDIALE",
+    "ES": "#1 DESTINO GLOBAL",
+    "RU": "#1 В МИРЕ",
+    "UR": "عالمی نمبر 1 منزل",
+    "TR": "1 NUMARALI KÜRESEL HEDEF",
+    "ZH": "全球首选目的地 #1"
+  },
+  "0% Income & Property Tax": {
+    "AR": "0% ضريبة دخل وعقار",
+    "DE": "0% Einkommen- & Grundsteuer",
+    "FR": "0% Impôt revenu & foncier",
+    "ES": "0% Impuesto Renta y Propiedad",
+    "RU": "0% налог на доход и недвижимость",
+    "UR": "0% انکم اور پراپرٹی ٹیکس",
+    "TR": "%0 Gelir & Emlak Vergisi",
+    "ZH": "0% 所得税与房产税"
+  },
+  "High occupancy 88%+": {
+    "AR": "نسبة إشغال عالية +88%",
+    "DE": "Hohe Auslastung 88%+",
+    "FR": "Taux d'occupation 88%+",
+    "ES": "Alta ocupación 88%+",
+    "RU": "Заполняемость 88%+",
+    "UR": "88%+ بلند آکیوپینسی",
+    "TR": "%88+ Yüksek Doluluk",
+    "ZH": "高出租率 88%+"
+  },
+  "0% (Zero Tax)": {
+    "AR": "0% (صفر ضرائب)",
+    "DE": "0% (Steuerfrei)",
+    "FR": "0% (Zéro impôt)",
+    "ES": "0% (Cero Impuestos)",
+    "RU": "0% (Без налога)",
+    "UR": "0% (کوئی ٹیکس نہیں)",
+    "TR": "%0 (Vergisiz)",
+    "ZH": "0%（零税率）"
+  },
+  "(High Upside)": {
+    "AR": "(نمو مرتفع)",
+    "DE": "(Hohes Potenzial)",
+    "FR": "(Fort potentiel)",
+    "ES": "(Alto Potencial)",
+    "RU": "(Высокий потенциал)",
+    "UR": "(زیادہ منافع)",
+    "TR": "(Yüksek Potansiyel)",
+    "ZH": "（高增值空间）"
+  },
+  "London, UK": {
+    "AR": "لندن، بريطانيا",
+    "DE": "London, UK",
+    "FR": "Londres, R.-U.",
+    "ES": "Londres, R.U.",
+    "RU": "Лондон, Великобритания",
+    "UR": "لندن، برطانیہ",
+    "TR": "Londra, İngiltere",
+    "ZH": "英国伦敦"
+  },
+  "New York, USA": {
+    "AR": "نيويورك، أمريكا",
+    "DE": "New York, USA",
+    "FR": "New York, É.-U.",
+    "ES": "Nueva York, EE. UU.",
+    "RU": "Нью-Йорк, США",
+    "UR": "نیویارک، امریکہ",
+    "TR": "New York, ABD",
+    "ZH": "美国纽约"
+  },
+  "Frankfurt / München, Germany": {
+    "AR": "فرانكفورت / ميونخ، ألمانيا",
+    "DE": "Frankfurt / München, Deutschland",
+    "FR": "Francfort / Munich, Allemagne",
+    "ES": "Fráncfort / Múnich, Alemania",
+    "RU": "Франкфурт / Мюнхен, Германия",
+    "UR": "فرینکفرٹ / میونخ، جرمنی",
+    "TR": "Frankfurt / Münih, Almanya",
+    "ZH": "德国法兰克福 / 慕尼黑"
+  },
+  "Singapore": {
+    "AR": "سنغافورة",
+    "DE": "Singapur",
+    "FR": "Singapour",
+    "ES": "Singapur",
+    "RU": "Сингапур",
+    "UR": "سنگاپور",
+    "TR": "Singapur",
+    "ZH": "新加坡"
+  },
+  "Paris, France": {
+    "AR": "باريس، فرنسا",
+    "DE": "Paris, Frankreich",
+    "FR": "Paris, France",
+    "ES": "París, Francia",
+    "RU": "Париж, Франция",
+    "UR": "پیرس، فرانس",
+    "TR": "Paris, Fransa",
+    "ZH": "法国巴黎"
+  },
+  "Verified via Dubai Land Department (DLD) and Knight Frank Global Prime Wealth Index 2025/2026.": {
+    "AR": "موثق عبر دائرة الأراضي والأملاك بدبي (DLD) ومؤشر نايت فرانك للثروات العالمية 2025/2026.",
+    "DE": "Verifiziert durch Dubai Land Department (DLD) und Knight Frank Global Prime Wealth Index 2025/2026.",
+    "FR": "Vérifié par le Dubai Land Department (DLD) et l'indice Knight Frank Global Prime Wealth 2025/2026.",
+    "ES": "Verificado por Dubai Land Department (DLD) y Knight Frank Global Prime Wealth Index 2025/2026.",
+    "RU": "Подтверждено Земельным департаментом Дубая (DLD) и индексом Knight Frank 2025/2026.",
+    "UR": "دبئی لینڈ ڈیپارٹمنٹ (DLD) اور نائٹ فرینک گلوبل پرائم ویلتھ انڈیکس 2025/2026 سے تصدیق شدہ۔",
+    "TR": "Dubai Arazi Dairesi (DLD) ve Knight Frank Küresel Servet Endeksi 2025/2026 ile doğrulanmıştır.",
+    "ZH": "数据经迪拜土地局 (DLD) 及莱坊 2025/2026 全球高端财富指数核验。"
+  },
+  "SOVEREIGN SYNDICATION INVENTORY": {
+    "AR": "مخزون التوزيع السيادي",
+    "DE": "SOUVERÄNES SYNDIZIERUNGSINVENTAR",
+    "FR": "INVENTAIRE DE SYNDICATION SOUVERAIN",
+    "ES": "INVENTARIO DE SINDICACIÓN SOBERANO",
+    "RU": "СУВЕРЕННЫЙ КАТАЛОГ НОВОСТРОЕК",
+    "UR": "خودمختار سنڈیکیشن انوینٹری",
+    "TR": "ANA DAĞITIM ENVANTERİ",
+    "ZH": "主权分销房源库"
+  },
+  "UAE Master Off-Plan Database": {
+    "AR": "قاعدة بيانات العقارات قيد الإنشاء بالإمارات",
+    "DE": "VAE Master-Off-Plan-Datenbank",
+    "FR": "Base de données VEFA Émirats",
+    "ES": "Base de Datos Maestra sobre Plano EAU",
+    "RU": "Единая база новостроек ОАЭ",
+    "UR": "یو اے ای ماسٹر آف پلان ڈیٹا بیس",
+    "TR": "BAE Ana Lansman Projeleri Veritabanı",
+    "ZH": "阿联酋期房主数据库"
+  },
+  "Complete UAE off-plan inventory imported with identical project details from ai-home.world (developer, area, unit types, size, price/sqft, handover, and DLD status).": {
+    "AR": "مخزون عقارات الإمارات الكامل قيد الإنشاء مستورد بتفاصيل مطابقة من ai-home.world (المطور، المنطقة، أنواع الوحدات، المساحة، التسليم، وحالة DLD).",
+    "DE": "Vollständiges VAE-Off-Plan-Inventar von ai-home.world (Bauträger, Lage, Einheitstypen, Fläche, Preis/sqft, Übergabe und DLD-Status).",
+    "FR": "Inventaire VEFA complet importé d'ai-home.world (promoteur, quartier, types, surface, prix/pi², livraison et statut DLD).",
+    "ES": "Inventario completo sobre plano de EAU importado de ai-home.world (desarrollador, zona, unidades, tamaño, entrega y estado DLD).",
+    "RU": "Полная база новостроек ОАЭ с ai-home.world (застройщик, район, типы юнитов, площадь, цена/кв.фт, сдача и статус DLD).",
+    "UR": "ai-home.world سے درآمد شدہ مکمل یو اے ای آف پلان انوینٹری (ڈویلپر، علاقہ، سائز، حوالگی اور DLD اسٹیٹس)۔",
+    "TR": "ai-home.world'den aktarılan tam BAE lansman envanteri (geliştirici, bölge, birim tipleri, m², teslim ve DLD durumu).",
+    "ZH": "从 ai-home.world 同步的阿联酋完整期房库存（含开发商、地段、户型、面积、单价、交房日期及 DLD 状态）。"
+  },
+  "Master Developer:": {
+    "AR": "المطور الرئيسي:",
+    "DE": "Bauträger:",
+    "FR": "Promoteur :",
+    "ES": "Desarrollador:",
+    "RU": "Застройщик:",
+    "UR": "ماسٹر ڈویلپر:",
+    "TR": "Ana Geliştirici:",
+    "ZH": "主开发商："
+  },
+  "All Developers": {
+    "AR": "كل المطورين",
+    "DE": "Alle Bauträger",
+    "FR": "Tous promoteurs",
+    "ES": "Todos los Desarrolladores",
+    "RU": "Все застройщики",
+    "UR": "تمام ڈویلپرز",
+    "TR": "Tüm Geliştiriciler",
+    "ZH": "全部开发商"
+  },
+  "Community / Area:": {
+    "AR": "المجمع / المنطقة:",
+    "DE": "Gemeinde / Lage:",
+    "FR": "Quartier / Zone :",
+    "ES": "Comunidad / Zona:",
+    "RU": "Район / Сообщество:",
+    "UR": "کمیونٹی / علاقہ:",
+    "TR": "Bölge / Semt:",
+    "ZH": "社区 / 区域："
+  },
+  "All Locations": {
+    "AR": "كل المناطق",
+    "DE": "Alle Standorte",
+    "FR": "Tous les lieux",
+    "ES": "Todas las Ubicaciones",
+    "RU": "Все локации",
+    "UR": "تمام مقامات",
+    "TR": "Tüm Konumlar",
+    "ZH": "全部地点"
+  },
+  "Project Status:": {
+    "AR": "حالة المشروع:",
+    "DE": "Projektstatus:",
+    "FR": "Statut du projet :",
+    "ES": "Estado del Proyecto:",
+    "RU": "Статус проекта:",
+    "UR": "پروجیکٹ اسٹیٹس:",
+    "TR": "Proje Durumu:",
+    "ZH": "项目状态："
+  },
+  "All Statuses": {
+    "AR": "كل الحالات",
+    "DE": "Alle Status",
+    "FR": "Tous statuts",
+    "ES": "Todos los Estados",
+    "RU": "Все статусы",
+    "UR": "تمام اسٹیٹس",
+    "TR": "Tüm Durumlar",
+    "ZH": "全部状态"
+  },
+  "Under Construction": {
+    "AR": "قيد الإنشاء",
+    "DE": "Im Bau",
+    "FR": "En construction",
+    "ES": "En Construcción",
+    "RU": "Строится",
+    "UR": "زیر تعمیر",
+    "TR": "İnşaat Halinde",
+    "ZH": "在建中"
+  },
+  "Off-Plan": {
+    "AR": "على الخريطة",
+    "DE": "Off-Plan",
+    "FR": "Sur plan",
+    "ES": "Sobre Plano",
+    "RU": "На этапе котлована",
+    "UR": "آف پلان",
+    "TR": "Lansman (Off-Plan)",
+    "ZH": "期房"
+  },
+  "Completed": {
+    "AR": "جاهز",
+    "DE": "Fertiggestellt",
+    "FR": "Livré",
+    "ES": "Completado",
+    "RU": "Сдан",
+    "UR": "مکمل",
+    "TR": "Tamamlandı",
+    "ZH": "现房"
+  },
+  "Sort Inventory By:": {
+    "AR": "ترتيب حسب:",
+    "DE": "Sortieren nach:",
+    "FR": "Trier par :",
+    "ES": "Ordenar Por:",
+    "RU": "Сортировка:",
+    "UR": "ترتیب بلحاظ:",
+    "TR": "Sıralama:",
+    "ZH": "排序方式："
+  },
+  "Default Order": {
+    "AR": "الترتيب الافتراضي",
+    "DE": "Standardreihenfolge",
+    "FR": "Ordre par défaut",
+    "ES": "Orden Predeterminado",
+    "RU": "По умолчанию",
+    "UR": "ڈیفالٹ ترتیب",
+    "TR": "Varsayılan Sıra",
+    "ZH": "默认排序"
+  },
+  "Price: Low to High": {
+    "AR": "السعر: من الأقل للأعلى",
+    "DE": "Preis: Aufsteigend",
+    "FR": "Prix : Croissant",
+    "ES": "Precio: Menor a Mayor",
+    "RU": "Цена: по возрастанию",
+    "UR": "قیمت: کم سے زیادہ",
+    "TR": "Fiyat: Düşükten Yükseğe",
+    "ZH": "价格：从低到高"
+  },
+  "Price: High to Low": {
+    "AR": "السعر: من الأعلى للأقل",
+    "DE": "Preis: Absteigend",
+    "FR": "Prix : Décroissant",
+    "ES": "Precio: Mayor a Menor",
+    "RU": "Цена: по убыванию",
+    "UR": "قیمت: زیادہ سے کم",
+    "TR": "Fiyat: Yüksekten Düşüğe",
+    "ZH": "价格：从高到低"
+  },
+  "Price/SqFt: Low to High": {
+    "AR": "سعر القدم: من الأقل",
+    "DE": "Preis/SqFt: Aufsteigend",
+    "FR": "Prix/pi² : Croissant",
+    "ES": "Precio/SqFt: Menor a Mayor",
+    "RU": "Цена/кв.фт: по возрастанию",
+    "UR": "فی مربع فٹ قیمت: کم سے زیادہ",
+    "TR": "Fiyat/SqFt: Düşükten Yükseğe",
+    "ZH": "单价：从低到高"
+  },
+  "Project Name (A - Z)": {
+    "AR": "اسم المشروع (أ - ي)",
+    "DE": "Projektname (A - Z)",
+    "FR": "Nom du projet (A - Z)",
+    "ES": "Nombre del Proyecto (A - Z)",
+    "RU": "Название (А - Я)",
+    "UR": "پروجیکٹ کا نام (A - Z)",
+    "TR": "Proje Adı (A - Z)",
+    "ZH": "项目名称 (A - Z)"
+  },
+  "All UAE Off-Plan": {
+    "AR": "كل عقارات الإمارات",
+    "DE": "Alle VAE Off-Plan",
+    "FR": "Tout VEFA ÉAU",
+    "ES": "Todo sobre Plano EAU",
+    "RU": "Все новостройки ОАЭ",
+    "UR": "تمام یو اے ای آف پلان",
+    "TR": "Tüm BAE Lansmanları",
+    "ZH": "全部阿联酋期房"
+  },
+  "Starting From": {
+    "AR": "يبدأ من",
+    "DE": "Ab",
+    "FR": "À partir de",
+    "ES": "Desde",
+    "RU": "От",
+    "UR": "شروع از",
+    "TR": "Başlangıç Fiyatı",
+    "ZH": "起价"
+  },
+  "Bedrooms": {
+    "AR": "غرف النوم",
+    "DE": "Schlafzimmer",
+    "FR": "Chambres",
+    "ES": "Dormitorios",
+    "RU": "Спальни",
+    "UR": "بیڈرومز",
+    "TR": "Yatak Odası",
+    "ZH": "卧室"
+  },
+  "Size": {
+    "AR": "المساحة",
+    "DE": "Fläche",
+    "FR": "Surface",
+    "ES": "Superficie",
+    "RU": "Площадь",
+    "UR": "سائز",
+    "TR": "Alan",
+    "ZH": "面积"
+  },
+  "Handover": {
+    "AR": "التسليم",
+    "DE": "Übergabe",
+    "FR": "Livraison",
+    "ES": "Entrega",
+    "RU": "Сдача",
+    "UR": "حوالگی",
+    "TR": "Teslim",
+    "ZH": "交房"
+  },
+  "Dossier": {
+    "AR": "الملف",
+    "DE": "Dossier",
+    "FR": "Dossier",
+    "ES": "Dossier",
+    "RU": "Досье",
+    "UR": "ڈوزیئر",
+    "TR": "Dosya",
+    "ZH": "项目资料"
+  },
+  "Listing": {
+    "AR": "الإعلان",
+    "DE": "Inserat",
+    "FR": "Annonce",
+    "ES": "Ficha",
+    "RU": "Объект",
+    "UR": "لسٹنگ",
+    "TR": "İlan",
+    "ZH": "房源详情"
+  },
+  "Lock Buyer & Auto-Contract (3-Way Split)": {
+    "AR": "حماية المشتري وعقد تلقائي (تقسيم ثلاثي)",
+    "DE": "Käufer sichern & Direktvertrag (3-Wege-Split)",
+    "FR": "Verrouiller acheteur & contrat auto (Partage 3 voies)",
+    "ES": "Bloquear Comprador y Contrato Auto (Reparto 3 Vías)",
+    "RU": "Зафиксировать покупателя и автоконтракт (3 стороны)",
+    "UR": "خریدار لاک کریں اور آٹو معاہدہ (3 طرفہ تقسیم)",
+    "TR": "Alıcıyı Kilitle & Oto-Sözleşme (3'lü Paylaşım)",
+    "ZH": "锁定买家并自动签约（三方分成）"
+  },
+  "COMPLETED": {
+    "AR": "مكتمل",
+    "DE": "FERTIG",
+    "FR": "LIVRÉ",
+    "ES": "COMPLETADO",
+    "RU": "СДАН",
+    "UR": "مکمل",
+    "TR": "TAMAMLANDI",
+    "ZH": "已竣工"
+  },
+  "OFF-PLAN": {
+    "AR": "قيد الإنشاء",
+    "DE": "OFF-PLAN",
+    "FR": "SUR PLAN",
+    "ES": "SOBRE PLANO",
+    "RU": "СТРОИТСЯ",
+    "UR": "آف پلان",
+    "TR": "LANSMAN",
+    "ZH": "期房"
+  },
+  "HANDOVER SOON": {
+    "AR": "تسليم قريب",
+    "DE": "BALD FERTIG",
+    "FR": "LIVRAISON PROCHE",
+    "ES": "ENTREGA PRONTO",
+    "RU": "СКОРО СДАЧА",
+    "UR": "جلد حوالگی",
+    "TR": "YAKINDA TESLİM",
+    "ZH": "即将交房"
+  },
+  "APARTMENT": {
+    "AR": "شقة",
+    "DE": "APARTMENT",
+    "FR": "APPARTEMENT",
+    "ES": "APARTAMENTO",
+    "RU": "АПАРТАМЕНТЫ",
+    "UR": "اپارٹمنٹ",
+    "TR": "DAİRE",
+    "ZH": "公寓"
+  },
+  "VILLA": {
+    "AR": "فيلا",
+    "DE": "VILLA",
+    "FR": "VILLA",
+    "ES": "VILLA",
+    "RU": "ВИЛЛА",
+    "UR": "ولا",
+    "TR": "VİLLA",
+    "ZH": "别墅"
+  },
+  "WORLDWIDE DISTRIBUTION NETWORK": {
+    "AR": "شبكة التوزيع العالمية",
+    "DE": "WELTWEITES VERTRIEBSNETZ",
+    "FR": "RÉSEAU DE DISTRIBUTION MONDIAL",
+    "ES": "RED DE DISTRIBUCIÓN MUNDIAL",
+    "RU": "ГЛОБАЛЬНАЯ ДИСТРИБЬЮТОРСКАЯ СЕТЬ",
+    "UR": "عالمی تقسیمی نیٹ ورک",
+    "TR": "KÜRESEL DAĞITIM AĞI",
+    "ZH": "全球分销网络"
+  },
+  "Global Agencies & Partner Brokerages": {
+    "AR": "الوكالات العالمية وشركات الوساطة الشريكة",
+    "DE": "Globale Agenturen & Partner-Makler",
+    "FR": "Agences mondiales & courtiers partenaires",
+    "ES": "Agencias Globales y Corredores Socios",
+    "RU": "Международные агентства и партнёры",
+    "UR": "عالمی ایجنسیاں اور شراکت دار بروکریجز",
+    "TR": "Küresel Ajanslar & Partner Brokerlar",
+    "ZH": "全球机构与合作经纪行"
+  },
+  "Complete agency directory imported with identical details from ai-home.world (name, city, country, agent count, listings, rating, email, phone, website, and logo). Filter Outside-UAE or browse all 13,529 agencies worldwide.": {
+    "AR": "دليل وكالات كامل مستورد من ai-home.world (الاسم، المدينة، الدولة، عدد الوسطاء، العقارات، التقييم، البريد والهاتف). صفِّ خارج الإمارات أو تصفح 13,529 وكالة عالمياً.",
+    "DE": "Vollständiges Agenturverzeichnis von ai-home.world (Name, Stadt, Land, Makler, Angebote, Bewertung, E-Mail, Telefon). Filtern Sie 13.529 Agenturen weltweit.",
+    "FR": "Annuaire complet importé d'ai-home.world (nom, ville, pays, agents, annonces, note, e-mail, téléphone). Parcourez 13 529 agences dans le monde.",
+    "ES": "Directorio completo importado de ai-home.world (nombre, ciudad, país, agentes, anuncios, valoración, contacto). Explora 13,529 agencias mundiales.",
+    "RU": "Полный каталог агентств с ai-home.world (название, город, страна, агенты, объекты, рейтинг, контакты). 13 529 агентств по всему миру.",
+    "UR": "ai-home.world سے درآمد شدہ مکمل ایجنسی ڈائریکٹری (نام، شہر، ملک، ایجنٹس، ریٹنگ، ای میل، فون)۔ دنیا بھر کی 13,529 ایجنسیاں دیکھیں۔",
+    "TR": "ai-home.world'den aktarılan tam ajans rehberi (ad, şehir, ülke, danışman, ilan, puan, e-posta, telefon). Dünya çapında 13.529 ajansı inceleyin.",
+    "ZH": "从 ai-home.world 同步的完整机构名录（含名称、城市、国家、经纪人数、房源、评分及联系方式）。浏览全球 13,529 家机构。"
+  },
+  "Country / Scope:": {
+    "AR": "الدولة / النطاق:",
+    "DE": "Land / Bereich:",
+    "FR": "Pays / Portée :",
+    "ES": "País / Alcance:",
+    "RU": "Страна / Охват:",
+    "UR": "ملک / دائرہ کار:",
+    "TR": "Ülke / Kapsam:",
+    "ZH": "国家 / 范围："
+  },
+  "Outside UAE Only": {
+    "AR": "خارج الإمارات فقط",
+    "DE": "Nur außerhalb VAE",
+    "FR": "Hors ÉAU uniquement",
+    "ES": "Solo Fuera de EAU",
+    "RU": "Только вне ОАЭ",
+    "UR": "صرف بیرون یو اے ای",
+    "TR": "Sadece BAE Dışı",
+    "ZH": "仅限阿联酋境外"
+  },
+  "All Global Agencies (13,529)": {
+    "AR": "كل الوكالات العالمية (13,529)",
+    "DE": "Alle Agenturen (13.529)",
+    "FR": "Toutes agences (13 529)",
+    "ES": "Todas las Agencias (13,529)",
+    "RU": "Все агентства (13 529)",
+    "UR": "تمام عالمی ایجنسیاں (13,529)",
+    "TR": "Tüm Küresel Ajanslar (13.529)",
+    "ZH": "全部全球机构 (13,529)"
+  },
+  "City:": {
+    "AR": "المدينة:",
+    "DE": "Stadt:",
+    "FR": "Ville :",
+    "ES": "Ciudad:",
+    "RU": "Город:",
+    "UR": "شہر:",
+    "TR": "Şehir:",
+    "ZH": "城市："
+  },
+  "All Cities": {
+    "AR": "كل المدن",
+    "DE": "Alle Städte",
+    "FR": "Toutes les villes",
+    "ES": "Todas las Ciudades",
+    "RU": "Все города",
+    "UR": "تمام شہر",
+    "TR": "Tüm Şehirler",
+    "ZH": "全部城市"
+  },
+  "Contact Channel:": {
+    "AR": "قناة التواصل:",
+    "DE": "Kontaktkanal:",
+    "FR": "Canal de contact :",
+    "ES": "Canal de Contacto:",
+    "RU": "Канал связи:",
+    "UR": "رابطے کا ذریعہ:",
+    "TR": "İletişim Kanalı:",
+    "ZH": "联系方式："
+  },
+  "All Agencies": {
+    "AR": "كل الوكالات",
+    "DE": "Alle Agenturen",
+    "FR": "Toutes agences",
+    "ES": "Todas las Agencias",
+    "RU": "Все агентства",
+    "UR": "تمام ایجنسیاں",
+    "TR": "Tüm Ajanslar",
+    "ZH": "全部机构"
+  },
+  "With Phone / Email / Website": {
+    "AR": "مع هاتف / بريد / موقع",
+    "DE": "Mit Telefon / E-Mail / Website",
+    "FR": "Avec Tél / E-mail / Site",
+    "ES": "Con Teléfono / Email / Web",
+    "RU": "С телефоном / Email / Сайтом",
+    "UR": "فون / ای میل / ویب سائٹ کے ساتھ",
+    "TR": "Telefon / E-posta / Web Sitesi Olan",
+    "ZH": "含电话 / 邮箱 / 官网"
+  },
+  "With Direct Email": {
+    "AR": "مع بريد مباشر",
+    "DE": "Mit direkter E-Mail",
+    "FR": "Avec e-mail direct",
+    "ES": "Con Email Directo",
+    "RU": "С прямым Email",
+    "UR": "براہ راست ای میل کے ساتھ",
+    "TR": "Doğrudan E-postalı",
+    "ZH": "含直连邮箱"
+  },
+  "With Direct Phone": {
+    "AR": "مع هاتف مباشر",
+    "DE": "Mit direktem Telefon",
+    "FR": "Avec téléphone direct",
+    "ES": "Con Teléfono Directo",
+    "RU": "С прямым телефоном",
+    "UR": "براہ راست فون کے ساتھ",
+    "TR": "Doğrudan Telefonlu",
+    "ZH": "含直连电话"
+  },
+  "Sort Agencies By:": {
+    "AR": "ترتيب الوكالات:",
+    "DE": "Agenturen sortieren:",
+    "FR": "Trier agences par :",
+    "ES": "Ordenar Agencias:",
+    "RU": "Сортировать агентства:",
+    "UR": "ایجنسیاں ترتیب دیں:",
+    "TR": "Ajans Sıralama:",
+    "ZH": "机构排序："
+  },
+  "Most Agents": {
+    "AR": "الأكثر وسطاء",
+    "DE": "Meiste Makler",
+    "FR": "Plus d'agents",
+    "ES": "Más Agentes",
+    "RU": "Больше агентов",
+    "UR": "سب سے زیادہ ایجنٹس",
+    "TR": "En Çok Danışman",
+    "ZH": "经纪人最多"
+  },
+  "Most Listings": {
+    "AR": "الأكثر عقارات",
+    "DE": "Meiste Angebote",
+    "FR": "Plus d'annonces",
+    "ES": "Más Anuncios",
+    "RU": "Больше объектов",
+    "UR": "سب سے زیادہ لسٹنگز",
+    "TR": "En Çok İlan",
+    "ZH": "房源最多"
+  },
+  "Agency Name (A - Z)": {
+    "AR": "اسم الوكالة (أ - ي)",
+    "DE": "Agenturname (A - Z)",
+    "FR": "Nom d'agence (A - Z)",
+    "ES": "Nombre Agencia (A - Z)",
+    "RU": "Название (А - Я)",
+    "UR": "ایجنسی کا نام (A - Z)",
+    "TR": "Ajans Adı (A - Z)",
+    "ZH": "机构名称 (A - Z)"
+  },
+  "Country (A - Z)": {
+    "AR": "الدولة (أ - ي)",
+    "DE": "Land (A - Z)",
+    "FR": "Pays (A - Z)",
+    "ES": "País (A - Z)",
+    "RU": "Страна (А - Я)",
+    "UR": "ملک (A - Z)",
+    "TR": "Ülke (A - Z)",
+    "ZH": "国家 (A - Z)"
+  },
+  "Agents": {
+    "AR": "وسطاء",
+    "DE": "Makler",
+    "FR": "Agents",
+    "ES": "Agentes",
+    "RU": "Агенты",
+    "UR": "ایجنٹس",
+    "TR": "Danışman",
+    "ZH": "经纪人"
+  },
+  "Listings": {
+    "AR": "عقارات",
+    "DE": "Angebote",
+    "FR": "Annonces",
+    "ES": "Anuncios",
+    "RU": "Объекты",
+    "UR": "لسٹنگز",
+    "TR": "İlanlar",
+    "ZH": "房源"
+  },
+  "Rating": {
+    "AR": "التقييم",
+    "DE": "Bewertung",
+    "FR": "Note",
+    "ES": "Valoración",
+    "RU": "Рейтинг",
+    "UR": "ریٹنگ",
+    "TR": "Puan",
+    "ZH": "评分"
+  },
+  "Connect Desk": {
+    "AR": "تواصل مع المكتب",
+    "DE": "Desk verbinden",
+    "FR": "Contacter le bureau",
+    "ES": "Conectar Mesa",
+    "RU": "Связаться с офисом",
+    "UR": "ڈیسک سے رابطہ کریں",
+    "TR": "Masaya Bağlan",
+    "ZH": "连线服务台"
+  },
+  "Verified": {
+    "AR": "موثق",
+    "DE": "Verifiziert",
+    "FR": "Vérifié",
+    "ES": "Verificado",
+    "RU": "Проверено",
+    "UR": "تصدیق شدہ",
+    "TR": "Doğrulandı",
+    "ZH": "已核验"
+  },
+  "LIVE AGENT INDEX": {
+    "AR": "فهرس الوسطاء المباشر",
+    "DE": "LIVE-MAKLERINDEX",
+    "FR": "INDEX AGENTS EN DIRECT",
+    "ES": "ÍNDICE DE AGENTES EN VIVO",
+    "RU": "ЖИВОЙ ИНДЕКС АГЕНТОВ",
+    "UR": "لائیو ایجنٹ انڈیکس",
+    "TR": "CANLI DANIŞMAN DİZİNİ",
+    "ZH": "实时经纪人索引"
+  },
+  "4,373,329 AGENTS": {
+    "AR": "4,373,329 وسيطاً",
+    "DE": "4.373.329 MAKLER",
+    "FR": "4 373 329 AGENTS",
+    "ES": "4,373,329 AGENTES",
+    "RU": "4 373 329 АГЕНТОВ",
+    "UR": "4,373,329 ایجنٹس",
+    "TR": "4.373.329 DANIŞMAN",
+    "ZH": "4,373,329 名经纪人"
+  },
+  "Global Real Estate Agents Directory": {
+    "AR": "دليل وسطاء العقارات العالميين",
+    "DE": "Globales Immobilienmakler-Verzeichnis",
+    "FR": "Annuaire mondial des agents immobiliers",
+    "ES": "Directorio Global de Agentes Inmobiliarios",
+    "RU": "Глобальный справочник агентов недвижимости",
+    "UR": "عالمی رئیل اسٹیٹ ایجنٹس ڈائریکٹری",
+    "TR": "Küresel Gayrimenkul Danışmanları Rehberi",
+    "ZH": "全球房地产经纪人名录"
+  },
+  "Live-indexed global agent directory synced with ai-home.world across 228 countries, including agency affiliation, phone, mobile, email, languages, address, registration number, and social profiles.": {
+    "AR": "دليل وسطاء عالمي مباشر متزامن مع ai-home.world في 228 دولة، يشمل الوكالة والهاتف والبريد واللغات ورقم التسجيل.",
+    "DE": "Live-Maklerverzeichnis mit ai-home.world über 228 Länder synchronisiert (Agentur, Telefon, E-Mail, Sprachen, Lizenznummer).",
+    "FR": "Annuaire mondial synchronisé avec ai-home.world dans 228 pays (agence, téléphone, e-mail, langues, immatriculation).",
+    "ES": "Directorio global en vivo sincronizado con ai-home.world en 228 países (agencia, teléfono, correo, idiomas, registro).",
+    "RU": "Живой каталог агентов с ai-home.world по 228 странам (агентство, телефон, email, языки, номер регистрации).",
+    "UR": "228 ممالک میں ai-home.world کے ساتھ مطابقت پذیر لائیو ایجنٹ ڈائریکٹری (فون، ای میل، زبانیں اور رجسٹریشن)۔",
+    "TR": "228 ülkede ai-home.world ile senkronize canlı danışman rehberi (ajans, telefon, e-posta, diller ve sicil numarası).",
+    "ZH": "与 ai-home.world 实时同步的全球 228 个国家经纪人名录，包含所属机构、电话、邮箱、语言及执业注册号。"
+  },
+  "Country (228 Jurisdictions):": {
+    "AR": "الدولة (228 نطاقاً):",
+    "DE": "Land (228 Länder):",
+    "FR": "Pays (228 juridictions) :",
+    "ES": "País (228 Jurisdicciones):",
+    "RU": "Страна (228 юрисдикций):",
+    "UR": "ملک (228 دائرہ اختیار):",
+    "TR": "Ülke (228 Bölge):",
+    "ZH": "国家（228个司法管辖区）："
+  },
+  "All Countries": {
+    "AR": "كل الدول",
+    "DE": "Alle Länder",
+    "FR": "Tous les pays",
+    "ES": "Todos los Países",
+    "RU": "Все страны",
+    "UR": "تمام ممالک",
+    "TR": "Tüm Ülkeler",
+    "ZH": "全部国家"
+  },
+  "Page Size:": {
+    "AR": "حجم الصفحة:",
+    "DE": "Seitengröße:",
+    "FR": "Par page :",
+    "ES": "Por Página:",
+    "RU": "На странице:",
+    "UR": "فی صفحہ:",
+    "TR": "Sayfa Boyutu:",
+    "ZH": "每页显示："
+  },
+  "24 Agents / Page": {
+    "AR": "24 وسيطاً / صفحة",
+    "DE": "24 Makler / Seite",
+    "FR": "24 Agents / Page",
+    "ES": "24 Agentes / Página",
+    "RU": "24 агента / стр.",
+    "UR": "24 ایجنٹس / صفحہ",
+    "TR": "24 Danışman / Sayfa",
+    "ZH": "24 位经纪人 / 页"
+  },
+  "48 Agents / Page": {
+    "AR": "48 وسيطاً / صفحة",
+    "DE": "48 Makler / Seite",
+    "FR": "48 Agents / Page",
+    "ES": "48 Agentes / Página",
+    "RU": "48 агентов / стр.",
+    "UR": "48 ایجنٹس / صفحہ",
+    "TR": "48 Danışman / Sayfa",
+    "ZH": "48 位经纪人 / 页"
+  },
+  "100 Agents / Page": {
+    "AR": "100 وسيط / صفحة",
+    "DE": "100 Makler / Seite",
+    "FR": "100 Agents / Page",
+    "ES": "100 Agentes / Página",
+    "RU": "100 агентов / стр.",
+    "UR": "100 ایجنٹس / صفحہ",
+    "TR": "100 Danışman / Sayfa",
+    "ZH": "100 位经纪人 / 页"
+  },
+  "Search Global Agents": {
+    "AR": "بحث الوسطاء العالميين",
+    "DE": "Globale Makler suchen",
+    "FR": "Rechercher des agents",
+    "ES": "Buscar Agentes Globales",
+    "RU": "Найти агентов",
+    "UR": "عالمی ایجنٹس تلاش کریں",
+    "TR": "Küresel Danışman Ara",
+    "ZH": "搜索全球经纪人"
+  },
+  "Loading live global agents directory...": {
+    "AR": "جاري تحميل دليل الوسطاء العالميين المباشر...",
+    "DE": "Lade globales Maklerverzeichnis...",
+    "FR": "Chargement de l'annuaire mondial...",
+    "ES": "Cargando directorio global en vivo...",
+    "RU": "Загрузка глобального каталога агентов...",
+    "UR": "لائیو عالمی ایجنٹس ڈائریکٹری لوڈ ہو رہی ہے...",
+    "TR": "Canlı küresel danışman rehberi yükleniyor...",
+    "ZH": "正在加载全球实时经纪人名录..."
+  },
+  "Profile": {
+    "AR": "الملف الشخصي",
+    "DE": "Profil",
+    "FR": "Profil",
+    "ES": "Perfil",
+    "RU": "Профиль",
+    "UR": "پروفائل",
+    "TR": "Profil",
+    "ZH": "个人主页"
+  },
+  "Under Your Own Agency Name": {
+    "AR": "تحت اسم وكالتك الخاص",
+    "DE": "Unter Ihrem eigenen Agenturnamen",
+    "FR": "Sous le nom de votre propre agence",
+    "ES": "Bajo el Nombre de Tu Propia Agencia",
+    "RU": "Под брендом вашего агентства",
+    "UR": "آپ کی اپنی ایجنسی کے نام سے",
+    "TR": "Kendi Ajans Adınız Altında",
+    "ZH": "使用您自己的机构品牌"
+  },
+  "Never risk losing your client. AI Home Global allows international agencies in London, New York, Frankfurt, or Singapore to brand all Dubai developer projects with your own logo, agency contact info, and custom commission markup.": {
+    "AR": "لا تخاطر بخسارة عميلك أبداً. تتيح لك المنصة في لندن أو نيويورك أو فرانكفورت تسويق مشاريع دبي بشعارك وبيانات تواصلك وعمولتك المخصصة.",
+    "DE": "Riskieren Sie nie den Verlust Ihres Kunden. Agenturen in London, New York oder Frankfurt präsentieren alle Dubai-Projekte mit eigenem Logo und Kontakt.",
+    "FR": "Ne risquez jamais de perdre votre client. Les agences à Londres, New York ou Francfort affichent les projets de Dubaï sous leur propre marque.",
+    "ES": "Nunca arriesgues perder a tu cliente. Agencias en Londres, Nueva York o Fráncfort presentan proyectos de Dubái con su propio logo y contacto.",
+    "RU": "Не рискуйте потерять клиента. Агентства в Лондоне, Нью-Йорке или Франкфурте брендируют все проекты Дубая своим логотипом и контактами.",
+    "UR": "اپنے کلائنٹ کو کھونے کا خطرہ مول نہ لیں۔ لندن، نیویارک یا فرینکفرٹ کی ایجنسیاں اپنے لوگو کے ساتھ دبئی کے پروجیکٹس پیش کر سکتی ہیں۔",
+    "TR": "Müşterinizi kaybetme riskine girmeyin. Londra, New York veya Frankfurt'taki ajanslar tüm Dubai projelerini kendi logosuyla sunar.",
+    "ZH": "绝不冒流失客户的风险。伦敦、纽约、法兰克福或新加坡的机构可使用自有标识、联系方式和佣金加成来展示迪拜项目。"
+  },
+  "Stripped Developer Contact Details": {
+    "AR": "إزالة بيانات اتصال المطور",
+    "DE": "Bauträger-Kontaktdaten entfernt",
+    "FR": "Coordonnées promoteur supprimées",
+    "ES": "Datos de Contacto del Desarrollador Eliminados",
+    "RU": "Контакты застройщика удалены",
+    "UR": "ڈویلپر کے رابطے کی تفصیلات ہٹا دی گئیں",
+    "TR": "Geliştirici İletişim Bilgileri Gizlenir",
+    "ZH": "全面剔除开发商联系方式"
+  },
+  "All direct developer telephone numbers, emails, and UAE broker hotlines are systematically removed.": {
+    "AR": "تتم إزالة جميع أرقام الهواتف والبريد الإلكتروني المباشر للمطورين ووسطاء الإمارات تلقائياً.",
+    "DE": "Alle direkten Telefonnummern, E-Mails und Hotlines der Bauträger werden systematisch entfernt.",
+    "FR": "Tous les numéros, e-mails et lignes directes des promoteurs sont systématiquement supprimés.",
+    "ES": "Todos los teléfonos, correos y líneas directas de desarrolladores en EAU se eliminan sistemáticamente.",
+    "RU": "Все прямые телефоны, email и горячие линии застройщиков в ОАЭ автоматически удаляются.",
+    "UR": "ڈویلپر کے تمام براہ راست فون نمبرز، ای میلز اور ہاٹ لائنز خود بخود ہٹا دی جاتی ہیں۔",
+    "TR": "Tüm doğrudan geliştirici telefonları, e-postaları ve BAE hatları sistematik olarak kaldırılır.",
+    "ZH": "系统自动移除所有开发商直连电话、邮箱及阿联酋本地热线。"
+  },
+  "Multi-Currency & Golden Visa Annex": {
+    "AR": "ملحق العملات المتعددة والإقامة الذهبية",
+    "DE": "Mehrwährungs- & Golden-Visa-Anhang",
+    "FR": "Annexe multi-devises & Golden Visa",
+    "ES": "Anexo Multidivisa y Golden Visa",
+    "RU": "Мультивалюта и раздел Golden Visa",
+    "UR": "ملٹی کرنسی اور گولڈن ویزا ضمیمہ",
+    "TR": "Çoklu Para Birimi & Altın Vize Eki",
+    "ZH": "多币种换算与黄金签证附录"
+  },
+  "Decks automatically calculate yields in USD, EUR, or GBP and include an official Dubai Land Department Golden Visa application roadmap.": {
+    "AR": "تحسب العروض العوائد تلقائياً بالدولار أو اليورو أو الجنيه وتشمل خارطة طريق رسمية للإقامة الذهبية من DLD.",
+    "DE": "Präsentationen berechnen Renditen automatisch in USD, EUR oder GBP inkl. offiziellem DLD Golden-Visa-Leitfaden.",
+    "FR": "Les dossiers calculent les rendements en USD, EUR ou GBP avec la feuille de route officielle Golden Visa DLD.",
+    "ES": "Los dossiers calculan rentabilidades en USD, EUR o GBP e incluyen la hoja de ruta oficial Golden Visa DLD.",
+    "RU": "Презентации автоматически считают доходность в USD, EUR, GBP и включают дорожную карту Golden Visa от DLD.",
+    "UR": "ڈیک خود بخود USD، EUR یا GBP میں منافع کا حساب لگاتا ہے اور DLD گولڈن ویزا روڈ میپ شامل کرتا ہے۔",
+    "TR": "Sunumlar getirileri USD, EUR veya GBP olarak hesaplar ve resmi DLD Altın Vize yol haritasını içerir.",
+    "ZH": "推介书自动按美元、欧元或英镑计算收益，并附带迪拜土地局官方黄金签证申请路线图。"
+  },
+  "WhatsApp & WeChat Ready One-Pagers": {
+    "AR": "ملفات جاهزة لواتساب ووي شات",
+    "DE": "WhatsApp- & WeChat-fähige One-Pager",
+    "FR": "Fiches prêtes pour WhatsApp & WeChat",
+    "ES": "Fichas Listas para WhatsApp y WeChat",
+    "RU": "Материалы для WhatsApp и WeChat",
+    "UR": "واٹس ایپ اور وی چیٹ کے لیے تیار",
+    "TR": "WhatsApp ve WeChat Uyumlu Tek Sayfa",
+    "ZH": "支持 WhatsApp 与微信一键转发"
+  },
+  "Generate mobile-optimized PDF & image carousels designed to be shared immediately via messaging apps.": {
+    "AR": "أنشئ ملفات PDF وصوراً مهيأة للجوال للمشاركة الفورية عبر تطبيقات المراسلة.",
+    "DE": "Erstellen Sie mobiloptimierte PDFs & Bildkarussells zum sofortigen Teilen per Messenger.",
+    "FR": "Générez des PDF et carrousels optimisés mobile prêts à partager par messagerie.",
+    "ES": "Genera PDF y carruseles optimizados para móvil listos para compartir por mensajería.",
+    "RU": "Создавайте мобильные PDF и слайды для мгновенной отправки в мессенджерах.",
+    "UR": "میسجنگ ایپس کے ذریعے فوری شیئر کرنے کے لیے موبائل PDF اور کاروسل بنائیں۔",
+    "TR": "Mesajlaşma uygulamalarından hemen paylaşılmaya hazır mobil PDF ve görseller üretin.",
+    "ZH": "生成专为手机端优化的 PDF 与图文卡片，方便通过即时通讯工具立即转发。"
+  },
+  "Live Client Deck Generator": {
+    "AR": "منشئ عروض العملاء المباشر",
+    "DE": "Live-Kundenpräsentations-Generator",
+    "FR": "Générateur de dossier client en direct",
+    "ES": "Generador de Dossier en Vivo",
+    "RU": "Генератор презентаций в реальном времени",
+    "UR": "لائیو کلائنٹ ڈیک جنریٹر",
+    "TR": "Canlı Müşteri Sunum Oluşturucu",
+    "ZH": "实时客户推介书生成器"
+  },
+  "INSTANT PDF COMPILER": {
+    "AR": "مُعد PDF فوري",
+    "DE": "SOFORT-PDF-COMPILER",
+    "FR": "COMPILATEUR PDF INSTANTANÉ",
+    "ES": "COMPILADOR PDF INSTANTÁNEO",
+    "RU": "МГНОВЕННЫЙ PDF-ГЕНЕРАТОР",
+    "UR": "فوری PDF کمپائلر",
+    "TR": "ANLIK PDF OLUŞTURUCU",
+    "ZH": "即时 PDF 生成器"
+  },
+  "Your International Agency Name:": {
+    "AR": "اسم وكالتك الدولية:",
+    "DE": "Ihr internationaler Agenturname:",
+    "FR": "Nom de votre agence internationale :",
+    "ES": "Nombre de Tu Agencia Internacional:",
+    "RU": "Название вашего агентства:",
+    "UR": "آپ کی بین الاقوامی ایجنسی کا نام:",
+    "TR": "Uluslararası Ajans Adınız:",
+    "ZH": "您的国际机构名称："
+  },
+  "Client Presentation Currency:": {
+    "AR": "عملة عرض العميل:",
+    "DE": "Präsentationswährung:",
+    "FR": "Devise de présentation :",
+    "ES": "Moneda de Presentación:",
+    "RU": "Валюта презентации:",
+    "UR": "کلائنٹ پریزنٹیشن کرنسی:",
+    "TR": "Müşteri Sunum Para Birimi:",
+    "ZH": "客户展示币种："
+  },
+  "Include in Deck:": {
+    "AR": "تضمين في العرض:",
+    "DE": "In Präsentation aufnehmen:",
+    "FR": "Inclure dans le dossier :",
+    "ES": "Incluir en el Dossier:",
+    "RU": "Включить в презентацию:",
+    "UR": "ڈیک میں شامل کریں:",
+    "TR": "Sunuma Dahil Et:",
+    "ZH": "资料包含内容："
+  },
+  "10-Yr Golden Visa Guide": {
+    "AR": "دليل الإقامة الذهبية 10 سنوات",
+    "DE": "10-Jahre Golden-Visa-Leitfaden",
+    "FR": "Guide Golden Visa 10 ans",
+    "ES": "Guía Golden Visa 10 Años",
+    "RU": "Гид по Golden Visa на 10 лет",
+    "UR": "10 سالہ گولڈن ویزا گائیڈ",
+    "TR": "10 Yıllık Altın Vize Rehberi",
+    "ZH": "10年黄金签证指南"
+  },
+  "DLD Escrow Guarantee Certificate": {
+    "AR": "شهادة ضمان حساب الضمان DLD",
+    "DE": "DLD-Treuhandgarantie-Zertifikat",
+    "FR": "Certificat de garantie séquestre DLD",
+    "ES": "Certificado de Garantía Escrow DLD",
+    "RU": "Гарантийный сертификат эскроу DLD",
+    "UR": "DLD ایسکرو گارنٹی سرٹیفکیٹ",
+    "TR": "DLD Emanet Garanti Sertifikası",
+    "ZH": "DLD 托管账户担保书"
+  },
+  "5-Year Rental ROI Simulation": {
+    "AR": "محاكاة عائد الإيجار لـ 5 سنوات",
+    "DE": "5-Jahres-Mietrendite-Simulation",
+    "FR": "Simulation rendement locatif 5 ans",
+    "ES": "Simulación ROI Alquiler 5 Años",
+    "RU": "Расчёт арендной доходности на 5 лет",
+    "UR": "5 سالہ کرایہ ROI سمولیشن",
+    "TR": "5 Yıllık Kira Getirisi Simülasyonu",
+    "ZH": "5年租金回报模拟"
+  },
+  "International Wire / Escrow Routing": {
+    "AR": "مسار التحويل الدولي / الضمان",
+    "DE": "Internationale Überweisung / Treuhand",
+    "FR": "Virement international / Séquestre",
+    "ES": "Transferencia Internacional / Escrow",
+    "RU": "Маршрутизация SWIFT / эскроу",
+    "UR": "بین الاقوامی وائر / ایسکرو روٹنگ",
+    "TR": "Uluslararası Havale / Emanet Yönlendirme",
+    "ZH": "国际电汇 / 托管汇款路径"
+  },
+  "24-Page Ultra HD Pitch Deck · White-Labeled": {
+    "AR": "عرض تقديمي فائق الدقة 24 صفحة · بعلامتك التجارية",
+    "DE": "24-Seiten Ultra-HD Pitch-Deck · White-Label",
+    "FR": "Dossier HD 24 pages · Marque Blanche",
+    "ES": "Dossier Ultra HD 24 Páginas · Marca Blanca",
+    "RU": "24-страничная презентация Ultra HD · White-Label",
+    "UR": "24 صفحات الٹرا ایچ ڈی پچ ڈیک · وائٹ لیبل",
+    "TR": "24 Sayfalık Ultra HD Sunum · Beyaz Etiket",
+    "ZH": "24页超清白标推介手册"
+  },
+  "Live 4K Drone Walkthroughs": {
+    "AR": "جولات درون 4K مباشرة",
+    "DE": "Live 4K-Drohnenrundgänge",
+    "FR": "Visites drone 4K en direct",
+    "ES": "Recorridos Dron 4K en Vivo",
+    "RU": "Живые 4K дрон-туры",
+    "UR": "لائیو 4K ڈرون واک تھرو",
+    "TR": "Canlı 4K Drone Turları",
+    "ZH": "4K 无人机实时实景看房"
+  },
+  "Your clients don't need to fly to Dubai to make a deposit. Use our interactive FPV 4K drone system to fly down Sheikh Zayed Road, explore beachfront views, and inspect construction progress in real time during your video consultations.": {
+    "AR": "لا يحتاج عملاؤك للسفر إلى دبي لدفع العربون. استخدم نظام درون FPV 4K التفاعلي لاستكشاف شارع الشيخ زايد والإطلالات البحرية وتقدم البناء مباشرة أثناء مكالمات الفيديو.",
+    "DE": "Ihre Kunden müssen nicht nach Dubai fliegen. Nutzen Sie unser interaktives 4K-FPV-Drohnensystem, um während der Videoberatung Live-Baufortschritte und Ausblicke zu zeigen.",
+    "FR": "Vos clients n'ont pas besoin de voyager à Dubaï. Utilisez notre drone FPV 4K interactif pour survoler la ville et inspecter les chantiers en direct.",
+    "ES": "Tus clientes no necesitan viajar a Dubái para reservar. Usa nuestro dron FPV 4K interactivo para recorrer la ciudad y ver el avance de obra en vivo.",
+    "RU": "Клиентам не нужно лететь в Дубай для бронирования. Используйте FPV 4K-дрон во время видеозвонка, чтобы показать виды и ход строительства в реальном времени.",
+    "UR": "آپ کے کلائنٹس کو ڈپازٹ کے لیے دبئی آنے کی ضرورت نہیں۔ ویڈیو کال کے دوران 4K ڈرون سسٹم سے لائیو تعمیراتی پیش رفت دکھائیں۔",
+    "TR": "Müşterilerinizin kapora için Dubai'ye uçmasına gerek yok. Görüntülü görüşmelerde 4K FPV drone ile inşaat ilerleyişini ve manzaraları canlı gezdirin.",
+    "ZH": "您的客户无需飞往迪拜即可下定。通过互动 4K FPV 无人机系统，在视频连线中实时飞越谢赫扎耶德路、查看海景与施工进度。"
+  },
+  "Book Co-Hosted Zoom Tour": {
+    "AR": "احجز جولة Zoom مشتركة",
+    "DE": "Gemeinsame Zoom-Tour buchen",
+    "FR": "Réserver une visite Zoom",
+    "ES": "Reservar Tour Zoom Conjunto",
+    "RU": "Забронировать Zoom-тур",
+    "UR": "مشترکہ زوم ٹور بک کریں",
+    "TR": "Ortak Zoom Turu Rezerve Et",
+    "ZH": "预约联合 Zoom 云看房"
+  },
+  "Live 4K FPV Virtual Tour | Dubai Prime Corridor": {
+    "AR": "جولة افتراضية مباشرة 4K | الممر الرئيسي بدبي",
+    "DE": "Live 4K-FPV-Tour | Dubai Prime Corridor",
+    "FR": "Visite virtuelle 4K FPV | Dubaï Prime",
+    "ES": "Tour Virtual 4K FPV | Corredor Prime Dubái",
+    "RU": "Прямой 4K FPV-тур | Центр Дубая",
+    "UR": "لائیو 4K FPV ورچوئل ٹور | دبئی",
+    "TR": "Canlı 4K FPV Sanal Tur | Dubai Merkez",
+    "ZH": "实时 4K FPV 虚拟看房 | 迪拜核心走廊"
+  },
+  "Active Client Screen-Share": {
+    "AR": "مشاركة شاشة نشطة مع العميل",
+    "DE": "Aktive Kunden-Bildschirmfreigabe",
+    "FR": "Partage d'écran client actif",
+    "ES": "Pantalla Compartida Activa",
+    "RU": "Активная демонстрация экрана",
+    "UR": "کلائنٹ اسکرین شیئر فعال",
+    "TR": "Aktif Müşteri Ekran Paylaşımı",
+    "ZH": "正在向客户共享屏幕"
+  },
+  "The sovereign cross-border syndication gateway for international real estate brokers, private bankers, and wealth advisors marketing United Arab Emirates properties worldwide.": {
+    "AR": "البوابة السيادية العابرة للحدود للوسطاء العقاريين الدوليين ومصرفيي القطاع الخاص ومستشاري الثروات لتسويق عقارات الإمارات عالمياً.",
+    "DE": "Das souveräne grenzüberschreitende Syndizierungsportal für internationale Immobilienmakler, Private Banker und Vermögensberater für VAE-Immobilien.",
+    "FR": "Le portail souverain de syndication transfrontalière pour les courtiers internationaux, banquiers privés et conseillers en patrimoine.",
+    "ES": "El portal soberano transfronterizo para corredores inmobiliarios internacionales, banqueros privados y asesores patrimoniales.",
+    "RU": "Суверенный трансграничный шлюз для международных брокеров, частных банкиров и управляющих капиталом по недвижимости ОАЭ.",
+    "UR": "دنیا بھر میں یو اے ای کی جائیدادوں کی مارکیٹنگ کرنے والے بین الاقوامی بروکرز اور ویلتھ ایڈوائزرز کے لیے خود مختار گیٹ وے۔",
+    "TR": "BAE gayrimenkullerini dünya çapında pazarlayan uluslararası emlak danışmanları ve servet yöneticileri için sınır ötesi platform.",
+    "ZH": "面向全球海外房产经纪人、私人银行家与财富顾问的主权跨境分销门户，助力阿联酋房产全球营销。"
+  },
+  "Regulated cross-border developer referral channel. Escrow accounts audited by Dubai Land Department (DLD) & RERA.": {
+    "AR": "قناة إحالة منظمة عابرة للحدود للمطورين. حسابات الضمان مدققة من دائرة الأراضي والأملاك (DLD) وريرا.",
+    "DE": "Regulierter grenzüberschreitender Vermittlungskanal. Treuhandkonten geprüft durch DLD & RERA.",
+    "FR": "Canal de recommandation réglementé. Comptes séquestres audités par DLD & RERA.",
+    "ES": "Canal de referencia regulado. Cuentas escrow auditadas por DLD y RERA.",
+    "RU": "Регулируемый трансграничный канал. Эскроу-счета под аудитом DLD и RERA.",
+    "UR": "ریگولیٹڈ سرحد پار ڈویلپر ریفرل چینل۔ DLD اور RERA کے زیر نگرانی ایسکرو اکاؤنٹس۔",
+    "TR": "Düzenlenmiş sınır ötesi geliştirici yönlendirme kanalı. Emanet hesapları DLD & RERA tarafından denetlenir.",
+    "ZH": "受监管的跨境开发商转介通道，托管账户由迪拜土地局 (DLD) 与 RERA 审计。"
+  },
+  "Overseas Hubs": {
+    "AR": "المراكز الدولية",
+    "DE": "Auslands-Hubs",
+    "FR": "Pôles internationaux",
+    "ES": "Centros Internacionales",
+    "RU": "Зарубежные хабы",
+    "UR": "بیرون ملک مراکز",
+    "TR": "Yurt Dışı Merkezler",
+    "ZH": "海外服务中心"
+  },
+  "Partner Tools": {
+    "AR": "أدوات الشريك",
+    "DE": "Partner-Tools",
+    "FR": "Outils partenaires",
+    "ES": "Herramientas de Socio",
+    "RU": "Инструменты партнёра",
+    "UR": "پارٹنر ٹولز",
+    "TR": "Partner Araçları",
+    "ZH": "合作伙伴工具"
+  },
+  "White-Label Pitch Decks": {
+    "AR": "عروض العلامة البيضاء",
+    "DE": "White-Label-Decks",
+    "FR": "Dossiers Marque Blanche",
+    "ES": "Dossiers Marca Blanca",
+    "RU": "White-Label презентации",
+    "UR": "وائٹ لیبل پچ ڈیک",
+    "TR": "Beyaz Etiket Sunumlar",
+    "ZH": "白标推介手册"
+  },
+  "Register Client Lead": {
+    "AR": "تسجيل عميل جديد",
+    "DE": "Kunden-Lead registrieren",
+    "FR": "Enregistrer un prospect",
+    "ES": "Registrar Cliente",
+    "RU": "Зарегистрировать лида",
+    "UR": "کلائنٹ لیڈ رجسٹر کریں",
+    "TR": "Müşteri Kaydet",
+    "ZH": "登记客户线索"
+  },
+  "Commission Escrow Payouts": {
+    "AR": "مدفوعات عمولة الضمان",
+    "DE": "Treuhand-Auszahlungen",
+    "FR": "Paiements séquestre",
+    "ES": "Pagos Escrow de Comisión",
+    "RU": "Эскроу-выплаты комиссий",
+    "UR": "کمیشن ایسکرو ادائیگیاں",
+    "TR": "Emanet Komisyon Ödemeleri",
+    "ZH": "托管佣金结算"
+  },
+  "4K FPV Drone Library": {
+    "AR": "مكتبة درون 4K FPV",
+    "DE": "4K-FPV-Drohnenbibliothek",
+    "FR": "Bibliothèque Drone 4K",
+    "ES": "Biblioteca Dron 4K",
+    "RU": "Библиотека 4K дронов",
+    "UR": "4K FPV ڈرون لائبریری",
+    "TR": "4K FPV Drone Kütüphanesi",
+    "ZH": "4K FPV 无人机素材库"
+  },
+  "Global Tax & Yield Index": {
+    "AR": "مؤشر الضرائب والعوائد العالمي",
+    "DE": "Globaler Steuer- & Renditeindex",
+    "FR": "Indice fiscal & rendement",
+    "ES": "Índice Global de Impuestos",
+    "RU": "Мировой индекс налогов и доходности",
+    "UR": "عالمی ٹیکس اور منافع انڈیکس",
+    "TR": "Küresel Vergi & Getiri Endeksi",
+    "ZH": "全球税率与收益指数"
+  },
+  "Legal & Regulatory": {
+    "AR": "القانونية والتنظيمية",
+    "DE": "Recht & Regulierung",
+    "FR": "Juridique & Réglementaire",
+    "ES": "Legal y Regulatorio",
+    "RU": "Право и регулирование",
+    "UR": "قانونی و ضوابط",
+    "TR": "Hukuk & Mevzuat",
+    "ZH": "法律与监管合规"
+  },
+  "Privacy Policy (GDPR & UAE PDPL)": {
+    "AR": "سياسة الخصوصية (GDPR و PDPL)",
+    "DE": "Datenschutz (DSGVO & VAE PDPL)",
+    "FR": "Confidentialité (RGPD & PDPL)",
+    "ES": "Privacidad (RGPD y PDPL EAU)",
+    "RU": "Политика конфиденциальности (GDPR и PDPL)",
+    "UR": "رازداری کی پالیسی (GDPR اور PDPL)",
+    "TR": "Gizlilik Politikası (GDPR & PDPL)",
+    "ZH": "隐私政策（GDPR 与阿联酋 PDPL）"
+  },
+  "Terms & RERA Form I Disclosure": {
+    "AR": "الشروط وإفصاح نموذج RERA I",
+    "DE": "AGB & RERA Form-I-Offenlegung",
+    "FR": "Conditions & RERA Form I",
+    "ES": "Términos y Formulario RERA I",
+    "RU": "Условия и раскрытие RERA Form I",
+    "UR": "شرائط اور RERA فارم I",
+    "TR": "Şartlar & RERA Form I",
+    "ZH": "服务条款与 RERA Form I 披露"
+  },
+  "DLD Escrow (Law 8/2007) & AML": {
+    "AR": "ضمان DLD (قانون 8/2007) ومكافحة غسل الأموال",
+    "DE": "DLD-Treuhand (Gesetz 8/2007) & AML",
+    "FR": "Séquestre DLD (Loi 8/2007) & LCB-FT",
+    "ES": "Escrow DLD (Ley 8/2007) y AML",
+    "RU": "Эскроу DLD (Закон 8/2007) и AML",
+    "UR": "DLD ایسکرو (قانون 8/2007) اور AML",
+    "TR": "DLD Emanet (Yasa 8/2007) & AML",
+    "ZH": "DLD 托管（2007年第8号法）与反洗钱"
+  },
+  "Anti-Circumvention (DIFC SCT)": {
+    "AR": "منع الالتفاف (محكمة DIFC)",
+    "DE": "Umgehungsschutz (DIFC SCT)",
+    "FR": "Anti-contournement (DIFC SCT)",
+    "ES": "Anti-Elusión (DIFC SCT)",
+    "RU": "Защита от обхода (DIFC SCT)",
+    "UR": "اینٹی سرکمونشن (DIFC SCT)",
+    "TR": "Devre Dışı Bırakma Koruması (DIFC)",
+    "ZH": "防跳单条款 (DIFC SCT)"
+  },
+  "Data Rights / Directory Opt-Out": {
+    "AR": "حقوق البيانات / الانسحاب من الدليل",
+    "DE": "Datenrechte / Opt-Out",
+    "FR": "Droits des données / Retrait",
+    "ES": "Derechos de Datos / Baja",
+    "RU": "Права на данные / Удаление",
+    "UR": "ڈیٹا حقوق / ڈائریکٹری آپٹ آؤٹ",
+    "TR": "Veri Hakları / Dizin Çıkışı",
+    "ZH": "数据权利 / 名录退出"
+  },
+  "© 2026 AI Home Global. All rights reserved. Exclusively for accredited international real estate professionals outside the UAE.": {
+    "AR": "© 2026 AI Home Global. جميع الحقوق محفوظة. حصرياً للمتخصصين العقاريين الدوليين المعتمدين خارج الإمارات.",
+    "DE": "© 2026 AI Home Global. Alle Rechte vorbehalten. Ausschließlich für akkreditierte internationale Immobilienprofis außerhalb der VAE.",
+    "FR": "© 2026 AI Home Global. Tous droits réservés. Exclusivement pour les professionnels internationaux agréés hors ÉAU.",
+    "ES": "© 2026 AI Home Global. Todos los derechos reservados. Exclusivo para profesionales inmobiliarios acreditados fuera de EAU.",
+    "RU": "© 2026 AI Home Global. Все права защищены. Исключительно для аккредитованных международных брокеров вне ОАЭ.",
+    "UR": "© 2026 AI Home Global. جملہ حقوق محفوظ ہیں۔ خصوصی طور پر یو اے ای سے باہر بین الاقوامی رئیل اسٹیٹ ماہرین کے لیے۔",
+    "TR": "© 2026 AI Home Global. Tüm hakları saklıdır. Yalnızca BAE dışındaki akredite uluslararası emlak profesyonelleri içindir.",
+    "ZH": "© 2026 AI Home Global. 保留所有权利。仅限阿联酋境外的认证国际房地产专业人士使用。"
+  },
+  "Encrypted 256-Bit SSL": {
+    "AR": "تشفير SSL 256-بت",
+    "DE": "256-Bit-SSL-verschlüsselt",
+    "FR": "Crypté SSL 256 bits",
+    "ES": "Cifrado SSL 256-Bit",
+    "RU": "Шифрование SSL 256-бит",
+    "UR": "256-بٹ SSL انکرپٹڈ",
+    "TR": "256-Bit SSL Şifreli",
+    "ZH": "256位 SSL 加密"
+  },
+  "DLD Regulated Master Escrow": {
+    "AR": "حساب ضمان رئيسي منظم من DLD",
+    "DE": "DLD-reguliertes Master-Treuhandkonto",
+    "FR": "Séquestre Master régulé DLD",
+    "ES": "Escrow Maestro Regulado DLD",
+    "RU": "Мастер-эскроу под контролем DLD",
+    "UR": "DLD ریگولیٹڈ ماسٹر ایسکرو",
+    "TR": "DLD Denetimli Ana Emanet",
+    "ZH": "DLD 监管主托管账户"
+  },
+  "ISO 27001 Certified Data": {
+    "AR": "بيانات معتمدة ISO 27001",
+    "DE": "ISO 27001 zertifiziert",
+    "FR": "Données certifiées ISO 27001",
+    "ES": "Datos Certificados ISO 27001",
+    "RU": "Сертификация ISO 27001",
+    "UR": "ISO 27001 تصدیق شدہ ڈیٹا",
+    "TR": "ISO 27001 Sertifikalı Veri",
+    "ZH": "ISO 27001 认证数据安全"
+  },
+  "Lock in your 90-day exclusive commission rights with master DLD escrow timestamping. Developers are contractually prohibited from bypassing you.": {
+    "AR": "احفظ حقوق عمولتك الحصرية لمدة 90 يوماً بختم زمني من DLD. يُحظر على المطورين تجاوزك تعاقدياً.",
+    "DE": "Sichern Sie sich 90 Tage exklusive Provisionsrechte mit DLD-Zeitstempel. Bauträger dürfen Sie vertraglich nicht umgehen.",
+    "FR": "Verrouillez vos droits à commission exclusifs pendant 90 jours avec horodatage DLD. Contournement interdit.",
+    "ES": "Asegura tus derechos de comisión exclusivos por 90 días con sello DLD. Prohibido el puenteo contractual.",
+    "RU": "Зафиксируйте эксклюзивное право на комиссию на 90 дней с отметкой DLD. Застройщикам запрещено обходить вас.",
+    "UR": "DLD ٹائم اسٹیمپ کے ساتھ 90 دن کے خصوصی کمیشن حقوق محفوظ کریں۔",
+    "TR": "DLD zaman damgası ile 90 günlük özel komisyon haklarınızı kilitleyin. Geliştiriciler sizi devre dışı bırakamaz.",
+    "ZH": "通过 DLD 主托管时间戳锁定 90 天独家佣金权，合同禁止开发商跳单。"
+  },
+  "Your Overseas Agency:": {
+    "AR": "وكالتك الدولية:",
+    "DE": "Ihre Auslandsagentur:",
+    "FR": "Votre agence étrangère :",
+    "ES": "Tu Agencia Internacional:",
+    "RU": "Ваше зарубежное агентство:",
+    "UR": "آپ کی بیرون ملک ایجنسی:",
+    "TR": "Yurt Dışı Ajansınız:",
+    "ZH": "您的海外机构名称："
+  },
+  "Your Email (Commission Payouts):": {
+    "AR": "بريدك الإلكتروني (لتحويل العمولات):",
+    "DE": "Ihre E-Mail (Auszahlungen):",
+    "FR": "Votre e-mail (Paiements) :",
+    "ES": "Tu Email (Pagos de Comisión):",
+    "RU": "Ваш Email (для выплат):",
+    "UR": "آپ کی ای میل (کمیشن ادائیگی):",
+    "TR": "E-postanız (Komisyon Ödemeleri):",
+    "ZH": "您的邮箱（用于佣金结算）："
+  },
+  "Client Full Name:": {
+    "AR": "الاسم الكامل للعميل:",
+    "DE": "Vollständiger Kundenname:",
+    "FR": "Nom complet du client :",
+    "ES": "Nombre Completo del Cliente:",
+    "RU": "ФИО клиента:",
+    "UR": "کلائنٹ کا پورا نام:",
+    "TR": "Müşteri Tam Adı:",
+    "ZH": "客户全名："
+  },
+  "Passport (Last 4 Digits):": {
+    "AR": "جواز السفر (آخر 4 أرقام):",
+    "DE": "Reisepass (letzte 4 Ziffern):",
+    "FR": "Passeport (4 derniers chiffres) :",
+    "ES": "Pasaporte (Últimos 4 Dígitos):",
+    "RU": "Паспорт (последние 4 цифры):",
+    "UR": "پاسپورٹ (آخری 4 ہندسے):",
+    "TR": "Pasaport (Son 4 Hane):",
+    "ZH": "护照号（末 4 位）："
+  },
+  "Client Country of Residence:": {
+    "AR": "بلد إقامة العميل:",
+    "DE": "Wohnsitzland des Kunden:",
+    "FR": "Pays de résidence du client :",
+    "ES": "País de Residencia:",
+    "RU": "Страна проживания клиента:",
+    "UR": "کلائنٹ کی رہائش کا ملک:",
+    "TR": "Müşterinin İkamet Ülkesi:",
+    "ZH": "客户居住国："
+  },
+  "Project of Interest or Strategy:": {
+    "AR": "المشروع المطلوب أو الاستراتيجية:",
+    "DE": "Wunschprojekt oder Strategie:",
+    "FR": "Projet ou stratégie d'intérêt :",
+    "ES": "Proyecto o Estrategia de Interés:",
+    "RU": "Интересующий проект или стратегия:",
+    "UR": "مطلوبہ پروجیکٹ یا حکمت عملی:",
+    "TR": "İlgilenilen Proje veya Strateji:",
+    "ZH": "意向项目或投资策略："
+  },
+  "Register Another": {
+    "AR": "تسجيل عميل آخر",
+    "DE": "Weiteren registrieren",
+    "FR": "Enregistrer un autre",
+    "ES": "Registrar Otro",
+    "RU": "Зарегистрировать ещё",
+    "UR": "ایک اور رجسٹر کریں",
+    "TR": "Başka Kaydet",
+    "ZH": "继续登记"
+  },
+  "A-to-Z Global UAE Off-Plan Deal Workflow": {
+    "AR": "سير عمل صفقات الإمارات العالمية من الألف إلى الياء",
+    "DE": "A-bis-Z Globaler VAE Off-Plan-Workflow",
+    "FR": "Flux complet de transaction VEFA ÉAU de A à Z",
+    "ES": "Flujo Completo de Operación sobre Plano EAU A-Z",
+    "RU": "Полный процесс сделки с новостройкой ОАЭ от А до Я",
+    "UR": "یو اے ای آف پلان ڈیل کا مکمل طریقہ کار",
+    "TR": "A'dan Z'ye Küresel BAE Lansman İş Akışı",
+    "ZH": "阿联酋期房全球交易全流程（A 到 Z）"
+  },
+  "EXPLAINER VIDEO": {
+    "AR": "فيديو الشرح",
+    "DE": "ERKLÄRVIDEO",
+    "FR": "VIDÉO EXPLICATIVE",
+    "ES": "VIDEO EXPLICATIVO",
+    "RU": "ОБЪЯСНЯЮЩЕЕ ВИДЕО",
+    "UR": "وضاحتی ویڈیو",
+    "TR": "TANITIM VİDEOSU",
+    "ZH": "流程解说视频"
+  },
+  "How Buyer, Overseas Agent, UAE RERA Agency & DLD/Portal close safely without circumvention": {
+    "AR": "كيف يغلق المشتري والوسيط الدولي ووكالة الإمارات الصفقة بأمان دون التفاف",
+    "DE": "Wie Käufer, Auslandsmakler, VAE-RERA-Agentur & Portal sicher abschließen",
+    "FR": "Comment acheteur, agent étranger et agence RERA concluent en toute sécurité",
+    "ES": "Cómo cierran de forma segura comprador, agente extranjero y agencia RERA",
+    "RU": "Как покупатель, зарубежный брокер и агентство RERA безопасно закрывают сделку",
+    "UR": "خریدار، بیرون ملک ایجنٹ اور یو اے ای RERA ایجنسی محفوظ طریقے سے ڈیل کیسے مکمل کرتے ہیں",
+    "TR": "Alıcı, Yurt Dışı Danışman ve BAE RERA Ajansı nasıl güvenle işlem kapatır",
+    "ZH": "买家、海外经纪人、阿联酋 RERA 机构与平台如何安全成交并杜绝跳单"
+  },
+  "Open Live Direct Contract →": {
+    "AR": "افتح العقد المباشر ←",
+    "DE": "Direktvertrag öffnen →",
+    "FR": "Ouvrir le contrat direct →",
+    "ES": "Abrir Contrato Directo →",
+    "RU": "Открыть прямой контракт →",
+    "UR": "براہ راست معاہدہ کھولیں →",
+    "TR": "Canlı Doğrudan Sözleşmeyi Aç →",
+    "ZH": "打开实时直连合约 →"
+  },
+  "Acknowledge & Close": {
+    "AR": "إقرار وإغلاق",
+    "DE": "Bestätigen & Schließen",
+    "FR": "Confirmer & Fermer",
+    "ES": "Confirmar y Cerrar",
+    "RU": "Принять и закрыть",
+    "UR": "تسلیم کریں اور بند کریں",
+    "TR": "Onayla ve Kapat",
+    "ZH": "确认并关闭"
+  },
+  "Direct Digital Contract + Payment Proof Gate (0% Portal Cut · No DLD Intervention)": {
+    "AR": "العقد الرقمي المباشر + بوابة إثبات الدفع (0% عمولة بوابة · دون تدخل DLD)",
+    "DE": "Digitaler Direktvertrag + Zahlungsnachweis-Gate (0% Portalanteil)",
+    "FR": "Contrat numérique direct + Preuve de paiement (0% frais portail)",
+    "ES": "Contrato Digital Directo + Comprobante de Pago (0% Comisión Portal)",
+    "RU": "Прямой цифровой контракт + Проверка оплаты (0% комиссия портала)",
+    "UR": "براہ راست ڈیجیٹل معاہدہ + ادائیگی کا ثبوت گیٹ (0% پورٹل کٹ)",
+    "TR": "Doğrudan Dijital Sözleşme + Ödeme Kanıtı Kapısı (%0 Portal Payı)",
+    "ZH": "直连电子合约 + 付款凭证核验网关（0% 平台抽成）"
+  },
+  "Direct Commission Split (100% to Parties · 0% Portal)": {
+    "AR": "تقسيم العمولة المباشر (100% للأطراف · 0% للبوابة)",
+    "DE": "Direkte Provisionsteilung (100% an Parteien · 0% Portal)",
+    "FR": "Partage direct des commissions (100% aux parties · 0% portail)",
+    "ES": "Reparto Directo de Comisión (100% a las Partes · 0% Portal)",
+    "RU": "Прямой сплит комиссии (100% сторонам · 0% порталу)",
+    "UR": "براہ راست کمیشن تقسیم (100% فریقین کو · 0% پورٹل)",
+    "TR": "Doğrudan Komisyon Paylaşımı (%100 Taraflara · %0 Portal)",
+    "ZH": "直接佣金分配（100% 归双方 · 0% 平台）"
+  },
+  "Property Value (AED)": {
+    "AR": "قيمة العقار (درهم)",
+    "DE": "Immobilienwert (AED)",
+    "FR": "Valeur du bien (AED)",
+    "ES": "Valor del Inmueble (AED)",
+    "RU": "Стоимость объекта (AED)",
+    "UR": "پراپرٹی کی قیمت (AED)",
+    "TR": "Mülk Değeri (AED)",
+    "ZH": "房产价值 (AED)"
+  },
+  "Gross Dev Comm (%)": {
+    "AR": "إجمالي عمولة المطور (%)",
+    "DE": "Brutto-Provision (%)",
+    "FR": "Comm. brute promoteur (%)",
+    "ES": "Comisión Bruta (%)",
+    "RU": "Комиссия застройщика (%)",
+    "UR": "مجموعی ڈویلپر کمیشن (%)",
+    "TR": "Brüt Geliştirici Komisyonu (%)",
+    "ZH": "开发商总佣金 (%)"
+  },
+  "Overseas Partner (% of Gross)": {
+    "AR": "الشريك الدولي (% من الإجمالي)",
+    "DE": "Auslandspartner (% Brutto)",
+    "FR": "Partenaire étranger (% brut)",
+    "ES": "Socio Extranjero (% Bruto)",
+    "RU": "Зарубежный партнёр (%)",
+    "UR": "بیرون ملک پارٹنر (%)",
+    "TR": "Yurt Dışı Partner (%)",
+    "ZH": "海外合作方比例 (%)"
+  },
+  "UAE RERA Seller (% of Gross)": {
+    "AR": "البائع المرخص بالإمارات (%)",
+    "DE": "VAE RERA-Verkäufer (%)",
+    "FR": "Vendeur RERA ÉAU (%)",
+    "ES": "Vendedor RERA EAU (%)",
+    "RU": "Продавец RERA ОАЭ (%)",
+    "UR": "یو اے ای RERA سیلر (%)",
+    "TR": "BAE RERA Satıcı (%)",
+    "ZH": "阿联酋 RERA 卖方比例 (%)"
+  },
+  "Digital Signing & Payment Proof Gate": {
+    "AR": "بوابة التوقيع الرقمي وإثبات الدفع",
+    "DE": "Digitale Signatur & Zahlungsnachweis",
+    "FR": "Signature numérique & Preuve de paiement",
+    "ES": "Firma Digital y Comprobante de Pago",
+    "RU": "Цифровая подпись и проверка оплаты",
+    "UR": "ڈیجیٹل دستخط اور ادائیگی کا ثبوت گیٹ",
+    "TR": "Dijital İmza & Ödeme Kanıtı Kapısı",
+    "ZH": "电子签约与付款凭证核验"
+  },
+  "Overseas Partner": {
+    "AR": "الشريك الدولي",
+    "DE": "Auslandspartner",
+    "FR": "Partenaire étranger",
+    "ES": "Socio Extranjero",
+    "RU": "Зарубежный партнёр",
+    "UR": "بیرون ملک پارٹنر",
+    "TR": "Yurt Dışı Partner",
+    "ZH": "海外合作方"
+  },
+  "UAE RERA Seller": {
+    "AR": "البائع الإماراتي RERA",
+    "DE": "VAE RERA-Verkäufer",
+    "FR": "Vendeur RERA ÉAU",
+    "ES": "Vendedor RERA EAU",
+    "RU": "Продавец RERA ОАЭ",
+    "UR": "یو اے ای RERA سیلر",
+    "TR": "BAE RERA Satıcı",
+    "ZH": "阿联酋 RERA 卖方"
+  },
+  "1. Sign Overseas": {
+    "AR": "1. توقيع الشريك الدولي",
+    "DE": "1. Ausland signieren",
+    "FR": "1. Signer (Étranger)",
+    "ES": "1. Firmar Extranjero",
+    "RU": "1. Подпись зарубежного",
+    "UR": "1. بیرون ملک دستخط",
+    "TR": "1. Yurt Dışı İmzala",
+    "ZH": "1. 海外方签署"
+  },
+  "2. Sign UAE Seller": {
+    "AR": "2. توقيع البائع الإماراتي",
+    "DE": "2. VAE-Verkäufer signieren",
+    "FR": "2. Signer (Vendeur ÉAU)",
+    "ES": "2. Firmar Vendedor EAU",
+    "RU": "2. Подпись продавца ОАЭ",
+    "UR": "2. یو اے ای سیلر دستخط",
+    "TR": "2. BAE Satıcı İmzala",
+    "ZH": "2. 阿联酋卖方签署"
+  },
+  "Pay Card ($250+)": {
+    "AR": "دفع بالبطاقة ($250+)",
+    "DE": "Karte zahlen ($250+)",
+    "FR": "Payer par carte ($250+)",
+    "ES": "Pagar Tarjeta ($250+)",
+    "RU": "Оплатить картой ($250+)",
+    "UR": "کارڈ ادائیگی ($250+)",
+    "TR": "Kartla Öde ($250+)",
+    "ZH": "银行卡支付 ($250+)"
+  },
+  "Upload Wire Proof": {
+    "AR": "رفع إثبات التحويل",
+    "DE": "Überweisungsbeleg hochladen",
+    "FR": "Téléverser preuve virement",
+    "ES": "Subir Comprobante",
+    "RU": "Загрузить платёжку",
+    "UR": "وائر پروف اپ لوڈ کریں",
+    "TR": "Havale Dekontu Yükle",
+    "ZH": "上传汇款凭证"
+  },
+  "✓ Verify Uploaded Payment Proof & Unlock Contacts": {
+    "AR": "✓ التحقق من إثبات الدفع وفتح جهات الاتصال",
+    "DE": "✓ Nachweis prüfen & Kontakte freischalten",
+    "FR": "✓ Vérifier la preuve & débloquer les contacts",
+    "ES": "✓ Verificar Comprobante y Abrir Contactos",
+    "RU": "✓ Проверить чек и открыть контакты",
+    "UR": "✓ ثبوت کی تصدیق کریں اور رابطے کھولیں",
+    "TR": "✓ Dekontu Doğrula & İletişimi Aç",
+    "ZH": "✓ 核验凭证并解锁联系方式"
+  },
+  "Download Contract & Payment Proof (.txt)": {
+    "AR": "تحميل العقد وإثبات الدفع (.txt)",
+    "DE": "Vertrag & Nachweis laden (.txt)",
+    "FR": "Télécharger contrat & preuve (.txt)",
+    "ES": "Descargar Contrato y Comprobante (.txt)",
+    "RU": "Скачать контракт и чек (.txt)",
+    "UR": "معاہدہ اور ثبوت ڈاؤن لوڈ کریں (.txt)",
+    "TR": "Sözleşme & Dekont İndir (.txt)",
+    "ZH": "下载合约及付款凭证 (.txt)"
+  },
+  "Done": {
+    "AR": "تم",
+    "DE": "Fertig",
+    "FR": "Terminé",
+    "ES": "Listo",
+    "RU": "Готово",
+    "UR": "مکمل",
+    "TR": "Tamam",
+    "ZH": "完成"
+  },
+  "Multi-Jurisdictional Legal & Compliance Center": {
+    "AR": "مركز الامتثال القانوني متعدد الولايات القضائية",
+    "DE": "Multi-Jurisdiktionales Rechts- & Compliance-Center",
+    "FR": "Centre juridique & conformité multi-juridictions",
+    "ES": "Centro Legal y de Cumplimiento Multijurisdicción",
+    "RU": "Центр международного права и комплаенса",
+    "UR": "کثیر القومی قانونی و تعمیل مرکز",
+    "TR": "Çoklu Yargı Hukuk ve Uyum Merkezi",
+    "ZH": "多司法管辖区法律与合规中心"
+  },
+  "Submit Request": {
+    "AR": "إرسال الطلب",
+    "DE": "Anfrage senden",
+    "FR": "Envoyer la demande",
+    "ES": "Enviar Solicitud",
+    "RU": "Отправить запрос",
+    "UR": "درخواست جمع کروائیں",
+    "TR": "Talebi Gönder",
+    "ZH": "提交请求"
+  },
+  "Mass WhatsApp & Email Broadcast Hub": {
+    "AR": "مركز البث الجماعي عبر واتساب والبريد الإلكتروني",
+    "DE": "Massen-WhatsApp- & E-Mail-Versandhub",
+    "FR": "Centre de diffusion massive WhatsApp & E-mail",
+    "ES": "Centro de Difusión Masiva WhatsApp y Email",
+    "RU": "Центр массовой рассылки WhatsApp и Email",
+    "UR": "ماس واٹس ایپ اور ای میل براڈکاسٹ ہب",
+    "TR": "Toplu WhatsApp ve E-posta Yayın Merkezi",
+    "ZH": "WhatsApp 与邮件群发中心"
+  },
+  "1. Load Verified Overseas Recipients": {
+    "AR": "1. تحميل المستلمين الدوليين الموثقين",
+    "DE": "1. Verifizierte Auslandsempfänger laden",
+    "FR": "1. Charger les destinataires vérifiés",
+    "ES": "1. Cargar Destinatarios Verificados",
+    "RU": "1. Загрузить проверенных получателей",
+    "UR": "1. تصدیق شدہ وصول کنندگان لوڈ کریں",
+    "TR": "1. Doğrulanmış Alıcıları Yükle",
+    "ZH": "1. 加载已核验海外收件人"
+  },
+  "2. Send Campaign (/api/broadcast)": {
+    "AR": "2. إرسال الحملة (/api/broadcast)",
+    "DE": "2. Kampagne senden (/api/broadcast)",
+    "FR": "2. Envoyer la campagne (/api/broadcast)",
+    "ES": "2. Enviar Campaña (/api/broadcast)",
+    "RU": "2. Запустить рассылку (/api/broadcast)",
+    "UR": "2. مہم بھیجیں (/api/broadcast)",
+    "TR": "2. Kampanyayı Gönder (/api/broadcast)",
+    "ZH": "2. 发送推广活动 (/api/broadcast)"
+  },
+  "3. Next WhatsApp (wa.me Queue)": {
+    "AR": "3. التالي في واتساب (قائمة wa.me)",
+    "DE": "3. Nächster WhatsApp (wa.me-Liste)",
+    "FR": "3. WhatsApp suivant (file wa.me)",
+    "ES": "3. Siguiente WhatsApp (Cola wa.me)",
+    "RU": "3. Следующий WhatsApp (очередь)",
+    "UR": "3. اگلا واٹس ایپ (wa.me قطار)",
+    "TR": "3. Sıradaki WhatsApp (wa.me)",
+    "ZH": "3. 下一条 WhatsApp (wa.me 队列)"
+  },
+  "Export Campaign CSV": {
+    "AR": "تصدير الحملة CSV",
+    "DE": "Kampagne als CSV exportieren",
+    "FR": "Exporter campagne CSV",
+    "ES": "Exportar Campaña CSV",
+    "RU": "Экспорт кампании CSV",
+    "UR": "مہم CSV ایکسپورٹ کریں",
+    "TR": "Kampanyayı CSV Aktar",
+    "ZH": "导出活动数据 CSV"
+  },
+  "Clerk SSO · Partner Network · GDPR Art. 6 & UAE PDPL": {
+    "AR": "تسجيل Clerk الموحد · شبكة الشركاء · GDPR و PDPL",
+    "DE": "Clerk SSO · Partnernetzwerk · DSGVO & VAE PDPL",
+    "FR": "Clerk SSO · Réseau Partenaires · RGPD & PDPL",
+    "ES": "Clerk SSO · Red de Socios · RGPD y PDPL",
+    "RU": "Clerk SSO · Партнёрская сеть · GDPR и PDPL",
+    "UR": "Clerk SSO · پارٹنر نیٹ ورک · GDPR اور PDPL",
+    "TR": "Clerk SSO · Partner Ağı · GDPR & BAE PDPL",
+    "ZH": "Clerk 单点登录 · 合作网络 · GDPR 与阿联酋 PDPL"
+  },
+  "Sign In & Partner Network Onboarding": {
+    "AR": "تسجيل الدخول والانضمام لشبكة الشركاء",
+    "DE": "Anmeldung & Partner-Netzwerk-Onboarding",
+    "FR": "Connexion & Intégration Réseau Partenaire",
+    "ES": "Inicio de Sesión y Registro en la Red de Socios",
+    "RU": "Вход и регистрация в партнёрской сети",
+    "UR": "سائن ان اور پارٹنر نیٹ ورک آن بورڈنگ",
+    "TR": "Giriş Yap & Partner Ağına Katıl",
+    "ZH": "登录与合作网络入驻"
+  },
+  "Sign in with Clerk or join the international partner network — complete your profile, Co-Brokerage Contract, and Marketing Consent in one unified flow.": {
+    "AR": "سجل الدخول عبر Clerk أو انضم لشبكة الشركاء الدوليين — أكمل ملفك وعقد الوساطة المشتركة وموافقة التسويق في خطوة واحدة.",
+    "DE": "Melden Sie sich mit Clerk an oder treten Sie dem Partnernetzwerk bei — Profil, Maklervertrag & Einwilligung in einem Schritt.",
+    "FR": "Connectez-vous avec Clerk ou rejoignez le réseau — profil, contrat de co-courtage et consentement en un flux unifié.",
+    "ES": "Inicia sesión con Clerk o únete a la red — completa perfil, contrato de co-corretaje y consentimiento en un flujo.",
+    "RU": "Войдите через Clerk или присоединитесь к сети — профиль, договор и согласие в одном едином окне.",
+    "UR": "Clerk کے ساتھ سائن ان کریں یا پارٹنر نیٹ ورک جوائن کریں — پروفائل، معاہدہ اور رضامندی ایک ہی مرحلے میں مکمل کریں۔",
+    "TR": "Clerk ile giriş yapın veya partner ağına katılın — profil, sözleşme ve onayı tek akışta tamamlayın.",
+    "ZH": "使用 Clerk 登录或加入国际合作网络——在一个统一流程中完成个人资料、联合经纪合约与合规授权。"
+  },
+  "Sign In / Sign Up with Clerk": {
+    "AR": "تسجيل الدخول / حساب جديد عبر Clerk",
+    "DE": "Mit Clerk anmelden / registrieren",
+    "FR": "Connexion / Inscription avec Clerk",
+    "ES": "Iniciar Sesión / Registrarse con Clerk",
+    "RU": "Войти / Регистрация через Clerk",
+    "UR": "Clerk کے ساتھ سائن ان / سائن اپ کریں",
+    "TR": "Clerk ile Giriş / Kayıt Ol",
+    "ZH": "使用 Clerk 登录 / 注册"
+  },
+  "Full Name *": {
+    "AR": "الاسم الكامل *",
+    "DE": "Vollständiger Name *",
+    "FR": "Nom complet *",
+    "ES": "Nombre Completo *",
+    "RU": "Полное имя *",
+    "UR": "پورا نام *",
+    "TR": "Tam Ad *",
+    "ZH": "全名 *"
+  },
+  "Work / Personal Email *": {
+    "AR": "البريد الإلكتروني للعمل / الشخصي *",
+    "DE": "Geschäfts- / Privat-E-Mail *",
+    "FR": "E-mail professionnel / personnel *",
+    "ES": "Correo Laboral / Personal *",
+    "RU": "Рабочий / личный Email *",
+    "UR": "ورک / ذاتی ای میل *",
+    "TR": "İş / Kişisel E-posta *",
+    "ZH": "工作 / 个人邮箱 *"
+  },
+  "WhatsApp / Mobile (E.164) *": {
+    "AR": "واتساب / الجوال (E.164) *",
+    "DE": "WhatsApp / Mobil (E.164) *",
+    "FR": "WhatsApp / Mobile (E.164) *",
+    "ES": "WhatsApp / Móvil (E.164) *",
+    "RU": "WhatsApp / Мобильный (E.164) *",
+    "UR": "واٹس ایپ / موبائل (E.164) *",
+    "TR": "WhatsApp / Cep (E.164) *",
+    "ZH": "WhatsApp / 手机号 (E.164) *"
+  },
+  "Portal Role *": {
+    "AR": "الدور في المنصة *",
+    "DE": "Portal-Rolle *",
+    "FR": "Rôle sur le portail *",
+    "ES": "Rol en el Portal *",
+    "RU": "Роль на портале *",
+    "UR": "پورٹل کردار *",
+    "TR": "Portal Rolü *",
+    "ZH": "平台角色 *"
+  },
+  "Overseas Agency / International Broker": {
+    "AR": "وكالة دولية / وسيط خارج الإمارات",
+    "DE": "Auslandsagentur / Internationaler Makler",
+    "FR": "Agence étrangère / Courtier international",
+    "ES": "Agencia Extranjera / Agente Internacional",
+    "RU": "Зарубежное агентство / брокер",
+    "UR": "بیرون ملک ایجنسی / انٹرنیشنل بروکر",
+    "TR": "Yurt Dışı Ajans / Uluslararası Danışman",
+    "ZH": "海外机构 / 国际经纪人"
+  },
+  "UAE RERA Seller / Developer": {
+    "AR": "بائع مرخص بالإمارات / مطور",
+    "DE": "VAE RERA-Verkäufer / Bauträger",
+    "FR": "Vendeur RERA ÉAU / Promoteur",
+    "ES": "Vendedor RERA EAU / Desarrollador",
+    "RU": "Продавец RERA ОАЭ / Застройщик",
+    "UR": "یو اے ای RERA سیلر / ڈویلپر",
+    "TR": "BAE RERA Satıcı / Geliştirici",
+    "ZH": "阿联酋 RERA 卖方 / 开发商"
+  },
+  "Private Investor / Direct Buyer": {
+    "AR": "مستثمر خاص / مشتري مباشر",
+    "DE": "Privatinvestor / Direktkäufer",
+    "FR": "Investisseur privé / Acheteur direct",
+    "ES": "Inversor Privado / Comprador Directo",
+    "RU": "Частный инвестор / Покупатель",
+    "UR": "پرائیویٹ انویسٹر / براہ راست خریدار",
+    "TR": "Özel Yatırımcı / Doğrudan Alıcı",
+    "ZH": "私人投资者 / 直接买家"
+  },
+  "Company / Agency Name *": {
+    "AR": "اسم الشركة / الوكالة *",
+    "DE": "Firmen- / Agenturname *",
+    "FR": "Nom de l'entreprise / agence *",
+    "ES": "Nombre de Empresa / Agencia *",
+    "RU": "Название компании / агентства *",
+    "UR": "کمپنی / ایجنسی کا نام *",
+    "TR": "Şirket / Ajans Adı *",
+    "ZH": "公司 / 机构名称 *"
+  },
+  "Country & City *": {
+    "AR": "الدولة والمدينة *",
+    "DE": "Land & Stadt *",
+    "FR": "Pays & Ville *",
+    "ES": "País y Ciudad *",
+    "RU": "Страна и город *",
+    "UR": "ملک اور شہر *",
+    "TR": "Ülke & Şehir *",
+    "ZH": "国家与城市 *"
+  },
+  "RERA ORN / BRN or Overseas License Number (Optional)": {
+    "AR": "رقم رخصة ريرا ORN/BRN أو الرخصة الدولية (اختياري)",
+    "DE": "RERA ORN / BRN oder Auslandslizenz (Optional)",
+    "FR": "N° RERA ORN / BRN ou licence étrangère (Optionnel)",
+    "ES": "Licencia RERA ORN/BRN o Extranjera (Opcional)",
+    "RU": "Номер лицензии RERA ORN/BRN или зарубежной (опц.)",
+    "UR": "RERA ORN/BRN یا بیرون ملک لائسنس نمبر (اختیاری)",
+    "TR": "RERA ORN / BRN veya Yurt Dışı Lisans No (İsteğe Bağlı)",
+    "ZH": "RERA ORN / BRN 或海外牌照号（选填）"
+  },
+  "1. Terms & Conditions": {
+    "AR": "1. الشروط والأحكام",
+    "DE": "1. Allgemeine Geschäftsbedingungen",
+    "FR": "1. Conditions générales",
+    "ES": "1. Términos y Condiciones",
+    "RU": "1. Условия использования",
+    "UR": "1. شرائط و ضوابط",
+    "TR": "1. Şartlar ve Koşullar",
+    "ZH": "1. 服务条款与条件"
+  },
+  "2. Co-Brokerage Contract": {
+    "AR": "2. عقد الوساطة المشتركة",
+    "DE": "2. Co-Maklervertrag",
+    "FR": "2. Contrat de co-courtage",
+    "ES": "2. Contrato de Co-Corretaje",
+    "RU": "2. Договор о совместной продаже",
+    "UR": "2. مشترکہ بروکریج معاہدہ",
+    "TR": "2. Ortak Aracılık Sözleşmesi",
+    "ZH": "2. 联合经纪合约"
+  },
+  "3. Privacy & Marketing (GDPR/PDPL)": {
+    "AR": "3. الخصوصية والتسويق (GDPR/PDPL)",
+    "DE": "3. Datenschutz & Marketing (DSGVO/PDPL)",
+    "FR": "3. Confidentialité & Marketing (RGPD/PDPL)",
+    "ES": "3. Privacidad y Marketing (RGPD/PDPL)",
+    "RU": "3. Конфиденциальность и маркетинг (GDPR/PDPL)",
+    "UR": "3. رازداری اور مارکیٹنگ (GDPR/PDPL)",
+    "TR": "3. Gizlilik ve Pazarlama (GDPR/PDPL)",
+    "ZH": "3. 隐私与营销授权 (GDPR/PDPL)"
+  },
+  "Withdraw Marketing / Erase Local Profile (GDPR Art. 17)": {
+    "AR": "سحب الموافقة / مسح الملف المحلي (GDPR Art. 17)",
+    "DE": "Einwilligung widerrufen / Profil löschen (DSGVO Art. 17)",
+    "FR": "Retirer le consentement / Effacer le profil (RGPD Art. 17)",
+    "ES": "Retirar Consentimiento / Borrar Perfil (RGPD Art. 17)",
+    "RU": "Отозвать согласие / Удалить профиль (GDPR ст. 17)",
+    "UR": "مارکیٹنگ واپس لیں / پروفائل مٹائیں (GDPR Art. 17)",
+    "TR": "Onayı Geri Çek / Profili Sil (GDPR Madde 17)",
+    "ZH": "撤回授权 / 删除本地档案 (GDPR 第17条)"
+  },
+  "Save Verified Profile & Sign Consent": {
+    "AR": "حفظ الملف الموثق وتوقيع الموافقة",
+    "DE": "Verifiziertes Profil speichern & zustimmen",
+    "FR": "Enregistrer le profil & signer",
+    "ES": "Guardar Perfil Verificado y Firmar",
+    "RU": "Сохранить профиль и подписать согласие",
+    "UR": "تصدیق شدہ پروفائل محفوظ کریں اور سائن کریں",
+    "TR": "Doğrulanmış Profili Kaydet ve İmzala",
+    "ZH": "保存核验档案并签署同意书"
+  },
+  "Send Branded UAE Decks": {
+    "AR": "أرسل عروض الإمارات بعلامتك",
+    "DE": "Senden Sie gebrandete VAE-Decks",
+    "FR": "Envoyez des dossiers ÉAU à votre marque",
+    "ES": "Envía Dossiers de EAU con Tu Marca",
+    "RU": "Отправляйте презентации ОАЭ",
+    "UR": "اپنے برانڈ کے ساتھ یو اے ای ڈیک بھیجیں",
+    "TR": "Markalı BAE Sunumları Gönderin",
+    "ZH": "发送您自有品牌的阿联酋推介书"
+  },
+  "Take Overseas Clients on": {
+    "AR": "اصطحب عملاءك الدوليين في",
+    "DE": "Nehmen Sie Auslandskunden mit auf",
+    "FR": "Emmenez vos clients étrangers en",
+    "ES": "Lleva a Tus Clientes Extranjeros a",
+    "RU": "Проводите зарубежным клиентам",
+    "UR": "بیرون ملک کلائنٹس کو لے جائیں",
+    "TR": "Yurt Dışı Müşterilerinizi Çıkarın",
+    "ZH": "带海外客户体验"
+  },
+  "Sign In (Existing Member)": {
+    "AR": "تسجيل الدخول (عضو حالي)",
+    "DE": "Anmelden (Bestandsmitglied)",
+    "FR": "Connexion (Membre existant)",
+    "ES": "Iniciar Sesión (Miembro)",
+    "RU": "Войти (уже есть аккаунт)",
+    "UR": "سائن ان (موجودہ رکن)",
+    "TR": "Giriş Yap (Mevcut Üye)",
+    "ZH": "登录（现有会员）"
+  },
+  "Join Partner Network (New)": {
+    "AR": "انضم لشبكة الشركاء (جديد)",
+    "DE": "Netzwerk beitreten (Neu)",
+    "FR": "Rejoindre le réseau (Nouveau)",
+    "ES": "Unirse a la Red (Nuevo)",
+    "RU": "Присоединиться (новый партнёр)",
+    "UR": "پارٹنر نیٹ ورک جوائن کریں (نیا)",
+    "TR": "Partner Ağına Katıl (Yeni)",
+    "ZH": "加入合作网络（新用户）"
+  },
+  "COMMISSION PROTECTION SLA": {
+    "AR": "اتفاقية حماية العمولة SLA",
+    "DE": "PROVISIONSSCHUTZ-SLA",
+    "FR": "SLA PROTECTION COMMISSION",
+    "ES": "SLA PROTECCIÓN DE COMISIÓN",
+    "RU": "SLA ЗАЩИТЫ КОМИССИИ",
+    "UR": "کمیشن تحفظ SLA",
+    "TR": "KOMİSYON KORUMA SLA",
+    "ZH": "佣金保护协议 SLA"
+  }
+}
