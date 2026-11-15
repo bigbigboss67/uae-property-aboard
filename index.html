@@ -983,7 +983,7 @@
         <div class="hero-reveal hero-delay-3 inline-flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-[#10141F] border border-white/15 mb-6 text-xs">
           <button id="personaBtn-buyer" onclick="selectPortalPersona('buyer')" class="px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all inline-flex items-center gap-1.5"><i data-lucide="compass" class="w-3.5 h-3.5"></i> I'm a First-Time Buyer</button>
           <button id="personaBtn-agent" onclick="selectPortalPersona('agent')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5"><i data-lucide="globe" class="w-3.5 h-3.5"></i> I'm an Overseas Agent (55%)</button>
-          <button id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5"><i data-lucide="building-2" class="w-3.5 h-3.5"></i> I'm a UAE RERA Seller (30%)</button>
+          <button id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5"><i data-lucide="building-2" class="w-3.5 h-3.5"></i> I'm a UAE RERA Seller (45%)</button>
         </div>
 
         <!-- Dynamic Start-to-Finish Card for Selected Persona -->
@@ -991,15 +991,15 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div class="bg-white/5 rounded-xl p-3 border border-white/10">
               <div class="text-[10px] font-bold text-brand-gold uppercase">1. Where You Start</div>
-              <div id="pgStart" class="text-white font-semibold mt-1">Pick any UAE project below in your own currency (USD/EUR/GBP).</div>
+              <div id="pgStart" class="text-white font-semibold mt-1">Pick any home or villa below. Prices show in your own money (USD, EUR, GBP).</div>
             </div>
             <div class="bg-white/5 rounded-xl p-3 border border-white/10">
               <div class="text-[10px] font-bold text-sky-400 uppercase">2. What Happens Next</div>
-              <div id="pgMiddle" class="text-white font-semibold mt-1">Lock buyer KYC ($350) &amp; auto-sign the 4-party contract with RERA agency + DLD.</div>
+              <div id="pgMiddle" class="text-white font-semibold mt-1">Your agent signs a simple Direct Contract &amp; verifies payment proof — zero portal fees.</div>
             </div>
             <div class="bg-emerald-500/10 rounded-xl p-3 border border-emerald-500/30">
               <div class="text-[10px] font-bold text-emerald-400 uppercase">3. Where It Ends</div>
-              <div id="pgEnd" class="text-white font-semibold mt-1">Wire deposit only to the Developer's DLD Escrow Bank &amp; get your Oqood title.</div>
+              <div id="pgEnd" class="text-white font-semibold mt-1">You pay only to the official Dubai bank escrow account and get your Oqood title.</div>
             </div>
           </div>
         </div>
@@ -2294,7 +2294,7 @@
             <p class="text-xs text-slate-400">How Buyer, Overseas Agent, UAE RERA Agency &amp; DLD/Portal close safely without circumvention</p>
           </div>
         </div>
-        <div id="evTimecode" class="font-mono text-xs text-brand-gold bg-black/60 px-3 py-1 rounded-lg border border-white/10 mr-8">00:00 / 00:48</div>
+        <div id="evTimecode" class="font-mono text-xs text-brand-gold bg-black/60 px-3 py-1 rounded-lg border border-white/10 mr-8">00:00 / 00:30</div>
       </div>
 
       <!-- Mode Switcher: HD Video (.mp4) vs Interactive Steps -->
@@ -2331,7 +2331,7 @@
         </div>
 
         <!-- Scene Chapters -->
-        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-3 text-[11px]" id="evChapters"></div>
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-3 text-[11px]" id="evChapters"></div>
 
         <!-- Player Controls -->
         <div class="flex flex-wrap items-center justify-between gap-3 mt-5 pt-4 border-t border-white/10">
@@ -2342,7 +2342,7 @@
           </div>
           <div class="flex items-center gap-2">
             <button onclick="closeExplainerVideo(); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '');" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold">
-              Launch Live 4-Party Contract →
+              Open Live Direct Contract →
             </button>
           </div>
         </div>
@@ -3085,19 +3085,19 @@
     function selectPortalPersona(persona) {
       const data = {
         buyer: {
-          start: 'Pick any UAE project below in your own currency (USD/EUR/GBP).',
-          middle: 'Lock buyer KYC ($350) & auto-sign the 4-party contract with RERA agency + DLD.',
-          end: "Wire deposit only to the Developer's DLD Escrow Bank & get your Oqood title."
+          start: 'Pick any home or villa below. Prices show in your own money (USD, EUR, GBP).',
+          middle: 'Your agent signs a simple Direct Contract & verifies payment proof — zero portal fees.',
+          end: 'You pay only to the official Dubai bank escrow account and get your Oqood title.'
         },
         agent: {
-          start: 'Pick a project & generate a White-Label Dossier with your agency brand.',
-          middle: 'Lock your buyer ($350 KYC) & auto-send the 4-party contract (55% gross split).',
-          end: 'Close in the Video Room & receive your 55% payout within 5 business days.'
+          start: 'Click "Sign In / Join Network" once, then pick any UAE project for your buyer.',
+          middle: 'Both agents sign the Direct Contract + verify Payment Proof to unlock direct WhatsApp & Email.',
+          end: 'Keep 55% of the commission (UAE Seller keeps 45%, 0% Portal Cut).'
         },
         seller: {
-          start: 'Load your Portal Wallet ($500 unlock) to claim KYC-verified overseas buyers.',
-          middle: 'Zero fake leads: Lock 1 ($350 KYC) + 180-day NCNDA (200% penalty / DIFC SCT) are signed first.',
-          end: 'Execute SPA, verify DLD Escrow, keep 30% & settle 55% Overseas / 15% Portal.'
+          start: 'Click "Sign In / Join Network" or "Mass Broadcast" to pitch projects to global agents.',
+          middle: 'Sign the Direct Contract + verify Payment Proof before any phone or email is shared.',
+          end: 'Talk directly with the overseas agent, close the sale, and split 55% / 45% with 0% Portal Cut.'
         }
       };
       const p = data[persona] || data.buyer;
@@ -3110,8 +3110,8 @@
         const b = document.getElementById('personaBtn-' + k);
         if (!b) return;
         b.className = k === persona
-          ? 'px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all'
-          : 'px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all';
+          ? 'px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all inline-flex items-center gap-1.5'
+          : 'px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5';
       });
     }
 
@@ -3174,75 +3174,63 @@
     // ==========================================
     const EXPLAINER_SCENES = [
       {
-        step: 'STEP 1 OF 6 · DISCOVER',
+        step: 'STEP 1 OF 5 · JOIN & PICK A HOME',
         time: '00:00',
-        plainSummary: 'Pick a DLD-verified UAE off-plan project and open it in the buyer’s currency.',
-        roles: ['Overseas Buyer', 'Overseas Agent'],
-        clickedLabel: 'Click: "Lock Buyer & Auto-Contract"',
-        clickedControl: 'Off-Plan Project Card (2,926 UAE Projects)',
-        nextShownTitle: '4-Party Deal Room Opens Instantly',
-        nextShownDetail: 'Project price converts live (USD/EUR/GBP/AED) and pulls the official ai-home.world DLD listing.',
-        flowSteps: ['1. Filter UAE Projects', '2. Click Lock & Contract', '3. Deal Room Opens'],
-        ctaNext: 'Next: Step 2 (Fee Locks) →'
+        plainSummary: 'Sign in once and pick any UAE apartment, villa, or townhouse in your own money.',
+        roles: ['Buyer', 'Overseas Agent', 'UAE Seller'],
+        clickedLabel: 'Click: "Sign In / Join Network" & Pick a Project',
+        clickedControl: 'Top Header + 2,926 Verified UAE Properties',
+        nextShownTitle: 'Your Account Is Ready & Project Opens',
+        nextShownDetail: 'Sign in with Clerk, accept the simple terms, and see any property price in USD, EUR, GBP, or AED.',
+        flowSteps: ['1. Sign In / Join Network', '2. Browse 2,926 Homes', '3. Pick Your Project'],
+        ctaNext: 'Next: Step 2 (Send to Partners) →'
       },
       {
-        step: 'STEP 2 OF 6 · FEE LOCKS',
-        time: '00:08',
-        plainSummary: 'Both sides pay/authorize the portal BEFORE seeing each other’s contact details.',
-        roles: ['Overseas Agent ($350 KYC)', 'UAE Agency ($500 Wallet)', 'Portal Gate'],
-        clickedLabel: 'Click: "Authorize Lock 1" & "Debit Lock 2"',
-        clickedControl: 'Pre-Contact Fee Gate (Blind Mode Active)',
-        nextShownTitle: 'Portal Collects Fees & Protects Buyer PII',
-        nextShownDetail: 'Buyer name, phone & agency contacts stay [MASKED]. Portal earns $850 upfront before any call.',
-        flowSteps: ['1. Lock 1 ($350 Buyer KYC)', '2. Lock 2 ($500 UAE Wallet)', '3. Ready to Sign'],
-        ctaNext: 'Next: Step 3 (Auto-Send Contract) →'
+        step: 'STEP 2 OF 5 · SEND TO PARTNERS',
+        time: '00:06',
+        plainSummary: 'Send the property to overseas agents by Email or WhatsApp in 1 click (or add 1 person alone).',
+        roles: ['UAE Seller', 'Overseas Agents (228 Countries)'],
+        clickedLabel: 'Click: "Mass Broadcast" → Send Campaign',
+        clickedControl: 'Choose "All Loaded + Manual" or "Manual-Added Only"',
+        nextShownTitle: 'Partners Get Your Deal Link & You Track Every Click',
+        nextShownDetail: 'Emails and WhatsApp messages go out automatically. Live counter shows who opened and clicked your link.',
+        flowSteps: ['1. Pick Country or Add 1 Person', '2. Click Send Campaign', '3. See Opens & Clicks Live'],
+        ctaNext: 'Next: Step 3 (Sign Agreement) →'
       },
       {
-        step: 'STEP 3 OF 6 · AUTO-CONTRACT',
-        time: '00:16',
-        plainSummary: 'The portal automatically sends one contract with everyone’s exact percentage split.',
-        roles: ['Buyer', 'Overseas Agent (55%)', 'UAE Agency (30%)', 'Portal (15%)'],
-        clickedLabel: 'Auto-Sent: "4-Party Digital Contract"',
-        clickedControl: 'Commission Split: 55% / 30% / 15% + 180-Day Lock',
-        nextShownTitle: 'All 4 Parties Receive E-Sign Link',
-        nextShownDetail: 'Buyer, Overseas Agent, UAE RERA Agency & DLD/Portal see the exact AED payout & anti-bypass rules.',
-        flowSteps: ['1. Auto-Generate PDF/Text', '2. Send to All 4 Parties', '3. Awaiting Signatures'],
-        ctaNext: 'Next: Step 4 (Digital Signatures) →'
+        step: 'STEP 3 OF 5 · SIGN SIMPLE AGREEMENT',
+        time: '00:12',
+        plainSummary: 'Both sides sign one simple agreement: 55% goes to the Overseas Agent, 45% to the UAE Seller.',
+        roles: ['Overseas Agent (55%)', 'UAE Seller (45%)', '0% Portal Cut'],
+        clickedLabel: 'Click: "Open Direct Contract" & Sign',
+        clickedControl: 'Direct Split Agreement (No Hidden Fees, No DLD Gate)',
+        nextShownTitle: 'Commission Split Is Locked & Safe',
+        nextShownDetail: 'Phone numbers and emails stay hidden until both sides sign, so nobody can steal your client.',
+        flowSteps: ['1. Overseas Agent Signs', '2. UAE Seller Signs', '3. 55% / 45% Split Locked'],
+        ctaNext: 'Next: Step 4 (Unlock Contacts) →'
       },
       {
-        step: 'STEP 4 OF 6 · 4-PARTY SIGN',
+        step: 'STEP 4 OF 5 · VERIFY PROOF & UNLOCK',
+        time: '00:18',
+        plainSummary: 'Show payment proof (reference number or uploaded receipt) to unlock direct WhatsApp, Email & Phone.',
+        roles: ['Overseas Agent', 'UAE Seller', 'Instant Unlock'],
+        clickedLabel: 'Click: "Verify Uploaded Proof" or Card Checkout',
+        clickedControl: 'Payment Proof Gate (Prevents Fake Leads)',
+        nextShownTitle: 'Direct WhatsApp, Email & Phone Unlock Immediately',
+        nextShownDetail: 'As soon as proof is verified, both sides see each other’s real phone, WhatsApp, and email to talk directly.',
+        flowSteps: ['1. Enter Ref or Upload Receipt', '2. Proof Verified', '3. Real Contacts Unlock'],
+        ctaNext: 'Next: Step 5 (Pay Bank & Get Paid) →'
+      },
+      {
+        step: 'STEP 5 OF 5 · PAY BANK & GET PAID',
         time: '00:24',
-        plainSummary: 'Buyer, Agent, UAE Agency & DLD/Portal sign digitally to confirm the deal and unlock contacts.',
-        roles: ['Buyer ✓', 'Overseas Agent ✓', 'UAE RERA Agency ✓', 'DLD & Portal ✓'],
-        clickedLabel: 'Click: "Sign Buyer / Agent / Agency / DLD"',
-        clickedControl: '4 Digital Signature Cards (SHA-256 + UTC)',
-        nextShownTitle: 'DEAL CONFIRMED & Direct Video Room Unlocks',
-        nextShownDetail: 'All 4 cards turn green (SIGNED). Identities unmask and the 1-Click Video Closing Room opens.',
-        flowSteps: ['1. 4 Digital Signatures', '2. Deal Confirmed Seal', '3. Contacts Unmasked'],
-        ctaNext: 'Next: Step 5 (DLD Escrow) →'
-      },
-      {
-        step: 'STEP 5 OF 6 · DLD ESCROW',
-        time: '00:32',
-        plainSummary: 'The buyer wires the property deposit straight to the DLD-approved project escrow bank.',
-        roles: ['Overseas Buyer', 'UAE Developer', 'Dubai Land Dept (DLD)'],
-        clickedLabel: 'Click: "Verify DLD Escrow in Dubai REST"',
-        clickedControl: 'Video Closing Room → DLD Escrow Tab',
-        nextShownTitle: '10%–20% Deposit Wired & DLD Oqood Issued',
-        nextShownDetail: 'Money goes only to the official DLD Project Escrow (Law No. 8 of 2007). DLD registers the buyer.',
-        flowSteps: ['1. Verify Escrow IBAN', '2. Wire to DLD Bank', '3. Oqood Title Issued'],
-        ctaNext: 'Next: Step 6 (Commission Payout) →'
-      },
-      {
-        step: 'STEP 6 OF 6 · PAYOUT',
-        time: '00:40',
-        plainSummary: 'Developer pays commission to the UAE Agency, which pays 55% to the Overseas Agent & 15% to the Portal.',
-        roles: ['UAE Developer', 'UAE RERA Agency', 'Overseas Agent', 'Portal'],
-        clickedLabel: 'Triggered: "Irrevocable Payment Order"',
-        clickedControl: 'SPA Signed + 20% Cleared → 5-Day Settlement',
-        nextShownTitle: 'Everyone Gets Paid Automatically',
-        nextShownDetail: '55% wired to Overseas Agent, 30% kept by UAE RERA Agency, 15% settled to Portal.',
-        flowSteps: ['1. Developer Releases 5%', '2. 55% Overseas · 30% UAE', '3. 15% Portal Override'],
+        plainSummary: 'Buyer sends the deposit straight to the official Dubai bank escrow. Everyone gets paid cleanly.',
+        roles: ['Buyer', 'Official Dubai Bank', '55% / 45% Payout'],
+        clickedLabel: 'Done: Buyer Wires to Official DLD Escrow Bank',
+        clickedControl: 'Zero Portal Intervention · Official Oqood Title',
+        nextShownTitle: 'Buyer Gets Title · Agents Split Commission 55% / 45%',
+        nextShownDetail: 'Money never goes to a random person — only to the official Dubai Land Department project escrow bank.',
+        flowSteps: ['1. Buyer Pays Official Bank', '2. Buyer Gets Oqood Title', '3. 55% Overseas / 45% UAE'],
         ctaNext: 'Replay Step 1 ↺'
       }
     ];
@@ -3349,7 +3337,7 @@
       const s = EXPLAINER_SCENES[evCurrentScene];
       if (!s) return;
       const tc = document.getElementById('evTimecode');
-      if (tc) tc.innerText = s.time + ' / 00:48';
+      if (tc) tc.innerText = s.time + ' / 00:30';
       const badge = document.getElementById('evSceneBadge');
       if (badge) badge.innerText = s.step;
       const title = document.getElementById('evSceneTitle');
@@ -3405,7 +3393,7 @@
 
       const chapters = document.getElementById('evChapters');
       if (chapters) {
-        const labels = ['1. Discover', '2. Fee Locks', '3. Auto-Send', '4. 4-Sign', '5. DLD Escrow', '6. Payout'];
+        const labels = ['1. Pick Home', '2. Broadcast', '3. Sign Deal', '4. Unlock Info', '5. Get Paid'];
         chapters.innerHTML = labels.map((lbl, i) => `
           <button onclick="goToExplainerScene(${i})" class="p-2 rounded-lg text-center font-bold transition-all ${i === evCurrentScene ? 'bg-brand-gold text-black' : (i < evCurrentScene ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-white/5 text-slate-400 hover:bg-white/10')}">${lbl}</button>
         `).join('');
