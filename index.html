@@ -4580,36 +4580,53 @@
         if (badge) badge.innerText = total.toLocaleString() + ' AGENTS';
 
         if (!rows.length) {
-          grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 glass-card rounded-2xl border border-white/10">No agents found for this query.</div>';
+          grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 bento-card p-6">No agents found for this query.</div>';
           renderPaginationBar('agentsPagination', 1, 1, 0, pageSize, 'loadAgents');
           return;
         }
 
         grid.innerHTML = rows.map(ag => {
-          const name = ag.name || ag.aname || 'Real Estate Agent';
+          const name = ag.name || ag.aname || 'Real Estate Advisor';
+          const agency = ag.aname && ag.aname !== name ? ag.aname : '';
           const loc = [ag.city, ag.state, ag.country].filter(Boolean).join(', ') || 'Global';
           const phone = ag.phone || ag.mobile || ag.office_tel || '';
           const initials = name.split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
+          const photoSrc = ag.photo_link || ag.avatar || ag.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=135BEC&color=FFFFFF&size=128&bold=true&format=svg`;
+          const cleanAddr = ag.address && !/^\s*p\.?\s*o\.?\s*box/i.test(ag.address) ? ag.address : '';
           return `
-          <div class="glass-card rounded-2xl p-5 flex flex-col justify-between hover:border-brand-gold/40 transition-all">
+          <div class="bento-card p-5 flex flex-col justify-between hover:border-[#135BEC]/40 transition-all text-start">
             <div>
-              <div class="flex items-center gap-3 mb-3">
-                <div class="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-bold text-xs flex items-center justify-center shrink-0">${escHtml(initials)}</div>
-                <div class="min-w-0">
-                  <h4 class="font-display font-bold text-white text-sm truncate">${escHtml(name)}</h4>
-                  <div class="text-[11px] text-slate-400 truncate">${escHtml(loc)}</div>
+              <div class="flex items-start justify-between gap-3 mb-4">
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="relative shrink-0">
+                    <img src="${escHtml(photoSrc)}" alt="${escHtml(name)}" loading="lazy"
+                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                      class="w-12 h-12 rounded-full object-cover border-2 border-[#135BEC]/30 shadow-sm bg-[#135BEC]/10">
+                    <div style="display:none" class="w-12 h-12 rounded-full bg-[#135BEC]/15 border-2 border-[#135BEC]/30 text-[#135BEC] font-bold text-xs items-center justify-center">${escHtml(initials)}</div>
+                    ${ag.agency_logo ? `<img src="${escHtml(ag.agency_logo)}" alt="" loading="lazy" onerror="this.style.display='none'" class="w-5 h-5 rounded-full bg-white p-0.5 border border-slate-200 shadow-sm absolute -bottom-1 -right-1 object-contain">` : ''}
+                  </div>
+                  <div class="min-w-0">
+                    <h4 class="font-display font-extrabold text-white text-sm truncate">${escHtml(name)}</h4>
+                    ${agency ? `<div class="text-[11px] font-semibold text-[#135BEC] truncate">${escHtml(agency)}</div>` : ''}
+                    <div class="text-[11px] text-slate-400 truncate mt-0.5">${escHtml(loc)}</div>
+                  </div>
                 </div>
+                <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full shrink-0">${ag.verified_broker ? 'Verified' : escHtml(ag.type || 'Agent')}</span>
               </div>
-              <div class="space-y-1 text-[11px] text-slate-300">
-                ${ag.address ? `<div class="truncate text-slate-400 flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3 shrink-0"></i><span class="truncate">${escHtml(ag.address)}</span></div>` : ''}
-                ${ag.email ? `<div class="truncate flex items-center gap-1.5"><i data-lucide="mail" class="w-3 h-3 text-slate-400 shrink-0"></i><a href="mailto:${escHtml(ag.email)}" class="hover:text-brand-gold truncate">${escHtml(ag.email)}</a></div>` : ''}
-                ${phone ? `<div class="truncate flex items-center gap-1.5"><i data-lucide="phone" class="w-3 h-3 text-slate-400 shrink-0"></i><span>${escHtml(phone)}</span></div>` : ''}
-                ${ag.registration_number ? `<div class="truncate text-emerald-400 flex items-center gap-1.5"><i data-lucide="badge-check" class="w-3 h-3 shrink-0"></i><span class="truncate">Reg: ${escHtml(ag.registration_number)}</span></div>` : ''}
+
+              <div class="space-y-1.5 text-[11px] text-slate-300 mb-1">
+                ${cleanAddr ? `<div class="truncate text-slate-400 flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 shrink-0"></i><span class="truncate">${escHtml(cleanAddr)}</span></div>` : ''}
+                ${ag.email ? `<div class="truncate flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i><a href="mailto:${escHtml(ag.email)}" class="hover:text-[#135BEC] underline-offset-2 hover:underline truncate">${escHtml(ag.email)}</a></div>` : ''}
+                ${phone ? `<div class="truncate flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i><span dir="ltr">${escHtml(phone)}</span></div>` : ''}
+                ${ag.registration_number ? `<div class="truncate text-emerald-400 flex items-center gap-1.5"><i data-lucide="badge-check" class="w-3.5 h-3.5 shrink-0"></i><span class="truncate">Reg: ${escHtml(ag.registration_number)}</span></div>` : ''}
               </div>
             </div>
-            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[10px] text-slate-400">
-              <span>${escHtml(ag.type || 'Agent')} · ID #${escHtml(ag.id)}</span>
-              ${ag.link ? `<a href="${escHtml(ag.link)}" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline font-semibold inline-flex items-center gap-0.5">Profile <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>` : ''}
+
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center gap-2">
+              <button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency || loc)}', '', 'UAE Off-Plan Portfolio')" class="flex-1 py-2 px-3 rounded-xl bg-[#135BEC] hover:bg-blue-600 text-white text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-1.5">
+                Connect Desk <span>→</span>
+              </button>
+              ${ag.link ? `<a href="${escHtml(ag.link)}" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/10 inline-flex items-center gap-1">Profile <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>` : ''}
             </div>
           </div>
           `;

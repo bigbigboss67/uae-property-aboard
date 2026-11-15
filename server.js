@@ -57,7 +57,32 @@ const server = http.createServer(async (req, res) => {
     }
     return;
   }
-  if (reqUrl.pathname === '/api/agents' || reqUrl.pathname === '/api/dld-developer') {
+  if (reqUrl.pathname === '/api/agents') {
+    try {
+      const { filterAndEnrichAgents } = require('./lib/agent-quality.cjs');
+      const requestedSize = Math.max(1, Math.min(100, Number(reqUrl.searchParams.get('page_size')) || 24));
+      const upstreamParams = new URLSearchParams(reqUrl.searchParams);
+      upstreamParams.set('page_size', String(Math.min(100, requestedSize * 2)));
+      const upstream = await fetch(`https://www.ai-home.world/api/agents?${upstreamParams.toString()}`, {
+        headers: { 'Accept': 'application/json', 'User-Agent': 'AI-Home-Global-Portal/1.0' }
+      });
+      if (!upstream.ok) {
+        const text = await upstream.text();
+        res.writeHead(upstream.status, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(text);
+        return;
+      }
+      const payload = await upstream.json();
+      const cleaned = filterAndEnrichAgents(payload.data || []).slice(0, requestedSize);
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ ...payload, data: cleaned }));
+    } catch (err) {
+      res.writeHead(502, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+    return;
+  }
+  if (reqUrl.pathname === '/api/dld-developer') {
     try {
       const upstream = await fetch(`https://www.ai-home.world${reqUrl.pathname}${reqUrl.search}`, {
         headers: { 'Accept': 'application/json', 'User-Agent': 'AI-Home-Global-Portal/1.0' }
