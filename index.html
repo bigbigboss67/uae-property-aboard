@@ -2444,6 +2444,16 @@
 
       <!-- Interactive Video Stage -->
       <div id="evInteractiveContainer" class="hidden">
+        <!-- Scenario Selector for Interactive Video -->
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3 bg-[#080B12] border border-white/10 rounded-xl p-2.5">
+          <span class="text-[11px] font-bold text-slate-300 uppercase tracking-wider">Choose Scenario:</span>
+          <div id="evScenarioBar" class="flex flex-wrap gap-1.5">
+            <button onclick="setExplainerScenario('direct')" data-scenario="direct" class="px-3 py-1 rounded-lg bg-emerald-500 text-black text-xs font-extrabold">Scenario A: Direct Buyer (No Agency)</button>
+            <button onclick="setExplainerScenario('agency')" data-scenario="agency" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">Scenario B: Via USA / Overseas Agency</button>
+            <button onclick="setExplainerScenario('all11')" data-scenario="all11" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">All 11 Portal Sections</button>
+          </div>
+        </div>
+
         <div class="relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#101524] via-[#090B11] to-[#121928] p-5 sm:p-8 min-h-[300px] flex flex-col justify-between">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
             <span id="evSceneBadge" class="bg-brand-gold/20 text-brand-gold border border-brand-gold/40 text-[11px] font-bold px-3 py-1 rounded-full">SECTION 1 OF 11</span>
@@ -2489,14 +2499,22 @@
 
       <!-- Interactive Parties Flow Chart Container -->
       <div id="evChartContainer" class="hidden space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 bg-[#080B12] border border-emerald-500/30 rounded-2xl p-3">
+          <div class="text-xs text-slate-200 font-bold">1. Pick Scenario (Graphic Chart + Payment Highlight):</div>
+          <div id="evChartScenarioRow" class="flex flex-wrap gap-1.5">
+            <button onclick="selectChartScenario('direct')" data-chart-scenario="direct" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-black text-xs font-extrabold">Scenario A: Direct Buyer</button>
+            <button onclick="selectChartScenario('agency')" data-chart-scenario="agency" class="px-3 py-1.5 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">Scenario B: Via USA / Overseas Agency</button>
+          </div>
+        </div>
+
         <div class="flex flex-wrap items-center justify-between gap-2 bg-[#080B12] border border-white/10 rounded-2xl p-3">
-          <div class="text-xs text-slate-300 font-semibold">Click any party to highlight their exact steps, buttons &amp; money flow:</div>
+          <div class="text-xs text-slate-300 font-semibold">2. Filter by Party Involved:</div>
           <div id="evPartyFilterRow" class="flex flex-wrap gap-1.5">
-            <button onclick="selectPartyChart('all')" data-party="all" class="px-3 py-1 rounded-lg bg-brand-gold text-black text-xs font-extrabold">All 4 Parties</button>
-            <button onclick="selectPartyChart('broker')" data-party="broker" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">1. Overseas Broker</button>
-            <button onclick="selectPartyChart('buyer')" data-party="buyer" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">2. Client / Buyer</button>
-            <button onclick="selectPartyChart('developer')" data-party="developer" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">3. UAE Developer</button>
-            <button onclick="selectPartyChart('escrow')" data-party="escrow" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">4. DLD / Escrow Bank</button>
+            <button onclick="selectPartyChart('all')" data-party="all" class="px-3 py-1 rounded-lg bg-brand-gold text-black text-xs font-extrabold">All Parties</button>
+            <button onclick="selectPartyChart('broker')" data-party="broker" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">Overseas Agency (USA)</button>
+            <button onclick="selectPartyChart('buyer')" data-party="buyer" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">Client / Buyer</button>
+            <button onclick="selectPartyChart('developer')" data-party="developer" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">UAE Developer / Desk</button>
+            <button onclick="selectPartyChart('escrow')" data-party="escrow" class="px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold">DLD / Escrow Bank</button>
           </div>
         </div>
 
@@ -4282,6 +4300,186 @@
       }
     ];
 
+    const SCENARIO_A_SCENES = [
+      {
+        step: 'SCENARIO A · STEP 1 OF 5 (DIRECT BUYER)',
+        shortLabel: '1. Browse & Currency',
+        time: '00:00',
+        plainSummary: 'You (Buyer outside UAE) pick your language & currency and browse 2,926+ verified UAE properties.',
+        roles: ['Buyer (Outside UAE)', 'No Overseas Agency'],
+        clickedLabel: 'Pick Language, Currency & Property in UAE Off-Plan',
+        clickedControl: 'Top Bar + UAE Off-Plan Directory (#inventory)',
+        nextShownTitle: 'See Prices in USD, EUR, GBP & Fly Over the Plot in 3D',
+        nextShownDetail: 'Click any project card to inspect the real neighborhood on the 3D Satellite Drone Map and check Golden Visa eligibility (AED 2M+).',
+        paymentHighlight: 'Payment Preview: AED 0 Portal Fee · AED 0 to Open Escrow',
+        flowSteps: ['1. Pick Currency & Language', '2. Inspect 3D Drone Map', '3. Check Golden Visa (AED 2M+)'],
+        ctaNext: 'Next: Step 2 (Live Video with UAE Desk) →'
+      },
+      {
+        step: 'SCENARIO A · STEP 2 OF 5 (DIRECT BUYER)',
+        shortLabel: '2. Live Video Call',
+        time: '00:06',
+        plainSummary: 'You join a 1-click Live Video Call directly with the UAE Master Desk / Developer.',
+        roles: ['Buyer (Outside UAE)', 'UAE Developer / Desk'],
+        clickedLabel: 'Click: "Video Call" on Verified UAE Desk Card',
+        clickedControl: 'Live Closing Room (Jitsi WebRTC)',
+        nextShownTitle: 'Confirm Unit Availability, Floorplan & Payment Schedule Live',
+        nextShownDetail: 'The UAE Desk shows you live developer inventory, payment plan (e.g. 60/40), and answers your questions face-to-face.',
+        paymentHighlight: 'Commission Note: UAE Developer pays the UAE Desk from their marketing budget (list price stays the same).',
+        flowSteps: ['1. Join Live Video Room', '2. Pick Exact Unit #', '3. Lock Unit Reservation'],
+        ctaNext: 'Next: Step 3 (Passport KYC & SPA) →'
+      },
+      {
+        step: 'SCENARIO A · STEP 3 OF 5 (DIRECT BUYER)',
+        shortLabel: '3. KYC & Your Name',
+        time: '00:12',
+        plainSummary: 'Submit your Passport & KYC so the Booking Form and Sales Agreement (SPA) are issued 100% in YOUR name.',
+        roles: ['Buyer (Title Owner)', 'UAE Developer'],
+        clickedLabel: 'Submit Passport & KYC Verification',
+        clickedControl: 'UAE AML / KYC Gate (Decree-Law No. 20 of 2018)',
+        nextShownTitle: 'SPA & Title Registration Are Prepared Strictly in YOUR Name',
+        nextShownDetail: 'No middleman or portal ever holds your title. Your name is entered directly into the official developer & DLD contract.',
+        paymentHighlight: 'Title Deed Rule: 100% in YOUR Name (Buyer) — never in the portal or broker’s name.',
+        flowSteps: ['1. Upload Passport', '2. AML Check Cleared', '3. SPA Issued in Your Name'],
+        ctaNext: 'Next: Step 4 (PAYMENT OPTIONS) →'
+      },
+      {
+        step: 'SCENARIO A · STEP 4 OF 5 · PAYMENT OPTIONS',
+        shortLabel: '4. Payment Options',
+        time: '00:18',
+        plainSummary: 'Verify the Escrow IBAN in Dubai REST app, then wire directly from YOUR bank account.',
+        roles: ['Buyer Bank (SWIFT)', 'DLD / Escrow Bank'],
+        clickedLabel: 'Verify Escrow IBAN ➔ Wire From Your Bank',
+        clickedControl: 'Official Payment Options (Off-Plan vs Ready)',
+        nextShownTitle: '100% Protected Payment — Never Pay Personal or Portal Accounts',
+        nextShownDetail: 'Off-Plan Dubai: Wire via SWIFT directly to Developer’s DLD Escrow IBAN (Law 8/2007). Ready/Resale: Pay by DLD Trustee Manager’s Cheque or Regulated Conveyancing Escrow. Outside Dubai: ADREC (Abu Dhabi), RAK (Law 10/2026), or SRERD (Sharjah) Escrow.',
+        paymentHighlight: 'HIGHLIGHTED PAYMENT: Off-Plan = DLD Escrow IBAN (AED 0 fee) · Ready = DLD Trustee / e-Notary POA',
+        flowSteps: ['Option 1: Off-Plan DLD Escrow IBAN', 'Option 2: Ready DLD Trustee Cheque', 'Option 3: ADREC/RAK/SRERD (Non-Dubai)'],
+        ctaNext: 'Next: Step 5 (Title Deed Issued) →'
+      },
+      {
+        step: 'SCENARIO A · STEP 5 OF 5 (DIRECT BUYER)',
+        shortLabel: '5. Title Deed Issued',
+        time: '00:24',
+        plainSummary: 'You sign the SPA digitally and receive your official Oqood (or Title Deed) in YOUR name.',
+        roles: ['Buyer (100% Owner)', 'DLD / Land Dept'],
+        clickedLabel: 'Done: Oqood / Title Deed Issued in Your Name',
+        clickedControl: 'Official Government Ownership Certificate',
+        nextShownTitle: 'Full Remote Ownership + 10-Yr Golden Visa (If AED 2M+)',
+        nextShownDetail: 'Escrow Bank releases staged funds to the developer only after verified construction milestones—protecting your capital until handover.',
+        paymentHighlight: 'Final Result: 100% Your Name on Title · Funds Protected in Government Escrow',
+        flowSteps: ['1. Sign SPA Remotely', '2. Receive Oqood / Title Deed', '3. Apply 10-Yr Golden Visa'],
+        ctaNext: 'Switch to Scenario B (Via USA Agency) →'
+      }
+    ];
+
+    const SCENARIO_B_SCENES = [
+      {
+        step: 'SCENARIO B · STEP 1 OF 5 (VIA USA AGENCY)',
+        shortLabel: '1. USA Agency Pitch',
+        time: '00:00',
+        plainSummary: 'Your USA Agency turns on "Client View", prints a White-Label PDF with their USA logo, and shows you Dubai.',
+        roles: ['USA Agency (55%)', 'Buyer (In USA)'],
+        clickedLabel: 'USA Agency: Turn ON "Client View" & Print White-Label PDF',
+        clickedControl: 'Client View + White-Label Dossier (#white-label)',
+        nextShownTitle: 'You View Projects in USD with Zero Confusion & Fly 3D Drone',
+        nextShownDetail: 'Your USA advisor walks you through World Benchmark (Dubai vs NYC/Miami) and flies over the exact plot in 3D Satellite view.',
+        paymentHighlight: 'No Extra Buyer Fee: Off-plan price is the exact same developer list price.',
+        flowSteps: ['1. USA Agency Uses Client View', '2. Sends White-Label PDF', '3. 3D Drone Tour Together'],
+        ctaNext: 'Next: Step 2 (Agency Locks SLA) →'
+      },
+      {
+        step: 'SCENARIO B · STEP 2 OF 5 (VIA USA AGENCY)',
+        shortLabel: '2. SLA & 55/45 Lock',
+        time: '00:06',
+        plainSummary: 'Your USA Agency registers your lead ("Register Client SLA") and signs the 55% / 45% split with the UAE Desk.',
+        roles: ['USA Agency (55%)', 'UAE Master Desk (45%)'],
+        clickedLabel: 'USA Agency Clicks: "Register Client (SLA)" + Direct Contract',
+        clickedControl: '180-Day Anti-Circumvention SLA + Form I Split',
+        nextShownTitle: 'USA Agency’s Commission Is Legally Protected (55% USA / 45% UAE)',
+        nextShownDetail: 'This happens behind the scenes between the two agencies so your USA advisor gets paid fairly without charging you extra.',
+        paymentHighlight: 'Commission Rule: Developer pays 5%–7% ➔ Split 55% USA Agency / 45% UAE Desk (0% Portal Cut).',
+        flowSteps: ['1. Register Client (180-Day SLA)', '2. Sign 55% / 45% Split', '3. 3-Way Live Video Call'],
+        ctaNext: 'Next: Step 3 (KYC & Your Name) →'
+      },
+      {
+        step: 'SCENARIO B · STEP 3 OF 5 (VIA USA AGENCY)',
+        shortLabel: '3. 3-Way Call & Title',
+        time: '00:12',
+        plainSummary: 'You, your USA Agency, and the UAE Desk join a 3-way Video Call. The SPA is written 100% in YOUR name.',
+        roles: ['Buyer (Title Owner)', 'USA Agency', 'UAE Desk'],
+        clickedLabel: '3-Way Jitsi Video Call ➔ Unit Reserved in Buyer’s Name',
+        clickedControl: 'Live Closing Room + Passport KYC',
+        nextShownTitle: 'USA Agency Advises You — Title Deed Goes 100% in YOUR Name',
+        nextShownDetail: 'The USA agency is recorded on the broker referral form only. You remain the 100% legal owner of the property.',
+        paymentHighlight: 'Title Deed Rule: 100% in YOUR Name (Buyer) — NEVER in the USA agency’s name.',
+        flowSteps: ['1. 3-Way Video Confirmation', '2. Buyer Submits Passport KYC', '3. SPA Issued in Buyer Name'],
+        ctaNext: 'Next: Step 4 (WHO PAYS & PAYMENT OPTIONS) →'
+      },
+      {
+        step: 'SCENARIO B · STEP 4 OF 5 · PAYMENT OPTIONS',
+        shortLabel: '4. Who Pays & How',
+        time: '00:18',
+        plainSummary: 'IMPORTANT: YOU (the Buyer) wire directly to the DLD Escrow Bank—NEVER send property money to the USA agency!',
+        roles: ['Buyer Bank (SWIFT)', 'DLD / Escrow Bank'],
+        clickedLabel: 'Buyer Wires Directly to Official DLD Escrow IBAN',
+        clickedControl: 'Direct Buyer-to-Bank Wire (Zero Agency Custody)',
+        nextShownTitle: 'USA Agency Never Holds Your Money — 100% Goes to Official Bank',
+        nextShownDetail: 'Off-Plan Dubai: Buyer wires SWIFT straight to Developer’s DLD Escrow IBAN (verify on Dubai REST). Ready/Resale: Buyer uses DLD Trustee Manager’s Cheque / e-Notary video POA or Regulated Conveyancing Escrow. Non-Dubai: ADREC / RAK / SRERD Escrow.',
+        paymentHighlight: 'CRITICAL RULE: Buyer Pays Official Escrow Bank Directly (AED 0 fee) — NEVER pay the USA agency!',
+        flowSteps: ['1. Verify IBAN on Dubai REST', '2. Wire From Buyer Bank Only', '3. Ready Home? Use Trustee/POA'],
+        ctaNext: 'Next: Step 5 (Title + 55/45 Payout) →'
+      },
+      {
+        step: 'SCENARIO B · STEP 5 OF 5 (VIA USA AGENCY)',
+        shortLabel: '5. Title + Payout',
+        time: '00:24',
+        plainSummary: 'You get your Oqood / Title Deed in YOUR name, and the UAE Developer pays the 55% / 45% broker split.',
+        roles: ['Buyer (100% Owner)', 'USA Agency (55%)', 'UAE Desk (45%)'],
+        clickedLabel: 'Done: Buyer Gets Title · Developer Pays 55% USA / 45% UAE',
+        clickedControl: 'Oqood / Title Deed + SWIFT Commission Split',
+        nextShownTitle: 'Everyone Wins Safely With Zero Middleman Risk',
+        nextShownDetail: 'Buyer owns 100% of the UAE property with DLD Escrow protection; USA Agency receives 55% commission; UAE Desk receives 45%.',
+        paymentHighlight: 'Final Result: Buyer Owns Title · Developer Pays 55% USA Agency / 45% UAE Desk',
+        flowSteps: ['1. Buyer Gets Oqood / Title', '2. Escrow Protects Construction', '3. Developer Wires 55% / 45%'],
+        ctaNext: 'Replay Scenario A (Direct Buyer) ↺'
+      }
+    ];
+
+    let evScenarioMode = 'direct';
+    let evChartScenario = 'direct';
+
+    function getActiveExplainerScenes() {
+      if (evScenarioMode === 'direct') return SCENARIO_A_SCENES;
+      if (evScenarioMode === 'agency') return SCENARIO_B_SCENES;
+      return EXPLAINER_SCENES;
+    }
+
+    function setExplainerScenario(scen) {
+      evScenarioMode = scen || 'direct';
+      evCurrentScene = 0;
+      evIsPlaying = false;
+      stopExplainerTimer();
+      document.querySelectorAll('#evScenarioBar button').forEach(b => {
+        const active = b.getAttribute('data-scenario') === evScenarioMode;
+        b.className = active
+          ? 'px-3 py-1 rounded-lg bg-emerald-500 text-black text-xs font-extrabold'
+          : 'px-3 py-1 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold';
+      });
+      renderExplainerScene();
+    }
+
+    function selectChartScenario(scen) {
+      evChartScenario = scen || 'direct';
+      document.querySelectorAll('#evChartScenarioRow button').forEach(b => {
+        const active = b.getAttribute('data-chart-scenario') === evChartScenario;
+        b.className = active
+          ? 'px-3 py-1.5 rounded-lg bg-emerald-500 text-black text-xs font-extrabold'
+          : 'px-3 py-1.5 rounded-lg bg-white/10 text-slate-200 hover:bg-white/20 text-xs font-bold';
+      });
+      renderPartyChart();
+    }
+
     let evCurrentScene = 0;
     let evIsPlaying = false;
     let evTimer = null;
@@ -4306,9 +4504,12 @@
           ? '<i data-lucide="volume-2" class="w-3.5 h-3.5 text-emerald-400"></i> <span class="text-emerald-300">Voiceover: On</span>'
           : '<i data-lucide="volume-2" class="w-3.5 h-3.5 text-brand-gold"></i> <span>Voiceover: Off</span>';
       }
-      if (evVoiceEnabled && EXPLAINER_SCENES[evCurrentScene]) {
-        const s = EXPLAINER_SCENES[evCurrentScene];
-        speakExplainerScene(s.plainSummary + ' ' + s.nextShownDetail);
+      if (evVoiceEnabled) {
+        const activeList = getActiveExplainerScenes();
+        if (activeList[evCurrentScene]) {
+          const s = activeList[evCurrentScene];
+          speakExplainerScene(s.plainSummary + ' ' + s.nextShownDetail);
+        }
       } else if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       }
@@ -4422,7 +4623,12 @@
     function renderPartyChart() {
       const stage = document.getElementById('evPartyChartStage');
       if (!stage) return;
-      const keys = evActiveParty === 'all' ? ['broker', 'buyer', 'developer', 'escrow'] : [evActiveParty];
+      const activeList = getActiveExplainerScenes();
+      const totalScenes = activeList.length;
+      const isDirect = evChartScenario === 'direct';
+      const keys = evActiveParty === 'all'
+        ? (isDirect ? ['buyer', 'developer', 'escrow'] : ['broker', 'buyer', 'developer', 'escrow'])
+        : [evActiveParty];
       const colorMap = {
         amber: 'border-amber-500/40 bg-amber-500/10 text-amber-300',
         emerald: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300',
@@ -4430,32 +4636,76 @@
         purple: 'border-purple-500/40 bg-purple-500/10 text-purple-300'
       };
 
-      const flowBanner = `
-        <div class="rounded-2xl border border-white/15 bg-[#090C14] p-4">
-          <div class="text-[11px] font-bold uppercase tracking-wider text-brand-gold mb-3">How All 4 Parties Connect in One Deal (Click Any Box Below)</div>
+      const flowBanner = isDirect
+        ? `
+        <div class="rounded-2xl border border-emerald-500/40 bg-[#090C14] p-4 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Scenario A Graphic Flow · Direct Buyer (No Overseas Agency)</div>
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">Title Deed: 100% Buyer’s Name</span>
+          </div>
           <div class="grid grid-cols-1 sm:grid-cols-7 gap-2 items-center text-center text-xs">
-            <button onclick="selectPartyChart('broker')" class="p-3 rounded-xl border border-amber-500/50 bg-amber-500/15 hover:bg-amber-500/25 text-left transition-all ${evActiveParty === 'broker' ? 'ring-2 ring-brand-gold' : ''}">
-              <div class="font-extrabold text-amber-300">1. Overseas Broker</div>
-              <div class="text-[10px] text-slate-300 mt-0.5">White-Label + SLA Lock (55%)</div>
-            </button>
-            <div class="text-brand-gold font-black text-lg">➔</div>
             <button onclick="selectPartyChart('buyer')" class="p-3 rounded-xl border border-emerald-500/50 bg-emerald-500/15 hover:bg-emerald-500/25 text-left transition-all ${evActiveParty === 'buyer' ? 'ring-2 ring-brand-gold' : ''}">
-              <div class="font-extrabold text-emerald-300">2. Client / Buyer</div>
-              <div class="text-[10px] text-slate-300 mt-0.5">3D Tour + Wires Escrow (AED 0)</div>
-            </button>
-            <div class="text-brand-gold font-black text-lg">➔</div>
-            <button onclick="selectPartyChart('escrow')" class="p-3 rounded-xl border border-purple-500/50 bg-purple-500/15 hover:bg-purple-500/25 text-left transition-all ${evActiveParty === 'escrow' ? 'ring-2 ring-brand-gold' : ''}">
-              <div class="font-extrabold text-purple-300">3. DLD / Escrow Bank</div>
-              <div class="text-[10px] text-slate-300 mt-0.5">Holds 100% + Issues Oqood</div>
+              <div class="font-extrabold text-emerald-300">1. You (Buyer)</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">Browse + 3D Drone + KYC</div>
             </button>
             <div class="text-brand-gold font-black text-lg">➔</div>
             <button onclick="selectPartyChart('developer')" class="p-3 rounded-xl border border-blue-500/50 bg-blue-500/15 hover:bg-blue-500/25 text-left transition-all ${evActiveParty === 'developer' ? 'ring-2 ring-brand-gold' : ''}">
-              <div class="font-extrabold text-blue-300">4. UAE Developer</div>
-              <div class="text-[10px] text-slate-300 mt-0.5">Builds + Pays 55% / 45% Split</div>
+              <div class="font-extrabold text-blue-300">2. UAE Desk / Dev</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">Live Video + SPA in Your Name</div>
             </button>
+            <div class="text-brand-gold font-black text-lg">➔</div>
+            <button onclick="selectPartyChart('escrow')" class="p-3 rounded-xl border-2 border-brand-gold bg-brand-gold/15 hover:bg-brand-gold/25 text-left transition-all ${evActiveParty === 'escrow' ? 'ring-2 ring-white' : ''}">
+              <div class="font-extrabold text-brand-gold">3. Payment: DLD Escrow</div>
+              <div class="text-[10px] text-white mt-0.5">You Wire 100% Direct (AED 0 Fee)</div>
+            </button>
+            <div class="text-brand-gold font-black text-lg">➔</div>
+            <div class="p-3 rounded-xl border border-emerald-400/60 bg-emerald-950/50 text-left">
+              <div class="font-extrabold text-emerald-300">4. Your Title Deed</div>
+              <div class="text-[10px] text-slate-200 mt-0.5">Oqood / Title in YOUR Name</div>
+            </div>
+          </div>
+          <div class="rounded-xl bg-brand-gold/15 border border-brand-gold/50 p-3 text-xs text-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div><strong class="text-brand-gold">PAYMENT OPTIONS HIGHLIGHT:</strong> Off-Plan = Wire SWIFT directly to <strong>DLD Escrow IBAN</strong> (AED 0 fee). Ready/Resale = <strong>DLD Trustee Manager’s Cheque</strong> or <strong>e-Notary Video POA</strong>. Outside Dubai = <strong>ADREC / RAK / SRERD Escrow</strong>.</div>
           </div>
         </div>
-      `;
+        `
+        : `
+        <div class="rounded-2xl border border-amber-500/40 bg-[#090C14] p-4 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-brand-gold">Scenario B Graphic Flow · Buyer Goes Through USA / Overseas Agency</div>
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">Title Deed: 100% Buyer’s Name · Split: 55% USA / 45% UAE</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-9 gap-1.5 items-center text-center text-xs">
+            <button onclick="selectPartyChart('broker')" class="p-2.5 rounded-xl border border-amber-500/50 bg-amber-500/15 hover:bg-amber-500/25 text-left transition-all ${evActiveParty === 'broker' ? 'ring-2 ring-brand-gold' : ''}">
+              <div class="font-extrabold text-amber-300">1. USA Agency</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">White-Label + SLA Lock (55%)</div>
+            </button>
+            <div class="text-brand-gold font-black text-base">➔</div>
+            <button onclick="selectPartyChart('buyer')" class="p-2.5 rounded-xl border border-emerald-500/50 bg-emerald-500/15 hover:bg-emerald-500/25 text-left transition-all ${evActiveParty === 'buyer' ? 'ring-2 ring-brand-gold' : ''}">
+              <div class="font-extrabold text-emerald-300">2. You (Buyer)</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">3D Tour + Your Passport KYC</div>
+            </button>
+            <div class="text-brand-gold font-black text-base">➔</div>
+            <button onclick="selectPartyChart('escrow')" class="p-2.5 rounded-xl border-2 border-brand-gold bg-brand-gold/15 hover:bg-brand-gold/25 text-left transition-all ${evActiveParty === 'escrow' ? 'ring-2 ring-white' : ''}">
+              <div class="font-extrabold text-brand-gold">3. Payment: Escrow</div>
+              <div class="text-[10px] text-white mt-0.5">Buyer Wires Direct (NEVER to USA Agency)</div>
+            </button>
+            <div class="text-brand-gold font-black text-base">➔</div>
+            <button onclick="selectPartyChart('developer')" class="p-2.5 rounded-xl border border-blue-500/50 bg-blue-500/15 hover:bg-blue-500/25 text-left transition-all ${evActiveParty === 'developer' ? 'ring-2 ring-brand-gold' : ''}">
+              <div class="font-extrabold text-blue-300">4. UAE Developer</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">Issues Buyer Title + Pays 55% / 45%</div>
+            </button>
+            <div class="text-brand-gold font-black text-base">➔</div>
+            <div class="p-2.5 rounded-xl border border-emerald-400/60 bg-emerald-950/50 text-left">
+              <div class="font-extrabold text-emerald-300">5. Result</div>
+              <div class="text-[10px] text-slate-200 mt-0.5">Title: Buyer · 55% USA Paid</div>
+            </div>
+          </div>
+          <div class="rounded-xl bg-brand-gold/15 border border-brand-gold/50 p-3 text-xs text-slate-200">
+            <strong class="text-brand-gold">CRITICAL PAYMENT HIGHLIGHT:</strong> Even when a USA agency handles everything for you, <strong>YOU (the Buyer) wire 100% directly to the DLD Escrow IBAN</strong> (or DLD Trustee for ready homes)—never to the USA agency. Title Deed goes <strong>100% in YOUR name</strong>, and the UAE Developer pays the <strong>55% USA / 45% UAE</strong> commission split!
+          </div>
+        </div>
+        `;
 
       const cardsHtml = keys.map(k => {
         const p = PARTY_FLOW_DATA[k];
@@ -4511,8 +4761,9 @@
     function startExplainerTimer() {
       stopExplainerTimer();
       if (!evIsPlaying) return;
+      const list = getActiveExplainerScenes();
       evTimer = setInterval(() => {
-        if (evCurrentScene < EXPLAINER_SCENES.length - 1) {
+        if (evCurrentScene < list.length - 1) {
           evCurrentScene++;
           renderExplainerScene();
         } else {
@@ -4531,7 +4782,8 @@
     }
 
     function toggleExplainerPlay() {
-      if (!evIsPlaying && evCurrentScene >= EXPLAINER_SCENES.length - 1) {
+      const list = getActiveExplainerScenes();
+      if (!evIsPlaying && evCurrentScene >= list.length - 1) {
         evCurrentScene = 0;
       }
       evIsPlaying = !evIsPlaying;
@@ -4541,13 +4793,15 @@
     }
 
     function goToExplainerScene(idx) {
-      evCurrentScene = Math.max(0, Math.min(EXPLAINER_SCENES.length - 1, idx));
+      const list = getActiveExplainerScenes();
+      evCurrentScene = Math.max(0, Math.min(list.length - 1, idx));
       renderExplainerScene();
       if (evIsPlaying) startExplainerTimer();
     }
 
     function nextExplainerScene() {
-      if (evCurrentScene < EXPLAINER_SCENES.length - 1) {
+      const list = getActiveExplainerScenes();
+      if (evCurrentScene < list.length - 1) {
         goToExplainerScene(evCurrentScene + 1);
       } else {
         goToExplainerScene(0);
@@ -4559,10 +4813,12 @@
     }
 
     function renderExplainerScene() {
-      const s = EXPLAINER_SCENES[evCurrentScene];
+      const list = getActiveExplainerScenes();
+      const s = list[evCurrentScene] || list[0];
       if (!s) return;
+      const totalDur = evScenarioMode === 'all11' ? '00:55' : '00:30';
       const tc = document.getElementById('evTimecode');
-      if (tc) tc.innerText = s.time + ' / 00:55';
+      if (tc) tc.innerText = s.time + ' / ' + totalDur;
       speakExplainerScene(s.plainSummary + ' ' + s.nextShownDetail);
       const badge = document.getElementById('evSceneBadge');
       if (badge) badge.innerText = s.step;
@@ -4576,7 +4832,13 @@
 
       const stage = document.getElementById('evInteractiveStage');
       if (stage) {
+        const payBanner = s.paymentHighlight ? `
+          <div class="mt-3 px-3.5 py-2.5 rounded-xl bg-brand-gold/15 border border-brand-gold/50 text-xs text-slate-100 flex items-center gap-2">
+            <i data-lucide="landmark" class="w-4 h-4 text-brand-gold shrink-0"></i>
+            <span><strong class="text-brand-gold">Payment &amp; Title Highlight:</strong> ${escHtml(s.paymentHighlight)}</span>
+          </div>` : '';
         stage.innerHTML = `
+          ${payBanner}
           <div class="grid grid-cols-1 md:grid-cols-11 gap-3 items-stretch mt-3">
             <div class="md:col-span-5 bg-[#0A0D16] border-2 border-brand-gold/60 rounded-2xl p-4 flex flex-col justify-between relative">
               <div class="text-[10px] font-bold text-brand-gold uppercase tracking-wider">1. What Is Clicked</div>
@@ -4615,11 +4877,11 @@
       }
 
       const prog = document.getElementById('evProgressBar');
-      if (prog) prog.style.width = (((evCurrentScene + 1) / EXPLAINER_SCENES.length) * 100).toFixed(1) + '%';
+      if (prog) prog.style.width = (((evCurrentScene + 1) / list.length) * 100).toFixed(1) + '%';
 
       const chapters = document.getElementById('evChapters');
       if (chapters) {
-        chapters.innerHTML = EXPLAINER_SCENES.map((sc, i) => `
+        chapters.innerHTML = list.map((sc, i) => `
           <button onclick="goToExplainerScene(${i})" class="p-1.5 rounded-lg text-center font-bold text-[10px] transition-all ${i === evCurrentScene ? 'bg-brand-gold text-black' : (i < evCurrentScene ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-white/5 text-slate-400 hover:bg-white/10')}">${escHtml(sc.shortLabel || ('Step ' + (i + 1)))}</button>
         `).join('');
       }
@@ -4628,7 +4890,7 @@
       if (btn) {
         btn.innerHTML = evIsPlaying
           ? '<i data-lucide="pause" class="w-3.5 h-3.5"></i> Pause'
-          : (evCurrentScene >= EXPLAINER_SCENES.length - 1
+          : (evCurrentScene >= list.length - 1
             ? '<i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Replay'
             : '<i data-lucide="play" class="w-3.5 h-3.5"></i> Play');
       }
