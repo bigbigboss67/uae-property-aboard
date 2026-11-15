@@ -12,17 +12,6 @@ const FREE_WEBMAIL_DOMAINS = new Set([
   'icloud.com', 'me.com', 'msn.com', 'ymail.com', 'protonmail.com'
 ]);
 
-const FEMALE_FIRST_NAMES = new Set([
-  'vilma', 'amparo', 'yanet', 'maria', 'mary', 'sarah', 'sara', 'elena', 'anna', 'lisa',
-  'laura', 'emma', 'olivia', 'sophia', 'isabella', 'mia', 'charlotte', 'amelia', 'emily',
-  'jessica', 'ashley', 'amanda', 'jennifer', 'michelle', 'nicole', 'stephanie', 'rebecca',
-  'rachel', 'patricia', 'linda', 'barbara', 'elizabeth', 'susan', 'karen', 'nancy', 'diana',
-  'diane', 'irene', 'vanessa', 'claire', 'julia', 'hannah', 'victoria', 'natalie', 'catherine',
-  'katherine', 'fatima', 'aisha', 'layla', 'nadia', 'yasmin', 'zainab', 'noor', 'hana',
-  'sofia', 'lucia', 'paula', 'carmen', 'rosa', 'ana', 'monica', 'andrea', 'veronica',
-  'christina', 'helen', 'alice', 'grace', 'chloe', 'zoe', 'maya', 'alina', 'olga', 'irina'
-]);
-
 function toTitleCase(str) {
   return String(str || '')
     .trim()
@@ -43,29 +32,12 @@ function isValidHttpUrl(url) {
   return /^https?:\/\/[^\s/$.?#].[^\s]*$/i.test(url.trim());
 }
 
-function hashString(str) {
-  let h = 2166136261;
-  for (let i = 0; i < str.length; i++) {
-    h ^= str.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-
-function getAgentPortraitUrl(cleanName) {
-  const first = (cleanName.split(/\s+/)[0] || '').toLowerCase().replace(/[^a-z]/g, '');
-  const isFemale = FEMALE_FIRST_NAMES.has(first) || (first.length > 3 && first.endsWith('a') && !['joshua', 'luca', 'mustafa', 'musa', 'issa', 'ezra', 'nikola', 'sasha'].includes(first));
-  const gender = isFemale ? 'women' : 'men';
-  const idx = (hashString(cleanName) % 90) + 1;
-  return `https://randomuser.me/api/portraits/med/${gender}/${idx}.jpg`;
-}
-
 function isHighQualityAgent(ag) {
   if (!ag || typeof ag !== 'object') return false;
   if (ag.is_active === false || ag.is_active === 0) return false;
 
   const rawName = String(ag.name || ag.aname || '').trim();
-  if (!rawName || rawName.length < 3 || rawName.length > 60) return false;
+  if (!rawName || rawName.length < 3 || rawName.length > 70) return false;
   if (SPAM_NAME_RE.test(rawName)) return false;
   if (/^\d+$/.test(rawName)) return false;
   if (!/[a-zA-Z\u00C0-\u024F\u0600-\u06FF]{2,}/.test(rawName)) return false;
@@ -115,13 +87,14 @@ function filterAndEnrichAgents(rows) {
       ...ag,
       name: cleanName,
       aname: ag.aname ? toTitleCase(ag.aname) : (hasCorpDomain ? domain.split('.')[0].toUpperCase() : null),
-      photo_link: upstreamPhoto || getAgentPortraitUrl(cleanName),
+      photo_link: upstreamPhoto,
       verified_broker: Boolean(ag.registration_number || ag.aname || hasCorpDomain)
     });
   }
 
   clean.sort((a, b) => {
     const score = (x) =>
+      (x.photo_link ? 10 : 0) +
       (x.registration_number ? 4 : 0) +
       (x.aname ? 2 : 0) +
       (x.verified_broker ? 1 : 0);
@@ -135,7 +108,12 @@ export default async function handler(req, res) {
     const queryStr = req.url && req.url.includes('?') ? req.url.slice(req.url.indexOf('?') + 1) : '';
     const upstreamParams = new URLSearchParams(queryStr);
     const requestedSize = Math.max(1, Math.min(100, Number(upstreamParams.get('page_size')) || 24));
-    upstreamParams.set('page_size', String(Math.min(100, requestedSize * 2)));
+    upstreamParams.set('page_size', String(Math.min(100, Math.max(60, requestedSize * 3))));
+
+    // Default unfiltered view to active Dubai DLD-registered brokers with real photos
+    if (!upstreamParams.get('country') && !upstreamParams.get('city') && !upstreamParams.get('search')) {
+      upstreamParams.set('city', 'Dubai');
+    }
 
     const upstream = await fetch(`https://www.ai-home.world/api/agents?${upstreamParams.toString()}`, {
       headers: {

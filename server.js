@@ -62,7 +62,10 @@ const server = http.createServer(async (req, res) => {
       const { filterAndEnrichAgents } = require('./lib/agent-quality.cjs');
       const requestedSize = Math.max(1, Math.min(100, Number(reqUrl.searchParams.get('page_size')) || 24));
       const upstreamParams = new URLSearchParams(reqUrl.searchParams);
-      upstreamParams.set('page_size', String(Math.min(100, requestedSize * 2)));
+      upstreamParams.set('page_size', String(Math.min(100, Math.max(60, requestedSize * 3))));
+      if (!upstreamParams.get('country') && !upstreamParams.get('city') && !upstreamParams.get('search')) {
+        upstreamParams.set('city', 'Dubai');
+      }
       const upstream = await fetch(`https://www.ai-home.world/api/agents?${upstreamParams.toString()}`, {
         headers: { 'Accept': 'application/json', 'User-Agent': 'AI-Home-Global-Portal/1.0' }
       });

@@ -8,6 +8,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- MapLibre GL JS for Real 3D Satellite Drone Flight -->
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <!-- Google Fonts: Cabinet Grotesk, Plus Jakarta Sans, JetBrains Mono, Cinzel -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2101,41 +2104,48 @@
   </section>
 
   <!-- ======================================================== -->
-  <!-- 10. DRONE VIDEO MODAL PLAYER                            -->
+  <!-- 10. REAL 3D SATELLITE DRONE FLIGHT MODAL (MAPLIBRE GL)   -->
   <!-- ======================================================== -->
   <div id="droneModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#10131B] border border-brand-gold/40 rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl relative">
-      <div class="p-4 bg-black/60 border-b border-white/10 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
-          <span class="text-sm font-bold text-white">Live 4K FPV Virtual Tour | Dubai Prime Corridor</span>
+    <div class="cinema-dark bg-[#10131B] border border-brand-gold/40 rounded-2xl max-w-5xl w-full overflow-hidden shadow-2xl relative text-white">
+      <div class="p-4 bg-black/70 border-b border-white/10 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+          <span class="text-sm font-bold text-white truncate">Live 3D Satellite Drone Flight · Click Anywhere on Map to Fly</span>
         </div>
-        <button onclick="closeDroneModal()" class="text-slate-400 hover:text-white p-1">
+        <button onclick="closeDroneModal()" class="text-slate-300 hover:text-white p-1.5 rounded-lg bg-white/10 hover:bg-white/20 shrink-0">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <div class="relative bg-black h-96 flex items-center justify-center">
-        <!-- Interactive Flyover Mock View -->
-        <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=85" alt="Dubai FPV Drone" class="w-full h-full object-cover opacity-80">
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
-        
-        <!-- HUD Overlay -->
-        <div class="absolute top-4 left-4 bg-black/70 backdrop-blur-md p-3 rounded-lg border border-white/15 text-xs text-white space-y-1">
-          <div>Altitude: <span class="text-brand-gold font-mono">350m</span> | Speed: <span class="text-emerald-400 font-mono">45 km/h</span></div>
-          <div>Focus: <span class="font-bold">Downtown Dubai & Dubai Canal</span></div>
-          <div>Status: <span class="text-emerald-400 font-semibold">Active Client Screen-Share</span></div>
+      <div class="relative bg-black h-[70vh] min-h-[420px]">
+        <!-- Real Interactive 3D MapLibre Satellite Canvas -->
+        <div id="droneMapContainer" class="w-full h-full"></div>
+
+        <!-- Live Telemetry HUD Overlay -->
+        <div class="pointer-events-none absolute top-4 left-4 bg-black/80 backdrop-blur-md p-3 rounded-xl border border-white/15 text-xs text-white space-y-1 z-10">
+          <div>Altitude: <span id="droneAltHud" class="text-brand-gold font-mono">320m</span> | Speed: <span id="droneSpeedHud" class="text-emerald-400 font-mono">48 km/h</span> | Hdg: <span id="droneHdgHud" class="text-sky-400 font-mono">0°</span></div>
+          <div>Target: <span id="droneFocusHud" class="font-bold text-white">Downtown Dubai (Burj Khalifa)</span></div>
+          <div class="font-mono text-[11px] text-slate-300">GPS: <span id="droneGpsHud">25.1972° N, 55.2744° E</span></div>
         </div>
 
-        <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white bg-black/80 backdrop-blur-md p-3 rounded-lg border border-white/15">
-          <div class="flex items-center gap-2">
-            <button class="bg-brand-gold text-black font-bold px-3 py-1 rounded">Downtown</button>
-            <button class="bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded">Palm Jumeirah</button>
-            <button class="bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded">Dubai Creek</button>
+        <!-- Bottom Location Selector & Flight Controls -->
+        <div class="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 text-xs text-white bg-black/85 backdrop-blur-md p-3 rounded-xl border border-white/15 z-10">
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button onclick="flyDroneTo(55.2744, 25.1972, 'Downtown Dubai (Burj Khalifa)')" class="px-2.5 py-1.5 rounded-lg font-bold" style="background-color:#EAB308;color:#0F172A;">Downtown</button>
+            <button onclick="flyDroneTo(55.1390, 25.1124, 'Palm Jumeirah Crescent')" class="px-2.5 py-1.5 rounded-lg font-medium" style="background-color:rgba(255,255,255,0.14);color:#FFFFFF;">Palm Jumeirah</button>
+            <button onclick="flyDroneTo(55.3446, 25.2054, 'Dubai Creek Harbour')" class="px-2.5 py-1.5 rounded-lg font-medium" style="background-color:rgba(255,255,255,0.14);color:#FFFFFF;">Dubai Creek</button>
+            <button onclick="flyDroneTo(55.1413, 25.0805, 'Dubai Marina & Bluewaters')" class="px-2.5 py-1.5 rounded-lg font-medium" style="background-color:rgba(255,255,255,0.14);color:#FFFFFF;">Dubai Marina</button>
+            <button onclick="flyDroneTo(55.7436, 25.6780, 'Al Marjan Island (Wynn Casino)')" class="px-2.5 py-1.5 rounded-lg font-medium" style="background-color:rgba(255,255,255,0.14);color:#FFFFFF;">Al Marjan (Wynn)</button>
           </div>
-          <button onclick="openLeadModal()" class="bg-emerald-500 text-black font-bold px-3 py-1 rounded flex items-center gap-1">
-            <i data-lucide="check" class="w-3.5 h-3.5"></i> Lock Unit from Tour
-          </button>
+          <div class="flex items-center gap-2">
+            <button id="droneToggleOrbitBtn" onclick="toggleDroneOrbit()" class="px-3 py-1.5 rounded-lg font-bold flex items-center gap-1" style="background-color:#135BEC;color:#FFFFFF;">
+              <i data-lucide="navigation" class="w-3.5 h-3.5"></i> <span id="droneOrbitLabel">Pause Flight</span>
+            </button>
+            <button onclick="openLeadModal()" class="px-3 py-1.5 rounded-lg font-bold flex items-center gap-1" style="background-color:#10B981;color:#0F172A;">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Lock Unit from Tour
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2417,51 +2427,29 @@
       <!-- Video Workspace (Split Screen & Side Panel) -->
       <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
         
-        <!-- Left: Main Video Stream & Screen-Share HUD -->
-        <div class="cinema-dark flex-1 bg-black relative flex flex-col justify-between overflow-hidden">
-          
-          <!-- Screen-Share Center Content -->
-          <div id="screenShareContent" class="absolute inset-0 flex items-center justify-center">
-            <!-- Default Screen-share: 4K Drone View -->
-            <img id="screenShareImg" src="https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1400&q=85" alt="Virtual Tour" class="w-full h-full object-cover opacity-85">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none"></div>
-            
-            <div class="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/15 text-xs space-y-1">
-              <div class="flex items-center gap-2">
-                <i data-lucide="cast" class="w-4 h-4 text-emerald-400"></i>
-                <span class="font-bold text-white" id="screenShareLabel">Live Screen Share: 4K Drone Tour & Construction Progress</span>
-              </div>
-              <div class="text-[11px] text-slate-400">Streamed at 1080p 60fps · Dubai Canal & Downtown View</div>
+        <!-- Left: Live WebRTC Video Conference (Jitsi Meet Provider) -->
+        <div class="cinema-dark flex-1 bg-black relative flex flex-col justify-between overflow-hidden min-h-[360px]">
+          <div class="px-4 py-2 bg-black/90 border-b border-white/10 flex flex-wrap items-center justify-between gap-2 text-[11px] z-10">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-emerald-400 font-bold">WebRTC Provider: Jitsi Meet Live</span>
+              <span id="videoRoomUrlBadge" class="text-slate-300 font-mono truncate max-w-[220px]">meet.jit.si/...</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="copyVideoInviteLink()" class="px-2.5 py-1 rounded-lg font-bold" style="background-color:#135BEC;color:#FFFFFF;">
+                Copy Invite Link
+              </button>
+              <a id="videoRoomExternalLink" href="https://meet.jit.si" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg font-bold" style="background-color:rgba(255,255,255,0.14);color:#FFFFFF;">
+                Open Full Room ↗
+              </a>
+              <button onclick="closeVideoCall(); openVirtualTour();" class="px-2.5 py-1 rounded-lg font-bold" style="background-color:#EAB308;color:#0F172A;">
+                3D Drone Map
+              </button>
             </div>
           </div>
-
-          <!-- Bottom: Participant Webcams Overlay -->
-          <div class="absolute bottom-4 left-4 right-4 z-20 flex items-end justify-between pointer-events-none">
-            <div class="flex items-center gap-3 pointer-events-auto">
-              <!-- Cam 1: Overseas Agent -->
-              <div class="w-32 sm:w-40 h-24 rounded-xl bg-slate-900 border-2 border-brand-gold/60 overflow-hidden relative shadow-lg">
-                <img id="videoAgentAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                <div class="absolute bottom-1 left-1 bg-black/80 px-1.5 py-0.5 rounded text-[9px] font-bold text-white truncate max-w-[90%]">
-                  <span id="videoAgentName">Abroad Broker</span> (Host)
-                </div>
-              </div>
-              <!-- Cam 2: UAE Desk Managing Director -->
-              <div class="w-32 sm:w-40 h-24 rounded-xl bg-slate-900 border-2 border-emerald-500/60 overflow-hidden relative shadow-lg">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
-                <div class="absolute bottom-1 left-1 bg-black/80 px-1.5 py-0.5 rounded text-[9px] font-bold text-emerald-400 truncate max-w-[90%]">
-                  Tariq (UAE Senior Desk)
-                </div>
-              </div>
-            </div>
-
-            <!-- Screen Share Switcher Controls -->
-            <div class="flex items-center gap-1.5 bg-black/80 backdrop-blur-md p-1.5 rounded-xl border border-white/20 pointer-events-auto">
-              <button onclick="setScreenShareMode('drone')" id="btnShareDrone" class="px-2.5 py-1.5 rounded-lg bg-brand-gold text-black text-xs font-bold">4K Drone</button>
-              <button onclick="setScreenShareMode('floorplan')" id="btnShareFloorplan" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium">Floorplans</button>
-              <button onclick="setScreenShareMode('escrow')" id="btnShareEscrow" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium">DLD Escrow</button>
-            </div>
-          </div>
-
+          <iframe id="jitsiCallFrame" src="about:blank" allow="camera; microphone; fullscreen; display-capture; autoplay" class="w-full flex-1 border-0 bg-[#0D1017]"></iframe>
+          <span id="videoAgentName" class="hidden">Abroad Broker</span>
+          <img id="videoAgentAvatar" src="" alt="" class="hidden">
         </div>
 
         <!-- Right: Live Deal Chat & Instant Reservation Panel -->
@@ -3566,9 +3554,95 @@
       closeAuthOnboardingModal();
     }
 
-    function openVirtualTour() {
+    let droneMap = null;
+    let droneMarker = null;
+    let droneOrbitActive = true;
+    let droneOrbitRaf = null;
+    let droneTarget = { lng: 55.2744, lat: 25.1972, label: 'Downtown Dubai (Burj Khalifa)' };
+
+    function initDroneMap() {
+      if (droneMap || typeof maplibregl === 'undefined') return;
+      droneMap = new maplibregl.Map({
+        container: 'droneMapContainer',
+        style: {
+          version: 8,
+          sources: {
+            esri: {
+              type: 'raster',
+              tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+              tileSize: 256,
+              attribution: 'Esri World Imagery'
+            }
+          },
+          layers: [{ id: 'esri-sat', type: 'raster', source: 'esri' }]
+        },
+        center: [droneTarget.lng, droneTarget.lat],
+        zoom: 16.0,
+        pitch: 66,
+        bearing: 20,
+        antialias: true
+      });
+      droneMap.addControl(new maplibregl.NavigationControl(), 'top-right');
+      droneMarker = new maplibregl.Marker({ color: '#EAB308' })
+        .setLngLat([droneTarget.lng, droneTarget.lat])
+        .addTo(droneMap);
+
+      // Click anywhere on the map to fly the 3D drone to that location
+      droneMap.on('click', (e) => {
+        const lng = Number(e.lngLat.lng.toFixed(4));
+        const lat = Number(e.lngLat.lat.toFixed(4));
+        flyDroneTo(lng, lat, `Custom Map Pin (${lat}° N, ${lng}° E)`);
+      });
+
+      startDroneOrbitLoop();
+    }
+
+    function flyDroneTo(lng, lat, label) {
+      droneTarget = { lng, lat, label: label || `${lat}, ${lng}` };
+      const focusHud = document.getElementById('droneFocusHud');
+      const gpsHud = document.getElementById('droneGpsHud');
+      if (focusHud) focusHud.innerText = droneTarget.label;
+      if (gpsHud) gpsHud.innerText = `${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E`;
+      if (droneMarker) droneMarker.setLngLat([lng, lat]);
+      if (droneMap) {
+        droneMap.flyTo({ center: [lng, lat], zoom: 16.2, pitch: 66, speed: 1.4, essential: true });
+      }
+    }
+
+    function startDroneOrbitLoop() {
+      if (droneOrbitRaf) cancelAnimationFrame(droneOrbitRaf);
+      const tick = () => {
+        if (droneOrbitActive && droneMap && !document.getElementById('droneModal').classList.contains('hidden')) {
+          const nextBearing = (droneMap.getBearing() + 0.18) % 360;
+          droneMap.setBearing(nextBearing);
+          const hdgHud = document.getElementById('droneHdgHud');
+          if (hdgHud) hdgHud.innerText = `${Math.round((nextBearing + 360) % 360)}°`;
+          const altHud = document.getElementById('droneAltHud');
+          if (altHud) altHud.innerText = `${Math.round(400 - (droneMap.getZoom() - 15) * 60)}m`;
+        }
+        droneOrbitRaf = requestAnimationFrame(tick);
+      };
+      droneOrbitRaf = requestAnimationFrame(tick);
+    }
+
+    function toggleDroneOrbit() {
+      droneOrbitActive = !droneOrbitActive;
+      const lbl = document.getElementById('droneOrbitLabel');
+      const spd = document.getElementById('droneSpeedHud');
+      if (lbl) lbl.innerText = droneOrbitActive ? 'Pause Flight' : 'Resume Flight';
+      if (spd) spd.innerText = droneOrbitActive ? '48 km/h' : '0 km/h (Hover)';
+    }
+
+    function openVirtualTour(lng, lat, label) {
       document.getElementById('droneModal').classList.remove('hidden');
       document.getElementById('droneModal').classList.add('flex');
+      setTimeout(() => {
+        initDroneMap();
+        if (droneMap) droneMap.resize();
+        if (typeof lng === 'number' && typeof lat === 'number') {
+          flyDroneTo(lng, lat, label);
+        }
+      }, 60);
     }
     function closeDroneModal() {
       document.getElementById('droneModal').classList.add('hidden');
@@ -4682,7 +4756,7 @@
           const phone = ag.phone || ag.mobile || ag.office_tel || '';
           const waDigits = phone.replace(/\D/g, '');
           const initials = name.split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
-          const photoSrc = ag.photo_link || ag.avatar || ag.image || `https://randomuser.me/api/portraits/med/men/${((Number(ag.id) || 1) % 90) + 1}.jpg`;
+          const photoSrc = [ag.photo_link, ag.avatar, ag.image, ag.profile_image, ag.picture].find(u => u && /^https?:\/\//i.test(u)) || '';
           const cleanAddr = ag.address && !/^\s*p\.?\s*o\.?\s*box/i.test(ag.address) ? ag.address : loc;
           const langsStr = Array.isArray(ag.langs) && ag.langs.length ? ag.langs.join(', ') : '-';
           const listingsCount = (Number(ag.sale) || 0) + (Number(ag.rent) || 0);
@@ -4691,12 +4765,13 @@
             <div>
               <!-- Dark Navy Top Banner -->
               <div class="h-20 relative" style="background-color:#182032;"></div>
-              <!-- Centered Overlapping Circular Avatar -->
+              <!-- Centered Overlapping Circular Avatar (Real Photo or Clean Initials) -->
               <div class="-mt-10 flex justify-center relative z-10 px-5">
-                <img src="${escHtml(photoSrc)}" alt="${escHtml(name)}" loading="lazy"
+                ${photoSrc ? `<img src="${escHtml(photoSrc)}" alt="${escHtml(name)}" loading="lazy"
                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
                   class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md bg-[#135BEC]/10">
-                <div style="display:none" class="w-20 h-20 rounded-full bg-[#135BEC] border-4 border-white shadow-md text-white font-bold text-lg items-center justify-center">${escHtml(initials)}</div>
+                <div style="display:none;background-color:#135BEC;color:#FFFFFF;" class="w-20 h-20 rounded-full border-4 border-white shadow-md font-bold text-lg items-center justify-center">${escHtml(initials)}</div>`
+                : `<div style="background-color:#135BEC;color:#FFFFFF;" class="w-20 h-20 rounded-full border-4 border-white shadow-md font-bold text-lg flex items-center justify-center">${escHtml(initials)}</div>`}
               </div>
 
               <div class="p-5 pt-3 space-y-2.5">
@@ -4730,15 +4805,15 @@
               </div>
             </div>
 
-            <!-- Bottom 5-Button Action Bar -->
+            <!-- Bottom 5-Button Action Bar (Inline colors prevent Light Mode overrides) -->
             <div class="px-5 pb-5 pt-1 flex items-center gap-1.5">
-              <button onclick="openLeadModalFor('${escHtml(name)}')" title="Register Lead / Chat" class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#2B4C7E] to-[#C89B3C] text-white flex items-center justify-center shrink-0 hover:opacity-90 transition-opacity">
+              <button onclick="openLeadModalFor('${escHtml(name)}')" title="Register Lead / Chat" class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 hover:opacity-90 transition-opacity" style="background:linear-gradient(135deg,#2B4C7E,#C89B3C);color:#FFFFFF;">
                 <i data-lucide="message-circle" class="w-4 h-4"></i>
               </button>
-              ${phone ? `<a href="tel:${escHtml(phone)}" class="flex-1 h-9 rounded-lg bg-[#0B63CE] hover:bg-blue-700 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"><i data-lucide="phone" class="w-3.5 h-3.5"></i> Call</a>` : `<button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" class="flex-1 h-9 rounded-lg bg-[#0B63CE] hover:bg-blue-700 text-white text-[11px] font-bold flex items-center justify-center gap-1"><i data-lucide="phone" class="w-3.5 h-3.5"></i> Call</button>`}
-              ${waDigits ? `<a href="https://wa.me/${waDigits}" target="_blank" rel="noopener noreferrer" class="flex-1 h-9 rounded-lg bg-[#16A34A] hover:bg-green-700 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> WhatsApp</a>` : `<button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" class="flex-1 h-9 rounded-lg bg-[#16A34A] hover:bg-green-700 text-white text-[11px] font-bold flex items-center justify-center gap-1"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> WhatsApp</button>`}
-              ${ag.email ? `<a href="mailto:${escHtml(ag.email)}" class="flex-1 h-9 rounded-lg bg-[#1D4ED8] hover:bg-blue-800 text-white text-[11px] font-bold flex items-center justify-center gap-1 transition-colors"><i data-lucide="mail" class="w-3.5 h-3.5"></i> Email</a>` : `<button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" class="flex-1 h-9 rounded-lg bg-[#1D4ED8] hover:bg-blue-800 text-white text-[11px] font-bold flex items-center justify-center gap-1"><i data-lucide="mail" class="w-3.5 h-3.5"></i> Email</button>`}
-              <button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" title="Live Closing Room" class="w-9 h-9 rounded-lg bg-[#2563EB] hover:bg-blue-700 text-white flex items-center justify-center shrink-0 transition-colors">
+              ${phone ? `<a href="tel:${escHtml(phone)}" class="flex-1 h-9 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1 transition-opacity hover:opacity-90" style="background-color:#0B63CE;color:#FFFFFF;"><i data-lucide="phone" class="w-3.5 h-3.5"></i> Call</a>` : `<button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" class="flex-1 h-9 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1 hover:opacity-90" style="background-color:#0B63CE;color:#FFFFFF;"><i data-lucide="phone" class="w-3.5 h-3.5"></i> Call</button>`}
+              ${waDigits ? `<a href="https://wa.me/${waDigits}" target="_blank" rel="noopener noreferrer" class="flex-1 h-9 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1 transition-opacity hover:opacity-90" style="background-color:#16A34A;color:#FFFFFF;"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> WhatsApp</a>` : `<button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" class="flex-1 h-9 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1 hover:opacity-90" style="background-color:#16A34A;color:#FFFFFF;"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> WhatsApp</button>`}
+              ${ag.email ? `<a href="mailto:${escHtml(ag.email)}" class="flex-1 h-9 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1 transition-opacity hover:opacity-90" style="background-color:#1D4ED8;color:#FFFFFF;"><i data-lucide="mail" class="w-3.5 h-3.5"></i> Email</a>` : `<button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" class="flex-1 h-9 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1 hover:opacity-90" style="background-color:#1D4ED8;color:#FFFFFF;"><i data-lucide="mail" class="w-3.5 h-3.5"></i> Email</button>`}
+              <button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '${escHtml(photoSrc)}', 'UAE Off-Plan Portfolio')" title="Live Video Call" class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-opacity hover:opacity-90" style="background-color:#2563EB;color:#FFFFFF;">
                 <i data-lucide="video" class="w-4 h-4"></i>
               </button>
             </div>
@@ -4788,43 +4863,50 @@
     // ==========================================
     // 1-CLICK VIDEO CLOSING ROOM LOGIC
     // ==========================================
+    let activeVideoRoomUrl = '';
     function openVideoCallFor(agentName, agencyName, avatar, project) {
       document.getElementById('videoAgentName').innerText = agentName;
       document.getElementById('videoRoomTitle').innerText = `${project} · Hosted by ${agencyName}`;
       if (avatar) {
         document.getElementById('videoAgentAvatar').src = avatar;
       }
+      const slug = ('AIHomeGlobal-' + (agentName || 'Desk') + '-' + (agencyName || 'UAE'))
+        .replace(/[^a-zA-Z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 48);
+      activeVideoRoomUrl = `https://meet.jit.si/${slug}`;
+      const embedUrl = `${activeVideoRoomUrl}#config.prejoinPageEnabled=false&config.startWithAudioMuted=false&interfaceConfig.SHOW_JITSI_WATERMARK=false`;
+
+      const frame = document.getElementById('jitsiCallFrame');
+      if (frame) frame.src = embedUrl;
+      const badge = document.getElementById('videoRoomUrlBadge');
+      if (badge) badge.innerText = `meet.jit.si/${slug}`;
+      const extLink = document.getElementById('videoRoomExternalLink');
+      if (extLink) extLink.href = activeVideoRoomUrl;
+
       document.getElementById('videoCallModal').classList.remove('hidden');
       document.getElementById('videoCallModal').classList.add('flex');
       lucide.createIcons();
     }
 
+    function copyVideoInviteLink() {
+      if (!activeVideoRoomUrl) return;
+      navigator.clipboard?.writeText(activeVideoRoomUrl).then(() => {
+        showToast('Live Jitsi Meeting Link copied! Share with your client or broker.');
+      }).catch(() => {
+        prompt('Copy live meeting link:', activeVideoRoomUrl);
+      });
+    }
+
     function closeVideoCall() {
+      const frame = document.getElementById('jitsiCallFrame');
+      if (frame) frame.src = 'about:blank';
       document.getElementById('videoCallModal').classList.add('hidden');
       document.getElementById('videoCallModal').classList.remove('flex');
     }
 
     function setScreenShareMode(mode) {
-      const img = document.getElementById('screenShareImg');
-      const label = document.getElementById('screenShareLabel');
-      
-      document.getElementById('btnShareDrone').className = "px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium";
-      document.getElementById('btnShareFloorplan').className = "px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium";
-      document.getElementById('btnShareEscrow').className = "px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium";
-
-      if (mode === 'drone') {
-        img.src = "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1400&q=85";
-        label.innerText = "Live Screen Share: 4K Drone Tour & Construction Progress";
-        document.getElementById('btnShareDrone').className = "px-2.5 py-1.5 rounded-lg bg-brand-gold text-black text-xs font-bold";
-      } else if (mode === 'floorplan') {
-        img.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85";
-        label.innerText = "Live Screen Share: Architectural Floorplans & Unit Layout 1402";
-        document.getElementById('btnShareFloorplan').className = "px-2.5 py-1.5 rounded-lg bg-brand-gold text-black text-xs font-bold";
-      } else if (mode === 'escrow') {
-        img.src = "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1400&q=85";
-        label.innerText = "Live Screen Share: Dubai Land Department Official Escrow Verification";
-        document.getElementById('btnShareEscrow').className = "px-2.5 py-1.5 rounded-lg bg-brand-gold text-black text-xs font-bold";
-      }
+      if (mode === 'drone') { closeVideoCall(); openVirtualTour(); }
     }
 
     function triggerInstantReservationLink() {
