@@ -6719,26 +6719,29 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
 
   <!-- PORTAL OWNER PASSCODE LOGIN MODAL (GATED ADMIN ACCESS) -->
   <div id="ownerLoginModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
-    <div class="modal-panel-animate cinema-dark bg-[#12151E] border border-gold-400/40 rounded-2xl max-w-md w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs">
+    <div class="modal-panel-animate cinema-dark bg-[#12151E] border border-amber-400/40 rounded-2xl max-w-md w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs">
       <div class="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
         <div>
-          <span class="bg-gold-500/20 text-gold-300 border border-gold-400/40 text-[10px] font-bold px-2.5 py-0.5 rounded uppercase">Restricted Admin Gate</span>
+          <span class="bg-amber-500/20 text-amber-300 border border-amber-400/40 text-[10px] font-bold px-2.5 py-0.5 rounded uppercase">Restricted Admin Gate</span>
           <h3 class="font-serif text-lg text-white font-bold mt-1">Portal Owner Sign In</h3>
         </div>
-        <button type="button" onclick="closeOwnerLoginModal()" class="text-slate-400 hover:text-white text-sm px-2.5 py-1 rounded-lg bg-white/5 border border-white/10">✕</button>
+        <button type="button" onclick="closeOwnerLoginModal()" class="text-slate-300 hover:text-white text-sm px-2.5 py-1 rounded-lg bg-white/10 border border-white/15">✕</button>
       </div>
       <form onsubmit="submitOwnerLogin(event)" class="space-y-4">
-        <p class="text-xs text-slate-400 leading-relaxed">
+        <p class="text-xs text-slate-300 leading-relaxed">
           This inbox is strictly restricted to the Portal Owner. Visitors, buyers, overseas partners, and UAE RERA sellers have no access.
         </p>
         <div>
-          <label for="ownerPasscodeInput" class="block text-[11px] uppercase tracking-wider text-slate-300 font-semibold mb-1.5">Owner Passcode</label>
-          <input id="ownerPasscodeInput" type="password" required autocomplete="current-password" placeholder="Enter Portal Owner passcode..." class="w-full px-3.5 py-2.5 rounded-xl bg-navy-950 border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-gold-400">
+          <label for="ownerPasscodeInput" class="block text-[11px] uppercase tracking-wider text-amber-300 font-bold mb-1.5">Owner Passcode</label>
+          <div class="relative flex items-center">
+            <input id="ownerPasscodeInput" type="password" required autocomplete="current-password" placeholder="Enter Portal Owner passcode..." style="background-color:#0A0C13;color:#FFFFFF;" class="w-full px-3.5 py-2.5 pr-16 rounded-xl bg-[#0A0C13] border border-white/25 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-400">
+            <button type="button" onclick="const inp=document.getElementById('ownerPasscodeInput');const show=inp.type==='password';inp.type=show?'text':'password';this.textContent=show?'Hide':'Show';" class="absolute right-2 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 text-[11px] font-semibold border border-white/15">Show</button>
+          </div>
         </div>
-        <div id="ownerLoginError" class="hidden text-xs text-rose-300 bg-rose-500/10 border border-rose-500/30 rounded-xl px-3 py-2"></div>
+        <div id="ownerLoginError" class="hidden text-xs text-rose-300 bg-rose-500/15 border border-rose-500/40 rounded-xl px-3 py-2"></div>
         <div class="flex items-center justify-end gap-2 pt-1">
-          <button type="button" onclick="closeOwnerLoginModal()" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-semibold border border-white/10">Cancel</button>
-          <button type="submit" class="px-4 py-2 rounded-xl bg-gold-500 hover:bg-gold-400 text-navy-950 text-xs font-bold transition">Verify &amp; Unlock Inbox</button>
+          <button type="button" onclick="closeOwnerLoginModal()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 text-xs font-semibold border border-white/15">Cancel</button>
+          <button type="submit" style="background-color:#D4AF37;color:#0A0C13;" class="px-4 py-2 rounded-xl text-xs font-extrabold hover:brightness-110 transition shadow">Verify &amp; Unlock Inbox</button>
         </div>
       </form>
     </div>

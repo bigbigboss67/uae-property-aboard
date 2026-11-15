@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 
 function getSecret() {
-  return process.env.PORTAL_OWNER_PASSCODE || 'AIH-OWNER-2026';
+  return process.env.PORTAL_OWNER_PASSCODE || 'aih-owner-2026e';
 }
 
 function signOwnerToken(expMs) {
