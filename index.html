@@ -5765,10 +5765,26 @@
       document.getElementById('bcProjectTitle').innerText = blindContractState.projectName;
       document.getElementById('bcProjectSub').innerText = `${blindContractState.developer} · AED ${blindContractState.priceAED.toLocaleString()} · Direct Deal (0% Portal / No DLD)`;
       document.getElementById('bcPriceInput').value = blindContractState.priceAED;
+      setBcWizardStep(1);
       updateBlindContractUI();
       modal.classList.remove('hidden');
       modal.classList.add('flex');
       if (window.lucide) lucide.createIcons();
+    }
+
+    function setBcWizardStep(step) {
+      [1, 2, 3].forEach(n => {
+        const panel = document.getElementById('bcStepPanel-' + n);
+        const tab = document.getElementById('bcStepTab-' + n);
+        if (panel) panel.classList.toggle('hidden', n !== step);
+        if (tab) {
+          tab.className = n === step
+            ? 'py-2 px-2.5 rounded-xl bg-brand-gold text-black font-extrabold text-left transition-all'
+            : (n < step
+              ? 'py-2 px-2.5 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold text-left border border-emerald-500/40 transition-all'
+              : 'py-2 px-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-left border border-white/10 transition-all');
+        }
+      });
     }
 
     function closeBlindContractModal() {
@@ -6138,124 +6154,191 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
     });
   </script>
 
-  <!-- DIRECT DIGITAL CONTRACT & PAYMENT PROOF GATE MODAL (ZERO PORTAL / DLD INTERVENTION) -->
-  <div id="blindContractModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-[#12151E] border border-blue-500/40 rounded-2xl max-w-5xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[92vh] overflow-y-auto">
-      <button onclick="closeBlindContractModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
+  <!-- DIRECT DIGITAL CONTRACT & PAYMENT PROOF GATE MODAL (GUIDED 3-STEP WIZARD) -->
+  <div id="blindContractModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-start justify-center p-2 sm:p-4 overflow-hidden">
+    <div class="cinema-dark bg-[#12151E] border border-blue-500/40 rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden relative shadow-2xl my-2 sm:my-4">
 
-      <div class="mb-4">
-        <span class="bg-blue-500/20 text-blue-300 border border-blue-500/40 text-[10px] font-bold px-2.5 py-1 rounded uppercase">Direct Digital Contract + Payment Proof Gate (0% Portal Cut · No DLD Intervention)</span>
-        <h3 id="bcProjectTitle" class="text-xl font-display font-extrabold text-white mt-2">UAE Off-Plan Project</h3>
-        <p id="bcProjectSub" class="text-xs text-slate-400">Developer · Price</p>
-      </div>
-
-      <div id="bcUnlockStatus" class="p-3.5 rounded-xl border border-blue-500/40 bg-blue-500/10 text-blue-200 text-xs font-semibold mb-4"></div>
-      <div id="bcDirectContactBox" class="p-3 rounded-xl border border-white/10 bg-white/5 text-xs text-slate-400 mb-4"></div>
-
-      <!-- Direct Signature Confirmation Grid (No DLD Card) -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
-        <div id="bcSigCardOverseas" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
-        <div id="bcSigCardUae" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
-        <div id="bcSigCardBuyer" class="p-2.5 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
-      </div>
-
-      <!-- All 3 Monetization Billing Options -->
-      <div class="flex flex-wrap items-center justify-between gap-2 mb-4 p-3 rounded-xl bg-[#0A0C13] border border-white/10 text-xs">
-        <div class="flex flex-wrap gap-2">
-          <button id="bcModeBtn-pay_per_unlock" onclick="setDealBillingMode('pay_per_unlock')" class="px-3 py-2 rounded-xl bg-[#135BEC] text-white text-xs font-extrabold">1. Pay-Per-Unlock ($150–$500)</button>
-          <button id="bcModeBtn-wallet_credit" onclick="setDealBillingMode('wallet_credit')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">2. Wallet Credits (<span id="bcWalletBalanceDisplay">5 credits</span>)</button>
-          <button id="bcModeBtn-subscription" onclick="setDealBillingMode('subscription')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">3. Pro Plan (<span id="bcSubQuotaDisplay">10 unlocks left</span>)</button>
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="topUpWalletCredits()" class="px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-[11px]">+5 Credits ($1,000)</button>
-          <label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer">
-            <input type="checkbox" onchange="toggleCertAddon()" class="accent-blue-500">
-            <span>+$49 Proof Certificate</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 text-xs">
-        <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
-          <div class="font-bold text-brand-gold uppercase text-[11px]">Direct Commission Split (100% to Parties · 0% Portal)</div>
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="text-slate-400 block mb-1">Property Value (AED)</label>
-              <input id="bcPriceInput" type="number" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
-            </div>
-            <div>
-              <label class="text-slate-400 block mb-1">Gross Dev Comm (%)</label>
-              <input id="bcGrossCommInput" type="number" step="0.5" value="5" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
-            </div>
-            <div>
-              <label class="text-slate-400 block mb-1">Overseas Partner (% of Gross)</label>
-              <input id="bcOverseasPctInput" type="number" value="55" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
-            </div>
-            <div>
-              <label class="text-slate-400 block mb-1">UAE RERA Seller (% of Gross)</label>
-              <input id="bcUaePctInput" type="number" value="45" readonly class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-1.5 text-slate-300">
-            </div>
+      <!-- Pinned Top Header + Stepper -->
+      <div class="shrink-0 px-5 sm:px-6 py-3.5 bg-[#12151E] border-b border-white/10" style="background-color:#12151E;color:#FFFFFF;">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <span class="bg-blue-500/20 text-blue-300 border border-blue-500/40 text-[10px] font-bold px-2.5 py-0.5 rounded uppercase">Direct Agreement · 0% Portal Cut</span>
+            <h3 id="bcProjectTitle" class="text-lg sm:text-xl font-display font-extrabold text-white mt-1">UAE Off-Plan Project</h3>
+            <p id="bcProjectSub" class="text-xs text-slate-400">Developer · Price</p>
           </div>
-          <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/10 text-[11px]">
-            <div>Gross Pool: <strong id="bcGrossAED" class="text-white">AED 0</strong></div>
-            <div>Overseas: <strong id="bcOverseasAED" class="text-brand-gold">AED 0</strong></div>
-            <div>UAE Seller: <strong id="bcUaeAED" class="text-sky-400">AED 0</strong></div>
-          </div>
-        </div>
-
-        <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
-          <div class="font-bold text-emerald-400 uppercase text-[11px]">Digital Signing &amp; Payment Proof Gate</div>
-          <div class="grid grid-cols-3 gap-2">
-            <div>
-              <label class="text-slate-400 block mb-1">Overseas Partner</label>
-              <input id="bcOverseasAgencyInput" type="text" placeholder="Savills Mayfair" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
-            </div>
-            <div>
-              <label class="text-slate-400 block mb-1">UAE RERA Seller</label>
-              <select id="bcUaeAgencySelect" onchange="if(this.value && this.value!=='__CUSTOM__'){const el=document.getElementById('bcUaeAgencyInput');el.value=this.value;updateBlindContractUI();}else if(this.value==='__CUSTOM__'){document.getElementById('bcUaeAgencyInput').focus();}" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white mb-1">
-                <option value="UAE-RERA-SELLER">UAE-RERA-SELLER</option>
-              </select>
-              <input id="bcUaeAgencyInput" list="bcUaeSellersList" type="text" placeholder="Or type UAE Agency / RERA Seller manually..." oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
-            </div>
-            <div>
-              <label class="text-slate-400 block mb-1">Buyer Ref (Optional)</label>
-              <input id="bcBuyerNameInput" type="text" placeholder="Global Buyer" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white">
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-1.5">
-            <button id="bcSignOverseasBtn" onclick="signBlindParty('overseas')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">1. Sign Overseas</button>
-            <button id="bcSignUaeBtn" onclick="signBlindParty('uae')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">2. Sign UAE Seller</button>
-            <button onclick="signBlindParty('buyer')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-[10px]">Optional: Buyer</button>
-          </div>
-          <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/10">
-            <input id="bcTxRefInput" type="text" placeholder="Wire / Bank Tx Ref #" class="bg-[#12151E] border border-white/15 rounded-lg px-2 py-1.5 text-white text-[11px]">
-            <input id="bcReceiptFileInput" type="file" accept=".pdf,.png,.jpg,.jpeg" class="text-[10px] text-slate-300 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-600 file:text-white">
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-            <button id="bcPayCardBtn" onclick="submitDealPaymentProof('card')" class="py-1.5 px-2 rounded-lg bg-[#135BEC] hover:bg-blue-700 text-white font-bold text-[10px]">Pay Card ($250+)</button>
-            <button id="bcPayWireBtn" onclick="submitDealPaymentProof('bank_upload')" class="py-1.5 px-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-[10px]">Upload Wire Proof</button>
-            <button id="bcPayCreditBtn" onclick="submitDealPaymentProof('credit')" class="py-1.5 px-2 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 font-bold text-[10px]">Use 1 Credit</button>
-            <button id="bcPaySubBtn" onclick="submitDealPaymentProof('subscription')" class="py-1.5 px-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-[10px]">Use Pro Plan</button>
-          </div>
-          <button id="bcVerifyProofBtn" onclick="verifyUploadedPaymentProof()" class="hidden w-full py-1.5 px-3 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-[11px]">
-            ✓ Verify Uploaded Payment Proof &amp; Unlock Contacts
+          <button onclick="closeBlindContractModal()" aria-label="Close Direct Contract" style="background-color:#EF4444;color:#FFFFFF;" class="px-3 py-1.5 rounded-lg text-xs font-extrabold flex items-center gap-1 hover:brightness-110 transition-all shadow shrink-0">
+            <i data-lucide="x" class="w-4 h-4"></i> Close
           </button>
-          <button onclick="simulateAllPartiesConfirmDeal()" class="w-full py-2 px-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-[11px] inline-flex items-center justify-center gap-1.5">
-            <i data-lucide="zap" class="w-3.5 h-3.5"></i> Instant Test: Sign Direct Contract + Card Proof + Unlock
+        </div>
+
+        <!-- Clear 3-Step Wizard Progress Bar -->
+        <div class="grid grid-cols-3 gap-2 mt-3 text-xs">
+          <button id="bcStepTab-1" onclick="setBcWizardStep(1)" class="py-2 px-2.5 rounded-xl bg-brand-gold text-black font-extrabold text-left transition-all">
+            <span class="block text-[10px] uppercase opacity-75">Step 1</span>
+            <span>Check Payout</span>
+          </button>
+          <button id="bcStepTab-2" onclick="setBcWizardStep(2)" class="py-2 px-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-left border border-white/10 transition-all">
+            <span class="block text-[10px] uppercase opacity-75">Step 2</span>
+            <span>Sign Agreement</span>
+          </button>
+          <button id="bcStepTab-3" onclick="setBcWizardStep(3)" class="py-2 px-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-left border border-white/10 transition-all">
+            <span class="block text-[10px] uppercase opacity-75">Step 3</span>
+            <span>Unlock &amp; Next</span>
           </button>
         </div>
       </div>
 
-      <div class="mb-4">
-        <label class="text-xs font-bold text-slate-300 block mb-1.5">Direct Co-Brokerage Contract &amp; Payment Proof Certificate:</label>
-        <textarea id="bcContractPreview" readonly rows="10" class="w-full bg-[#08090C] border border-white/15 rounded-xl p-3 text-[11px] font-mono text-slate-300 focus:outline-none"></textarea>
-      </div>
+      <!-- Scrollable Step Content -->
+      <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-xs">
 
-      <div class="flex flex-wrap gap-3 justify-end">
-        <button id="bcDownloadCertBtn" onclick="downloadBlindContract()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Download Contract &amp; Payment Proof (.txt)</button>
-        <button onclick="closeBlindContractModal()" class="px-4 py-2 rounded-xl bg-[#135BEC] hover:bg-blue-700 text-white text-xs font-extrabold">Done</button>
+        <!-- STEP 1 PANEL: CHECK YOUR PAYOUT -->
+        <div id="bcStepPanel-1" class="space-y-4">
+          <div class="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/30 text-slate-200">
+            <strong class="text-brand-gold block mb-0.5">What happens here (Step 1 of 3):</strong>
+            Check the property price and see how the developer’s commission is split between you (<strong>55% Overseas Partner</strong>) and the UAE Seller (<strong>45%</strong>). The portal takes <strong>0%</strong>.
+          </div>
+
+          <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
+            <div class="font-bold text-brand-gold uppercase text-[11px]">Direct Commission Split (100% to Parties · 0% Portal)</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-slate-400 block mb-1">Property Value (AED)</label>
+                <input id="bcPriceInput" type="number" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-slate-400 block mb-1">Gross Dev Comm (%)</label>
+                <input id="bcGrossCommInput" type="number" step="0.5" value="5" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-slate-400 block mb-1">Overseas Partner (% of Gross)</label>
+                <input id="bcOverseasPctInput" type="number" value="55" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-slate-400 block mb-1">UAE RERA Seller (% of Gross)</label>
+                <input id="bcUaePctInput" type="number" value="45" readonly class="w-full bg-[#12151E] border border-white/15 rounded-lg px-3 py-2 text-slate-300">
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-3 border-t border-white/10 text-xs">
+              <div class="p-2.5 rounded-lg bg-white/5">Gross Pool:<br><strong id="bcGrossAED" class="text-white text-sm">AED 0</strong></div>
+              <div class="p-2.5 rounded-lg bg-brand-gold/10 border border-brand-gold/30">Your Share (55%):<br><strong id="bcOverseasAED" class="text-brand-gold text-sm">AED 0</strong></div>
+              <div class="p-2.5 rounded-lg bg-sky-500/10 border border-sky-500/30">UAE Seller (45%):<br><strong id="bcUaeAED" class="text-sky-400 text-sm">AED 0</strong></div>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button onclick="setBcWizardStep(2)" class="px-5 py-2.5 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black font-extrabold text-xs inline-flex items-center gap-1.5 shadow">
+              Next: Step 2 (Sign Agreement) →
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2 PANEL: SIGN SIMPLE AGREEMENT -->
+        <div id="bcStepPanel-2" class="hidden space-y-4">
+          <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-slate-200">
+            <strong class="text-emerald-300 block mb-0.5">What happens here (Step 2 of 3):</strong>
+            Enter your agency name and click <strong>Sign</strong> so your 55% commission is locked. Phone numbers and emails stay hidden until Step 3 so nobody can steal your client.
+          </div>
+
+          <!-- Direct Signature Confirmation Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div id="bcSigCardOverseas" class="p-3 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+            <div id="bcSigCardUae" class="p-3 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+            <div id="bcSigCardBuyer" class="p-3 rounded-xl border border-white/10 bg-white/5 text-[11px]"></div>
+          </div>
+
+          <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
+            <div class="font-bold text-emerald-400 uppercase text-[11px]">Enter Names &amp; Click to Sign</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="text-slate-400 block mb-1">Overseas Partner</label>
+                <input id="bcOverseasAgencyInput" type="text" placeholder="Savills Mayfair" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-slate-400 block mb-1">UAE RERA Seller</label>
+                <select id="bcUaeAgencySelect" onchange="if(this.value && this.value!=='__CUSTOM__'){const el=document.getElementById('bcUaeAgencyInput');el.value=this.value;updateBlindContractUI();}else if(this.value==='__CUSTOM__'){document.getElementById('bcUaeAgencyInput').focus();}" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white mb-1">
+                  <option value="UAE-RERA-SELLER">UAE-RERA-SELLER</option>
+                </select>
+                <input id="bcUaeAgencyInput" list="bcUaeSellersList" type="text" placeholder="Or type UAE Agency manually..." oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-slate-400 block mb-1">Buyer Ref (Optional)</label>
+                <input id="bcBuyerNameInput" type="text" placeholder="Global Buyer" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white">
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
+              <button id="bcSignOverseasBtn" onclick="signBlindParty('overseas')" class="py-2.5 px-3 rounded-xl bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/40 text-brand-gold font-bold text-xs">1. Sign Overseas Partner</button>
+              <button id="bcSignUaeBtn" onclick="signBlindParty('uae')" class="py-2.5 px-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-bold text-xs">2. Sign UAE Seller</button>
+              <button onclick="signBlindParty('buyer')" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs">Optional: Sign Buyer</button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2">
+            <button onclick="setBcWizardStep(1)" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs">← Back</button>
+            <button onclick="setBcWizardStep(3)" class="px-5 py-2.5 rounded-xl bg-brand-gold hover:bg-yellow-400 text-black font-extrabold text-xs inline-flex items-center gap-1.5 shadow">
+              Next: Step 3 (Unlock Contacts &amp; Pay) →
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3 PANEL: UNLOCK CONTACTS & WHAT'S NEXT -->
+        <div id="bcStepPanel-3" class="hidden space-y-4">
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-slate-200">
+            <strong class="text-brand-gold block mb-0.5">What happens here (Step 3 of 3):</strong>
+            Verify unlock proof (or click <strong>Instant Test</strong>) to reveal direct WhatsApp, Email &amp; Phone. <strong>What’s next:</strong> The buyer wires the property deposit directly to the official <strong>DLD Escrow Bank</strong> (never to the portal).
+          </div>
+
+          <div id="bcUnlockStatus" class="p-3.5 rounded-xl border border-blue-500/40 bg-blue-500/10 text-blue-200 text-xs font-semibold"></div>
+          <div id="bcDirectContactBox" class="p-3 rounded-xl border border-white/10 bg-white/5 text-xs text-slate-300"></div>
+
+          <!-- Billing Options -->
+          <div class="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-[#0A0C13] border border-white/10 text-xs">
+            <div class="flex flex-wrap gap-2">
+              <button id="bcModeBtn-pay_per_unlock" onclick="setDealBillingMode('pay_per_unlock')" class="px-3 py-2 rounded-xl bg-[#135BEC] text-white text-xs font-extrabold">1. Pay-Per-Unlock ($150–$500)</button>
+              <button id="bcModeBtn-wallet_credit" onclick="setDealBillingMode('wallet_credit')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">2. Wallet Credits (<span id="bcWalletBalanceDisplay">5 credits</span>)</button>
+              <button id="bcModeBtn-subscription" onclick="setDealBillingMode('subscription')" class="px-3 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-semibold border border-white/10">3. Pro Plan (<span id="bcSubQuotaDisplay">10 unlocks left</span>)</button>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="topUpWalletCredits()" class="px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-[11px]">+5 Credits ($1,000)</button>
+              <label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer">
+                <input type="checkbox" onchange="toggleCertAddon()" class="accent-blue-500">
+                <span>+$49 Proof Certificate</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input id="bcTxRefInput" type="text" placeholder="Wire / Bank Tx Ref #" class="bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white text-xs">
+              <input id="bcReceiptFileInput" type="file" accept=".pdf,.png,.jpg,.jpeg" class="text-[11px] text-slate-300 file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:bg-blue-600 file:text-white">
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <button id="bcPayCardBtn" onclick="submitDealPaymentProof('card')" class="py-2 px-2.5 rounded-lg bg-[#135BEC] hover:bg-blue-700 text-white font-bold text-[11px]">Pay Card ($250+)</button>
+              <button id="bcPayWireBtn" onclick="submitDealPaymentProof('bank_upload')" class="py-2 px-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-[11px]">Upload Wire Proof</button>
+              <button id="bcPayCreditBtn" onclick="submitDealPaymentProof('credit')" class="py-2 px-2.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 font-bold text-[11px]">Use 1 Credit</button>
+              <button id="bcPaySubBtn" onclick="submitDealPaymentProof('subscription')" class="py-2 px-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-[11px]">Use Pro Plan</button>
+            </div>
+            <button id="bcVerifyProofBtn" onclick="verifyUploadedPaymentProof()" class="hidden w-full py-2 px-3 rounded-lg bg-amber-400 hover:bg-amber-300 text-black font-extrabold text-xs">
+              ✓ Verify Uploaded Payment Proof &amp; Unlock Contacts
+            </button>
+            <button onclick="simulateAllPartiesConfirmDeal()" class="w-full py-2.5 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs inline-flex items-center justify-center gap-1.5">
+              <i data-lucide="zap" class="w-4 h-4"></i> Instant Test: Sign Contract + Verify Proof + Unlock Contacts
+            </button>
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-slate-300 block mb-1.5">Direct Co-Brokerage Contract &amp; Payment Proof Certificate:</label>
+            <textarea id="bcContractPreview" readonly rows="8" class="w-full bg-[#08090C] border border-white/15 rounded-xl p-3 text-[11px] font-mono text-slate-300 focus:outline-none"></textarea>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+            <button onclick="setBcWizardStep(2)" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs">← Back</button>
+            <div class="flex flex-wrap gap-2">
+              <button id="bcDownloadCertBtn" onclick="downloadBlindContract()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Download Contract (.txt)</button>
+              <button onclick="closeBlindContractModal()" class="px-5 py-2 rounded-xl bg-[#135BEC] hover:bg-blue-700 text-white text-xs font-extrabold">Done</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
