@@ -5963,12 +5963,20 @@
       updateBlindContractUI();
     }
 
+    function getSaasTierForPrice(priceAED) {
+      const p = Number(priceAED) || 0;
+      if (p >= 10000000) return { feeUsd: 1500, label: 'Ultra-Prime Tier (AED 10M+)' };
+      if (p >= 5000000) return { feeUsd: 850, label: 'Luxury Tier (AED 5M–10M)' };
+      if (p >= 2000000) return { feeUsd: 450, label: 'Prime Tier (AED 2M–5M)' };
+      return { feeUsd: 250, label: 'Standard Tier (< AED 2M)' };
+    }
+
     async function submitDealPaymentProof(method) {
       blindContractState.paymentMethod = method;
-      const tierFee = blindContractState.priceAED >= 3000000 ? 350 : 250;
+      const livePrice = Math.max(0, Number(document.getElementById('bcPriceInput')?.value || blindContractState.priceAED));
+      const tier = getSaasTierForPrice(livePrice);
       const addon = blindContractState.certAddon ? 49 : 0;
-      const pctFeeUsd = Number(blindContractState.portalFeeUSD || 0);
-      const baseFee = blindContractState.portalFeeType === 'percentage' && pctFeeUsd > 0 ? pctFeeUsd : tierFee;
+      const baseFee = tier.feeUsd;
       const amountUsd = (method === 'credit' || method === 'subscription') ? addon : (baseFee + addon);
       const txRefInput = document.getElementById('bcTxRefInput')?.value?.trim() || '';
       const fileInput = document.getElementById('bcReceiptFileInput');
@@ -5984,8 +5992,7 @@
               dealId: blindContractState.contractId,
               projectTitle: blindContractState.projectName,
               billingMode: blindContractState.billingMode,
-              portalFeeType: blindContractState.portalFeeType || 'fixed',
-              portalPct: document.getElementById('bcPortalPctInput')?.value || 0,
+              tierLabel: tier.label,
               origin: window.location.origin
             })
           });
@@ -6081,20 +6088,14 @@
       if (uaeInput) uaeInput.value = uaePct;
 
       const grossAED = Math.round(price * (grossPct / 100));
-      const portalPct = blindContractState.portalFeeType === 'percentage'
-        ? Math.max(0, Math.min(5, Number(document.getElementById('bcPortalPctInput')?.value ?? 0.5)))
-        : 0;
-      const portalFeeAED = blindContractState.portalFeeType === 'percentage' ? Math.round(price * (portalPct / 100)) : 0;
-      const portalFeeUSD = Math.round(portalFeeAED / 3.6725);
-      blindContractState.portalFeeAED = portalFeeAED;
-      blindContractState.portalFeeUSD = portalFeeUSD;
-      const netPoolAED = Math.max(0, grossAED - portalFeeAED);
-      const ovAED = Math.round(netPoolAED * (ovPct / 100));
-      const uaeAED = Math.max(0, netPoolAED - ovAED);
+      const saasTier = getSaasTierForPrice(price);
+      blindContractState.saasTier = saasTier;
+      blindContractState.portalFeeUSD = saasTier.feeUsd;
+      const ovAED = Math.round(grossAED * (ovPct / 100));
+      const uaeAED = Math.max(0, grossAED - ovAED);
 
       const setEl = (id, txt) => { const e = document.getElementById(id); if (e) e.innerText = txt; };
-      setEl('bcPortalFeeAED', 'AED ' + portalFeeAED.toLocaleString());
-      setEl('bcPortalFeeUSD', '$' + portalFeeUSD.toLocaleString() + ' USD');
+      setEl('bcSaasTierBadge', `${saasTier.label} · $${saasTier.feeUsd} USD SaaS Unlock`);
       setEl('bcGrossAED', 'AED ' + grossAED.toLocaleString());
       setEl('bcOverseasAED', 'AED ' + ovAED.toLocaleString());
       setEl('bcUaeAED', 'AED ' + uaeAED.toLocaleString());
@@ -6180,9 +6181,10 @@ Contract ID: ${blindContractState.contractId} | Issued: ${blindContractState.dis
 Project: ${blindContractState.projectName} (${blindContractState.projectId})
 Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()}
 
-1. PORTAL FEE & RERA COMPLIANCE
-- Portal Fee Model: ${blindContractState.portalFeeType === 'percentage' ? `Percentage (${portalPct}% of Contract Value = AED ${portalFeeAED.toLocaleString()} / ~$${portalFeeUSD.toLocaleString()} USD via RERA ORN Master Desk / Developer Marketing Rebate)` : 'Fixed Unlock Fee ($250-$350 USD) · 0% Portal Closing Commission'}
-- DLD Intervention: Removed from portal workflow; parties execute developer SPA/DLD steps directly after unlock.
+1. PURE SAAS & MARKETING TECH PLATFORM (0% BROKERAGE · NO RERA INTERVENTION)
+- SaaS Deal Room Unlock Fee: $${saasTier.feeUsd} USD (${saasTier.label}) — software access & introduction fee only.
+- Portal Brokerage Commission: 0% (AED 0) — 100% of developer commission stays directly with the transacting parties.
+- Regulatory Boundary: AI Home Global operates strictly as a B2B PropTech SaaS & marketing platform, not a RERA brokerage.
 
 2. CONNECTING PARTIES (${allUnlocked ? 'UNMASKED & UNLOCKED' : 'MASKED UNTIL PROOF VERIFIED'})
 - Overseas Partner: ${allUnlocked ? ovAgency : '[MASKED OVERSEAS PARTNER]'}
@@ -6368,19 +6370,12 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
 
           <div class="bg-[#0A0C13] border border-white/10 rounded-xl p-4 space-y-3">
             <div class="flex flex-wrap items-center justify-between gap-2">
-              <div class="font-bold text-brand-gold uppercase text-[11px]">Portal Fee &amp; Commission Split</div>
-              <div class="inline-flex items-center gap-1.5 text-[11px]">
-                <button type="button" id="bcFeeType-fixed" onclick="setPortalFeeType('fixed')" class="px-2.5 py-1 rounded-lg bg-brand-gold text-black font-extrabold">Fixed Unlock ($250 · 0%)</button>
-                <button type="button" id="bcFeeType-percentage" onclick="setPortalFeeType('percentage')" class="px-2.5 py-1 rounded-lg bg-white/10 text-slate-300 hover:bg-white/20 font-bold">% of Contract</button>
-              </div>
+              <div class="font-bold text-brand-gold uppercase text-[11px]">Direct Commission Split (100% to Parties · 0% Brokerage)</div>
+              <span id="bcSaasTierBadge" class="px-2.5 py-1 rounded-lg bg-brand-gold/15 border border-brand-gold/40 text-brand-gold font-extrabold text-[11px]">Standard Tier (&lt; AED 2M) · $250 USD SaaS Unlock</span>
             </div>
-            <div id="bcPortalPctRow" class="hidden p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
-              <div>
-                <label class="text-amber-200 block mb-1 font-bold">Portal % of Contract Value</label>
-                <input id="bcPortalPctInput" type="number" step="0.1" min="0" max="5" value="0.5" oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-amber-500/40 rounded-lg px-3 py-1.5 text-white">
-              </div>
-              <div class="text-xs">Portal Fee (AED):<br><strong id="bcPortalFeeAED" class="text-brand-gold text-sm">AED 0</strong></div>
-              <div class="text-xs">Stripe / Invoice Equivalent:<br><strong id="bcPortalFeeUSD" class="text-emerald-300 text-sm">$0 USD</strong></div>
+            <div class="p-2.5 rounded-lg bg-white/5 border border-white/10 text-[11px] text-slate-300 flex flex-wrap items-center justify-between gap-2">
+              <span><strong>Auto Value-Tiered SaaS Access:</strong> &lt;2M: <strong>$250</strong> · 2M–5M: <strong>$450</strong> · 5M–10M: <strong>$850</strong> · 10M+: <strong>$1,500</strong></span>
+              <span class="text-emerald-300 font-bold">0% Brokerage · Pure Tech Platform</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>

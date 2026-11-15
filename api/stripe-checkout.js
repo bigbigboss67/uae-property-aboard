@@ -41,18 +41,15 @@ export default async function handler(req, res) {
       dealId = 'DEAL-UAE',
       projectTitle = 'UAE Off-Plan Deal Unlock',
       billingMode = 'pay_per_unlock',
-      portalFeeType = 'fixed',
-      portalPct = 0,
+      tierLabel = 'SaaS Deal Room Access',
       userEmail = '',
       origin = 'https://uae-property-aboard.vercel.app'
     } = body;
 
     const cleanUsd = Math.max(10, Math.round(Number(amountUsd) || 250));
-    const description = portalFeeType === 'percentage'
-      ? `AI Home Global Platform Fee (${portalPct}% contract split) · ${projectTitle}`
-      : billingMode === 'wallet_credit_topup'
-        ? 'AI Home Global · +5 Deal Unlock Credits'
-        : `AI Home Global · ${billingMode} (${projectTitle})`;
+    const description = billingMode === 'wallet_credit_topup'
+      ? 'AI Home Global · +5 SaaS Deal Room Unlock Credits'
+      : `AI Home Global · ${tierLabel} (0% Brokerage) · ${projectTitle}`;
 
     if (!secretKey) {
       return res.status(200).json({
