@@ -212,6 +212,27 @@
     html.light .text-rose-400 {
       color: #BE123C !important;
     }
+    /* Preserve crisp white/gold/slate contrast inside dark cinema video overlays even in Light Mode */
+    html.light .cinema-dark {
+      background-color: rgba(13, 16, 23, 0.92) !important;
+      color: #FFFFFF !important;
+    }
+    html.light .cinema-dark .text-white {
+      color: #FFFFFF !important;
+    }
+    html.light .cinema-dark .text-slate-300,
+    html.light .cinema-dark .text-slate-400 {
+      color: #CBD5E1 !important;
+    }
+    html.light .cinema-dark .text-brand-gold {
+      color: #FCD34D !important;
+    }
+    html.light .cinema-dark .text-rose-400 {
+      color: #FB7185 !important;
+    }
+    html.light .cinema-dark .text-emerald-400 {
+      color: #34D399 !important;
+    }
     /* High-contrast emerald & sky badges in both Light & Dark modes */
     .bg-emerald-500\/90,
     html.light .bg-emerald-500\/90.text-white {
@@ -1830,9 +1851,13 @@
             <option value="100">100 Agents / Page</option>
           </select>
         </div>
-        <div class="flex items-end">
-          <button onclick="loadAgents(1)" class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-extrabold py-2 px-4 rounded-xl text-xs transition-all">
+        <div class="flex items-end gap-2">
+          <button onclick="loadAgents(1)" class="flex-1 bg-brand-gold hover:bg-yellow-400 text-black font-extrabold py-2 px-4 rounded-xl text-xs transition-all">
             Search Global Agents
+          </button>
+          <button id="agentViewToggleBtn" onclick="toggleAgentViewMode()" title="Switch Table / Card View" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/15 shrink-0 inline-flex items-center gap-1.5">
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+            <span id="agentViewToggleLabel">Cards</span>
           </button>
         </div>
       </div>
@@ -2361,7 +2386,7 @@
     <div class="bg-[#0D1017] border-2 border-brand-gold/60 rounded-3xl max-w-5xl w-full h-[90vh] flex flex-col overflow-hidden shadow-2xl relative text-white">
       
       <!-- Video Header -->
-      <div class="p-4 bg-black/80 border-b border-white/10 flex items-center justify-between shrink-0">
+      <div class="cinema-dark p-4 bg-black/80 border-b border-white/10 flex items-center justify-between shrink-0">
         <div class="flex items-center gap-3">
           <div class="flex items-center gap-2">
             <span class="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></span>
@@ -2380,7 +2405,7 @@
       <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
         
         <!-- Left: Main Video Stream & Screen-Share HUD -->
-        <div class="flex-1 bg-black relative flex flex-col justify-between overflow-hidden">
+        <div class="cinema-dark flex-1 bg-black relative flex flex-col justify-between overflow-hidden">
           
           <!-- Screen-Share Center Content -->
           <div id="screenShareContent" class="absolute inset-0 flex items-center justify-center">
@@ -4552,39 +4577,91 @@
       loadAgents(1);
     }
 
-    async function loadAgents(page = 1) {
-      agentCurrentPage = Math.max(1, page);
+    let agentViewMode = 'table';
+    let lastLoadedAgents = [];
+
+    function toggleAgentViewMode() {
+      agentViewMode = agentViewMode === 'table' ? 'cards' : 'table';
+      const lbl = document.getElementById('agentViewToggleLabel');
+      if (lbl) lbl.innerText = agentViewMode === 'table' ? 'Cards' : 'Table';
+      renderAgentResults(lastLoadedAgents);
+    }
+
+    function renderAgentResults(rows) {
       const grid = document.getElementById('agentsGrid');
-      const badge = document.getElementById('agentsTotalBadge');
       if (!grid) return;
+      if (!rows || !rows.length) {
+        grid.className = 'grid grid-cols-1 gap-6';
+        grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 bento-card p-6">No agents found for this query.</div>';
+        return;
+      }
 
-      const search = (document.getElementById('agentSearchInput')?.value || '').trim();
-      const country = document.getElementById('agentCountrySelect')?.value || '';
-      const city = document.getElementById('agentCitySelect')?.value || '';
-      const pageSize = Number(document.getElementById('agentPageSizeSelect')?.value || 24);
-
-      grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 text-xs">Loading live agents directory from ai-home.world...</div>';
-
-      const params = new URLSearchParams({ page: String(agentCurrentPage), page_size: String(pageSize) });
-      if (search) params.set('search', search);
-      if (country) params.set('country', country);
-      if (city) params.set('city', city);
-
-      try {
-        const res = await fetch('/api/agents?' + params.toString());
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const payload = await res.json();
-        const rows = Array.isArray(payload.data) ? payload.data : [];
-        const total = Number(payload.total) || rows.length;
-        const totalPages = Number(payload.total_pages) || 1;
-        if (badge) badge.innerText = total.toLocaleString() + ' AGENTS';
-
-        if (!rows.length) {
-          grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 bento-card p-6">No agents found for this query.</div>';
-          renderPaginationBar('agentsPagination', 1, 1, 0, pageSize, 'loadAgents');
-          return;
-        }
-
+      if (agentViewMode === 'table') {
+        grid.className = 'w-full';
+        const offset = (agentCurrentPage - 1) * Number(document.getElementById('agentPageSizeSelect')?.value || 24);
+        grid.innerHTML = `
+          <div class="bento-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <th class="py-3 px-4 w-10">#</th>
+                    <th class="py-3 px-4">AGENT NAME</th>
+                    <th class="py-3 px-4">POSITION</th>
+                    <th class="py-3 px-4">MOBILE</th>
+                    <th class="py-3 px-4">EMAIL</th>
+                    <th class="py-3 px-4">AGENCY</th>
+                    <th class="py-3 px-4">LISTINGS</th>
+                    <th class="py-3 px-4 text-right">CONTACT</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/10">
+                  ${rows.map((ag, idx) => {
+                    const name = ag.name || ag.aname || 'Real Estate Advisor';
+                    const agency = ag.aname && ag.aname !== name ? ag.aname : 'Independent';
+                    const loc = [ag.city, ag.state, ag.country].filter(Boolean).join(', ') || 'Global';
+                    const phone = ag.phone || ag.mobile || ag.office_tel || '—';
+                    const initials = name.split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
+                    const photoSrc = ag.photo_link || ag.avatar || ag.image || `https://randomuser.me/api/portraits/med/men/${((Number(ag.id) || 1) % 90) + 1}.jpg`;
+                    const listingsCount = (Number(ag.sale) || 0) + (Number(ag.rent) || 0);
+                    return `
+                    <tr class="hover:bg-white/5 transition-colors">
+                      <td class="py-3 px-4 font-mono text-slate-400">${offset + idx + 1}</td>
+                      <td class="py-3 px-4">
+                        <div class="flex items-center gap-3 min-w-[200px]">
+                          <img src="${escHtml(photoSrc)}" alt="${escHtml(name)}" loading="lazy"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                            class="w-10 h-10 rounded-full object-cover border border-[#135BEC]/30 shrink-0 bg-[#135BEC]/10">
+                          <div style="display:none" class="w-10 h-10 rounded-full bg-[#135BEC]/15 text-[#135BEC] font-bold text-xs items-center justify-center shrink-0">${escHtml(initials)}</div>
+                          <div class="min-w-0">
+                            <div class="font-display font-bold text-white truncate">${escHtml(name)}</div>
+                            <div class="text-[11px] text-slate-400 truncate">${escHtml(loc)}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="py-3 px-4 whitespace-nowrap">
+                        <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full">${ag.verified_broker ? 'Verified' : escHtml(ag.type || 'Sales Agent')}</span>
+                      </td>
+                      <td class="py-3 px-4 font-mono text-slate-300 whitespace-nowrap" dir="ltr">${escHtml(phone)}</td>
+                      <td class="py-3 px-4 max-w-[210px] truncate">
+                        ${ag.email ? `<a href="mailto:${escHtml(ag.email)}" class="text-[#135BEC] hover:underline truncate">${escHtml(ag.email)}</a>` : '—'}
+                      </td>
+                      <td class="py-3 px-4 font-semibold text-white whitespace-nowrap">${escHtml(agency)}</td>
+                      <td class="py-3 px-4 font-mono text-slate-400 whitespace-nowrap">${listingsCount > 0 ? listingsCount : '—'}</td>
+                      <td class="py-3 px-4 text-right whitespace-nowrap">
+                        <button onclick="openVideoCallFor('${escHtml(name)}', '${escHtml(agency)}', '', 'UAE Off-Plan Portfolio')" class="py-1.5 px-3 rounded-lg bg-[#135BEC] hover:bg-blue-600 text-white text-[11px] font-bold transition-all inline-flex items-center gap-1">
+                          Connect Desk <span>→</span>
+                        </button>
+                      </td>
+                    </tr>`;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      } else {
+        grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
         grid.innerHTML = rows.map(ag => {
           const name = ag.name || ag.aname || 'Real Estate Advisor';
           const agency = ag.aname && ag.aname !== name ? ag.aname : '';
@@ -4603,7 +4680,6 @@
                       onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
                       class="w-12 h-12 rounded-full object-cover border-2 border-[#135BEC]/30 shadow-sm bg-[#135BEC]/10">
                     <div style="display:none" class="w-12 h-12 rounded-full bg-[#135BEC]/15 border-2 border-[#135BEC]/30 text-[#135BEC] font-bold text-xs items-center justify-center">${escHtml(initials)}</div>
-                    ${ag.agency_logo ? `<img src="${escHtml(ag.agency_logo)}" alt="" loading="lazy" onerror="this.style.display='none'" class="w-5 h-5 rounded-full bg-white p-0.5 border border-slate-200 shadow-sm absolute -bottom-1 -right-1 object-contain">` : ''}
                   </div>
                   <div class="min-w-0">
                     <h4 class="font-display font-extrabold text-white text-sm truncate">${escHtml(name)}</h4>
@@ -4631,10 +4707,41 @@
           </div>
           `;
         }).join('');
+      }
+      if (window.lucide) lucide.createIcons();
+      if (activePortalLang !== 'EN' && typeof applyFullPortalTranslation === 'function') applyFullPortalTranslation(activePortalLang);
+    }
 
+    async function loadAgents(page = 1) {
+      agentCurrentPage = Math.max(1, page);
+      const grid = document.getElementById('agentsGrid');
+      const badge = document.getElementById('agentsTotalBadge');
+      if (!grid) return;
+
+      const search = (document.getElementById('agentSearchInput')?.value || '').trim();
+      const country = document.getElementById('agentCountrySelect')?.value || '';
+      const city = document.getElementById('agentCitySelect')?.value || '';
+      const pageSize = Number(document.getElementById('agentPageSizeSelect')?.value || 24);
+
+      grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-400 text-xs">Loading live agents directory from ai-home.world...</div>';
+
+      const params = new URLSearchParams({ page: String(agentCurrentPage), page_size: String(pageSize) });
+      if (search) params.set('search', search);
+      if (country) params.set('country', country);
+      if (city) params.set('city', city);
+
+      try {
+        const res = await fetch('/api/agents?' + params.toString());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const payload = await res.json();
+        const rows = Array.isArray(payload.data) ? payload.data : [];
+        const total = Number(payload.total) || rows.length;
+        const totalPages = Number(payload.total_pages) || 1;
+        if (badge) badge.innerText = total.toLocaleString() + ' AGENTS';
+
+        lastLoadedAgents = rows;
+        renderAgentResults(rows);
         renderPaginationBar('agentsPagination', agentCurrentPage, totalPages, total, pageSize, 'loadAgents');
-        if (window.lucide) lucide.createIcons();
-        if (activePortalLang !== 'EN' && typeof applyFullPortalTranslation === 'function') applyFullPortalTranslation(activePortalLang);
       } catch (err) {
         grid.innerHTML = `<div class="col-span-full text-center py-10 text-rose-400 glass-card rounded-2xl border border-rose-500/30">Failed to load live agents: ${escHtml(err.message)}</div>`;
       }
