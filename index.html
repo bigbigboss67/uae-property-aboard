@@ -762,7 +762,7 @@
         <span class="text-slate-600">➔</span>
         <button onclick="setActiveJourneyStep(3); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" id="jStep3" data-i18n="jStep3" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">3. Sign Direct Contract</button>
         <span class="text-slate-600">➔</span>
-        <a href="#escrow" onclick="setActiveJourneyStep(4)" id="jStep4" data-i18n="jStep4" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">4. DLD Escrow</a>
+        <button onclick="setActiveJourneyStep(4); openLegalModal('escrow')" id="jStep4" data-i18n="jStep4" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">4. DLD Escrow</button>
         <span class="text-slate-600">➔</span>
         <button onclick="setActiveJourneyStep(5); openLegalModal('escrow')" id="jStep5" data-i18n="jStep5" class="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-bold whitespace-nowrap">5. Deal Confirmed (End)</button>
       </div>
@@ -5572,9 +5572,23 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       </div>
 
       <div id="legalPanel-escrow" class="hidden space-y-3 text-xs text-slate-300 leading-relaxed bg-[#0A0C13] border border-white/10 rounded-xl p-5">
-        <h4 class="text-sm font-bold text-white">3. DLD Escrow Protection (Dubai Law No. 8 of 2007) &amp; AML/CFT (Decree-Law No. 20 of 2018)</h4>
-        <p><strong>Zero Intermediary Custody of Property Funds:</strong> Under Dubai Law No. 8 of 2007, 100% of Buyer reservation deposits, down payments, and off-plan installments must be wired directly to the Developer’s DLD-approved Project Escrow Account, independently verifiable in the official <strong>Dubai REST (Mashrooi)</strong> app.</p>
-        <p><strong>AML / KYC Compliance:</strong> In accordance with UAE Federal Decree-Law No. 20 of 2018 on Anti-Money Laundering and Combating the Financing of Terrorism, all overseas buyers undergo passport, sanctions/PEP, and source-of-funds verification prior to SPA issuance.</p>
+        <h4 class="text-sm font-bold text-white">3. DLD Escrow Protection (Dubai Law No. 8 of 2007), Alternatives, Costs &amp; Other Emirates</h4>
+        <p><strong>1. Is DLD Escrow the only way?</strong></p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-300">
+          <li><strong>Off-Plan in Dubai:</strong> Yes — mandatory by law (Dubai Law No. 8 of 2007). 100% of reservation deposits, down payments, and installments must wire directly to the developer’s RERA-approved Project Escrow IBAN, verifiable in the official <strong>Dubai REST (Mashrooi)</strong> app.</li>
+          <li><strong>Ready / Resale in Dubai:</strong> Developer project escrow is not used. Buyers settle via a <strong>DLD Registration Trustee Office Manager’s Cheque</strong> at Title Deed transfer, or through a <strong>Licensed Conveyancing / Private Escrow</strong> (DIFC / ADGM / UAE-regulated trustee) for remote or multi-step closings.</li>
+        </ul>
+        <p><strong>2. How much does a DLD Escrow account cost?</strong></p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-300">
+          <li><strong>For Buyers &amp; Overseas Agents: AED 0.</strong> Buyers do not open a DLD escrow account — you wire directly to the developer’s existing project escrow IBAN (only your normal bank SWIFT wire fee applies).</li>
+          <li><strong>For Developers (Project Setup):</strong> Accredited UAE trustee banks typically charge <strong>AED 5,000 – AED 20,000</strong> to establish a project escrow account, plus DLD/RERA registration and ongoing trustee milestone/audit fees.</li>
+        </ul>
+        <p><strong>3. What if you or the property are NOT in Dubai?</strong></p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-300">
+          <li><strong>Remote Buyers (Outside UAE):</strong> Off-plan purchases close 100% remotely via SWIFT to the Dubai REST-verified escrow IBAN + digital SPA/Oqood. Ready/resale properties close remotely using a <strong>Dubai Courts e-Notary video Power of Attorney (POA)</strong> or UAE Embassy-attested POA with a DLD Registration Trustee.</li>
+          <li><strong>Other Emirates:</strong> Each Emirate enforces its own mandatory escrow regulator — <strong>Abu Dhabi</strong> (ADREC / DARI portal, Law No. 3 of 2015 &amp; Law No. 2 of 2025), <strong>Ras Al Khaimah</strong> (RAK Municipality / RERD, Law No. 10 of 2026), and <strong>Sharjah</strong> (SRERD, Law No. 5 of 2024).</li>
+        </ul>
+        <p><strong>AML / KYC Compliance:</strong> Under UAE Federal Decree-Law No. 20 of 2018, all overseas buyers undergo passport, sanctions/PEP, and source-of-funds verification prior to SPA issuance.</p>
       </div>
 
       <div id="legalPanel-dsar" class="hidden space-y-3 text-xs text-slate-300 bg-[#0A0C13] border border-white/10 rounded-xl p-5">
