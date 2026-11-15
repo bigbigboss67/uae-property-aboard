@@ -70,6 +70,24 @@ export default async function handler(req, res) {
              <strong>Message:</strong> ${enquiry.message || '—'}</p>
           <p style="color:#475569;font-size:12px;">Open Partner Portal &rarr; Portal Enquiry Inbox to forward to the Developer or UAE RERA Partner.</p>
         </div>`;
+    } else if (event === 'enquiry_forwarded' && enquiry) {
+      to = recipientEmail || adminEmail;
+      subject = `[Forwarded Enquiry ${enquiry.enqId}] ${enquiry.projectName} → ${enquiry.forwardedTo || 'Developer / UAE RERA Partner'}`;
+      html = `
+        <div style="font-family:Arial,sans-serif;max-width:560px;padding:20px;border:1px solid #10b981;border-radius:12px;">
+          <h2 style="margin:0 0 8px;color:#065f46;">Portal Enquiry Forwarded</h2>
+          <p><strong>Ref:</strong> ${enquiry.enqId}<br>
+             <strong>Project:</strong> ${enquiry.projectName} (${enquiry.developer})<br>
+             <strong>Client:</strong> ${enquiry.fullName} (${enquiry.country})<br>
+             <strong>Forwarded To:</strong> ${enquiry.forwardedTo || 'Developer / Licensed UAE Partner'}</p>
+        </div>`;
+    } else if (event === 'deal_closed') {
+      subject = `[AI Home Global] Deal ${dealId} CLOSED · ${projectName}`;
+      html = `
+        <div style="font-family:Arial,sans-serif;max-width:560px;padding:20px;border:1px solid #D4AF37;border-radius:12px;">
+          <h2 style="margin:0 0 8px;color:#0f172a;">Deal Closed (EOI / SPA Recorded)</h2>
+          <p style="color:#334155;">Deal <strong>${dealId}</strong> for <strong>${projectName}</strong> has been marked <strong>DEAL_CLOSED</strong> in the AI Home Global ledger.</p>
+        </div>`;
     } else {
       return res.status(400).json({ ok: false, error: 'Unsupported notify event' });
     }

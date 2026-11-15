@@ -41,6 +41,7 @@ export default async function handler(req, res) {
       dealId = 'DEAL-UAE',
       projectTitle = 'UAE Off-Plan Deal Unlock',
       billingMode = 'pay_per_unlock',
+      portalFeeType = 'saas_unlock',
       tierLabel = 'SaaS Deal Room Access',
       userEmail = '',
       origin = 'https://uae-property-aboard.vercel.app'

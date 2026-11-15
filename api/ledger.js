@@ -129,9 +129,24 @@ export default async function handler(req, res) {
           ? { ...eq, status: 'FORWARDED_TO_PARTNER', forwardedTo: body.forwardedTo || 'Developer / RERA Partner Desk', forwardedAt: new Date().toISOString() }
           : eq
       );
-    } else if (action === 'save_contract' && body.contract?.dealId) {
-      ledger.contracts[body.contract.dealId] = {
+    } else if (action === 'save_contract' && (body.contract?.dealId || body.contract?.contractId)) {
+      const cid = body.contract.dealId || body.contract.contractId;
+      ledger.contracts[cid] = {
         ...body.contract,
+        dealId: cid,
+        updatedAt: new Date().toISOString()
+      };
+    } else if (action === 'close_deal' && body.dealId) {
+      const existing = ledger.contracts[body.dealId] || {};
+      ledger.contracts[body.dealId] = {
+        ...existing,
+        dealId: body.dealId,
+        projectName: body.projectName || existing.projectName || 'UAE Off-Plan Project',
+        buyerType: body.buyerType || existing.buyerType || 'Direct Buyer / Overseas Partner',
+        priceAED: Number(body.priceAED || existing.priceAED || 0),
+        closingRef: body.closingRef || `CLS-${Date.now().toString().slice(-6)}`,
+        status: 'DEAL_CLOSED',
+        closedAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
     } else {

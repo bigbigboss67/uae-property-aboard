@@ -6132,6 +6132,12 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'forward_enquiry', enqId, forwardedTo: target })
         });
+        const eqObj = idx !== -1 ? registeredSessionEnquiries[idx] : { enqId, projectName: 'UAE Off-Plan Project', developer: 'UAE Developer', fullName: 'Client', country: 'International', forwardedTo: target };
+        fetch('/api/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ event: 'enquiry_forwarded', enquiry: eqObj, origin: window.location.origin })
+        }).catch(() => {});
       } catch {}
       if (typeof showToast === 'function') showToast(`Enquiry ${enqId} marked forwarded to ${target}.`);
     }
@@ -6467,6 +6473,55 @@
       await signBlindParty('overseas');
       await signBlindParty('uae');
       await submitDealPaymentProof('card');
+    }
+
+    async function closeBlindDeal() {
+      const s = blindContractState.sigs || {};
+      if (!(s.overseas && s.uae && blindContractState.proofStatus === 'verified')) {
+        if (typeof showToast === 'function') showToast('Sign agreement and verify payment proof before closing the deal.');
+        return;
+      }
+      const closingRef = `CLS-${Date.now().toString().slice(-6)}`;
+      blindContractState.dealClosed = true;
+      blindContractState.closingRef = closingRef;
+      const buyerType = (typeof activePortalRole !== 'undefined' && activePortalRole === 'investor_buyer') ? 'Direct Buyer' : 'Overseas Agency';
+      try {
+        await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'close_deal',
+            dealId: blindContractState.contractId,
+            projectName: blindContractState.projectName,
+            buyerType,
+            priceAED: Number(document.getElementById('bcPriceInput')?.value || blindContractState.priceAED || 0),
+            closingRef
+          })
+        });
+        fetch('/api/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'deal_closed',
+            dealId: blindContractState.contractId,
+            projectId: blindContractState.projectId,
+            projectName: blindContractState.projectName,
+            origin: window.location.origin
+          })
+        }).catch(() => {});
+      } catch {}
+      const statusEl = document.getElementById('bcUnlockStatus');
+      if (statusEl) {
+        statusEl.className = 'p-3.5 rounded-xl border-2 border-amber-400 bg-amber-500/20 text-amber-200 text-xs font-bold mb-4';
+        statusEl.innerHTML = `<span class="inline-flex items-center gap-1.5"><i data-lucide="award" class="w-4 h-4 text-amber-300 shrink-0"></i><span>DEAL CLOSED (${escHtml(closingRef)}): EOI / SPA Recorded for ${escHtml(blindContractState.projectName)} (${escHtml(buyerType)}) — 0% Portal Commission.</span></span>`;
+      }
+      const closeBtn = document.getElementById('bcCloseDealBtn');
+      if (closeBtn) {
+        closeBtn.disabled = true;
+        closeBtn.textContent = `✓ Deal Closed (${closingRef})`;
+      }
+      if (window.lucide) lucide.createIcons();
+      if (typeof showToast === 'function') showToast(`Deal ${blindContractState.contractId} marked CLOSED (${closingRef})!`);
     }
 
     function updateBlindContractUI() {
@@ -6992,6 +7047,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
             <button onclick="setBcWizardStep(2)" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs">← Back</button>
             <div class="flex flex-wrap gap-2">
+              <button id="bcCloseDealBtn" onclick="closeBlindDeal()" style="background-color:#D4AF37;color:#0A0C13;" class="px-4 py-2 rounded-xl text-xs font-extrabold hover:brightness-110 transition shadow">✓ Mark Deal Closed (EOI / SPA)</button>
               <button id="bcDownloadCertBtn" onclick="downloadBlindContract()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Download Contract (.txt)</button>
               <button onclick="closeBlindContractModal()" class="px-5 py-2 rounded-xl bg-[#135BEC] hover:bg-blue-700 text-white text-xs font-extrabold">Done</button>
             </div>
