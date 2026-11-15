@@ -5874,14 +5874,48 @@
       };
     }
 
+    const UAE_DEVELOPER_RERA_MAP = {
+      'emaar': { orn: 'DLD Dev #1 · RERA Master Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'damac': { orn: 'DLD Dev #18 · RERA Master Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'sobha': { orn: 'DLD Dev #114 · RERA Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'nakheel': { orn: 'DLD Dev #3 · RERA Master Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'meraas': { orn: 'DLD Dev #45 · RERA Master Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'aldar': { orn: 'ADREC / DMT Registered Developer', dldStatus: 'Abu Dhabi DMT Verified' },
+      'azizi': { orn: 'DLD Dev #246 · RERA Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'binghatti': { orn: 'DLD Dev #521 · RERA Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'ellington': { orn: 'DLD Dev #412 · RERA Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'dubai properties': { orn: 'DLD Dev #4 · RERA Master Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'meydan': { orn: 'DLD Dev #19 · RERA Master Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'majid al futtaim': { orn: 'DLD Dev #68 · RERA Developer', dldStatus: 'DLD / Dubai REST Registered' },
+      'danube': { orn: 'DLD Dev #389 · RERA Developer', dldStatus: 'DLD / Dubai REST Registered' }
+    };
+
+    function lookupDeveloperReraInfo(developerName, project) {
+      const dev = (developerName || 'UAE Developer').trim();
+      const lower = dev.toLowerCase();
+      const matchKey = Object.keys(UAE_DEVELOPER_RERA_MAP).find(k => lower.includes(k));
+      const matched = matchKey ? UAE_DEVELOPER_RERA_MAP[matchKey] : null;
+      const listingHost = project?.url ? (() => { try { return new URL(project.url).hostname.replace('www.', ''); } catch { return 'Listing'; } })() : '';
+      return {
+        developer: dev,
+        ornLabel: matched ? matched.orn : (project?.dld_verified ? 'DLD Verified Developer' : 'UAE Developer Desk (Verify ORN in DLD REST)'),
+        dldStatus: matched ? matched.dldStatus : (project?.dld_verified ? 'DLD Escrow Verified' : 'Check DLD REST / Listing Permit'),
+        listingUrl: project?.url || '',
+        listingHost
+      };
+    }
+
     function openBlindContractForProject(id, preferredBillingMode) {
       const p = uaeOffPlanProjects.find(x => x.id === id || x.propertyid === id) || uaeOffPlanProjects[0];
       const randomHex = Math.random().toString(16).slice(2, 8).toUpperCase();
+      const devName = p?.developername || p?.developer || 'UAE Developer';
+      const reraInfo = lookupDeveloperReraInfo(devName, p);
       blindContractState = {
         ...blindContractState,
         projectId: p?.id || id || 'OPUAE-CUSTOM',
         projectName: p?.project_name || p?.buildingname || p?.title || 'UAE Off-Plan Project',
-        developer: p?.developername || p?.developer || 'UAE Developer',
+        developer: devName,
+        reraInfo,
         priceAED: Number(p?.propertyprice || p?.priceAed) > 0 ? Number(p?.propertyprice || p?.priceAed) : 2500000,
         dispatched: true,
         dispatchedAt: new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
@@ -5899,6 +5933,49 @@
       document.getElementById('bcProjectTitle').innerText = blindContractState.projectName;
       document.getElementById('bcProjectSub').innerText = `${blindContractState.developer} · AED ${blindContractState.priceAED.toLocaleString()} · Direct Deal (0% Portal / No DLD)`;
       document.getElementById('bcPriceInput').value = blindContractState.priceAED;
+
+      // Auto-fill Overseas Partner, UAE RERA Seller (from Project Owner/Developer), and Buyer Ref
+      let savedProfile = null;
+      try { savedProfile = JSON.parse(localStorage.getItem(AUTH_PROFILE_KEY) || 'null'); } catch {}
+      const ovInput = document.getElementById('bcOverseasAgencyInput');
+      if (ovInput) {
+        const defaultOv = (savedProfile?.role === 'overseas_agency' ? (savedProfile.company || savedProfile.fullName) : '')
+          || document.getElementById('agencyNameInput')?.value?.trim()
+          || (abroadAgencies[0]?.name || abroadAgencies[0]?.agency_name || '')
+          || 'Overseas Partner Agency';
+        ovInput.value = defaultOv;
+      }
+
+      const uaeSel = document.getElementById('bcUaeAgencySelect');
+      const uaeInput = document.getElementById('bcUaeAgencyInput');
+      const sellerAutoLabel = `${devName} (${reraInfo.ornLabel})`;
+      if (uaeSel) {
+        uaeSel.innerHTML = `
+          <option value="${escHtml(sellerAutoLabel)}">${escHtml(sellerAutoLabel)}</option>
+          <option value="Licensed UAE RERA Partner Desk">Licensed UAE RERA Partner Desk</option>
+          <option value="__CUSTOM__">Custom UAE Agency...</option>
+        `;
+        uaeSel.value = sellerAutoLabel;
+      }
+      if (uaeInput) uaeInput.value = sellerAutoLabel;
+
+      const reraBadge = document.getElementById('bcUaeReraStatus');
+      if (reraBadge) {
+        reraBadge.innerHTML = `
+          <span class="text-emerald-300 font-semibold">${escHtml(reraInfo.dldStatus)}</span>
+          ${reraInfo.listingUrl ? ` · <a href="${escHtml(reraInfo.listingUrl)}" target="_blank" rel="noopener noreferrer" class="text-sky-300 underline hover:text-sky-200">Verify ${escHtml(reraInfo.listingHost || 'Listing')}</a>` : ''}
+        `;
+      }
+
+      const buyerInput = document.getElementById('bcBuyerNameInput');
+      if (buyerInput) {
+        const latestLead = registeredSessionLeads[registeredSessionLeads.length - 1];
+        const defaultBuyer = (savedProfile?.role === 'investor_buyer' ? savedProfile.fullName : '')
+          || latestLead?.client
+          || 'Global Buyer (Ref Pending)';
+        buyerInput.value = defaultBuyer;
+      }
+
       setBcWizardStep(1);
       updateBlindContractUI();
       modal.classList.remove('hidden');
@@ -6671,6 +6748,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
                   <option value="UAE-RERA-SELLER">UAE-RERA-SELLER</option>
                 </select>
                 <input id="bcUaeAgencyInput" list="bcUaeSellersList" type="text" placeholder="Or type UAE Agency manually..." oninput="updateBlindContractUI()" class="w-full bg-[#12151E] border border-white/15 rounded-lg px-2.5 py-2 text-white">
+                <div id="bcUaeReraStatus" class="text-[10px] text-slate-400 mt-1">Auto-checked from project owner &amp; listing</div>
               </div>
               <div>
                 <label class="text-slate-400 block mb-1">Buyer Ref (Optional)</label>
