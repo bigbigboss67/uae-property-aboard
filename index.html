@@ -551,17 +551,68 @@
       background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
     }
     @media print {
-      body * {
+      html, body {
+        background: #FFFFFF !important;
+        color: #0F172A !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body.printing-dossier > *:not(#whiteLabelDossierModal) {
+        display: none !important;
+      }
+      body.printing-dossier #whiteLabelDossierModal {
+        position: static !important;
+        inset: auto !important;
+        display: block !important;
+        background: #FFFFFF !important;
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+      body.printing-dossier #whiteLabelDossierModal > div {
+        background: #FFFFFF !important;
+        color: #0F172A !important;
+        border: 2px solid #B8860B !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 24px !important;
+      }
+      body.printing-dossier #dossierPrintableArea,
+      body.printing-dossier #dossierPrintableArea * {
+        visibility: visible !important;
+        color: #0F172A !important;
+      }
+      body.printing-dossier #dossierPrintableArea .bg-white\/\[0\.03\],
+      body.printing-dossier #dossierPrintableArea .bg-black\/50,
+      body.printing-dossier #dossierPrintableArea .bg-brand-gold\/10 {
+        background-color: #F8FAFC !important;
+        border-color: #CBD5E1 !important;
+      }
+      body.printing-dossier #dossierPrintableArea .text-brand-gold {
+        color: #9A6B00 !important;
+      }
+      body.printing-dossier #dossierPrintableArea .text-emerald-400 {
+        color: #047857 !important;
+      }
+      body:not(.printing-dossier) * {
         visibility: hidden;
       }
-      #certificateView, #certificateView * {
+      body:not(.printing-dossier) #certificateView,
+      body:not(.printing-dossier) #certificateView * {
         visibility: visible;
       }
-      #certificateView {
+      body:not(.printing-dossier) #certificateView {
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
+        background: #FFFFFF !important;
+        color: #0F172A !important;
       }
     }
   </style>
@@ -3852,8 +3903,20 @@
       openWhiteLabelDossierModal(match);
     }
 
+    window.addEventListener('beforeprint', () => {
+      const dm = document.getElementById('whiteLabelDossierModal');
+      if (dm && !dm.classList.contains('hidden')) {
+        document.body.classList.add('printing-dossier');
+      }
+    });
+    window.addEventListener('afterprint', () => {
+      document.body.classList.remove('printing-dossier');
+    });
+
     function printWhiteLabelDossier() {
+      document.body.classList.add('printing-dossier');
       window.print();
+      setTimeout(() => document.body.classList.remove('printing-dossier'), 500);
     }
 
     function downloadHtmlDossier() {
