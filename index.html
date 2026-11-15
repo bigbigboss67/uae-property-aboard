@@ -158,6 +158,26 @@
       background-color: #F8FAFC !important;
       color: #0F172A !important;
     }
+    /* Preserve real property photos & scrim overlays in both Light and Dark modes */
+    .property-card-media {
+      background-color: #0F172A !important;
+    }
+    .property-card-media-overlay {
+      background: linear-gradient(to top, rgba(8, 9, 12, 0.88) 0%, rgba(8, 9, 12, 0.28) 48%, transparent 100%) !important;
+      background-color: transparent !important;
+    }
+    html.light .property-card-media .text-white {
+      color: #FFFFFF !important;
+    }
+    html.light .property-card-media .text-slate-300,
+    html.light .property-card-media .text-slate-400 {
+      color: #E2E8F0 !important;
+    }
+    html.light .property-card-media .property-media-pill {
+      background-color: rgba(15, 23, 42, 0.78) !important;
+      color: #FFFFFF !important;
+      border-color: rgba(255, 255, 255, 0.22) !important;
+    }
     html.light #themeToggleBtn {
       color: #1D4ED8 !important;
     }
@@ -3567,14 +3587,14 @@
         return `
         <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-brand-gold/50 transition-all duration-300">
           <div>
-            <div class="relative h-56 overflow-hidden bg-[#10131C]">
+            <div class="relative h-56 overflow-hidden property-card-media">
               <img src="${escHtml(imgUrl)}" alt="${escHtml(title)}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <div class="absolute inset-0 bg-gradient-to-t from-[#08090C] via-transparent to-transparent"></div>
+              <div class="absolute inset-0 property-card-media-overlay pointer-events-none"></div>
               <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
                 <span class="${statusBadgeClass} text-[10px] font-extrabold px-2.5 py-1 rounded-md shadow">${escHtml(statusLabel)}</span>
                 ${p.dld_verified ? '<span class="bg-emerald-950/90 border border-emerald-400/50 text-emerald-300 text-[10px] font-bold px-2 py-1 rounded-md inline-flex items-center gap-1"><i data-lucide="shield-check" class="w-3 h-3"></i> DLD Verified</span>' : ''}
               </div>
-              <div class="absolute top-3 right-3 bg-black/75 backdrop-blur-md text-brand-gold text-[10px] font-bold px-2.5 py-1 rounded-md border border-brand-gold/30 uppercase">
+              <div class="property-media-pill absolute top-3 right-3 bg-black/75 backdrop-blur-md text-brand-gold text-[10px] font-bold px-2.5 py-1 rounded-md border border-brand-gold/30 uppercase">
                 ${escHtml(unitTypes)}
               </div>
               <div class="absolute bottom-3 left-3 right-3 flex justify-between items-end">
@@ -3583,7 +3603,7 @@
                   <div class="text-xl font-display font-extrabold text-white">${escHtml(displayPrice)}</div>
                   ${hasPrice ? `<div class="text-[10px] text-slate-400 font-mono">AED ${priceAED.toLocaleString()}${ppsf ? ' · ' + escHtml(ppsf) : ''}</div>` : ''}
                 </div>
-                <span class="bg-white/10 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded border border-white/20">${escHtml(handover)}</span>
+                <span class="property-media-pill bg-white/10 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded border border-white/20">${escHtml(handover)}</span>
               </div>
             </div>
 
