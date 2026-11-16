@@ -6294,16 +6294,54 @@
 
     const registeredSessionEnquiries = [];
     let activeEnquiryProject = null;
+    let activeEnquiryRef = '';
 
     function openEnquiryModal(projectId) {
       const p = uaeOffPlanProjects.find(x => (x.id || x.propertyid) === projectId) || uaeOffPlanProjects[0] || {};
       activeEnquiryProject = p;
+      activeEnquiryRef = `ENQ-${Date.now().toString().slice(-6)}`;
       const modal = document.getElementById('portalEnquiryModal');
       if (!modal) return;
-      const titleEl = document.getElementById('enqProjectTitle');
-      const devEl = document.getElementById('enqProjectSub');
-      if (titleEl) titleEl.innerText = p.name || p.title || 'UAE Off-Plan Project';
-      if (devEl) devEl.innerText = `${p.developer || 'Dubai Developer'} · ${p.location || 'UAE'}`;
+
+      const title = p.project_name || p.buildingname || p.name || p.title || 'UAE Off-Plan Project';
+      const dev = p.developername || p.developer || 'UAE Developer';
+      const loc = [p.areaname, p.city].filter(Boolean).join(', ') || p.location || 'UAE';
+      const imgUrl = p.projectimage1url || p.image || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80';
+      const priceAED = Number(p.propertyprice || p.priceAED || 0);
+      const priceText = priceAED > 0 ? `AED ${priceAED.toLocaleString()}` : 'Price on Request';
+      const unitTypes = Array.isArray(p.unit_types) && p.unit_types.length ? p.unit_types.join(', ') : (p.propertytype || 'Residential');
+      const beds = p.bedrooms ? `${p.bedrooms} Beds` : 'Flexible';
+      const sizeSqft = p.sizesqft ? `${Number(p.sizesqft).toLocaleString()} sqft` : 'TBA';
+      const handover = p.handoverLabel || p.deliverydate || 'TBA';
+
+      const setText = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+      setText('enqRefBadge', activeEnquiryRef);
+      setText('enqProjectTitle', title);
+      setText('enqProjectSub', `${dev} · ${loc}`);
+      setText('enqPropPrice', priceText);
+      setText('enqPropSpecs', `${beds} · ${sizeSqft} · Handover ${handover}`);
+
+      const imgEl = document.getElementById('enqProjectImg');
+      if (imgEl) {
+        imgEl.src = imgUrl;
+        imgEl.alt = title;
+      }
+      const dldBadge = document.getElementById('enqPropDldBadge');
+      if (dldBadge) dldBadge.classList.toggle('hidden', !p.dld_verified);
+
+      const roleSel = document.getElementById('enqRole');
+      if (roleSel && typeof activePortalRole !== 'undefined') {
+        roleSel.value = activePortalRole === 'overseas_agency' ? 'Broker Abroad' : 'Direct Buyer';
+      }
+      const budgetEl = document.getElementById('enqBudget');
+      if (budgetEl) {
+        budgetEl.value = `${unitTypes} (${beds}) · ${priceText}`;
+      }
+      const msgEl = document.getElementById('enqMessage');
+      if (msgEl) {
+        msgEl.value = `Requesting availability, payment plan, and reservation details for ${title} by ${dev} in ${loc} (${activeEnquiryRef}).`;
+      }
+
       const form = document.getElementById('portalEnquiryForm');
       const successBox = document.getElementById('enqSuccessBox');
       if (form) form.classList.remove('hidden');
@@ -6323,12 +6361,17 @@
     async function submitPortalEnquiry(e) {
       e.preventDefault();
       const p = activeEnquiryProject || {};
-      const enqId = `ENQ-${Date.now().toString().slice(-6)}`;
+      const enqId = activeEnquiryRef || `ENQ-${Date.now().toString().slice(-6)}`;
+      const projectName = p.project_name || p.buildingname || p.name || p.title || 'UAE Off-Plan Project';
+      const developer = p.developername || p.developer || 'UAE Developer';
+      const location = [p.areaname, p.city].filter(Boolean).join(', ') || p.location || 'UAE';
       const enquiry = {
         enqId,
         projectId: p.id || p.propertyid || 'UAE-PROJECT',
-        projectName: p.name || p.title || 'UAE Off-Plan Project',
-        developer: p.developer || 'UAE Developer',
+        projectName,
+        developer,
+        location,
+        priceAED: Number(p.propertyprice || p.priceAED || 0),
         fullName: document.getElementById('enqFullName')?.value.trim() || 'Overseas Client',
         contact: document.getElementById('enqContact')?.value.trim() || '',
         country: document.getElementById('enqCountry')?.value.trim() || 'International',
@@ -7052,10 +7095,18 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
   <div id="portalEnquiryModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="modal-panel-animate cinema-dark bg-[#12151E] border border-sky-500/40 rounded-2xl max-w-lg w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs">
       <div class="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
-        <div>
-          <span class="bg-sky-500/20 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2.5 py-0.5 rounded uppercase">Stage 1 · Free Request to Buy / Enquire (0% Buyer Fee)</span>
-          <h3 id="enqProjectTitle" class="text-lg font-display font-extrabold text-white mt-1">UAE Off-Plan Project</h3>
-          <p id="enqProjectSub" class="text-xs text-slate-400">Developer · Location</p>
+        <div class="flex items-start gap-3 min-w-0">
+          <img id="enqProjectImg" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=400&q=80" alt="Selected Property" class="w-16 h-16 rounded-xl object-cover border border-white/15 shrink-0">
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="bg-sky-500/20 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Stage 1 · Free Request (0% Fee)</span>
+              <span id="enqRefBadge" class="bg-amber-500/20 text-amber-300 border border-amber-400/40 text-[10px] font-mono font-bold px-2 py-0.5 rounded">ENQ-000000</span>
+              <span id="enqPropDldBadge" class="hidden bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold px-2 py-0.5 rounded">DLD Verified</span>
+            </div>
+            <h3 id="enqProjectTitle" class="text-base sm:text-lg font-display font-extrabold text-white mt-1 truncate">UAE Off-Plan Project</h3>
+            <p id="enqProjectSub" class="text-xs text-slate-300 truncate">Developer · Location</p>
+            <p class="text-[11px] text-amber-300 font-semibold mt-0.5"><span id="enqPropPrice">AED —</span> · <span id="enqPropSpecs" class="text-slate-400 font-normal">Specs</span></p>
+          </div>
         </div>
         <button onclick="closeEnquiryModal()" aria-label="Close Enquiry Modal" style="background-color:#EF4444;color:#FFFFFF;" class="px-3 py-1.5 rounded-lg text-xs font-extrabold flex items-center gap-1 hover:brightness-110 transition-all shadow shrink-0">
           <i data-lucide="x" class="w-4 h-4"></i> Close
