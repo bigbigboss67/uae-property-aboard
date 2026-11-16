@@ -1237,37 +1237,145 @@
         </div>
       </div>
 
-      <!-- Portal Enquiry Forwarding Inbox (Strictly Gated for Portal Owner Only) -->
-      <div id="portalOwnerInboxCard" class="hidden bg-[#12151E] border border-sky-500/25 rounded-2xl overflow-hidden mt-6">
-        <div class="p-4 border-b border-white/10 flex flex-wrap items-center justify-between gap-2">
-          <h3 class="font-bold text-white text-sm flex items-center gap-2">
-            <i data-lucide="inbox" class="w-4 h-4 text-sky-400"></i> Portal Owner Enquiry Inbox (Forward to Developer / UAE Agent)
-          </h3>
-          <div class="flex items-center gap-2">
-            <span id="enquiriesCountBadge" class="text-[11px] bg-sky-500/20 text-sky-300 border border-sky-500/40 px-2.5 py-0.5 rounded-full font-bold">0 Queued</span>
-            <button type="button" onclick="logoutPortalOwner()" class="text-[11px] px-2.5 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/35 font-bold">Lock Owner Session</button>
+      <!-- Portal Owner Institutional Real Estate Admin Command Center (Strictly Gated) -->
+      <div id="portalOwnerInboxCard" class="hidden bg-[#0D111A] border border-amber-400/30 rounded-2xl overflow-hidden mt-6 shadow-2xl">
+        <!-- Top Command Bar -->
+        <div class="p-4 sm:p-5 border-b border-white/10 bg-gradient-to-r from-[#131926] to-[#0D111A] flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="bg-amber-500/20 text-amber-300 border border-amber-400/40 text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase tracking-wider">Owner Only · Encrypted Gate</span>
+              <span id="admStorageBadge" class="bg-white/5 text-slate-300 border border-white/10 text-[10px] font-mono px-2 py-0.5 rounded">storage: syncing...</span>
+              <span id="enquiriesCountBadge" class="text-[10px] bg-sky-500/20 text-sky-300 border border-sky-500/40 px-2.5 py-0.5 rounded-full font-bold">0 Pending · 0 Total</span>
+            </div>
+            <h3 class="font-display text-lg font-extrabold text-white mt-1 flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-5 h-5 text-amber-400"></i> AI Home Global · Executive Admin Command Center
+            </h3>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="refreshAdminCommandCenter()" class="text-[11px] px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-white border border-white/15 font-bold inline-flex items-center gap-1.5">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-sky-300"></i> Sync Live Data
+            </button>
+            <button type="button" onclick="exportEnquiriesCsv()" class="text-[11px] px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 font-bold inline-flex items-center gap-1.5">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i> Export CSV
+            </button>
+            <button type="button" onclick="logoutPortalOwner()" class="text-[11px] px-3 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/35 font-bold inline-flex items-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i> Lock Owner Session
+            </button>
           </div>
         </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-white/[0.02] text-slate-400 border-b border-white/5">
-              <tr>
-                <th scope="col" class="p-3">Enquiry ID</th>
-                <th scope="col" class="p-3">From (Buyer / Broker)</th>
-                <th scope="col" class="p-3">Project &amp; Developer</th>
-                <th scope="col" class="p-3">Country &amp; Contact</th>
-                <th scope="col" class="p-3">Delivery Status &amp; Channel</th>
-                <th scope="col" class="p-3 text-right">Forward &amp; Track</th>
-              </tr>
-            </thead>
-            <tbody id="liveEnquiriesTableBody" class="divide-y divide-white/5 text-slate-300">
-              <tr>
-                <td colspan="6" class="p-5 text-center text-slate-400">
-                  No overseas enquiries received yet. Buyers and brokers can submit free enquiries on any project card.
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+        <!-- Executive KPI Strip -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 p-4 sm:p-5 border-b border-white/10 bg-[#0A0D14]">
+          <div class="p-3.5 rounded-xl bg-[#121722] border border-white/10">
+            <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Total Enquiries</div>
+            <div id="admKpiTotalEnq" class="text-2xl font-display font-extrabold text-white mt-1">0</div>
+            <div id="admKpiEnqSub" class="text-[11px] text-sky-300 mt-0.5">0 pending · 0 dispatched</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[#121722] border border-white/10">
+            <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Pipeline Volume</div>
+            <div id="admKpiPipelineAED" class="text-xl sm:text-2xl font-display font-extrabold text-amber-300 mt-1">AED 0</div>
+            <div id="admKpiAvgAED" class="text-[11px] text-slate-400 mt-0.5">Avg ticket: AED 0</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[#121722] border border-white/10">
+            <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Email &amp; Channel Health</div>
+            <div id="admKpiDelivery" class="text-xl sm:text-2xl font-display font-extrabold text-emerald-300 mt-1">0 Delivered</div>
+            <div id="admKpiResendStatus" class="text-[11px] text-slate-400 mt-0.5">Checking Resend config...</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[#121722] border border-white/10">
+            <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Portal Mode &amp; Gate</div>
+            <div class="text-base sm:text-lg font-display font-extrabold text-white mt-1">Stage 1 · Upon Request</div>
+            <div class="text-[11px] text-amber-300 mt-0.5">SaaS Deal Room: Coming Soon</div>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="px-4 sm:px-5 pt-3 border-b border-white/10 flex flex-wrap gap-2 bg-[#0D111A]">
+          <button type="button" id="admTabBtn-inbox" onclick="setAdminTab('inbox')" class="px-3.5 py-2 rounded-t-xl text-xs font-extrabold bg-[#135BEC] text-white">Enquiry Inbox &amp; Dispatch</button>
+          <button type="button" id="admTabBtn-delivery" onclick="setAdminTab('delivery')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">Delivery &amp; System Health</button>
+          <button type="button" id="admTabBtn-activity" onclick="setAdminTab('activity')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">User Profiles &amp; Telemetry</button>
+          <button type="button" id="admTabBtn-controls" onclick="setAdminTab('controls')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">Stage &amp; Security Controls</button>
+        </div>
+
+        <!-- TAB 1: Enquiry Inbox & Dispatch -->
+        <div id="admTabPanel-inbox" class="p-4 sm:p-5 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <input id="admEnqSearch" type="search" oninput="renderEnquiriesTable()" placeholder="Search ENQ-ID, client, project, developer, country..." aria-label="Search enquiries" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full sm:w-80 border border-white/15 rounded-xl px-3 py-2 text-xs">
+            <div class="flex flex-wrap gap-1.5 text-[11px]">
+              <button type="button" onclick="setAdminEnqFilter('all')" id="admFilter-all" class="px-2.5 py-1 rounded-lg bg-[#135BEC] text-white font-bold">All</button>
+              <button type="button" onclick="setAdminEnqFilter('pending')" id="admFilter-pending" class="px-2.5 py-1 rounded-lg bg-white/5 text-slate-300 font-semibold border border-white/10">Pending / Not Sent</button>
+              <button type="button" onclick="setAdminEnqFilter('delivered')" id="admFilter-delivered" class="px-2.5 py-1 rounded-lg bg-white/5 text-slate-300 font-semibold border border-white/10">Delivered (Email)</button>
+              <button type="button" onclick="setAdminEnqFilter('manual')" id="admFilter-manual" class="px-2.5 py-1 rounded-lg bg-white/5 text-slate-300 font-semibold border border-white/10">WhatsApp / Mailto</button>
+            </div>
+          </div>
+          <div class="overflow-x-auto rounded-xl border border-white/10">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-white/[0.03] text-slate-300 border-b border-white/10">
+                <tr>
+                  <th scope="col" class="p-3">Enquiry ID</th>
+                  <th scope="col" class="p-3">From (Buyer / Broker)</th>
+                  <th scope="col" class="p-3">Project &amp; Developer</th>
+                  <th scope="col" class="p-3">Country &amp; Contact</th>
+                  <th scope="col" class="p-3">Delivery Status &amp; Channel</th>
+                  <th scope="col" class="p-3 text-right">Forward &amp; Track</th>
+                </tr>
+              </thead>
+              <tbody id="liveEnquiriesTableBody" class="divide-y divide-white/5 text-slate-300">
+                <tr>
+                  <td colspan="6" class="p-5 text-center text-slate-400">
+                    No overseas enquiries received yet. Buyers and brokers can submit free enquiries on any project card.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: Delivery & System Health -->
+        <div id="admTabPanel-delivery" class="hidden p-4 sm:p-5 space-y-4">
+          <div>
+            <h4 class="text-xs font-extrabold uppercase tracking-wider text-amber-300 mb-2">Live Infrastructure &amp; Email Configuration</h4>
+            <div id="admHealthGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs"></div>
+          </div>
+          <div>
+            <h4 class="text-xs font-extrabold uppercase tracking-wider text-sky-300 mb-2">Global Dispatch Audit Log (All Channels)</h4>
+            <div id="admDispatchFeed" class="space-y-2 max-h-72 overflow-y-auto"></div>
+          </div>
+        </div>
+
+        <!-- TAB 3: User Profiles & Telemetry -->
+        <div id="admTabPanel-activity" class="hidden p-4 sm:p-5 space-y-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="rounded-xl border border-white/10 bg-[#121722] p-3.5">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-emerald-300 mb-2">Registered User Profiles &amp; Legal Consents (/api/auth-profile)</h4>
+              <div id="admProfilesList" class="space-y-2 max-h-64 overflow-y-auto text-[11px]"></div>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-[#121722] p-3.5">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-sky-300 mb-2">Live Portal Telemetry Events (/api/track)</h4>
+              <div id="admTrackList" class="space-y-2 max-h-64 overflow-y-auto text-[11px]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: Stage & Security Controls -->
+        <div id="admTabPanel-controls" class="hidden p-4 sm:p-5 space-y-3 text-xs">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="p-4 rounded-xl bg-[#121722] border border-emerald-500/30 space-y-1.5">
+              <div class="text-emerald-300 font-extrabold">✓ Stage 1 Active: Upon Request Only (0% Buyer Fee)</div>
+              <p class="text-slate-300 leading-relaxed">All property CTAs route directly to the auto-filled Request to Buy / Enquire modal (`ENQ-XXXXXX`), queued exclusively in this Owner Inbox for manual or automated forwarding.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-[#121722] border border-amber-500/30 space-y-1.5">
+              <div class="text-amber-300 font-extrabold">⏳ Phase 2 Preserved: SaaS Co-Broke Deal Room (Coming Soon)</div>
+              <p class="text-slate-300 leading-relaxed">The 3-step Direct Co-Brokerage &amp; Stripe SaaS Unlock (`$250–$1,500`) is disabled with `SAAS_DEAL_ROOM_COMING_SOON = true` and ready to activate in Phase 2.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-[#121722] border border-white/10 space-y-1.5">
+              <div class="text-white font-extrabold">🔐 Owner Gate Security (`/api/owner-auth`)</div>
+              <p class="text-slate-300 leading-relaxed">Protected by HMAC-SHA256 12-hour session token and constant-time passcode verification (`PORTAL_OWNER_PASSCODE` env var on Vercel).</p>
+            </div>
+            <div class="p-4 rounded-xl bg-[#121722] border border-white/10 space-y-1.5">
+              <div class="text-white font-extrabold">📊 Protected Client SLA &amp; Contracts Ledger</div>
+              <p id="admLedgerSummary" class="text-slate-300 leading-relaxed">Syncing live ledger counts...</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -6684,6 +6792,8 @@
         });
       } catch {}
 
+      await refreshAdminCommandCenter();
+
       if (typeof showToast === 'function') {
         if (dispatchRecord.sent) {
           showToast(`Email DELIVERED to ${dispatchRecord.to} (ID: ${dispatchRecord.messageId}).`);
@@ -6722,7 +6832,7 @@
         return;
       }
 
-      await syncPortalLedger();
+      await refreshAdminCommandCenter();
       const dash = document.getElementById('partnerDashboardOverlay');
       if (dash) dash.classList.remove('hidden');
       const inboxCard = document.getElementById('portalOwnerInboxCard');
@@ -6731,9 +6841,10 @@
       if (partnerName) partnerName.innerText = 'Portal Owner (Verified Admin)';
       const btnText = document.getElementById('dashboardBtnText');
       if (btnText) btnText.innerText = 'Close Portal';
-      const inbox = document.getElementById('liveEnquiriesTableBody');
-      if (inbox) inbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      if (typeof showToast === 'function') showToast('Portal Owner Inbox unlocked.');
+      const inbox = document.getElementById('portalOwnerInboxCard');
+      if (inbox) inbox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.lucide) lucide.createIcons();
+      if (typeof showToast === 'function') showToast('Admin Command Center unlocked.');
     }
 
     function closeOwnerLoginModal() {
@@ -6781,17 +6892,198 @@
       if (typeof showToast === 'function') showToast('Portal Owner session locked.');
     }
 
+    let activeAdminTab = 'inbox';
+    let activeAdminEnqFilter = 'all';
+
+    function setAdminTab(tab) {
+      activeAdminTab = tab;
+      ['inbox', 'delivery', 'activity', 'controls'].forEach(t => {
+        const panel = document.getElementById('admTabPanel-' + t);
+        const btn = document.getElementById('admTabBtn-' + t);
+        if (panel) panel.classList.toggle('hidden', t !== tab);
+        if (btn) {
+          btn.className = t === tab
+            ? 'px-3.5 py-2 rounded-t-xl text-xs font-extrabold bg-[#135BEC] text-white'
+            : 'px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300';
+        }
+      });
+    }
+
+    function setAdminEnqFilter(filter) {
+      activeAdminEnqFilter = filter;
+      ['all', 'pending', 'delivered', 'manual'].forEach(f => {
+        const btn = document.getElementById('admFilter-' + f);
+        if (btn) {
+          btn.className = f === filter
+            ? 'px-2.5 py-1 rounded-lg bg-[#135BEC] text-white font-bold'
+            : 'px-2.5 py-1 rounded-lg bg-white/5 text-slate-300 font-semibold border border-white/10';
+        }
+      });
+      renderEnquiriesTable();
+    }
+
+    function exportEnquiriesCsv() {
+      if (!isPortalOwnerVerified) return;
+      const headers = ['EnquiryID', 'Name', 'Role', 'Country', 'Phone', 'Email', 'Project', 'Developer', 'PriceAED', 'Status', 'Channel', 'From', 'To', 'MessageID', 'Reason'];
+      const rows = registeredSessionEnquiries.map(eq => {
+        const d = eq.lastDispatch || {};
+        return [
+          eq.enqId, eq.fullName, eq.senderRole, eq.country, eq.phone || '', eq.email || eq.contact || '',
+          eq.projectName, eq.developer, eq.priceAED || 0, eq.status,
+          d.channel || '', d.from || '', d.to || '', d.messageId || '', d.reason || d.error || ''
+        ].map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',');
+      });
+      const csv = [headers.join(','), ...rows].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ai-home-enquiries-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function refreshAdminCommandCenter() {
+      if (!isPortalOwnerVerified) return;
+      let ledgerData = null;
+      let cfgData = null;
+      let profileData = null;
+      let trackData = null;
+      try {
+        const [lr, cr, pr, tr] = await Promise.all([
+          fetch('/api/ledger').then(r => r.json()).catch(() => null),
+          fetch('/api/config').then(r => r.json()).catch(() => null),
+          fetch('/api/auth-profile').then(r => r.json()).catch(() => null),
+          fetch('/api/track?t=stats').then(r => r.json()).catch(() => null)
+        ]);
+        ledgerData = lr; cfgData = cr; profileData = pr; trackData = tr;
+      } catch {}
+
+      if (ledgerData?.ok && Array.isArray(ledgerData.enquiries)) {
+        registeredSessionEnquiries.length = 0;
+        ledgerData.enquiries.forEach(x => registeredSessionEnquiries.push(x));
+      }
+
+      const storageEl = document.getElementById('admStorageBadge');
+      if (storageEl && ledgerData?.storage) storageEl.innerText = `storage: ${ledgerData.storage}`;
+
+      const total = registeredSessionEnquiries.length;
+      const delivered = registeredSessionEnquiries.filter(x => x.lastDispatch?.sent).length;
+      const pending = registeredSessionEnquiries.filter(x => !x.lastDispatch || (!x.lastDispatch.sent && x.lastDispatch.channel === 'resend_email')).length;
+      const dispatched = total - pending;
+      const pipelineAED = registeredSessionEnquiries.reduce((s, x) => s + (Number(x.priceAED) || 0), 0);
+      const avgAED = total > 0 ? Math.round(pipelineAED / total) : 0;
+
+      const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+      setTxt('admKpiTotalEnq', String(total));
+      setTxt('admKpiEnqSub', `${pending} pending · ${dispatched} dispatched`);
+      setTxt('admKpiPipelineAED', `AED ${pipelineAED.toLocaleString()}`);
+      setTxt('admKpiAvgAED', `Avg ticket: AED ${avgAED.toLocaleString()}`);
+      setTxt('admKpiDelivery', `${delivered} Delivered`);
+      setTxt('admKpiResendStatus', cfgData?.resendConfigured ? `Resend Active (${cfgData.resendFrom})` : 'RESEND_API_KEY not set (Blocked)');
+
+      const healthEl = document.getElementById('admHealthGrid');
+      if (healthEl && cfgData) {
+        const items = [
+          { label: 'Resend Email API', ok: cfgData.resendConfigured, note: cfgData.resendConfigured ? `From: ${cfgData.resendFrom}` : 'Set RESEND_API_KEY in Vercel' },
+          { label: 'Admin Alert Email', ok: cfgData.adminEmailConfigured, note: cfgData.adminEmailConfigured ? 'PORTAL_ADMIN_EMAIL set' : 'Set PORTAL_ADMIN_EMAIL' },
+          { label: 'Owner Auth Passcode', ok: cfgData.ownerPasscodeCustom, note: cfgData.ownerPasscodeCustom ? 'Custom PORTAL_OWNER_PASSCODE' : 'Using default passcode' },
+          { label: 'Clerk User Auth', ok: cfgData.clerkConfigured, note: cfgData.clerkConfigured ? 'Clerk configured' : 'Using local profile fallback' },
+          { label: 'Supabase Persistence', ok: cfgData.supabaseConfigured, note: cfgData.supabaseConfigured ? 'Connected' : `Fallback: ${ledgerData?.storage || 'file-json'}` },
+          { label: 'Stripe Checkout (Phase 2)', ok: cfgData.stripeConfigured, note: cfgData.stripeConfigured ? 'Stripe live key set' : 'Phase 2 Coming Soon' }
+        ];
+        healthEl.innerHTML = items.map(it => `
+          <div class="p-3 rounded-xl bg-[#121722] border ${it.ok ? 'border-emerald-500/30' : 'border-amber-500/30'}">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-bold text-white">${escHtml(it.label)}</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${it.ok ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${it.ok ? 'READY' : 'FALLBACK'}</span>
+            </div>
+            <div class="text-[11px] text-slate-400 mt-1 truncate">${escHtml(it.note)}</div>
+          </div>
+        `).join('');
+      }
+
+      const feedEl = document.getElementById('admDispatchFeed');
+      if (feedEl) {
+        const allLogs = registeredSessionEnquiries.flatMap(eq =>
+          (eq.dispatchLog || []).map(d => ({ ...d, enqId: eq.enqId, projectName: eq.projectName, client: eq.fullName }))
+        ).sort((a, b) => String(b.timestamp || '').localeCompare(String(a.timestamp || '')));
+        feedEl.innerHTML = allLogs.length
+          ? allLogs.map(item => `
+              <div class="p-3 rounded-xl bg-[#121722] border border-white/10 text-[11px] flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span class="font-mono text-sky-300 font-bold">${escHtml(item.enqId)}</span> · <strong class="text-white">${escHtml(item.client)}</strong> (${escHtml(item.projectName)})
+                  <div class="text-slate-400 mt-0.5">${escHtml(item.channel)} · From: <span class="font-mono">${escHtml(item.from || '—')}</span> → To: <span class="font-mono">${escHtml(item.to || '—')}</span></div>
+                  ${item.messageId ? `<div class="text-emerald-300 font-mono">ID: ${escHtml(item.messageId)}</div>` : (item.reason || item.error ? `<div class="text-rose-300">Reason: ${escHtml(item.reason || item.error)}</div>` : '')}
+                </div>
+                <div class="text-right">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.sent ? 'bg-emerald-500/20 text-emerald-300' : (item.channel === 'whatsapp_web' || item.channel === 'mailto_client') ? 'bg-sky-500/20 text-sky-300' : 'bg-rose-500/20 text-rose-300'}">${item.sent ? 'DELIVERED' : (item.channel === 'whatsapp_web' || item.channel === 'mailto_client') ? 'OPENED' : 'NOT SENT'}</span>
+                  <div class="text-[10px] text-slate-400 font-mono mt-1">${escHtml(item.timestamp || '')}</div>
+                </div>
+              </div>
+            `).join('')
+          : '<div class="p-4 rounded-xl bg-[#121722] border border-white/10 text-slate-400 text-xs">No dispatch attempts recorded yet.</div>';
+      }
+
+      const profEl = document.getElementById('admProfilesList');
+      if (profEl) {
+        const list = profileData?.recent || [];
+        profEl.innerHTML = list.length
+          ? [...list].reverse().map(u => `
+              <div class="p-2.5 rounded-lg bg-[#0A0D14] border border-white/10">
+                <div class="flex justify-between"><strong class="text-white">${escHtml(u.fullName)}</strong><span class="text-amber-300 font-mono">${escHtml(u.role)}</span></div>
+                <div class="text-slate-400">${escHtml(u.email)} · ${escHtml(u.phone || '—')} · ${escHtml(u.country || '—')}</div>
+                <div class="text-emerald-300 text-[10px] mt-0.5">${escHtml(u.legalBasis || 'Consent recorded')}</div>
+              </div>
+            `).join('')
+          : '<div class="text-slate-400 p-2">No profile registrations recorded in this server runtime yet.</div>';
+      }
+
+      const trkEl = document.getElementById('admTrackList');
+      if (trkEl) {
+        const events = trackData?.recentEvents || trackData?.events || [];
+        trkEl.innerHTML = events.length
+          ? [...events].reverse().slice(0, 30).map(ev => `
+              <div class="p-2 rounded-lg bg-[#0A0D14] border border-white/10 flex justify-between gap-2">
+                <span class="text-white font-semibold">${escHtml(ev.type || 'event')} <span class="text-slate-400 font-normal">(${escHtml(ev.cid || 'default')} ${escHtml(ev.channel || '')})</span></span>
+                <span class="text-slate-400 font-mono text-[10px] shrink-0">${escHtml((ev.ts || '').slice(11, 19))}</span>
+              </div>
+            `).join('')
+          : '<div class="text-slate-400 p-2">No telemetry events recorded yet.</div>';
+      }
+
+      const ledEl = document.getElementById('admLedgerSummary');
+      if (ledEl && ledgerData) {
+        const slaCount = (ledgerData.leads || []).length;
+        const contractCount = Object.keys(ledgerData.contracts || {}).length;
+        ledEl.innerText = `SLA Leads: ${slaCount} · Saved/Closed Contracts: ${contractCount} · Wallet Credits: ${ledgerData.walletCredits ?? 0}`;
+      }
+
+      renderEnquiriesTable();
+    }
+
     function renderEnquiriesTable() {
       const tbody = document.getElementById('liveEnquiriesTableBody');
       const badge = document.getElementById('enquiriesCountBadge');
       const queued = registeredSessionEnquiries.filter(x => x.status === 'QUEUED_FOR_FORWARDING' || x.status === 'DISPATCH_NOT_SENT').length;
       if (badge) badge.innerText = `${queued} Pending · ${registeredSessionEnquiries.length} Total`;
       if (!tbody) return;
-      if (!registeredSessionEnquiries.length) {
-        tbody.innerHTML = '<tr><td colspan="6" class="p-5 text-center text-slate-400">No overseas enquiries received yet. Buyers and brokers can submit free enquiries on any project card.</td></tr>';
+
+      const q = (document.getElementById('admEnqSearch')?.value || '').trim().toLowerCase();
+      const filtered = registeredSessionEnquiries.filter(eq => {
+        if (activeAdminEnqFilter === 'pending' && !(eq.status === 'QUEUED_FOR_FORWARDING' || eq.status === 'DISPATCH_NOT_SENT')) return false;
+        if (activeAdminEnqFilter === 'delivered' && !eq.lastDispatch?.sent) return false;
+        if (activeAdminEnqFilter === 'manual' && !(eq.lastDispatch?.channel === 'whatsapp_web' || eq.lastDispatch?.channel === 'mailto_client')) return false;
+        if (!q) return true;
+        return [eq.enqId, eq.fullName, eq.projectName, eq.developer, eq.country, eq.phone, eq.email, eq.contact]
+          .some(v => String(v || '').toLowerCase().includes(q));
+      });
+
+      if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-5 text-center text-slate-400">No enquiries match the current filter.</td></tr>';
         return;
       }
-      tbody.innerHTML = registeredSessionEnquiries.map(eq => {
+      tbody.innerHTML = filtered.map(eq => {
         const d = eq.lastDispatch || null;
         const logCount = Array.isArray(eq.dispatchLog) ? eq.dispatchLog.length : 0;
         let statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300">QUEUED</span>';
