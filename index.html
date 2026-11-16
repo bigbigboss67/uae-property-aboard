@@ -6296,6 +6296,41 @@
     let activeEnquiryProject = null;
     let activeEnquiryRef = '';
 
+    function resolveCurrentUserProfile() {
+      let saved = null;
+      try {
+        saved = JSON.parse(localStorage.getItem(typeof AUTH_PROFILE_KEY !== 'undefined' ? AUTH_PROFILE_KEY : 'aih_auth_profile_v1') || 'null');
+      } catch {}
+
+      let clerkUser = null;
+      try {
+        if (typeof clerkInstance !== 'undefined' && clerkInstance?.isSignedIn && clerkInstance?.user) {
+          clerkUser = clerkInstance.user;
+        }
+      } catch {}
+
+      let lastGuest = null;
+      try {
+        lastGuest = JSON.parse(localStorage.getItem('aih_last_enquiry_contact') || 'null');
+      } catch {}
+
+      const meta = clerkUser?.unsafeMetadata || {};
+      const fullName = (saved?.fullName || clerkUser?.fullName || [clerkUser?.firstName, clerkUser?.lastName].filter(Boolean).join(' ') || meta.fullName || lastGuest?.fullName || '').trim();
+      const email = (saved?.email || clerkUser?.primaryEmailAddress?.emailAddress || meta.email || '').trim();
+      const phone = (saved?.phone || clerkUser?.primaryPhoneNumber?.phoneNumber || meta.phone || '').trim();
+      const contact = (phone && email)
+        ? `${phone} / ${email}`
+        : (phone || email || lastGuest?.contact || '');
+      const rawCountry = (saved?.country || meta.country || saved?.location || meta.location || lastGuest?.country || '').trim();
+      const country = rawCountry.includes(',') ? rawCountry.split(',').pop().trim() : rawCountry;
+      const role = saved?.role || meta.role || (typeof activePortalRole !== 'undefined' ? activePortalRole : 'guest');
+      const company = (saved?.company || meta.company || '').trim();
+      const licenseRef = (saved?.licenseRef || meta.licenseRef || '').trim();
+      const source = (saved?.fullName || clerkUser) ? 'login' : (lastGuest?.fullName ? 'previous_enquiry' : 'guest');
+
+      return { fullName, email, phone, contact, country, role, company, licenseRef, source };
+    }
+
     function openEnquiryModal(projectId) {
       const p = uaeOffPlanProjects.find(x => (x.id || x.propertyid) === projectId) || uaeOffPlanProjects[0] || {};
       activeEnquiryProject = p;
@@ -6329,17 +6364,43 @@
       const dldBadge = document.getElementById('enqPropDldBadge');
       if (dldBadge) dldBadge.classList.toggle('hidden', !p.dld_verified);
 
+      // Auto-fill user details from Login / Saved Profile / Previous Enquiry
+      const profile = resolveCurrentUserProfile();
+      const fnEl = document.getElementById('enqFullName');
+      const ctEl = document.getElementById('enqContact');
+      const coEl = document.getElementById('enqCountry');
       const roleSel = document.getElementById('enqRole');
-      if (roleSel && typeof activePortalRole !== 'undefined') {
-        roleSel.value = activePortalRole === 'overseas_agency' ? 'Broker Abroad' : 'Direct Buyer';
+      if (fnEl) fnEl.value = profile.fullName;
+      if (ctEl) ctEl.value = profile.contact;
+      if (coEl) coEl.value = profile.country;
+      if (roleSel) {
+        roleSel.value = (profile.role === 'overseas_agency' || profile.role === 'uae_rera_seller') ? 'Broker Abroad' : 'Direct Buyer';
       }
+
+      const bannerEl = document.getElementById('enqAutofillBanner');
+      if (bannerEl) {
+        if (profile.source === 'login') {
+          bannerEl.className = 'p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/35 text-emerald-200 text-[11px] flex items-center justify-between gap-2';
+          bannerEl.innerHTML = `<span>✓ Auto-filled from your signed-in profile${profile.company ? ` (${escHtml(profile.company)})` : ''}.</span><button type="button" onclick="closeEnquiryModal(); if(typeof openAuthModal==='function') openAuthModal();" class="underline text-emerald-300 font-semibold shrink-0">Edit Profile</button>`;
+        } else if (profile.source === 'previous_enquiry') {
+          bannerEl.className = 'p-2.5 rounded-xl bg-sky-500/15 border border-sky-500/35 text-sky-200 text-[11px] flex items-center justify-between gap-2';
+          bannerEl.innerHTML = `<span>✓ Auto-filled from your last enquiry. Sign in to sync across devices.</span><button type="button" onclick="closeEnquiryModal(); if(typeof openAuthModal==='function') openAuthModal();" class="underline text-sky-300 font-semibold shrink-0">Sign In</button>`;
+        } else {
+          bannerEl.className = 'p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-[11px] flex items-center justify-between gap-2';
+          bannerEl.innerHTML = `<span>Tip: Sign in once to auto-fill your name, contact &amp; country on every property.</span><button type="button" onclick="closeEnquiryModal(); if(typeof openAuthModal==='function') openAuthModal();" class="text-amber-300 underline font-bold shrink-0">Sign In / Save Profile</button>`;
+        }
+      }
+
       const budgetEl = document.getElementById('enqBudget');
       if (budgetEl) {
         budgetEl.value = `${unitTypes} (${beds}) · ${priceText}`;
       }
       const msgEl = document.getElementById('enqMessage');
       if (msgEl) {
-        msgEl.value = `Requesting availability, payment plan, and reservation details for ${title} by ${dev} in ${loc} (${activeEnquiryRef}).`;
+        const agencyPrefix = (profile.role === 'overseas_agency' && profile.company)
+          ? `Partner Agency: ${profile.company}${profile.licenseRef ? ` (License: ${profile.licenseRef})` : ''}. `
+          : '';
+        msgEl.value = `${agencyPrefix}Requesting availability, payment plan, and reservation details for ${title} by ${dev} in ${loc} (${activeEnquiryRef}).`;
       }
 
       const form = document.getElementById('portalEnquiryForm');
@@ -6381,6 +6442,14 @@
         status: 'QUEUED_FOR_FORWARDING'
       };
       registeredSessionEnquiries.unshift(enquiry);
+      try {
+        localStorage.setItem('aih_last_enquiry_contact', JSON.stringify({
+          fullName: enquiry.fullName,
+          contact: enquiry.contact,
+          country: enquiry.country,
+          senderRole: enquiry.senderRole
+        }));
+      } catch {}
       renderEnquiriesTable();
       try {
         await fetch('/api/ledger', {
@@ -7114,6 +7183,7 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       </div>
 
       <form id="portalEnquiryForm" onsubmit="submitPortalEnquiry(event)" class="space-y-3">
+        <div id="enqAutofillBanner" class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-[11px]"></div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="text-slate-300 font-semibold block mb-1">Your Full Name *</label>
@@ -8669,7 +8739,10 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
     }
 
     async function withdrawAuthConsent() {
-      try { localStorage.removeItem(AUTH_PROFILE_KEY); } catch {}
+      try {
+        localStorage.removeItem(AUTH_PROFILE_KEY);
+        localStorage.removeItem('aih_last_enquiry_contact');
+      } catch {}
       try {
         if (clerkInstance?.user && typeof clerkInstance.user.updateMetadata === 'function') {
           await clerkInstance.user.updateMetadata({ unsafeMetadata: { marketingConsent: false, withdrawnAt: new Date().toISOString() } });
