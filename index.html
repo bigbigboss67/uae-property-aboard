@@ -6547,13 +6547,27 @@
       const phoneVal = document.getElementById('enqPhone')?.value.trim() || '';
       const emailVal = document.getElementById('enqEmail')?.value.trim() || '';
       const contactCombined = [phoneVal, emailVal].filter(Boolean).join(' / ');
+      const priceAED = Number(p.propertyprice || p.priceAED || 0);
+      const imgUrl = p.projectimage1url || p.image || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80';
+      const unitTypes = Array.isArray(p.unit_types) && p.unit_types.length ? p.unit_types.join(', ') : (p.propertytype || 'Residential');
+      const beds = p.bedrooms ? `${p.bedrooms} Beds` : 'Flexible';
+      const sizeSqft = p.sizesqft ? `${Number(p.sizesqft).toLocaleString()} sqft` : 'TBA';
+      const handover = p.handoverLabel || p.deliverydate || 'TBA';
+      const listingUrl = `https://www.ai-home.world/off-plan/${encodeURIComponent(p.id || p.propertyid || '')}`;
       const enquiry = {
         enqId,
         projectId: p.id || p.propertyid || 'UAE-PROJECT',
         projectName,
         developer,
         location,
-        priceAED: Number(p.propertyprice || p.priceAED || 0),
+        priceAED,
+        imageUrl: imgUrl,
+        unitTypes,
+        beds,
+        sizeSqft,
+        handover,
+        dldVerified: Boolean(p.dld_verified),
+        listingUrl,
         fullName: document.getElementById('enqFullName')?.value.trim() || 'Overseas Client',
         phone: phoneVal,
         email: emailVal,
@@ -6606,6 +6620,65 @@
       openDispatchModal(enqId);
     }
 
+    function buildMaskedPartnerPayload(eq) {
+      const p = (typeof uaeOffPlanProjects !== 'undefined'
+        ? uaeOffPlanProjects.find(x => (x.id || x.propertyid) === eq.projectId)
+        : null) || {};
+      const projectName = eq.projectName || p.project_name || p.buildingname || 'UAE Off-Plan Project';
+      const developer = eq.developer || p.developername || 'UAE Developer';
+      const location = eq.location || [p.areaname, p.city].filter(Boolean).join(', ') || 'UAE';
+      const priceAED = Number(eq.priceAED || p.propertyprice || 0);
+      const priceText = priceAED > 0 ? `AED ${priceAED.toLocaleString()}` : 'Price on Request';
+      const imageUrl = eq.imageUrl || p.projectimage1url || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80';
+      const unitTypes = eq.unitTypes || (Array.isArray(p.unit_types) && p.unit_types.length ? p.unit_types.join(', ') : (p.propertytype || 'Residential'));
+      const beds = eq.beds || (p.bedrooms ? `${p.bedrooms} Beds` : 'Flexible');
+      const sizeSqft = eq.sizeSqft || (p.sizesqft ? `${Number(p.sizesqft).toLocaleString()} sqft` : 'TBA');
+      const handover = eq.handover || p.handoverLabel || p.deliverydate || 'TBA';
+      const dldVerified = Boolean(eq.dldVerified || p.dld_verified);
+      const listingUrl = eq.listingUrl || `https://www.ai-home.world/off-plan/${encodeURIComponent(eq.projectId || p.id || '')}`;
+
+      const maskedEnquiry = {
+        enqId: eq.enqId,
+        projectId: eq.projectId,
+        projectName,
+        developer,
+        location,
+        priceAED,
+        imageUrl,
+        unitTypes,
+        beds,
+        sizeSqft,
+        handover,
+        dldVerified,
+        listingUrl,
+        country: eq.country || 'International',
+        senderRole: eq.senderRole || 'Direct Buyer',
+        budget: eq.budget || 'Flexible',
+        message: eq.message || `Requesting availability, payment plan, and reservation details for ${projectName} (${eq.enqId}).`
+      };
+
+      const whatsappText = [
+        `🏛️ *AI HOME GLOBAL · BLIND PROPERTY QUERY*`,
+        `🔖 *Ref:* ${maskedEnquiry.enqId}`,
+        `━━━━━━━━━━━━━━━━━━━━`,
+        `🏢 *Project:* ${projectName}`,
+        `🏗️ *Developer:* ${developer}${dldVerified ? ' (✓ DLD Verified)' : ''}`,
+        `📍 *Location:* ${location}`,
+        `💰 *Starting Price:* ${priceText}`,
+        `🛏️ *Specs:* ${unitTypes} · ${beds} · ${sizeSqft}`,
+        `📅 *Handover:* ${handover}`,
+        `🖼️ *Property Photo:* ${imageUrl}`,
+        `🔗 *Listing:* ${listingUrl}`,
+        `━━━━━━━━━━━━━━━━━━━━`,
+        `👤 *Buyer Profile:* ${maskedEnquiry.senderRole} (${maskedEnquiry.country})`,
+        `💼 *Target Unit / Budget:* ${maskedEnquiry.budget}`,
+        `📝 *Request:* ${maskedEnquiry.message}`,
+        `🔒 _Client name, phone & email are protected by AI Home Global. Please confirm availability for ${maskedEnquiry.enqId}._`
+      ].join('\n');
+
+      return { maskedEnquiry, whatsappText };
+    }
+
     function openDispatchModal(enqId) {
       if (!isPortalOwnerVerified) {
         openPortalOwnerInbox();
@@ -6617,7 +6690,11 @@
       const setEl = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
       setEl('fwdEnqIdBadge', eq.enqId);
       setEl('fwdEnqSummary', `${eq.fullName} (${eq.senderRole || 'Buyer'} · ${eq.country}) → ${eq.projectName} (${eq.developer})`);
-      setEl('fwdClientContact', `${eq.phone || 'No phone'} · ${eq.email || eq.contact || 'No email'}`);
+      setEl('fwdClientContact', `Admin Only: ${eq.phone || 'No phone'} · ${eq.email || eq.contact || 'No email'} (stripped on forward)`);
+
+      const { whatsappText } = buildMaskedPartnerPayload(eq);
+      const prevEl = document.getElementById('fwdMaskedPreview');
+      if (prevEl) prevEl.value = whatsappText;
 
       const nameEl = document.getElementById('fwdPartnerName');
       const emailEl = document.getElementById('fwdPartnerEmail');
@@ -6704,6 +6781,8 @@
         timestamp: now
       };
 
+      const { maskedEnquiry, whatsappText } = buildMaskedPartnerPayload(eq);
+
       if (channel === 'resend_email') {
         try {
           const res = await fetch('/api/notify', {
@@ -6712,7 +6791,7 @@
             body: JSON.stringify({
               event: 'enquiry_forwarded',
               recipientEmail: partnerEmail,
-              enquiry: { ...eq, forwardedTo: partnerName },
+              enquiry: { ...maskedEnquiry, forwardedTo: partnerName },
               origin: window.location.origin
             })
           });
@@ -6732,10 +6811,9 @@
           dispatchRecord.error = err.message;
         }
       } else if (channel === 'whatsapp_web') {
-        const msg = `AI Home Global Enquiry ${eq.enqId}\nProject: ${eq.projectName} (${eq.developer})\nClient: ${eq.fullName} (${eq.country})\nPhone: ${eq.phone || eq.contact}\nEmail: ${eq.email || '—'}\nBudget: ${eq.budget}\nNote: ${eq.message || '—'}`;
         const waUrl = partnerWa
-          ? `https://wa.me/${partnerWa}?text=${encodeURIComponent(msg)}`
-          : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+          ? `https://wa.me/${partnerWa}?text=${encodeURIComponent(whatsappText)}`
+          : `https://wa.me/?text=${encodeURIComponent(whatsappText)}`;
         window.open(waUrl, '_blank', 'noopener');
         dispatchRecord = {
           channel: 'whatsapp_web',
@@ -6749,9 +6827,8 @@
           timestamp: now
         };
       } else if (channel === 'mailto_client') {
-        const subject = `[AI Home Global ${eq.enqId}] ${eq.projectName} Client Request`;
-        const body = `Ref: ${eq.enqId}\nProject: ${eq.projectName} (${eq.developer})\nClient: ${eq.fullName} (${eq.country})\nPhone: ${eq.phone || eq.contact}\nEmail: ${eq.email || '—'}\nBudget: ${eq.budget}\nMessage: ${eq.message || '—'}`;
-        window.open(`mailto:${encodeURIComponent(partnerEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+        const subject = `[Blind Property Query ${eq.enqId}] ${maskedEnquiry.projectName} · ${maskedEnquiry.location}`;
+        window.open(`mailto:${encodeURIComponent(partnerEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(whatsappText)}`, '_blank');
         dispatchRecord = {
           channel: 'mailto_client',
           from: 'Local Email App (mailto:)',
@@ -7712,6 +7789,11 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         <button type="button" onclick="executePartnerDispatch('mailto_client')" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs transition">
           Open Email App (mailto:)
         </button>
+      </div>
+
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-300 mb-1">🔒 Masked Partner Message Preview (No Client Name / Phone / Email)</div>
+        <textarea id="fwdMaskedPreview" readonly rows="5" style="background-color:#0A0C13;color:#E2E8F0;" class="w-full border border-emerald-500/30 rounded-xl p-2.5 text-[11px] font-mono"></textarea>
       </div>
 
       <div>

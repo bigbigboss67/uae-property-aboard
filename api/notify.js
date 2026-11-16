@@ -72,19 +72,49 @@ export default async function handler(req, res) {
         </div>`;
     } else if (event === 'enquiry_forwarded' && enquiry) {
       to = recipientEmail || adminEmail;
-      subject = `[Forwarded Enquiry ${enquiry.enqId}] ${enquiry.projectName} → ${enquiry.forwardedTo || 'Developer / UAE RERA Partner'}`;
+      const imgUrl = enquiry.imageUrl || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80';
+      const priceText = Number(enquiry.priceAED) > 0 ? `AED ${Number(enquiry.priceAED).toLocaleString()}` : 'Price on Request';
+      const listingUrl = enquiry.listingUrl || `https://www.ai-home.world/off-plan/${encodeURIComponent(enquiry.projectId || '')}`;
+      subject = `[Blind Property Query ${enquiry.enqId}] ${enquiry.projectName} · ${enquiry.location || 'UAE'}`;
       html = `
-        <div style="font-family:Arial,sans-serif;max-width:560px;padding:20px;border:1px solid #10b981;border-radius:12px;">
-          <h2 style="margin:0 0 8px;color:#065f46;">Portal Enquiry Forwarded</h2>
-          <p><strong>Ref:</strong> ${enquiry.enqId}<br>
-             <strong>Project:</strong> ${enquiry.projectName} (${enquiry.developer})<br>
-             <strong>Location:</strong> ${enquiry.location || 'UAE'}<br>
-             <strong>Client:</strong> ${enquiry.fullName} (${enquiry.senderRole || 'Buyer'} · ${enquiry.country})<br>
-             <strong>Phone / WhatsApp:</strong> ${enquiry.phone || enquiry.contact || '—'}<br>
-             <strong>Email:</strong> ${enquiry.email || '—'}<br>
-             <strong>Budget / Unit:</strong> ${enquiry.budget || 'Flexible'}<br>
-             <strong>Message:</strong> ${enquiry.message || '—'}<br>
-             <strong>Forwarded To:</strong> ${enquiry.forwardedTo || 'Developer / Licensed UAE Partner'}</p>
+        <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#0B0F19;color:#F8FAFC;border:1px solid #D4AF37;border-radius:16px;overflow:hidden;">
+          <div style="padding:16px 20px;background:linear-gradient(90deg,#111827,#0B0F19);border-bottom:1px solid rgba(255,255,255,0.1);">
+            <span style="display:inline-block;background:rgba(212,175,55,0.18);color:#FCD34D;border:1px solid rgba(212,175,55,0.45);font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">AI Home Global · Blind Partner Query</span>
+            <span style="float:right;font-family:monospace;color:#38BDF8;font-size:12px;font-weight:700;">${enquiry.enqId}</span>
+          </div>
+          <img src="${imgUrl}" alt="${enquiry.projectName}" style="width:100%;height:240px;object-fit:cover;display:block;">
+          <div style="padding:20px;">
+            <div style="font-size:11px;font-weight:700;color:#D4AF37;text-transform:uppercase;letter-spacing:0.8px;">${enquiry.developer || 'UAE Developer'} · ${enquiry.location || 'UAE'}${enquiry.dldVerified ? ' · ✓ DLD Verified' : ''}</div>
+            <h2 style="margin:4px 0 12px;font-size:22px;color:#FFFFFF;">${enquiry.projectName}</h2>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+              <tr>
+                <td style="padding:10px;background:#131A2A;border:1px solid rgba(255,255,255,0.08);border-radius:8px;width:33%;">
+                  <div style="font-size:10px;color:#94A3B8;text-transform:uppercase;">Starting Price</div>
+                  <div style="font-size:14px;font-weight:800;color:#FCD34D;margin-top:2px;">${priceText}</div>
+                </td>
+                <td style="width:8px;"></td>
+                <td style="padding:10px;background:#131A2A;border:1px solid rgba(255,255,255,0.08);border-radius:8px;width:33%;">
+                  <div style="font-size:10px;color:#94A3B8;text-transform:uppercase;">Specs</div>
+                  <div style="font-size:13px;font-weight:700;color:#FFFFFF;margin-top:2px;">${enquiry.beds || 'Flexible'} · ${enquiry.sizeSqft || 'TBA'}</div>
+                </td>
+                <td style="width:8px;"></td>
+                <td style="padding:10px;background:#131A2A;border:1px solid rgba(255,255,255,0.08);border-radius:8px;width:33%;">
+                  <div style="font-size:10px;color:#94A3B8;text-transform:uppercase;">Handover</div>
+                  <div style="font-size:13px;font-weight:700;color:#34D399;margin-top:2px;">${enquiry.handover || 'TBA'}</div>
+                </td>
+              </tr>
+            </table>
+            <div style="padding:14px;background:#111827;border:1px solid rgba(56,189,248,0.3);border-radius:10px;margin-bottom:16px;">
+              <div style="font-size:11px;font-weight:700;color:#38BDF8;text-transform:uppercase;margin-bottom:6px;">Masked Client Request (${enquiry.enqId})</div>
+              <p style="margin:0;font-size:13px;line-height:1.6;color:#E2E8F0;">
+                <strong>Buyer Profile:</strong> ${enquiry.senderRole || 'Direct Buyer'} (${enquiry.country || 'International'})<br>
+                <strong>Requested Unit / Budget:</strong> ${enquiry.budget || 'Flexible'}<br>
+                <strong>Query:</strong> ${enquiry.message || 'Requesting availability, payment plan, and floor plans.'}
+              </p>
+              <p style="margin:8px 0 0;font-size:11px;color:#94A3B8;">🔒 Client name, phone, and email are protected by AI Home Global. Reply to the Portal Desk with availability to proceed.</p>
+            </div>
+            <a href="${listingUrl}" style="display:inline-block;padding:11px 20px;background:#D4AF37;color:#0A0C13;font-weight:800;font-size:13px;text-decoration:none;border-radius:10px;">View Property Dossier &amp; Listing →</a>
+          </div>
         </div>`;
     } else if (event === 'deal_closed') {
       subject = `[AI Home Global] Deal ${dealId} CLOSED · ${projectName}`;
