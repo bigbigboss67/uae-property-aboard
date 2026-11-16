@@ -1,0 +1,42 @@
+# AI HOME GLOBAL
+
+> AI HOME GLOBAL is an institutional UAE real estate gateway and cross-border co-brokerage clearinghouse connecting international brokerages, family offices, and wealth managers directly to UAE off-plan developments under Dubai Land Department (DLD) and Real Estate Regulatory Agency (RERA) statutory frameworks.
+
+## Core Capabilities
+- [UAE Off-Plan Directory](https://uae-property-aboard.vercel.app/#offplanRegistry): Real-time searchable inventory of 2,926+ verified off-plan developments across Dubai and Abu Dhabi.
+- [Commission Calculator & Simulator](https://uae-property-aboard.vercel.app/#calculator): Interactive financial modeling for cross-border commission settlement and currency conversions (USD, EUR, GBP, CNY, INR, AED).
+- [International Agency Network](https://uae-property-aboard.vercel.app/#globalAgencies): Network of 13,529+ vetted international agencies and 4.37M+ registered brokers across 68 countries.
+- [White-Label Client Dossier Generator](https://uae-property-aboard.vercel.app/#whiteLabelGenerator): Automated branded investment memorandum and pitch deck generation for overseas clients with stripped developer direct contacts.
+- [Commission Protocol](https://uae-property-aboard.vercel.app/#commissionProtocol): Direct Co-Brokerage & SaaS Unlock model — 0% portal commission cut, direct DLD escrow routing, and flat SaaS Deal Room access ($250–$1,500 USD).
+
+## Commission Architecture & SaaS Model (0% Portal Cut)
+The platform operates as a pure SaaS direct co-brokerage gateway with **0% portal commission** and **0% DLD intervention**:
+- **Buyer Direct Purchase / Enquiry**: Free Portal Enquiry (`0%` buyer fee) or direct DLD-regulated developer escrow payment (`100%` of property purchase price wires directly from buyer to the developer's DLD-regulated escrow account).
+- **Direct Co-Brokerage Split**: Overseas Partner and UAE RERA Seller sign a direct digital co-brokerage agreement (default 55% Overseas / 45% UAE Seller of Gross Developer Commission, customizable).
+- **Flat SaaS Deal Room Unlock**:
+  - Standard Tier (< AED 2M): `$250 USD`
+  - Prime Tier (AED 2M–5M): `$450 USD`
+  - Luxury Tier (AED 5M–10M): `$850 USD`
+  - Ultra-Prime Tier (AED 10M+): `$1,500 USD`
+
+## Statutory & Regulatory Framework
+- **Dubai Law No. 8 of 2007 (Escrow Accounts Law)**: Mandates that all off-plan investor installments are deposited directly into designated Central Bank-approved escrow accounts, disbursed only according to verified construction progress.
+- **RERA Bylaw No. 85 of 2006 (Brokers Register Regulation)**: Formalizes official brokerage registration, Form A/B/I agency agreements, and legal representation mandates.
+- **Dubai Decree No. 43 of 2013**: Rent cap and real estate investor protection mechanisms.
+- **Cabinet Resolution No. 56 of 2018 (UAE Golden Visa)**: 10-year renewable real estate residency for property investments of AED 2,000,000 (~$545,000 USD) or more, including off-plan and mortgage-backed units.
+
+## Master Inventory Summary
+- **Verified Off-Plan Developments**: 2,926 projects
+- **Major Developers**: Emaar Properties, DAMAC Properties, Sobha Realty, Nakheel, Ellington Properties, Aldar Properties, Meraas, Dubai Holding, Select Group, Omniyat.
+- **Flagship Communities**: Downtown Dubai, Palm Jumeirah, Dubai Marina, Dubai Hills Estate, Business Bay, DIFC, Jumeirah Village Circle (JVC), Creek Harbour, Yas Island.
+
+## API Endpoints
+- `GET /api/config`: Portal telemetry, live currency conversion pegs, feature flags, and regional desk configuration.
+- `GET /api/agents`: Global broker directory query with country, city, and verification filtering.
+- `POST /api/deal-unlock`: Instant contact and developer documentation unlock request.
+- `POST /api/track`: Telemetry and user engagement tracking with GDPR/PDPL compliance.
+- `POST /api/broadcast`: Multi-channel WhatsApp and Email co-brokerage syndication dispatcher.
+
+## Extended Documentation
+- [Comprehensive Specification](https://uae-property-aboard.vercel.app/llms-full.txt): Exhaustive legal, economic, developer, and API documentation for LLMs.
+- [Commission Protocol SOP](https://uae-property-aboard.vercel.app/COMMISSION_PROTOCOL_1PERCENT.md): Complete contractual terms and legal exhibits.

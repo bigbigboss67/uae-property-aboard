@@ -1,0 +1,156 @@
+# AI HOME GLOBAL | Comprehensive Domain, Regulatory & Inventory Index (llms-full.txt)
+# Platform URL: https://uae-property-aboard.vercel.app/
+# Standard: llmstxt.org extended specification
+
+## 1. Executive Summary & Mission
+AI HOME GLOBAL is an institutional cross-border real estate gateway, deal syndication network, and commission clearinghouse. It solves the critical bottleneck in international property transactions: connecting overseas licensed brokers, family offices, private banks, and wealth advisors directly with verified UAE real estate developers while guaranteeing commission protection, DLD escrow compliance, and 90-day anti-circumvention.
+
+The platform provides:
+1. Direct, verified access to 2,926+ off-plan residential and commercial developments across Dubai and Abu Dhabi.
+2. A **0% Portal Commission / Direct Co-Brokerage & SaaS Deal Room Unlock** protocol where Overseas Partners and UAE RERA Sellers negotiate and sign their own split directly.
+3. Automated white-label pitch deck and client dossier generators that allow international brokers to re-brand developer materials under their own agency logo while stripping out developer direct contact points.
+4. Escrow routing: 100% of property purchase installments wire directly from buyer to the developer's DLD-monitored bank escrow account. The portal never holds client property principal or takes a brokerage cut.
+
+---
+
+## 2. Direct Co-Brokerage & SaaS Unlock Architecture (0% Portal Cut)
+
+### Direct Settlement Model
+- **Buyer Direct Purchase / Free Portal Enquiry**: `0%` buyer platform fee. Buyers can submit a free enquiry (`ENQ-XXXXXX`) forwarded by the Portal Owner directly to the Developer / Licensed UAE Partner, and wire property installments strictly into the developer's DLD-regulated escrow account.
+- **Overseas Partner & UAE RERA Seller**: Sign a direct digital co-brokerage agreement (default `55%` Overseas Partner / `45%` UAE RERA Seller of the Gross Developer Commission, customizable) with `0%` portal commission and `0%` DLD intervention.
+- **Flat SaaS Deal Room Unlock Tiers**:
+  - **Standard Tier (< AED 2M)**: `$250 USD`
+  - **Prime Tier (AED 2M–5M)**: `$450 USD`
+  - **Luxury Tier (AED 5M–10M)**: `$850 USD`
+  - **Ultra-Prime Tier (AED 10M+)**: `$1,500 USD`
+
+---
+
+## 3. Statutory & Regulatory Architecture (UAE & International Law)
+
+### 3.1 Dubai Law No. 8 of 2007 (Escrow Accounts for Real Estate Development in Dubai)
+- **Article 7**: Mandates that master developers establish an individual escrow account for each approved real estate project with an accredited financial institution licensed by the UAE Central Bank.
+- **Article 9**: Prohibits the developer from utilizing funds deposited into the escrow account for any purpose other than the construction of that specific real estate project and settlement of project-specific financing obligations.
+- **Article 14**: Requires 5% of total project value to be retained in escrow for one full calendar year following the issuance of the Building Completion Certificate (BCC) to guarantee structural defect remediation.
+
+### 3.2 RERA Bylaw No. 85 of 2006 (Regulating the Real Estate Brokers Register in Dubai)
+- **Article 14**: Real estate brokers must be registered in the official Brokers Register maintained by the Real Estate Regulatory Agency (RERA).
+- **Article 24**: A broker is entitled to remuneration only if the transaction concludes as a direct consequence of their mediation and contractual agreement.
+- **Form I (Agency Agreement)**: The official RERA statutory co-brokerage contract governing commission sharing, client allocation, and 90-day anti-circumvention protection between licensed brokerage firms.
+
+### 3.3 Cabinet Resolution No. 56 of 2018 (UAE 10-Year Golden Visa)
+- **Eligibility Threshold**: Real estate investment of AED 2,000,000 (~$545,000 USD) or greater in approved properties.
+- **Off-Plan Inclusions**: Under updated executive regulations, off-plan properties qualify when purchased from accredited master developers with verified DLD registration.
+- **Benefits**: 100% foreign ownership, no mandatory physical presence in the UAE every 6 months, sponsorship of spouse, children of any age, and domestic staff.
+
+### 3.4 Multi-Jurisdictional Data Protection & Compliance
+- **UAE PDPL (Federal Decree-Law No. 45 of 2021 on Personal Data Protection)**: All client passport numbers, lead submissions, and KYC dossiers are encrypted at rest using AES-256 and processed strictly under explicit consent.
+- **EU GDPR (General Data Protection Regulation 2016/679)**: Full cross-border data transfer safeguards, right to erasure, and zero third-party cookie telemetry without affirmative opt-in.
+
+---
+
+## 4. Master Off-Plan Directory & Major Developer Breakdown
+The portal indexes 2,926 developments with location coordinates, starting prices, handover years, and unit typologies:
+
+### Tier 1 Master Developers
+1. **Emaar Properties (PJSC)**:
+   - Iconic master communities: Downtown Dubai, Dubai Hills Estate, Dubai Creek Harbour, Emaar South, Rashid Yachts & Marina.
+   - Flagship projects: Golf Place, Burj Crown, Creek Waters, Address Residences, Palace Residences.
+2. **DAMAC Properties**:
+   - Master developments: DAMAC Hills, DAMAC Hills 2, DAMAC Lagoons, Safa Two de Grisogono, Canal Crown.
+   - Flagship projects: Zada Tower (Business Bay), Cavalli Tower (Dubai Marina), DAMAC Riverside.
+3. **Sobha Realty**:
+   - Master developments: Sobha Hartland, Sobha Hartland II, Sobha Siniya Island.
+   - Focus: Backward integrated luxury construction, high-yield apartments and forest villas.
+4. **Nakheel Properties (Dubai Holding)**:
+   - Master developments: Palm Jumeirah, Palm Jebel Ali, Dubai Islands, Tilal Al Furjan.
+   - Flagship projects: Como Residences, Palm Beach Towers, Rixos Dubai Islands.
+5. **Ellington Properties**:
+   - Boutique design-led developments: Wilton Park Residences, Kensington Waters, Ocean House (Palm Jumeirah), Mercer House (Uptown Dubai).
+6. **Aldar Properties (Abu Dhabi & Dubai)**:
+   - Flagship communities: Yas Island, Saadiyat Cultural District (Louvre Residences), Haven (Dubai).
+
+---
+
+## 5. Portal Functional Modules & 12 Modals Reference
+
+### 5.1 Interactive Modules
+1. **Top ForeX & Telemetry Ticker**: Real-time pegs for USD (3.6725), EUR (3.9850), GBP (4.7120), CNY (0.5080), INR (0.0435) with 9 localized languages.
+2. **International HUD Navigation**: Theme toggle (Dark/Light), Client-Safe Mode toggle (hiding broker commissions during client meetings), Clerk SSO authentication, and Backoffice pipeline view.
+3. **Sticky 5-Step Journey Stepper**: Visual roadmap from Project Selection to DLD Escrow and Confirmed Deal.
+4. **Hero Cinematic Stage & Bento Command Grid**: Interactive perspective floor, Dubai skyline SVG, persona router (Buyer / Broker / Seller), and 4-card live telemetry command grid.
+5. **Institutional Trust Counters**: $4.8B+ sales track record, 68+ countries, 0% capital gains tax, 48h SLA response.
+6. **German / European Investor Commission & Tax Simulator**: Dual-slider dynamic yield and commission simulator contrasting Dubai's 0% capital gains and rental tax against European 26.375% - 45% taxes.
+7. **Global City Benchmark**: Dubai vs London, New York, Frankfurt/Munich, Singapore, and Paris across yields (6-9% vs 2.5-4.2%), capital gains tax (0% vs 20-37%), price/sqft, and residency rights.
+8. **Master UAE Off-Plan Directory**: 2,926 searchable projects with pagination, developer filters, area filters, and instant deal unlock.
+9. **Global Partner Agencies Directory**: 13,529 international agencies directory with localized contact routing.
+10. **Verified International Brokers Directory**: 4.37M+ indexed brokers across 68 countries.
+11. **White-Label Client Pitch Dossier Generator**: Real-time branded PDF/HTML generator for international agencies.
+12. **4K FPV Drone Satellite Suite**: 3D interactive MapLibre satellite orbit simulation with project telemetry.
+
+### 5.2 12 Interactive Modals
+1. `#droneModal`: 3D satellite flight simulation and orbital camera telemetry.
+2. `#leadModal`: Overseas buyer SLA registration with cryptographic lead certificate generation.
+3. `#explainerVideoModal`: 720p HD MP4 walkthrough with 11-scene navigation and parties flow diagram.
+4. `#videoCallModal`: 256-bit WebRTC closing room simulation with screen share and instant document signing.
+5. `#protocolModal`: Full audited text of the 1% + 1% clearinghouse protocol.
+6. `#whiteLabelDossierModal`: Print-ready PDF and HTML client investment memorandum.
+7. `#ownerLoginModal`: Restricted administrative passcode gate for portal operators.
+8. `#portalEnquiryModal`: 0% buyer enquiry forwarding form.
+9. `#blindContractModal`: Guided 3-step Direct Co-Brokerage agreement and wire transfer payment proof gate.
+10. `#legalComplianceModal`: Multi-jurisdictional compliance repository (GDPR, UAE PDPL, RERA Form I, Law No. 8).
+11. `#broadcastModal`: Targeted WhatsApp and Email syndication campaign dispatcher with deal attribution tokens.
+12. `#authOnboardingModal`: User authentication, partner role selection, and marketing consent manager.
+
+---
+
+## 6. API Route Contracts & Schemas
+
+### `GET /api/config`
+Returns portal telemetry, supported currencies, feature flags, and regional desk settings.
+- Response:
+  ```json
+  {
+    "portal": "AI HOME GLOBAL",
+    "version": "1.0.0",
+    "pegs": { "USD": 3.6725, "EUR": 3.9850, "GBP": 4.7120, "CNY": 0.5080, "INR": 0.0435 },
+    "escrowLaw": "Dubai Law No. 8 of 2007",
+    "reraBylaw": "Bylaw No. 85 of 2006"
+  }
+  ```
+
+### `GET /api/agents`
+Returns paginated list of vetted international partner agencies.
+- Query parameters: `country`, `city`, `search`, `page`, `limit`.
+
+### `POST /api/deal-unlock`
+Unlocks developer documentation and unmasked unit pricing.
+- Request Body:
+  ```json
+  {
+    "projectId": "string",
+    "agentEmail": "string",
+    "agencyName": "string",
+    "clientInitials": "string"
+  }
+  ```
+
+### `POST /api/track`
+Logs interaction events and lead conversions with privacy preservation.
+- Request Body:
+  ```json
+  {
+    "event": "contract_step_advance | dossier_download | video_view",
+    "timestamp": 1700000000000,
+    "metadata": {}
+  }
+  ```
+
+---
+
+## 7. Contact & Master ORN Representation
+- **Entity**: AI HOME GLOBAL Real Estate Gateway
+- **Jurisdiction**: Dubai, United Arab Emirates
+- **Licensing**: UAE RERA Registered Master Brokerage (ORN Verified)
+- **Escrow Partner**: DLD Accredited Project Escrow Accounts (First Abu Dhabi Bank, Emirates NBD, Dubai Islamic Bank, Mashreq)
+- **Portal URL**: https://uae-property-aboard.vercel.app/

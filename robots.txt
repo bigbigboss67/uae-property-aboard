@@ -1,0 +1,33 @@
+# robots.txt for AI Home Global UAE Real Estate Gateway
+# https://uae-property-aboard.vercel.app/
+
+User-agent: *
+Allow: /
+Disallow: /api/owner-auth
+Disallow: /api/stripe-checkout
+
+# AI Crawlers & Answer Engines
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Sitemap & Agentic Specification
+Sitemap: https://uae-property-aboard.vercel.app/sitemap.xml
+LLMs-Txt: https://uae-property-aboard.vercel.app/llms.txt
