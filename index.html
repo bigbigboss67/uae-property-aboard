@@ -1123,7 +1123,7 @@
         <span class="text-slate-600">➔</span>
         <a href="#calculator" onclick="setActiveJourneyStep(2)" id="jStep2" data-i18n="jStep2" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">2. Check Numbers</a>
         <span class="text-slate-600">➔</span>
-        <button onclick="setActiveJourneyStep(3); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" id="jStep3" data-i18n="jStep3" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">3. Sign Direct Contract</button>
+        <button onclick="setActiveJourneyStep(3); openEnquiryModal(uaeOffPlanProjects[0]?.id || '')" id="jStep3" data-i18n="jStep3" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">3. Send Free Request</button>
         <span class="text-slate-600">➔</span>
         <button onclick="setActiveJourneyStep(4); openLegalModal('escrow')" id="jStep4" data-i18n="jStep4" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold whitespace-nowrap">4. DLD Escrow</button>
         <span class="text-slate-600">➔</span>
@@ -1466,9 +1466,9 @@
             </span>
             <span data-i18n="ctaVideo">Watch 27s Step-by-Step Video</span>
           </button>
-          <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-500 font-bold text-base border border-emerald-500/40 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
-            <i data-lucide="lock" class="w-4 h-4"></i>
-            <span data-i18n="ctaContract">Open Direct Contract &amp; Payment Proof</span>
+          <button onclick="openEnquiryModal(uaeOffPlanProjects[0]?.id || '')" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-500 font-bold text-base border border-emerald-500/40 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+            <span data-i18n="ctaContract">Request to Buy / Enquire (Free · 0% Fee)</span>
           </button>
         </div>
       </div>
@@ -1530,10 +1530,11 @@
           </div>
           <div class="bento-card p-4">
             <div class="flex items-center justify-between mb-2">
-              <span data-i18n="bentoDirectContact" class="text-xs font-bold">Direct Contact</span>
-              <span data-i18n="bentoInstant" class="text-sm font-extrabold text-[#135BEC]">Instant</span>
+              <span data-i18n="bentoDirectContact" class="text-xs font-bold">Stage 1 · Upon Request</span>
+              <span data-i18n="bentoInstant" class="text-xs font-extrabold text-emerald-400">Free · 0% Fee</span>
             </div>
-            <button onclick="openBlindContractForProject(uaeOffPlanProjects[0]?.id || '')" class="w-full py-2 rounded-xl bg-[#135BEC] hover:bg-blue-700 text-white text-xs font-bold transition-all inline-flex items-center justify-center gap-1.5"><i data-lucide="lock" class="w-3.5 h-3.5"></i> <span data-i18n="bentoUnlockBtn">Unlock with Proof</span></button>
+            <button onclick="openEnquiryModal(uaeOffPlanProjects[0]?.id || '')" class="w-full py-2 rounded-xl bg-[#135BEC] hover:bg-blue-700 text-white text-xs font-bold transition-all inline-flex items-center justify-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5"></i> <span data-i18n="bentoUnlockBtn">Request to Buy (Free)</span></button>
+            <p class="text-[10px] text-slate-400 mt-1.5 text-center">SaaS Deal Room: <span class="text-amber-300 font-semibold">Coming Soon (Phase 2)</span></p>
           </div>
         </div>
 
@@ -2835,8 +2836,8 @@
             <button onclick="setExplainerMode('chart')" class="px-3 py-2 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 text-blue-300 text-xs font-bold">
               View Parties Chart →
             </button>
-            <button onclick="closeExplainerVideo(); openBlindContractForProject(uaeOffPlanProjects[0]?.id || '');" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold">
-              Open Live Direct Contract →
+            <button onclick="closeExplainerVideo(); openEnquiryModal(uaeOffPlanProjects[0]?.id || '');" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-extrabold">
+              Send Free Request to Buy →
             </button>
           </div>
         </div>
@@ -5524,8 +5525,8 @@
             <button onclick="openEnquiryModal('${safeId}')" style="background-color:#135BEC;color:#FFFFFF;" class="w-full font-extrabold py-2.5 px-3 rounded-xl text-xs transition-all hover:brightness-110 shadow flex items-center justify-center gap-1.5">
               <i data-lucide="mail" class="w-3.5 h-3.5"></i> Request to Buy / Enquire (Free · 0% Fee)
             </button>
-            <button onclick="openBlindContractForProject('${safeId}')" class="w-full bg-white/5 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold py-2 px-3 rounded-xl text-[11px] transition-all flex items-center justify-center gap-1.5">
-              <i data-lucide="lock" class="w-3.5 h-3.5"></i> Partner Co-Broke Deal Room (SaaS)
+            <button type="button" disabled title="Phase 2 — Coming Soon. In Stage 1, use Request to Buy / Enquire above." class="w-full bg-white/[0.03] text-slate-400 border border-white/10 font-semibold py-2 px-3 rounded-xl text-[11px] flex items-center justify-center gap-1.5 cursor-not-allowed opacity-75">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-300"></i> SaaS Deal Room · Coming Soon
             </button>
           </div>
         </div>
@@ -6164,7 +6165,16 @@
       };
     }
 
+    const SAAS_DEAL_ROOM_COMING_SOON = true;
+
     function openBlindContractForProject(id, preferredBillingMode) {
+      if (SAAS_DEAL_ROOM_COMING_SOON) {
+        if (typeof showToast === 'function') {
+          showToast('SaaS Deal Room is Coming Soon (Phase 2). In Stage 1, submit a Free Request to Buy / Enquire.');
+        }
+        if (typeof openEnquiryModal === 'function') openEnquiryModal(id);
+        return;
+      }
       const p = uaeOffPlanProjects.find(x => x.id === id || x.propertyid === id) || uaeOffPlanProjects[0];
       const randomHex = Math.random().toString(16).slice(2, 8).toUpperCase();
       const devName = p?.developername || p?.developer || 'UAE Developer';
@@ -6316,11 +6326,9 @@
 
       const meta = clerkUser?.unsafeMetadata || {};
       const fullName = (saved?.fullName || clerkUser?.fullName || [clerkUser?.firstName, clerkUser?.lastName].filter(Boolean).join(' ') || meta.fullName || lastGuest?.fullName || '').trim();
-      const email = (saved?.email || clerkUser?.primaryEmailAddress?.emailAddress || meta.email || '').trim();
-      const phone = (saved?.phone || clerkUser?.primaryPhoneNumber?.phoneNumber || meta.phone || '').trim();
-      const contact = (phone && email)
-        ? `${phone} / ${email}`
-        : (phone || email || lastGuest?.contact || '');
+      const email = (saved?.email || clerkUser?.primaryEmailAddress?.emailAddress || meta.email || lastGuest?.email || '').trim();
+      const phone = (saved?.phone || clerkUser?.primaryPhoneNumber?.phoneNumber || meta.phone || lastGuest?.phone || '').trim();
+      const contact = [phone, email].filter(Boolean).join(' / ') || lastGuest?.contact || '';
       const rawCountry = (saved?.country || meta.country || saved?.location || meta.location || lastGuest?.country || '').trim();
       const country = rawCountry.includes(',') ? rawCountry.split(',').pop().trim() : rawCountry;
       const role = saved?.role || meta.role || (typeof activePortalRole !== 'undefined' ? activePortalRole : 'guest');
@@ -6367,11 +6375,13 @@
       // Auto-fill user details from Login / Saved Profile / Previous Enquiry
       const profile = resolveCurrentUserProfile();
       const fnEl = document.getElementById('enqFullName');
-      const ctEl = document.getElementById('enqContact');
+      const phEl = document.getElementById('enqPhone');
+      const emEl = document.getElementById('enqEmail');
       const coEl = document.getElementById('enqCountry');
       const roleSel = document.getElementById('enqRole');
       if (fnEl) fnEl.value = profile.fullName;
-      if (ctEl) ctEl.value = profile.contact;
+      if (phEl) phEl.value = profile.phone;
+      if (emEl) emEl.value = profile.email;
       if (coEl) coEl.value = profile.country;
       if (roleSel) {
         roleSel.value = (profile.role === 'overseas_agency' || profile.role === 'uae_rera_seller') ? 'Broker Abroad' : 'Direct Buyer';
@@ -6426,6 +6436,9 @@
       const projectName = p.project_name || p.buildingname || p.name || p.title || 'UAE Off-Plan Project';
       const developer = p.developername || p.developer || 'UAE Developer';
       const location = [p.areaname, p.city].filter(Boolean).join(', ') || p.location || 'UAE';
+      const phoneVal = document.getElementById('enqPhone')?.value.trim() || '';
+      const emailVal = document.getElementById('enqEmail')?.value.trim() || '';
+      const contactCombined = [phoneVal, emailVal].filter(Boolean).join(' / ');
       const enquiry = {
         enqId,
         projectId: p.id || p.propertyid || 'UAE-PROJECT',
@@ -6434,7 +6447,9 @@
         location,
         priceAED: Number(p.propertyprice || p.priceAED || 0),
         fullName: document.getElementById('enqFullName')?.value.trim() || 'Overseas Client',
-        contact: document.getElementById('enqContact')?.value.trim() || '',
+        phone: phoneVal,
+        email: emailVal,
+        contact: contactCombined,
         country: document.getElementById('enqCountry')?.value.trim() || 'International',
         senderRole: document.getElementById('enqRole')?.value || 'Direct Buyer',
         budget: document.getElementById('enqBudget')?.value.trim() || 'Flexible',
@@ -6445,6 +6460,8 @@
       try {
         localStorage.setItem('aih_last_enquiry_contact', JSON.stringify({
           fullName: enquiry.fullName,
+          phone: phoneVal,
+          email: emailVal,
           contact: enquiry.contact,
           country: enquiry.country,
           senderRole: enquiry.senderRole
@@ -7186,19 +7203,23 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         <div id="enqAutofillBanner" class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-[11px]"></div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="text-slate-300 font-semibold block mb-1">Your Full Name *</label>
+            <label for="enqFullName" class="text-slate-300 font-semibold block mb-1">Your Full Name *</label>
             <input id="enqFullName" type="text" required placeholder="e.g. Sarah Miller" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
           </div>
           <div>
-            <label class="text-slate-300 font-semibold block mb-1">WhatsApp or Email *</label>
-            <input id="enqContact" type="text" required placeholder="+44 7700 900077 / email" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+            <label for="enqPhone" class="text-slate-300 font-semibold block mb-1">WhatsApp / Phone *</label>
+            <input id="enqPhone" type="tel" required placeholder="e.g. +44 7700 900077" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
           </div>
           <div>
-            <label class="text-slate-300 font-semibold block mb-1">Country *</label>
+            <label for="enqEmail" class="text-slate-300 font-semibold block mb-1">Email Address *</label>
+            <input id="enqEmail" type="email" required placeholder="e.g. name@example.com" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+          </div>
+          <div>
+            <label for="enqCountry" class="text-slate-300 font-semibold block mb-1">Country *</label>
             <input id="enqCountry" type="text" required placeholder="e.g. United States / UK" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
           </div>
-          <div>
-            <label class="text-slate-300 font-semibold block mb-1">I am a *</label>
+          <div class="sm:col-span-2">
+            <label for="enqRole" class="text-slate-300 font-semibold block mb-1">I am a *</label>
             <select id="enqRole" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
               <option value="Direct Buyer">Direct Buyer / Investor</option>
               <option value="Broker Abroad">Broker / Agency Abroad</option>
