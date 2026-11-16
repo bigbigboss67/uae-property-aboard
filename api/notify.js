@@ -78,7 +78,12 @@ export default async function handler(req, res) {
           <h2 style="margin:0 0 8px;color:#065f46;">Portal Enquiry Forwarded</h2>
           <p><strong>Ref:</strong> ${enquiry.enqId}<br>
              <strong>Project:</strong> ${enquiry.projectName} (${enquiry.developer})<br>
-             <strong>Client:</strong> ${enquiry.fullName} (${enquiry.country})<br>
+             <strong>Location:</strong> ${enquiry.location || 'UAE'}<br>
+             <strong>Client:</strong> ${enquiry.fullName} (${enquiry.senderRole || 'Buyer'} · ${enquiry.country})<br>
+             <strong>Phone / WhatsApp:</strong> ${enquiry.phone || enquiry.contact || '—'}<br>
+             <strong>Email:</strong> ${enquiry.email || '—'}<br>
+             <strong>Budget / Unit:</strong> ${enquiry.budget || 'Flexible'}<br>
+             <strong>Message:</strong> ${enquiry.message || '—'}<br>
              <strong>Forwarded To:</strong> ${enquiry.forwardedTo || 'Developer / Licensed UAE Partner'}</p>
         </div>`;
     } else if (event === 'deal_closed') {
@@ -95,7 +100,11 @@ export default async function handler(req, res) {
     const result = await sendResendEmail({ apiKey, from, to, subject, html });
     return res.status(200).json({
       ok: true,
+      channel: 'resend_email',
       emailConfigured: Boolean(apiKey),
+      from,
+      to: to || null,
+      timestamp: new Date().toISOString(),
       ...result,
       subject
     });

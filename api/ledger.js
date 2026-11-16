@@ -124,11 +124,36 @@ export default async function handler(req, res) {
       });
     } else if (action === 'forward_enquiry' && body.enqId) {
       ledger.enquiries = Array.isArray(ledger.enquiries) ? ledger.enquiries : [];
-      ledger.enquiries = ledger.enquiries.map(eq =>
-        eq.enqId === body.enqId
-          ? { ...eq, status: 'FORWARDED_TO_PARTNER', forwardedTo: body.forwardedTo || 'Developer / RERA Partner Desk', forwardedAt: new Date().toISOString() }
-          : eq
-      );
+      const now = new Date().toISOString();
+      const d = body.dispatch || {};
+      const entry = {
+        channel: d.channel || 'resend_email',
+        from: d.from || 'AI Home Global <onboarding@resend.dev>',
+        to: d.to || body.recipientEmail || null,
+        sent: Boolean(d.sent),
+        messageId: d.messageId || null,
+        reason: d.reason || null,
+        error: d.error || null,
+        forwardedTo: body.forwardedTo || 'Developer / RERA Partner Desk',
+        timestamp: d.timestamp || now
+      };
+      const nextStatus = entry.sent
+        ? 'DELIVERED_EMAIL'
+        : (entry.channel === 'whatsapp_web' || entry.channel === 'mailto_client')
+          ? 'MANUAL_CHANNEL_OPENED'
+          : 'DISPATCH_NOT_SENT';
+      ledger.enquiries = ledger.enquiries.map(eq => {
+        if (eq.enqId !== body.enqId) return eq;
+        const log = Array.isArray(eq.dispatchLog) ? [...eq.dispatchLog, entry] : [entry];
+        return {
+          ...eq,
+          status: nextStatus,
+          forwardedTo: entry.forwardedTo,
+          forwardedAt: now,
+          lastDispatch: entry,
+          dispatchLog: log
+        };
+      });
     } else if (action === 'save_contract' && (body.contract?.dealId || body.contract?.contractId)) {
       const cid = body.contract.dealId || body.contract.contractId;
       ledger.contracts[cid] = {

@@ -1256,8 +1256,8 @@
                 <th scope="col" class="p-3">From (Buyer / Broker)</th>
                 <th scope="col" class="p-3">Project &amp; Developer</th>
                 <th scope="col" class="p-3">Country &amp; Contact</th>
-                <th scope="col" class="p-3">Status</th>
-                <th scope="col" class="p-3 text-right">Forward Action</th>
+                <th scope="col" class="p-3">Delivery Status &amp; Channel</th>
+                <th scope="col" class="p-3 text-right">Forward &amp; Track</th>
               </tr>
             </thead>
             <tbody id="liveEnquiriesTableBody" class="divide-y divide-white/5 text-slate-300">
@@ -6488,33 +6488,211 @@
     }
 
     let isPortalOwnerVerified = false;
+    let activeDispatchEnqId = '';
 
-    async function forwardPortalEnquiry(enqId) {
+    function forwardPortalEnquiry(enqId) {
       if (!isPortalOwnerVerified) {
         openPortalOwnerInbox();
         return;
       }
-      const target = 'Developer / Licensed UAE Partner';
-      const idx = registeredSessionEnquiries.findIndex(x => x.enqId === enqId);
-      if (idx !== -1) {
-        registeredSessionEnquiries[idx].status = 'FORWARDED_TO_PARTNER';
-        registeredSessionEnquiries[idx].forwardedTo = target;
+      openDispatchModal(enqId);
+    }
+
+    function openDispatchModal(enqId) {
+      if (!isPortalOwnerVerified) {
+        openPortalOwnerInbox();
+        return;
       }
+      const eq = registeredSessionEnquiries.find(x => x.enqId === enqId);
+      if (!eq) return;
+      activeDispatchEnqId = enqId;
+      const setEl = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+      setEl('fwdEnqIdBadge', eq.enqId);
+      setEl('fwdEnqSummary', `${eq.fullName} (${eq.senderRole || 'Buyer'} · ${eq.country}) → ${eq.projectName} (${eq.developer})`);
+      setEl('fwdClientContact', `${eq.phone || 'No phone'} · ${eq.email || eq.contact || 'No email'}`);
+
+      const nameEl = document.getElementById('fwdPartnerName');
+      const emailEl = document.getElementById('fwdPartnerEmail');
+      const waEl = document.getElementById('fwdPartnerWhatsapp');
+      if (nameEl) nameEl.value = eq.forwardedTo || `${eq.developer || 'UAE Developer'} / Licensed UAE Partner`;
+      if (emailEl && !emailEl.value) emailEl.value = eq.lastDispatch?.to || '';
+      if (waEl && !waEl.value) waEl.value = '';
+
+      renderDispatchTrackingList(eq);
+      const modal = document.getElementById('ownerForwardModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeDispatchModal() {
+      const modal = document.getElementById('ownerForwardModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function renderDispatchTrackingList(eq) {
+      const box = document.getElementById('fwdTrackingList');
+      if (!box) return;
+      const log = Array.isArray(eq?.dispatchLog) ? eq.dispatchLog : [];
+      if (!log.length) {
+        box.innerHTML = '<div class="text-slate-400 text-[11px] p-2.5 rounded-lg bg-white/5 border border-white/10">No dispatch attempts recorded yet for this enquiry.</div>';
+        return;
+      }
+      box.innerHTML = [...log].reverse().map(item => {
+        const isOk = item.sent || item.channel === 'whatsapp_web' || item.channel === 'mailto_client';
+        const badgeClass = item.sent
+          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+          : (item.channel === 'whatsapp_web' || item.channel === 'mailto_client')
+            ? 'bg-sky-500/20 text-sky-300 border-sky-500/40'
+            : 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+        const statusText = item.sent
+          ? 'DELIVERED (EMAIL)'
+          : item.channel === 'whatsapp_web'
+            ? 'WHATSAPP OPENED'
+            : item.channel === 'mailto_client'
+              ? 'MAILTO OPENED'
+              : `NOT SENT (${escHtml(item.reason || item.error || 'failed')})`;
+        return `
+          <div class="p-2.5 rounded-xl bg-[#0A0C13] border border-white/10 text-[11px] space-y-1">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="px-2 py-0.5 rounded border text-[10px] font-bold ${badgeClass}">${statusText}</span>
+              <span class="text-slate-400 font-mono text-[10px]">${escHtml(item.timestamp || '')}</span>
+            </div>
+            <div class="text-slate-300">
+              <strong>Channel:</strong> ${escHtml(item.channel)} ·
+              <strong>From:</strong> <span class="font-mono text-slate-200">${escHtml(item.from || '—')}</span> →
+              <strong>To:</strong> <span class="font-mono text-slate-200">${escHtml(item.to || 'Not set (PORTAL_ADMIN_EMAIL / Partner Email)')}</span>
+            </div>
+            ${item.messageId ? `<div class="text-emerald-300 font-mono text-[10px]">Provider Message ID: ${escHtml(item.messageId)}</div>` : ''}
+            ${!isOk && (item.reason || item.error) ? `<div class="text-rose-300 text-[10px]">Why not sent: ${escHtml(item.reason || item.error)}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function executePartnerDispatch(channel) {
+      if (!isPortalOwnerVerified || !activeDispatchEnqId) return;
+      const idx = registeredSessionEnquiries.findIndex(x => x.enqId === activeDispatchEnqId);
+      if (idx === -1) return;
+      const eq = registeredSessionEnquiries[idx];
+      const partnerName = document.getElementById('fwdPartnerName')?.value.trim() || `${eq.developer} / Licensed UAE Partner`;
+      const partnerEmail = document.getElementById('fwdPartnerEmail')?.value.trim() || '';
+      const partnerWa = (document.getElementById('fwdPartnerWhatsapp')?.value || '').replace(/[^0-9]/g, '');
+      const now = new Date().toISOString();
+
+      let dispatchRecord = {
+        channel,
+        from: 'AI Home Global <onboarding@resend.dev>',
+        to: partnerEmail || null,
+        sent: false,
+        messageId: null,
+        reason: null,
+        error: null,
+        forwardedTo: partnerName,
+        timestamp: now
+      };
+
+      if (channel === 'resend_email') {
+        try {
+          const res = await fetch('/api/notify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'enquiry_forwarded',
+              recipientEmail: partnerEmail,
+              enquiry: { ...eq, forwardedTo: partnerName },
+              origin: window.location.origin
+            })
+          });
+          const data = await res.json();
+          dispatchRecord = {
+            channel: data.channel || 'resend_email',
+            from: data.from || dispatchRecord.from,
+            to: data.to || partnerEmail || null,
+            sent: Boolean(data.sent),
+            messageId: data.id || null,
+            reason: data.reason || null,
+            error: data.error || null,
+            forwardedTo: partnerName,
+            timestamp: data.timestamp || now
+          };
+        } catch (err) {
+          dispatchRecord.error = err.message;
+        }
+      } else if (channel === 'whatsapp_web') {
+        const msg = `AI Home Global Enquiry ${eq.enqId}\nProject: ${eq.projectName} (${eq.developer})\nClient: ${eq.fullName} (${eq.country})\nPhone: ${eq.phone || eq.contact}\nEmail: ${eq.email || '—'}\nBudget: ${eq.budget}\nNote: ${eq.message || '—'}`;
+        const waUrl = partnerWa
+          ? `https://wa.me/${partnerWa}?text=${encodeURIComponent(msg)}`
+          : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+        window.open(waUrl, '_blank', 'noopener');
+        dispatchRecord = {
+          channel: 'whatsapp_web',
+          from: 'Portal Owner WhatsApp Web',
+          to: partnerWa ? `+${partnerWa}` : 'WhatsApp Contact Picker',
+          sent: false,
+          messageId: null,
+          reason: null,
+          error: null,
+          forwardedTo: partnerName,
+          timestamp: now
+        };
+      } else if (channel === 'mailto_client') {
+        const subject = `[AI Home Global ${eq.enqId}] ${eq.projectName} Client Request`;
+        const body = `Ref: ${eq.enqId}\nProject: ${eq.projectName} (${eq.developer})\nClient: ${eq.fullName} (${eq.country})\nPhone: ${eq.phone || eq.contact}\nEmail: ${eq.email || '—'}\nBudget: ${eq.budget}\nMessage: ${eq.message || '—'}`;
+        window.open(`mailto:${encodeURIComponent(partnerEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+        dispatchRecord = {
+          channel: 'mailto_client',
+          from: 'Local Email App (mailto:)',
+          to: partnerEmail || 'Recipient chosen in email app',
+          sent: false,
+          messageId: null,
+          reason: null,
+          error: null,
+          forwardedTo: partnerName,
+          timestamp: now
+        };
+      }
+
+      eq.forwardedTo = partnerName;
+      eq.forwardedAt = now;
+      eq.lastDispatch = dispatchRecord;
+      eq.dispatchLog = Array.isArray(eq.dispatchLog) ? [...eq.dispatchLog, dispatchRecord] : [dispatchRecord];
+      eq.status = dispatchRecord.sent
+        ? 'DELIVERED_EMAIL'
+        : (channel === 'whatsapp_web' || channel === 'mailto_client')
+          ? 'MANUAL_CHANNEL_OPENED'
+          : 'DISPATCH_NOT_SENT';
+
       renderEnquiriesTable();
+      renderDispatchTrackingList(eq);
+
       try {
         await fetch('/api/ledger', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'forward_enquiry', enqId, forwardedTo: target })
+          body: JSON.stringify({
+            action: 'forward_enquiry',
+            enqId: eq.enqId,
+            forwardedTo: partnerName,
+            recipientEmail: partnerEmail,
+            dispatch: dispatchRecord
+          })
         });
-        const eqObj = idx !== -1 ? registeredSessionEnquiries[idx] : { enqId, projectName: 'UAE Off-Plan Project', developer: 'UAE Developer', fullName: 'Client', country: 'International', forwardedTo: target };
-        fetch('/api/notify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ event: 'enquiry_forwarded', enquiry: eqObj, origin: window.location.origin })
-        }).catch(() => {});
       } catch {}
-      if (typeof showToast === 'function') showToast(`Enquiry ${enqId} marked forwarded to ${target}.`);
+
+      if (typeof showToast === 'function') {
+        if (dispatchRecord.sent) {
+          showToast(`Email DELIVERED to ${dispatchRecord.to} (ID: ${dispatchRecord.messageId}).`);
+        } else if (channel === 'resend_email') {
+          showToast(`Email NOT SENT (${dispatchRecord.reason || dispatchRecord.error}). Logged in Dispatch Tracker.`);
+        } else {
+          showToast(`Opened ${channel === 'whatsapp_web' ? 'WhatsApp Web' : 'Email App'} and logged in Dispatch Tracker.`);
+        }
+      }
     }
 
     async function openPortalOwnerInbox() {
@@ -6606,23 +6784,48 @@
     function renderEnquiriesTable() {
       const tbody = document.getElementById('liveEnquiriesTableBody');
       const badge = document.getElementById('enquiriesCountBadge');
-      const queued = registeredSessionEnquiries.filter(x => x.status !== 'FORWARDED_TO_PARTNER').length;
-      if (badge) badge.innerText = `${queued} Queued · ${registeredSessionEnquiries.length} Total`;
+      const queued = registeredSessionEnquiries.filter(x => x.status === 'QUEUED_FOR_FORWARDING' || x.status === 'DISPATCH_NOT_SENT').length;
+      if (badge) badge.innerText = `${queued} Pending · ${registeredSessionEnquiries.length} Total`;
       if (!tbody) return;
       if (!registeredSessionEnquiries.length) {
         tbody.innerHTML = '<tr><td colspan="6" class="p-5 text-center text-slate-400">No overseas enquiries received yet. Buyers and brokers can submit free enquiries on any project card.</td></tr>';
         return;
       }
       tbody.innerHTML = registeredSessionEnquiries.map(eq => {
-        const forwarded = eq.status === 'FORWARDED_TO_PARTNER';
+        const d = eq.lastDispatch || null;
+        const logCount = Array.isArray(eq.dispatchLog) ? eq.dispatchLog.length : 0;
+        let statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300">QUEUED</span>';
+        let channelInfo = '<span class="block text-[10px] text-slate-400 mt-1">Not dispatched yet</span>';
+
+        if (d) {
+          if (d.sent) {
+            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300">DELIVERED (EMAIL)</span>';
+          } else if (d.channel === 'whatsapp_web') {
+            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-500/20 text-sky-300">WHATSAPP OPENED</span>';
+          } else if (d.channel === 'mailto_client') {
+            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-500/20 text-sky-300">MAILTO OPENED</span>';
+          } else {
+            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300">NOT SENT</span>';
+          }
+          const reasonLine = !d.sent && (d.reason || d.error)
+            ? `<span class="block text-[10px] text-rose-300">Reason: ${escHtml(d.reason || d.error)}</span>`
+            : (d.messageId ? `<span class="block text-[10px] text-emerald-300 font-mono">ID: ${escHtml(d.messageId)}</span>` : '');
+          channelInfo = `
+            <span class="block text-[10px] text-slate-300 mt-1">${escHtml(d.channel)} · From: <span class="font-mono">${escHtml(d.from || '—')}</span></span>
+            <span class="block text-[10px] text-slate-400">To: <span class="font-mono">${escHtml(d.to || 'No recipient')}</span></span>
+            ${reasonLine}
+          `;
+        }
+
+        const btnLabel = logCount > 0 ? `Track / Retry (${logCount})` : 'Forward & Track';
         return `
           <tr>
             <td class="p-3 font-mono text-sky-300">${escHtml(eq.enqId)}</td>
             <td class="p-3 font-semibold text-white">${escHtml(eq.fullName)}<span class="block text-[10px] text-slate-400">${escHtml(eq.senderRole)}</span></td>
             <td class="p-3">${escHtml(eq.projectName)}<span class="block text-[10px] text-slate-400">${escHtml(eq.developer)} · ${escHtml(eq.budget)}</span></td>
-            <td class="p-3">${escHtml(eq.country)}<span class="block text-[10px] text-slate-400">${escHtml(eq.contact)}</span></td>
-            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${forwarded ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${forwarded ? 'FORWARDED' : 'QUEUED'}</span></td>
-            <td class="p-3 text-right">${forwarded ? '<span class="text-emerald-400 text-[11px] font-semibold">Sent to Partner</span>' : `<button onclick="forwardPortalEnquiry('${escHtml(eq.enqId)}')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 font-bold text-[11px]">Forward Now</button>`}</td>
+            <td class="p-3">${escHtml(eq.country)}<span class="block text-[10px] text-slate-400">${escHtml(eq.phone || eq.contact || '')}</span><span class="block text-[10px] text-slate-400">${escHtml(eq.email || '')}</span></td>
+            <td class="p-3">${statusBadge}${channelInfo}</td>
+            <td class="p-3 text-right"><button onclick="forwardPortalEnquiry('${escHtml(eq.enqId)}')" class="px-2.5 py-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 font-bold text-[11px]">${btnLabel}</button></td>
           </tr>
         `;
       }).join('');
@@ -7174,6 +7377,55 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           <button type="submit" style="background-color:#D4AF37;color:#0A0C13;" class="px-4 py-2 rounded-xl text-xs font-extrabold hover:brightness-110 transition shadow">Verify &amp; Unlock Inbox</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- PORTAL OWNER DISPATCH & DELIVERY TRACKING MODAL -->
+  <div id="ownerForwardModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="modal-panel-animate cinema-dark bg-[#12151E] border border-sky-500/40 rounded-2xl max-w-xl w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs">
+      <div class="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="bg-sky-500/20 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Partner Dispatch &amp; Delivery Tracker</span>
+            <span id="fwdEnqIdBadge" class="bg-amber-500/20 text-amber-300 border border-amber-400/40 text-[10px] font-mono font-bold px-2 py-0.5 rounded">ENQ-000000</span>
+          </div>
+          <h3 id="fwdEnqSummary" class="text-sm font-bold text-white mt-1.5">Client → Project</h3>
+          <p id="fwdClientContact" class="text-[11px] text-slate-400">Phone · Email</p>
+        </div>
+        <button type="button" onclick="closeDispatchModal()" aria-label="Close Dispatch Tracker" style="background-color:#EF4444;color:#FFFFFF;" class="px-3 py-1.5 rounded-lg text-xs font-extrabold shrink-0">✕ Close</button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="sm:col-span-2">
+          <label for="fwdPartnerName" class="block text-slate-300 font-semibold mb-1">Partner / Developer Desk Name</label>
+          <input id="fwdPartnerName" type="text" placeholder="e.g. Damac Sales Desk / RERA Partner" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+        </div>
+        <div>
+          <label for="fwdPartnerEmail" class="block text-slate-300 font-semibold mb-1">Partner Email (for Resend / Mailto)</label>
+          <input id="fwdPartnerEmail" type="email" placeholder="partner@developer.ae" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+        </div>
+        <div>
+          <label for="fwdPartnerWhatsapp" class="block text-slate-300 font-semibold mb-1">Partner WhatsApp (Optional)</label>
+          <input id="fwdPartnerWhatsapp" type="tel" placeholder="+971501234567" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <button type="button" onclick="executePartnerDispatch('resend_email')" style="background-color:#135BEC;color:#FFFFFF;" class="py-2.5 px-3 rounded-xl font-extrabold text-xs hover:brightness-110 transition">
+          Send Email (Resend)
+        </button>
+        <button type="button" onclick="executePartnerDispatch('whatsapp_web')" style="background-color:#15803D;color:#FFFFFF;" class="py-2.5 px-3 rounded-xl font-extrabold text-xs hover:brightness-110 transition">
+          Forward via WhatsApp
+        </button>
+        <button type="button" onclick="executePartnerDispatch('mailto_client')" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs transition">
+          Open Email App (mailto:)
+        </button>
+      </div>
+
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">Delivery Tracking Log (From · To · Channel · Status)</div>
+        <div id="fwdTrackingList" class="space-y-2 max-h-52 overflow-y-auto"></div>
+      </div>
     </div>
   </div>
 
