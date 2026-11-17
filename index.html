@@ -1291,6 +1291,10 @@
         <!-- Navigation Tabs -->
         <div class="px-4 sm:px-5 pt-3 border-b border-white/10 flex flex-wrap gap-2 bg-[#0D111A]">
           <button type="button" id="admTabBtn-inbox" onclick="setAdminTab('inbox')" class="px-3.5 py-2 rounded-t-xl text-xs font-extrabold bg-[#135BEC] text-white">Enquiry Inbox &amp; Dispatch</button>
+          <button type="button" id="admTabBtn-kanban" onclick="setAdminTab('kanban')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">CRM Kanban Board</button>
+          <button type="button" id="admTabBtn-contacts" onclick="setAdminTab('contacts')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">Contacts &amp; Leads</button>
+          <button type="button" id="admTabBtn-tasks" onclick="setAdminTab('tasks')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">Tasks &amp; Reminders</button>
+          <button type="button" id="admTabBtn-analytics" onclick="setAdminTab('analytics')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">CRM Analytics</button>
           <button type="button" id="admTabBtn-delivery" onclick="setAdminTab('delivery')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">Delivery &amp; System Health</button>
           <button type="button" id="admTabBtn-activity" onclick="setAdminTab('activity')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">User Profiles &amp; Telemetry</button>
           <button type="button" id="admTabBtn-controls" onclick="setAdminTab('controls')" class="px-3.5 py-2 rounded-t-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300">Stage &amp; Security Controls</button>
@@ -1395,6 +1399,79 @@
             <div class="p-4 rounded-xl bg-[#121722] border border-white/10 space-y-1.5">
               <div class="text-white font-extrabold">📊 Protected Client SLA &amp; Contracts Ledger</div>
               <p id="admLedgerSummary" class="text-slate-300 leading-relaxed">Syncing live ledger counts...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: CRM Kanban Board -->
+        <div id="admTabPanel-kanban" class="hidden p-4 sm:p-5 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h4 class="text-xs font-extrabold uppercase tracking-wider text-amber-300">Real Estate Deal Pipeline Kanban (Move Deals Across Stages)</h4>
+            <span class="text-[11px] text-slate-400">Click ← / → to move stage or Manage to open Deal Workspace</span>
+          </div>
+          <div id="crmKanbanBoard" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"></div>
+        </div>
+
+        <!-- TAB 6: CRM Contacts & Leads Directory -->
+        <div id="admTabPanel-contacts" class="hidden p-4 sm:p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <input id="crmContactSearch" type="search" oninput="renderCrmContacts()" placeholder="Search contacts by name, email, phone, country..." aria-label="Search CRM contacts" style="background-color:#0A0C13;color:#FFFFFF;" class="w-64 sm:w-80 border border-white/15 rounded-xl px-3 py-2 text-xs">
+              <select id="crmScoreFilter" onchange="renderCrmContacts()" aria-label="Filter contacts by lead score" style="background-color:#0A0C13;color:#FFFFFF;" class="border border-white/15 rounded-xl px-3 py-2 text-xs">
+                <option value="all">All Scores</option>
+                <option value="Hot">Hot Leads</option>
+                <option value="Warm">Warm Leads</option>
+                <option value="Cold">Cold Leads</option>
+              </select>
+            </div>
+            <button type="button" onclick="document.getElementById('crmNewContactBox').classList.toggle('hidden')" style="background-color:#D4AF37;color:#0A0C13;" class="px-3.5 py-2 rounded-xl text-xs font-extrabold">+ Add Contact</button>
+          </div>
+          <form id="crmNewContactBox" onsubmit="addCrmContact(event)" class="hidden p-3.5 rounded-xl bg-[#121722] border border-amber-400/30 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <input id="crmNewName" type="text" required placeholder="Full Name *" style="background-color:#0A0C13;color:#FFFFFF;" class="border border-white/15 rounded-lg px-3 py-2">
+            <input id="crmNewPhone" type="tel" required placeholder="WhatsApp / Phone *" style="background-color:#0A0C13;color:#FFFFFF;" class="border border-white/15 rounded-lg px-3 py-2">
+            <input id="crmNewEmail" type="email" required placeholder="Email *" style="background-color:#0A0C13;color:#FFFFFF;" class="border border-white/15 rounded-lg px-3 py-2">
+            <input id="crmNewCountry" type="text" placeholder="Country (e.g. UK)" style="background-color:#0A0C13;color:#FFFFFF;" class="border border-white/15 rounded-lg px-3 py-2">
+            <select id="crmNewRole" style="background-color:#0A0C13;color:#FFFFFF;" class="border border-white/15 rounded-lg px-3 py-2">
+              <option value="Direct Buyer">Direct Buyer</option>
+              <option value="Broker Abroad">Broker Abroad</option>
+            </select>
+            <button type="submit" style="background-color:#135BEC;color:#FFFFFF;" class="rounded-lg px-3 py-2 font-extrabold">Save CRM Contact</button>
+          </form>
+          <div id="crmContactsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs"></div>
+        </div>
+
+        <!-- TAB 7: CRM Tasks & Reminders -->
+        <div id="admTabPanel-tasks" class="hidden p-4 sm:p-5 space-y-4">
+          <form onsubmit="addCrmTask(event)" class="p-3.5 rounded-xl bg-[#121722] border border-white/10 grid grid-cols-1 sm:grid-cols-5 gap-2.5 text-xs">
+            <input id="crmTaskTitle" type="text" required placeholder="Task / Follow-up reminder *" style="background-color:#0A0C13;color:#FFFFFF;" class="sm:col-span-2 border border-white/15 rounded-lg px-3 py-2">
+            <input id="crmTaskEnqId" type="text" placeholder="Ref (e.g. ENQ-123456)" style="background-color:#0A0C13;color:#FFFFFF;" class="border border-white/15 rounded-lg px-3 py-2">
+            <select id="crmTaskPriority" aria-label="Task priority" style="background-color:#0A0C13;color:#FFFFFF;" class="border border-white/15 rounded-lg px-3 py-2">
+              <option value="High">High Priority</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Low">Low</option>
+            </select>
+            <button type="submit" style="background-color:#135BEC;color:#FFFFFF;" class="rounded-lg px-3 py-2 font-extrabold">+ Add Task</button>
+            <input id="crmTaskDue" type="datetime-local" aria-label="Task due date" style="background-color:#0A0C13;color:#FFFFFF;" class="sm:col-span-2 border border-white/15 rounded-lg px-3 py-2">
+            <div class="sm:col-span-3 flex flex-wrap items-center gap-1.5">
+              <button type="button" onclick="setCrmTaskFilter('all')" id="crmTaskFilter-all" class="px-2.5 py-1 rounded-lg bg-[#135BEC] text-white font-bold text-[11px]">All</button>
+              <button type="button" onclick="setCrmTaskFilter('open')" id="crmTaskFilter-open" class="px-2.5 py-1 rounded-lg bg-white/5 text-slate-300 font-semibold border border-white/10 text-[11px]">Open</button>
+              <button type="button" onclick="setCrmTaskFilter('completed')" id="crmTaskFilter-completed" class="px-2.5 py-1 rounded-lg bg-white/5 text-slate-300 font-semibold border border-white/10 text-[11px]">Completed</button>
+            </div>
+          </form>
+          <div id="crmTasksList" class="space-y-2 text-xs"></div>
+        </div>
+
+        <!-- TAB 8: CRM Analytics & Conversion Funnel -->
+        <div id="admTabPanel-analytics" class="hidden p-4 sm:p-5 space-y-4">
+          <div id="crmAnalyticsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs"></div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+            <div class="p-4 rounded-xl bg-[#121722] border border-white/10">
+              <h4 class="font-extrabold uppercase tracking-wider text-amber-300 mb-2">Top Requested Developers &amp; Projects</h4>
+              <div id="crmAnalyticsProjects" class="space-y-2"></div>
+            </div>
+            <div class="p-4 rounded-xl bg-[#121722] border border-white/10">
+              <h4 class="font-extrabold uppercase tracking-wider text-sky-300 mb-2">Leads by Source Country</h4>
+              <div id="crmAnalyticsCountries" class="space-y-2"></div>
             </div>
           </div>
         </div>
@@ -7364,10 +7441,13 @@
 
     let activeAdminTab = 'inbox';
     let activeAdminEnqFilter = 'all';
+    let crmContactsList = [];
+    let crmTasksList = [];
+    let crmTaskFilter = 'all';
 
     function setAdminTab(tab) {
       activeAdminTab = tab;
-      ['inbox', 'delivery', 'activity', 'controls'].forEach(t => {
+      ['inbox', 'kanban', 'contacts', 'tasks', 'analytics', 'delivery', 'activity', 'controls'].forEach(t => {
         const panel = document.getElementById('admTabPanel-' + t);
         const btn = document.getElementById('admTabBtn-' + t);
         if (panel) panel.classList.toggle('hidden', t !== tab);
@@ -7432,6 +7512,12 @@
       if (ledgerData?.ok && Array.isArray(ledgerData.enquiries)) {
         registeredSessionEnquiries.length = 0;
         ledgerData.enquiries.forEach(x => registeredSessionEnquiries.push(x));
+      }
+      if (ledgerData?.ok && Array.isArray(ledgerData.crmContacts)) {
+        crmContactsList = ledgerData.crmContacts;
+      }
+      if (ledgerData?.ok && Array.isArray(ledgerData.crmTasks)) {
+        crmTasksList = ledgerData.crmTasks;
       }
 
       const storageEl = document.getElementById('admStorageBadge');
@@ -7531,6 +7617,343 @@
 
       renderAdminPipelineAndQueue();
       renderEnquiriesTable();
+      renderCrmKanban();
+      renderCrmContacts();
+      renderCrmTasks();
+      renderCrmAnalytics();
+    }
+
+    const CRM_STAGE_ORDER = ['new_enquiry', 'partner_queried', 'availability_received', 'client_followup', 'eoi_reserved', 'closed_won'];
+
+    async function moveDealStage(enqId, dir) {
+      const eq = registeredSessionEnquiries.find(x => x.enqId === enqId);
+      if (!eq) return;
+      const cur = getEffectiveDealStage(eq);
+      const curIdx = CRM_STAGE_ORDER.indexOf(cur);
+      const nextIdx = Math.max(0, Math.min(CRM_STAGE_ORDER.length - 1, (curIdx === -1 ? 0 : curIdx) + dir));
+      const nextStage = CRM_STAGE_ORDER[nextIdx];
+      eq.dealStage = nextStage;
+      const now = new Date().toISOString();
+      const noteEntry = { stage: nextStage, note: `Moved on Kanban to ${DEAL_STAGE_META[nextStage]?.label || nextStage}`, timestamp: now };
+      eq.followUpLog = Array.isArray(eq.followUpLog) ? [...eq.followUpLog, noteEntry] : [noteEntry];
+
+      renderAdminPipelineAndQueue();
+      renderEnquiriesTable();
+      renderCrmKanban();
+      renderCrmAnalytics();
+
+      try {
+        await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'update_followup', enqId, dealStage: nextStage, noteEntry })
+        });
+      } catch {}
+    }
+
+    function renderCrmKanban() {
+      const board = document.getElementById('crmKanbanBoard');
+      if (!board) return;
+      board.innerHTML = CRM_STAGE_ORDER.map((st, stIdx) => {
+        const meta = DEAL_STAGE_META[st];
+        const items = registeredSessionEnquiries.filter(eq => getEffectiveDealStage(eq) === st);
+        const totalAED = items.reduce((s, x) => s + (Number(x.priceAED) || 0), 0);
+        return `
+          <div class="rounded-xl bg-[#121722] border border-white/10 p-3 flex flex-col gap-2">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2">
+              <div>
+                <div class="text-xs font-extrabold text-white">${escHtml(meta.label)}</div>
+                <div class="text-[10px] text-amber-300 font-mono">AED ${totalAED.toLocaleString()}</div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white">${items.length}</span>
+            </div>
+            <div class="space-y-2 max-h-72 overflow-y-auto">
+              ${items.length ? items.map(eq => {
+                const next = computeFollowUpNextAction(eq);
+                return `
+                  <div class="p-2.5 rounded-xl bg-[#0A0D14] border ${next.overdue ? 'border-rose-500/50' : 'border-white/10'} space-y-1.5 text-[11px]">
+                    <div class="flex items-center justify-between gap-1">
+                      <span class="font-mono text-sky-300 font-bold">${escHtml(eq.enqId)}</span>
+                      <span class="text-amber-300 font-mono text-[10px]">AED ${(Number(eq.priceAED) || 0).toLocaleString()}</span>
+                    </div>
+                    <div class="font-bold text-white truncate">${escHtml(eq.projectName)}</div>
+                    <div class="text-[10px] text-slate-400 truncate">${escHtml(eq.fullName)} · ${escHtml(eq.country)}</div>
+                    <div class="text-[10px] text-emerald-300 truncate">${escHtml(next.text)}</div>
+                    <div class="flex items-center justify-between gap-1 pt-1">
+                      <div class="flex gap-1">
+                        <button type="button" ${stIdx === 0 ? 'disabled' : ''} onclick="moveDealStage('${escHtml(eq.enqId)}', -1)" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold">←</button>
+                        <button type="button" ${stIdx === CRM_STAGE_ORDER.length - 1 ? 'disabled' : ''} onclick="moveDealStage('${escHtml(eq.enqId)}', 1)" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold">→</button>
+                      </div>
+                      <button type="button" onclick="openDispatchModal('${escHtml(eq.enqId)}', 'followup')" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/35 font-bold text-[10px]">Open CRM</button>
+                    </div>
+                  </div>
+                `;
+              }).join('') : '<div class="text-[11px] text-slate-500 py-4 text-center">No deals in this stage</div>'}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderCrmContacts() {
+      const grid = document.getElementById('crmContactsGrid');
+      if (!grid) return;
+      // Merge enquiry contacts if crmContactsList is empty
+      const merged = [...crmContactsList];
+      registeredSessionEnquiries.forEach(eq => {
+        const exists = merged.some(c =>
+          (eq.email && String(c.email || '').toLowerCase() === String(eq.email).toLowerCase()) ||
+          (eq.phone && String(c.phone || '') === String(eq.phone))
+        );
+        if (!exists && eq.fullName) {
+          merged.push({
+            contactId: `CNT-${eq.enqId}`,
+            fullName: eq.fullName,
+            phone: eq.phone || eq.contact || '',
+            email: eq.email || '',
+            country: eq.country || 'International',
+            role: eq.senderRole || 'Direct Buyer',
+            leadScore: 'Hot',
+            enquiryCount: 1,
+            pipelineAED: Number(eq.priceAED) || 0,
+            lastEnqId: eq.enqId
+          });
+        }
+      });
+
+      const q = (document.getElementById('crmContactSearch')?.value || '').trim().toLowerCase();
+      const scoreFilter = document.getElementById('crmScoreFilter')?.value || 'all';
+      const filtered = merged.filter(c => {
+        if (scoreFilter !== 'all' && (c.leadScore || 'Warm') !== scoreFilter) return false;
+        if (!q) return true;
+        return [c.fullName, c.email, c.phone, c.country, c.role, c.company].some(v => String(v || '').toLowerCase().includes(q));
+      });
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="col-span-full text-center text-slate-400 p-5 rounded-xl bg-[#121722] border border-white/10">No CRM contacts match your filter yet.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(c => {
+        const sc = c.leadScore || 'Warm';
+        const scCls = sc === 'Hot' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' : sc === 'Warm' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-sky-500/20 text-sky-300 border-sky-500/40';
+        const digits = String(c.phone || '').replace(/[^0-9]/g, '');
+        return `
+          <div class="p-3.5 rounded-xl bg-[#121722] border border-white/10 space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="font-bold text-white text-sm">${escHtml(c.fullName)}</div>
+                <div class="text-[10px] text-slate-400">${escHtml(c.role || 'Direct Buyer')} · ${escHtml(c.country || 'International')}</div>
+              </div>
+              <select aria-label="Lead score" onchange="updateContactScore('${escHtml(c.contactId)}', this.value)" class="px-2 py-0.5 rounded border text-[10px] font-bold bg-[#0A0C13] ${scCls}">
+                <option value="Hot" ${sc === 'Hot' ? 'selected' : ''}>Hot</option>
+                <option value="Warm" ${sc === 'Warm' ? 'selected' : ''}>Warm</option>
+                <option value="Cold" ${sc === 'Cold' ? 'selected' : ''}>Cold</option>
+              </select>
+            </div>
+            <div class="text-[11px] text-slate-300 space-y-0.5">
+              <div>📞 ${escHtml(c.phone || '—')}</div>
+              <div class="truncate">✉️ ${escHtml(c.email || '—')}</div>
+              <div class="text-amber-300 font-mono">Pipeline: AED ${(Number(c.pipelineAED) || 0).toLocaleString()} (${c.enquiryCount || 1} req)</div>
+            </div>
+            <div class="flex gap-1.5 pt-1">
+              ${digits ? `<a href="https://wa.me/${digits}" target="_blank" rel="noopener" style="background-color:#15803D;color:#FFFFFF;" class="flex-1 py-1.5 rounded-lg text-center font-bold text-[10px]">WhatsApp</a>` : ''}
+              ${c.email ? `<a href="mailto:${escHtml(c.email)}" style="background-color:#135BEC;color:#FFFFFF;" class="flex-1 py-1.5 rounded-lg text-center font-bold text-[10px]">Email</a>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function addCrmContact(e) {
+      e.preventDefault();
+      if (!isPortalOwnerVerified) return;
+      const contact = {
+        contactId: `CNT-${Date.now().toString().slice(-6)}`,
+        fullName: document.getElementById('crmNewName')?.value.trim() || '',
+        phone: document.getElementById('crmNewPhone')?.value.trim() || '',
+        email: document.getElementById('crmNewEmail')?.value.trim() || '',
+        country: document.getElementById('crmNewCountry')?.value.trim() || 'International',
+        role: document.getElementById('crmNewRole')?.value || 'Direct Buyer',
+        leadScore: 'Hot',
+        enquiryCount: 0,
+        pipelineAED: 0
+      };
+      crmContactsList.unshift(contact);
+      e.target.reset();
+      document.getElementById('crmNewContactBox')?.classList.add('hidden');
+      renderCrmContacts();
+      try {
+        await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'upsert_contact', contact })
+        });
+      } catch {}
+      if (typeof showToast === 'function') showToast(`CRM Contact "${contact.fullName}" saved.`);
+    }
+
+    async function updateContactScore(contactId, leadScore) {
+      const idx = crmContactsList.findIndex(c => c.contactId === contactId);
+      if (idx !== -1) {
+        crmContactsList[idx].leadScore = leadScore;
+        try {
+          await fetch('/api/ledger', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'upsert_contact', contact: crmContactsList[idx] })
+          });
+        } catch {}
+      }
+      renderCrmContacts();
+    }
+
+    function setCrmTaskFilter(f) {
+      crmTaskFilter = f;
+      ['all', 'open', 'completed'].forEach(k => {
+        const btn = document.getElementById('crmTaskFilter-' + k);
+        if (btn) {
+          btn.className = k === f
+            ? 'px-2.5 py-1 rounded-lg bg-[#135BEC] text-white font-bold text-[11px]'
+            : 'px-2.5 py-1 rounded-lg bg-white/5 text-slate-300 font-semibold border border-white/10 text-[11px]';
+        }
+      });
+      renderCrmTasks();
+    }
+
+    async function addCrmTask(e) {
+      e.preventDefault();
+      if (!isPortalOwnerVerified) return;
+      const task = {
+        taskId: `TSK-${Date.now().toString().slice(-6)}`,
+        title: document.getElementById('crmTaskTitle')?.value.trim() || '',
+        enqId: document.getElementById('crmTaskEnqId')?.value.trim() || '',
+        priority: document.getElementById('crmTaskPriority')?.value || 'Medium',
+        dueAt: document.getElementById('crmTaskDue')?.value || '',
+        completed: false
+      };
+      crmTasksList.unshift(task);
+      e.target.reset();
+      renderCrmTasks();
+      try {
+        await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'upsert_task', task })
+        });
+      } catch {}
+      if (typeof showToast === 'function') showToast(`Task "${task.title}" added.`);
+    }
+
+    async function toggleCrmTask(taskId) {
+      const t = crmTasksList.find(x => x.taskId === taskId);
+      if (!t) return;
+      t.completed = !t.completed;
+      renderCrmTasks();
+      try {
+        await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'toggle_task', taskId, completed: t.completed })
+        });
+      } catch {}
+    }
+
+    async function deleteCrmTask(taskId) {
+      crmTasksList = crmTasksList.filter(x => x.taskId !== taskId);
+      renderCrmTasks();
+      try {
+        await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'delete_task', taskId })
+        });
+      } catch {}
+    }
+
+    function renderCrmTasks() {
+      const box = document.getElementById('crmTasksList');
+      if (!box) return;
+      const filtered = crmTasksList.filter(t => {
+        if (crmTaskFilter === 'open') return !t.completed;
+        if (crmTaskFilter === 'completed') return Boolean(t.completed);
+        return true;
+      });
+      if (!filtered.length) {
+        box.innerHTML = '<div class="text-center text-slate-400 p-4 rounded-xl bg-[#121722] border border-white/10">No CRM tasks in this view. Add a follow-up reminder above.</div>';
+        return;
+      }
+      box.innerHTML = filtered.map(t => {
+        const pCls = t.priority === 'High' ? 'bg-rose-500/20 text-rose-300' : t.priority === 'Low' ? 'bg-sky-500/20 text-sky-300' : 'bg-amber-500/20 text-amber-300';
+        return `
+          <div class="p-3 rounded-xl bg-[#121722] border border-white/10 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleCrmTask('${escHtml(t.taskId)}')" aria-label="Complete task" class="w-4 h-4 accent-emerald-500">
+              <div class="min-w-0">
+                <div class="font-bold ${t.completed ? 'line-through text-slate-500' : 'text-white'}">${escHtml(t.title)}</div>
+                <div class="text-[10px] text-slate-400">
+                  ${t.enqId ? `<span class="font-mono text-sky-300">${escHtml(t.enqId)}</span> · ` : ''}
+                  ${t.dueAt ? `Due: ${escHtml(t.dueAt.replace('T', ' '))}` : 'No due date'}
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${pCls}">${escHtml(t.priority)}</span>
+              <button type="button" onclick="deleteCrmTask('${escHtml(t.taskId)}')" class="px-2 py-1 rounded bg-rose-500/15 text-rose-300 text-[10px] font-bold">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderCrmAnalytics() {
+      const grid = document.getElementById('crmAnalyticsGrid');
+      const projBox = document.getElementById('crmAnalyticsProjects');
+      const countryBox = document.getElementById('crmAnalyticsCountries');
+      if (!grid) return;
+
+      const total = registeredSessionEnquiries.length;
+      const dispatched = registeredSessionEnquiries.filter(x => x.lastDispatch?.sent || x.lastDispatch?.channel === 'whatsapp_web' || x.lastDispatch?.channel === 'mailto_client').length;
+      const availOrBeyond = registeredSessionEnquiries.filter(x => ['availability_received', 'client_followup', 'eoi_reserved', 'closed_won'].includes(getEffectiveDealStage(x))).length;
+      const closedWonAED = registeredSessionEnquiries.filter(x => getEffectiveDealStage(x) === 'closed_won').reduce((s, x) => s + (Number(x.priceAED) || 0), 0);
+
+      const cards = [
+        { lbl: 'Partner Dispatch Rate', val: total ? `${Math.round((dispatched / total) * 100)}%` : '0%', sub: `${dispatched}/${total} enquiries forwarded` },
+        { lbl: 'Qualification / Quote Rate', val: total ? `${Math.round((availOrBeyond / total) * 100)}%` : '0%', sub: `${availOrBeyond} quotes / follow-ups` },
+        { lbl: 'Closed Won Volume', val: `AED ${closedWonAED.toLocaleString()}`, sub: 'SPA signed deals' },
+        { lbl: 'Open CRM Tasks', val: String(crmTasksList.filter(t => !t.completed).length), sub: `${crmContactsList.length || total} active contacts` }
+      ];
+      grid.innerHTML = cards.map(c => `
+        <div class="p-3.5 rounded-xl bg-[#121722] border border-white/10">
+          <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">${escHtml(c.lbl)}</div>
+          <div class="text-xl font-display font-extrabold text-white mt-1">${escHtml(c.val)}</div>
+          <div class="text-[11px] text-sky-300 mt-0.5">${escHtml(c.sub)}</div>
+        </div>
+      `).join('');
+
+      if (projBox) {
+        const byProj = {};
+        registeredSessionEnquiries.forEach(eq => {
+          const k = `${eq.projectName} (${eq.developer})`;
+          byProj[k] = (byProj[k] || 0) + 1;
+        });
+        const entries = Object.entries(byProj).sort((a, b) => b[1] - a[1]);
+        projBox.innerHTML = entries.length
+          ? entries.map(([k, v]) => `<div class="flex justify-between p-2 rounded-lg bg-[#0A0D14] border border-white/5"><span class="text-white truncate">${escHtml(k)}</span><span class="font-bold text-amber-300">${v} req</span></div>`).join('')
+          : '<div class="text-slate-400">No project enquiries yet.</div>';
+      }
+
+      if (countryBox) {
+        const byCountry = {};
+        registeredSessionEnquiries.forEach(eq => {
+          const k = eq.country || 'International';
+          byCountry[k] = (byCountry[k] || 0) + 1;
+        });
+        const entries = Object.entries(byCountry).sort((a, b) => b[1] - a[1]);
+        countryBox.innerHTML = entries.length
+          ? entries.map(([k, v]) => `<div class="flex justify-between p-2 rounded-lg bg-[#0A0D14] border border-white/5"><span class="text-white">${escHtml(k)}</span><span class="font-bold text-sky-300">${v} lead${v === 1 ? '' : 's'}</span></div>`).join('')
+          : '<div class="text-slate-400">No country data yet.</div>';
+      }
     }
 
     let activeAdminStageFilter = 'all';

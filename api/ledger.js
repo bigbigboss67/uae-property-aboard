@@ -6,7 +6,9 @@ const DEFAULT_LEDGER = {
   subQuota: 10,
   leads: [],
   enquiries: [],
-  contracts: {}
+  contracts: {},
+  crmContacts: [],
+  crmTasks: []
 };
 
 function getFilePath() {
@@ -24,7 +26,9 @@ function readLocalLedger() {
       subQuota: typeof parsed.subQuota === 'number' ? parsed.subQuota : 10,
       leads: Array.isArray(parsed.leads) ? parsed.leads : [],
       enquiries: Array.isArray(parsed.enquiries) ? parsed.enquiries : [],
-      contracts: parsed.contracts && typeof parsed.contracts === 'object' ? parsed.contracts : {}
+      contracts: parsed.contracts && typeof parsed.contracts === 'object' ? parsed.contracts : {},
+      crmContacts: Array.isArray(parsed.crmContacts) ? parsed.crmContacts : [],
+      crmTasks: Array.isArray(parsed.crmTasks) ? parsed.crmTasks : []
     };
   } catch {
     return structuredClone(DEFAULT_LEDGER);
@@ -122,6 +126,47 @@ export default async function handler(req, res) {
         status: 'QUEUED_FOR_FORWARDING',
         createdAt: new Date().toISOString()
       });
+      ledger.crmContacts = Array.isArray(ledger.crmContacts) ? ledger.crmContacts : [];
+      const eq = body.enquiry;
+      const emailKey = String(eq.email || '').trim().toLowerCase();
+      const phoneKey = String(eq.phone || '').trim();
+      const existingIdx = ledger.crmContacts.findIndex(c =>
+        (emailKey && String(c.email || '').toLowerCase() === emailKey) ||
+        (phoneKey && String(c.phone || '') === phoneKey)
+      );
+      if (existingIdx !== -1) {
+        const cur = ledger.crmContacts[existingIdx];
+        ledger.crmContacts[existingIdx] = {
+          ...cur,
+          fullName: eq.fullName || cur.fullName,
+          phone: eq.phone || cur.phone,
+          email: eq.email || cur.email,
+          country: eq.country || cur.country,
+          role: eq.senderRole || cur.role,
+          enquiryCount: (cur.enquiryCount || 1) + 1,
+          pipelineAED: (Number(cur.pipelineAED) || 0) + (Number(eq.priceAED) || 0),
+          lastEnqId: eq.enqId,
+          updatedAt: new Date().toISOString()
+        };
+      } else {
+        ledger.crmContacts.unshift({
+          contactId: `CNT-${Date.now().toString().slice(-6)}`,
+          fullName: eq.fullName || 'Client',
+          phone: eq.phone || '',
+          email: eq.email || '',
+          country: eq.country || 'International',
+          role: eq.senderRole || 'Direct Buyer',
+          company: '',
+          leadScore: 'Hot',
+          tags: [eq.country || 'International'].filter(Boolean),
+          enquiryCount: 1,
+          pipelineAED: Number(eq.priceAED) || 0,
+          lastEnqId: eq.enqId,
+          notes: '',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        });
+      }
     } else if (action === 'forward_enquiry' && body.enqId) {
       ledger.enquiries = Array.isArray(ledger.enquiries) ? ledger.enquiries : [];
       const now = new Date().toISOString();
@@ -178,6 +223,30 @@ export default async function handler(req, res) {
           updatedAt: now
         };
       });
+    } else if (action === 'upsert_contact' && body.contact) {
+      ledger.crmContacts = Array.isArray(ledger.crmContacts) ? ledger.crmContacts : [];
+      const c = body.contact;
+      const cid = c.contactId || `CNT-${Date.now().toString().slice(-6)}`;
+      const now = new Date().toISOString();
+      const idx = ledger.crmContacts.findIndex(x => x.contactId === cid);
+      const next = { ...c, contactId: cid, updatedAt: now, createdAt: c.createdAt || now };
+      if (idx !== -1) ledger.crmContacts[idx] = { ...ledger.crmContacts[idx], ...next };
+      else ledger.crmContacts.unshift(next);
+    } else if (action === 'upsert_task' && body.task) {
+      ledger.crmTasks = Array.isArray(ledger.crmTasks) ? ledger.crmTasks : [];
+      const t = body.task;
+      const tid = t.taskId || `TSK-${Date.now().toString().slice(-6)}`;
+      const now = new Date().toISOString();
+      const idx = ledger.crmTasks.findIndex(x => x.taskId === tid);
+      const next = { ...t, taskId: tid, updatedAt: now, createdAt: t.createdAt || now };
+      if (idx !== -1) ledger.crmTasks[idx] = { ...ledger.crmTasks[idx], ...next };
+      else ledger.crmTasks.unshift(next);
+    } else if (action === 'toggle_task' && body.taskId) {
+      ledger.crmTasks = (ledger.crmTasks || []).map(t =>
+        t.taskId === body.taskId ? { ...t, completed: Boolean(body.completed), updatedAt: new Date().toISOString() } : t
+      );
+    } else if (action === 'delete_task' && body.taskId) {
+      ledger.crmTasks = (ledger.crmTasks || []).filter(t => t.taskId !== body.taskId);
     } else if (action === 'save_contract' && (body.contract?.dealId || body.contract?.contractId)) {
       const cid = body.contract.dealId || body.contract.contractId;
       ledger.contracts[cid] = {
