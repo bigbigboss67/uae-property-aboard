@@ -25,7 +25,8 @@ const server = http.createServer(async (req, res) => {
     reqUrl.pathname === '/api/stripe-checkout' ||
     reqUrl.pathname === '/api/ledger' ||
     reqUrl.pathname === '/api/notify' ||
-    reqUrl.pathname === '/api/owner-auth'
+    reqUrl.pathname === '/api/owner-auth' ||
+    reqUrl.pathname === '/api/share-query'
   ) {
     req.query = Object.fromEntries(reqUrl.searchParams.entries());
     const chunks = [];
@@ -56,7 +57,8 @@ const server = http.createServer(async (req, res) => {
         '/api/stripe-checkout': 'stripe-checkout.js',
         '/api/ledger': 'ledger.js',
         '/api/notify': 'notify.js',
-        '/api/owner-auth': 'owner-auth.js'
+        '/api/owner-auth': 'owner-auth.js',
+        '/api/share-query': 'share-query.js'
       };
       const apiFile = map[reqUrl.pathname] || 'broadcast.js';
       const mod = await import(pathToFileURL(path.join(__dirname, 'api', apiFile)).href);

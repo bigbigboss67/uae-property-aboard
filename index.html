@@ -6755,26 +6755,31 @@
         message: eq.message || `Requesting availability, payment plan, and reservation details for ${projectName} (${eq.enqId}).`
       };
 
+      const usdApprox = priceAED > 0 ? Math.round(priceAED * 0.2723) : 0;
+      const usdText = usdApprox > 0 ? `$${usdApprox.toLocaleString()} USD (${priceText})` : priceText;
+      const shareOrigin = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://uae-property-aboard.vercel.app';
+      const shareCardUrl = `${shareOrigin}/api/share-query?id=${encodeURIComponent(eq.projectId || p.id || '')}&enq=${encodeURIComponent(maskedEnquiry.enqId)}&role=${encodeURIComponent(maskedEnquiry.senderRole)}&country=${encodeURIComponent(maskedEnquiry.country)}`;
+
       const whatsappText = [
-        `🏛️ *AI HOME GLOBAL · BLIND PROPERTY QUERY*`,
-        `🔖 *Ref:* ${maskedEnquiry.enqId}`,
-        `━━━━━━━━━━━━━━━━━━━━`,
-        `🏢 *Project:* ${projectName}`,
-        `🏗️ *Developer:* ${developer}${dldVerified ? ' (✓ DLD Verified)' : ''}`,
-        `📍 *Location:* ${location}`,
-        `💰 *Starting Price:* ${priceText}`,
-        `🛏️ *Specs:* ${unitTypes} · ${beds} · ${sizeSqft}`,
-        `📅 *Handover:* ${handover}`,
-        `🖼️ *Property Photo:* ${imageUrl}`,
-        `🔗 *Listing:* ${listingUrl}`,
-        `━━━━━━━━━━━━━━━━━━━━`,
-        `👤 *Buyer Profile:* ${maskedEnquiry.senderRole} (${maskedEnquiry.country})`,
-        `💼 *Target Unit / Budget:* ${maskedEnquiry.budget}`,
-        `📝 *Request:* ${maskedEnquiry.message}`,
-        `🔒 _Client name, phone & email are protected by AI Home Global. Please confirm availability for ${maskedEnquiry.enqId}._`
+        `*AI HOME GLOBAL · BLIND PROPERTY QUERY*`,
+        `*Ref:* ${maskedEnquiry.enqId}`,
+        `────────────────────`,
+        `▪ *Project:* ${projectName}`,
+        `▪ *Developer:* ${developer}${dldVerified ? ' (DLD Verified)' : ''}`,
+        `▪ *Location:* ${location}`,
+        `▪ *Starting Price:* ${usdText}`,
+        `▪ *Specs:* ${unitTypes} · ${beds} · ${sizeSqft}`,
+        `▪ *Handover:* ${handover}`,
+        `────────────────────`,
+        `▪ *Buyer Profile:* ${maskedEnquiry.senderRole} (${maskedEnquiry.country})`,
+        `▪ *Target Unit / Budget:* ${maskedEnquiry.budget}`,
+        `▪ *Request:* ${maskedEnquiry.message}`,
+        `────────────────────`,
+        `*Visual Property Card:* ${shareCardUrl}`,
+        `_Client name, phone & email are protected by AI Home Global. Please confirm availability for ${maskedEnquiry.enqId}._`
       ].join('\n');
 
-      return { maskedEnquiry, whatsappText };
+      return { maskedEnquiry, whatsappText, shareCardUrl };
     }
 
     const DEAL_STAGE_META = {
@@ -7280,10 +7285,9 @@
         }
       } else if (channel === 'whatsapp_web') {
         await copyPartnerCardImage();
-        const shortWaCaption = `🏛️ AI Home Global Blind Query (${eq.enqId}) — ${maskedEnquiry.projectName} (${maskedEnquiry.location}). Requesting availability & payment plan.`;
         const waUrl = partnerWa
-          ? `https://wa.me/${partnerWa}?text=${encodeURIComponent(shortWaCaption)}`
-          : `https://wa.me/?text=${encodeURIComponent(shortWaCaption)}`;
+          ? `https://wa.me/${partnerWa}?text=${encodeURIComponent(whatsappText)}`
+          : `https://wa.me/?text=${encodeURIComponent(whatsappText)}`;
         window.open(waUrl, '_blank', 'noopener');
         dispatchRecord = {
           channel: 'whatsapp_web',
