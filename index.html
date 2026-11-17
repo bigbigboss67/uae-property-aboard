@@ -6854,6 +6854,204 @@
       if (typeof showToast === 'function') showToast(`Follow-up saved for ${eq.enqId} (${DEAL_STAGE_META[dealStage]?.short || dealStage}).`);
     }
 
+    let activePartnerCardDataUrl = '';
+    let activePartnerCardBlob = null;
+
+    function roundRectPath(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    async function generatePropertyQueryCardImage(eq) {
+      const { maskedEnquiry } = buildMaskedPartnerPayload(eq);
+      const canvas = document.createElement('canvas');
+      const W = 800;
+      const H = 900;
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext('2d');
+
+      // Card background
+      ctx.fillStyle = '#0E131F';
+      ctx.fillRect(0, 0, W, H);
+
+      // Cover photo area (top 430px)
+      const imgH = 430;
+      try {
+        const img = await new Promise((resolve, reject) => {
+          const el = new Image();
+          el.crossOrigin = 'anonymous';
+          el.onload = () => resolve(el);
+          el.onerror = reject;
+          el.src = maskedEnquiry.imageUrl;
+        });
+        const scale = Math.max(W / img.width, imgH / img.height);
+        const dw = img.width * scale;
+        const dh = img.height * scale;
+        ctx.drawImage(img, (W - dw) / 2, (imgH - dh) / 2, dw, dh);
+      } catch {
+        const grad = ctx.createLinearGradient(0, 0, W, imgH);
+        grad.addColorStop(0, '#1E293B');
+        grad.addColorStop(1, '#0F172A');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, imgH);
+      }
+
+      // Dark bottom scrim on photo
+      const scrim = ctx.createLinearGradient(0, 140, 0, imgH);
+      scrim.addColorStop(0, 'rgba(14,19,31,0.05)');
+      scrim.addColorStop(1, 'rgba(14,19,31,0.95)');
+      ctx.fillStyle = scrim;
+      ctx.fillRect(0, 0, W, imgH);
+
+      // Top-left status badge + ENQ ref
+      const statusTxt = (maskedEnquiry.handover && /202[0-4]/.test(maskedEnquiry.handover)) ? 'COMPLETED' : 'OFF-PLAN';
+      ctx.fillStyle = '#059669';
+      roundRectPath(ctx, 28, 24, 150, 38, 10);
+      ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 17px Arial, sans-serif';
+      ctx.fillText(statusTxt, 48, 49);
+
+      ctx.fillStyle = 'rgba(10,12,19,0.85)';
+      roundRectPath(ctx, 190, 24, 175, 38, 10);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(212,175,55,0.6)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.fillStyle = '#FCD34D';
+      ctx.font = 'bold 16px monospace';
+      ctx.fillText(maskedEnquiry.enqId, 210, 49);
+
+      // Top-right unit type pill
+      const unitPill = String(maskedEnquiry.unitTypes || 'RESIDENTIAL').toUpperCase().slice(0, 18);
+      ctx.fillStyle = 'rgba(10,12,19,0.85)';
+      roundRectPath(ctx, W - 210, 24, 182, 38, 10);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(212,175,55,0.45)';
+      ctx.stroke();
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = 'bold 16px Arial, sans-serif';
+      ctx.fillText(unitPill, W - 190, 49);
+
+      // Bottom-left price on photo
+      const priceAED = Number(maskedEnquiry.priceAED) || 0;
+      const usdApprox = priceAED > 0 ? Math.round(priceAED * 0.2723) : 0;
+      ctx.fillStyle = '#CBD5E1';
+      ctx.font = 'bold 15px Arial, sans-serif';
+      ctx.fillText('STARTING FROM', 28, 330);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 42px Georgia, serif';
+      ctx.fillText(usdApprox > 0 ? `$${usdApprox.toLocaleString()} USD` : 'PRICE ON REQUEST', 28, 376);
+      ctx.fillStyle = '#94A3B8';
+      ctx.font = '18px monospace';
+      ctx.fillText(priceAED > 0 ? `AED ${priceAED.toLocaleString()}` : 'Developer Allocation', 28, 408);
+
+      // Bottom-right handover pill on photo
+      ctx.fillStyle = 'rgba(255,255,255,0.14)';
+      roundRectPath(ctx, W - 150, 368, 122, 38, 8);
+      ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 16px Arial, sans-serif';
+      ctx.fillText(String(maskedEnquiry.handover || 'TBA').slice(0, 12), W - 134, 393);
+
+      // Body: Developer · City
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = 'bold 18px Arial, sans-serif';
+      ctx.fillText(`${String(maskedEnquiry.developer || 'UAE DEVELOPER').toUpperCase()} · ${String(maskedEnquiry.location || 'UAE').toUpperCase()}`, 32, 476);
+
+      // Project Title
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 38px Georgia, serif';
+      ctx.fillText(String(maskedEnquiry.projectName || 'UAE Off-Plan Project').slice(0, 30), 32, 526);
+
+      // Location line
+      ctx.fillStyle = '#94A3B8';
+      ctx.font = '20px Arial, sans-serif';
+      ctx.fillText(`📍 ${maskedEnquiry.location || 'UAE'}`, 32, 564);
+
+      // Divider
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(32, 588);
+      ctx.lineTo(W - 32, 588);
+      ctx.stroke();
+
+      // 3 Spec Cards (Bedrooms, Size, Handover)
+      const specs = [
+        { lbl: 'Bedrooms', val: maskedEnquiry.beds || 'Flexible', col: '#FFFFFF' },
+        { lbl: 'Size', val: maskedEnquiry.sizeSqft || 'TBA', col: '#FFFFFF' },
+        { lbl: 'Handover', val: maskedEnquiry.handover || 'TBA', col: '#34D399' }
+      ];
+      specs.forEach((sp, idx) => {
+        const bx = 32 + idx * 250;
+        ctx.fillStyle = 'rgba(255,255,255,0.06)';
+        roundRectPath(ctx, bx, 608, 232, 96, 14);
+        ctx.fill();
+        ctx.fillStyle = '#94A3B8';
+        ctx.font = '16px Arial, sans-serif';
+        ctx.fillText(sp.lbl, bx + 18, 640);
+        ctx.fillStyle = sp.col;
+        ctx.font = 'bold 24px Arial, sans-serif';
+        ctx.fillText(String(sp.val).slice(0, 14), bx + 18, 678);
+      });
+
+      // Masked Query Footer Box (Zero Client PII)
+      ctx.fillStyle = '#111827';
+      roundRectPath(ctx, 32, 728, W - 64, 140, 14);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(56,189,248,0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#38BDF8';
+      ctx.font = 'bold 16px Arial, sans-serif';
+      ctx.fillText(`AI HOME GLOBAL · BLIND PARTNER QUERY (${maskedEnquiry.enqId})`, 52, 760);
+      ctx.fillStyle = '#E2E8F0';
+      ctx.font = '17px Arial, sans-serif';
+      ctx.fillText(`Buyer Profile: ${maskedEnquiry.senderRole} (${maskedEnquiry.country}) · Budget: ${String(maskedEnquiry.budget).slice(0, 38)}`, 52, 794);
+      ctx.fillStyle = '#94A3B8';
+      ctx.font = '15px Arial, sans-serif';
+      ctx.fillText('Requesting unit availability, floor plans & payment plan. (Client PII protected)', 52, 826);
+      ctx.fillStyle = '#FCD34D';
+      ctx.font = 'bold 14px Arial, sans-serif';
+      ctx.fillText('Reply to AI Home Global Desk with availability to lock allocation.', 52, 852);
+
+      activePartnerCardDataUrl = canvas.toDataURL('image/png');
+      activePartnerCardBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      const previewImg = document.getElementById('fwdCardImgPreview');
+      if (previewImg) previewImg.src = activePartnerCardDataUrl;
+      return activePartnerCardDataUrl;
+    }
+
+    async function copyPartnerCardImage() {
+      try {
+        if (!activePartnerCardBlob) return false;
+        if (navigator.clipboard && window.ClipboardItem) {
+          await navigator.clipboard.write([new ClipboardItem({ 'image/png': activePartnerCardBlob })]);
+          if (typeof showToast === 'function') showToast('Property Card PNG copied! Press Ctrl+V in WhatsApp to paste the image.');
+          return true;
+        }
+      } catch {}
+      downloadPartnerCardImage();
+      return false;
+    }
+
+    function downloadPartnerCardImage() {
+      if (!activePartnerCardDataUrl) return;
+      const a = document.createElement('a');
+      a.href = activePartnerCardDataUrl;
+      a.download = `AI-Home-Global-${activeDispatchEnqId || 'Property'}.png`;
+      a.click();
+      if (typeof showToast === 'function') showToast('Property Card PNG downloaded — attach it in WhatsApp or Email.');
+    }
+
     function openDispatchModal(enqId, initialTab = 'dispatch') {
       if (!isPortalOwnerVerified) {
         openPortalOwnerInbox();
@@ -6891,6 +7089,7 @@
       renderDispatchTrackingList(eq);
       renderFollowUpTimeline(eq);
       setDispatchModalTab(initialTab);
+      generatePropertyQueryCardImage(eq);
 
       const modal = document.getElementById('ownerForwardModal');
       if (modal) {
@@ -6970,6 +7169,9 @@
       };
 
       const { maskedEnquiry, whatsappText } = buildMaskedPartnerPayload(eq);
+      if (!activePartnerCardDataUrl) {
+        await generatePropertyQueryCardImage(eq);
+      }
 
       if (channel === 'resend_email') {
         try {
@@ -6980,6 +7182,7 @@
               event: 'enquiry_forwarded',
               recipientEmail: partnerEmail,
               enquiry: { ...maskedEnquiry, forwardedTo: partnerName },
+              cardImageBase64: activePartnerCardDataUrl,
               origin: window.location.origin
             })
           });
@@ -6999,9 +7202,11 @@
           dispatchRecord.error = err.message;
         }
       } else if (channel === 'whatsapp_web') {
+        await copyPartnerCardImage();
+        const shortWaCaption = `🏛️ AI Home Global Blind Query (${eq.enqId}) — ${maskedEnquiry.projectName} (${maskedEnquiry.location}). Requesting availability & payment plan.`;
         const waUrl = partnerWa
-          ? `https://wa.me/${partnerWa}?text=${encodeURIComponent(whatsappText)}`
-          : `https://wa.me/?text=${encodeURIComponent(whatsappText)}`;
+          ? `https://wa.me/${partnerWa}?text=${encodeURIComponent(shortWaCaption)}`
+          : `https://wa.me/?text=${encodeURIComponent(shortWaCaption)}`;
         window.open(waUrl, '_blank', 'noopener');
         dispatchRecord = {
           channel: 'whatsapp_web',
@@ -8065,9 +8270,24 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           </button>
         </div>
 
-        <div>
-          <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-300 mb-1">🔒 Masked Partner Message Preview (No Client Name / Phone / Email)</div>
-          <textarea id="fwdMaskedPreview" readonly rows="4" style="background-color:#0A0C13;color:#E2E8F0;" class="w-full border border-emerald-500/30 rounded-xl p-2.5 text-[11px] font-mono"></textarea>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-start">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-amber-300">🖼️ Visual Property Query Card (PNG)</span>
+              <span class="text-[10px] text-emerald-300 font-semibold">0% Client PII</span>
+            </div>
+            <div class="rounded-xl overflow-hidden border border-amber-400/35 bg-[#0A0C13]">
+              <img id="fwdCardImgPreview" alt="Masked Property Card Preview" class="w-full h-auto block">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" onclick="copyPartnerCardImage()" class="py-2 px-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-bold text-[11px]">Copy Card Image</button>
+              <button type="button" onclick="downloadPartnerCardImage()" class="py-2 px-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 font-bold text-[11px]">Download PNG</button>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-300">🔒 Masked Caption (No Client Name / Phone / Email)</div>
+            <textarea id="fwdMaskedPreview" readonly rows="10" style="background-color:#0A0C13;color:#E2E8F0;" class="w-full border border-emerald-500/30 rounded-xl p-2.5 text-[11px] font-mono"></textarea>
+          </div>
         </div>
 
         <div>

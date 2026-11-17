@@ -1,12 +1,14 @@
-async function sendResendEmail({ apiKey, from, to, subject, html }) {
+async function sendResendEmail({ apiKey, from, to, subject, html, attachments }) {
   if (!apiKey || !to) return { sent: false, reason: apiKey ? 'missing_recipient' : 'RESEND_API_KEY_not_set' };
+  const payload = { from, to: Array.isArray(to) ? to : [to], subject, html };
+  if (Array.isArray(attachments) && attachments.length) payload.attachments = attachments;
   const resp = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ from, to: Array.isArray(to) ? to : [to], subject, html })
+    body: JSON.stringify(payload)
   });
   const data = await resp.json().catch(() => ({}));
   return { sent: resp.ok, status: resp.status, id: data.id || null, error: resp.ok ? null : (data.message || 'Resend error') };
@@ -27,6 +29,7 @@ export default async function handler(req, res) {
       signerName = '',
       recipientEmail = '',
       enquiry = null,
+      cardImageBase64 = '',
       origin = 'https://uae-property-aboard.vercel.app'
     } = body;
 
@@ -127,7 +130,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ ok: false, error: 'Unsupported notify event' });
     }
 
-    const result = await sendResendEmail({ apiKey, from, to, subject, html });
+    const attachments = (event === 'enquiry_forwarded' && cardImageBase64 && enquiry?.enqId)
+      ? [{ filename: `AI-Home-Global-${enquiry.enqId}.png`, content: cardImageBase64.replace(/^data:image\/png;base64,/, '') }]
+      : [];
+    const result = await sendResendEmail({ apiKey, from, to, subject, html, attachments });
     return res.status(200).json({
       ok: true,
       channel: 'resend_email',
