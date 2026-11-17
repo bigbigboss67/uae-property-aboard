@@ -145,13 +145,37 @@ export default async function handler(req, res) {
       ledger.enquiries = ledger.enquiries.map(eq => {
         if (eq.enqId !== body.enqId) return eq;
         const log = Array.isArray(eq.dispatchLog) ? [...eq.dispatchLog, entry] : [entry];
+        const nextStage = (eq.dealStage && eq.dealStage !== 'new_enquiry')
+          ? eq.dealStage
+          : (entry.sent || entry.channel === 'whatsapp_web' || entry.channel === 'mailto_client')
+            ? 'partner_queried'
+            : 'new_enquiry';
         return {
           ...eq,
           status: nextStatus,
+          dealStage: nextStage,
           forwardedTo: entry.forwardedTo,
           forwardedAt: now,
           lastDispatch: entry,
           dispatchLog: log
+        };
+      });
+    } else if (action === 'update_followup' && body.enqId) {
+      ledger.enquiries = Array.isArray(ledger.enquiries) ? ledger.enquiries : [];
+      const now = new Date().toISOString();
+      ledger.enquiries = ledger.enquiries.map(eq => {
+        if (eq.enqId !== body.enqId) return eq;
+        const existingLog = Array.isArray(eq.followUpLog) ? eq.followUpLog : [];
+        const newLog = body.noteEntry ? [...existingLog, { ...body.noteEntry, timestamp: body.noteEntry.timestamp || now }] : existingLog;
+        return {
+          ...eq,
+          dealStage: body.dealStage || eq.dealStage || 'new_enquiry',
+          assignedPartner: body.assignedPartner !== undefined ? body.assignedPartner : (eq.assignedPartner || ''),
+          nextAction: body.nextAction !== undefined ? body.nextAction : (eq.nextAction || ''),
+          followUpDueAt: body.followUpDueAt !== undefined ? body.followUpDueAt : (eq.followUpDueAt || ''),
+          lastOutcome: body.lastOutcome || eq.lastOutcome || '',
+          followUpLog: newLog,
+          updatedAt: now
         };
       });
     } else if (action === 'save_contract' && (body.contract?.dealId || body.contract?.contractId)) {

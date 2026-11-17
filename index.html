@@ -1297,7 +1297,28 @@
         </div>
 
         <!-- TAB 1: Enquiry Inbox & Dispatch -->
-        <div id="admTabPanel-inbox" class="p-4 sm:p-5 space-y-3">
+        <!-- TAB 1: Enquiry Inbox, Pipeline Funnel, Next-Action Queue & Dispatch -->
+        <div id="admTabPanel-inbox" class="p-4 sm:p-5 space-y-4">
+          <!-- Visual Real Estate Deal Pipeline Funnel -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="text-[11px] font-extrabold uppercase tracking-wider text-amber-300">Deal Pipeline Funnel (Click Stage to Filter)</h4>
+              <button type="button" onclick="setAdminStageFilter('all')" class="text-[11px] text-sky-300 hover:underline font-semibold">Show All Stages</button>
+            </div>
+            <div id="admPipelineFunnel" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2"></div>
+          </div>
+
+          <!-- Smart "What To Do Next" Priority Queue -->
+          <div class="rounded-xl border border-amber-400/30 bg-gradient-to-r from-[#161C2B] to-[#111622] p-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <h4 class="text-xs font-extrabold text-white flex items-center gap-1.5">
+                <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> What To Do Next · Priority Follow-Up Queue
+              </h4>
+              <span id="admNextQueueCount" class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30">0 Actions</span>
+            </div>
+            <div id="admNextActionQueue" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px]"></div>
+          </div>
+
           <div class="flex flex-wrap items-center justify-between gap-2">
             <input id="admEnqSearch" type="search" oninput="renderEnquiriesTable()" placeholder="Search ENQ-ID, client, project, developer, country..." aria-label="Search enquiries" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full sm:w-80 border border-white/15 rounded-xl px-3 py-2 text-xs">
             <div class="flex flex-wrap gap-1.5 text-[11px]">
@@ -1311,12 +1332,12 @@
             <table class="w-full text-left text-xs">
               <thead class="bg-white/[0.03] text-slate-300 border-b border-white/10">
                 <tr>
-                  <th scope="col" class="p-3">Enquiry ID</th>
-                  <th scope="col" class="p-3">From (Buyer / Broker)</th>
+                  <th scope="col" class="p-3">Enquiry &amp; Stage</th>
+                  <th scope="col" class="p-3">Client (Admin Only)</th>
                   <th scope="col" class="p-3">Project &amp; Developer</th>
-                  <th scope="col" class="p-3">Country &amp; Contact</th>
+                  <th scope="col" class="p-3">What To Do Next &amp; Due</th>
                   <th scope="col" class="p-3">Delivery Status &amp; Channel</th>
-                  <th scope="col" class="p-3 text-right">Forward &amp; Track</th>
+                  <th scope="col" class="p-3 text-right">Manage &amp; Follow Up</th>
                 </tr>
               </thead>
               <tbody id="liveEnquiriesTableBody" class="divide-y divide-white/5 text-slate-300">
@@ -6679,7 +6700,161 @@
       return { maskedEnquiry, whatsappText };
     }
 
-    function openDispatchModal(enqId) {
+    const DEAL_STAGE_META = {
+      new_enquiry: { label: '1. New Enquiry', short: 'New', cls: 'bg-amber-500/20 text-amber-300 border-amber-500/35' },
+      partner_queried: { label: '2. Partner Queried', short: 'Partner Queried', cls: 'bg-sky-500/20 text-sky-300 border-sky-500/35' },
+      availability_received: { label: '3. Availability In', short: 'Availability In', cls: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/35' },
+      client_followup: { label: '4. Client Follow-Up', short: 'Client Follow-Up', cls: 'bg-purple-500/20 text-purple-300 border-purple-500/35' },
+      eoi_reserved: { label: '5. EOI / Reserved', short: 'EOI Reserved', cls: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/35' },
+      closed_won: { label: '6. Closed Won (SPA)', short: 'Closed Won', cls: 'bg-amber-400/25 text-amber-200 border-amber-400/50' },
+      lost_archived: { label: 'Archived / Lost', short: 'Archived', cls: 'bg-white/10 text-slate-400 border-white/15' }
+    };
+
+    function getEffectiveDealStage(eq) {
+      if (eq.dealStage && DEAL_STAGE_META[eq.dealStage]) return eq.dealStage;
+      if (eq.lastDispatch?.sent || eq.lastDispatch?.channel === 'whatsapp_web' || eq.lastDispatch?.channel === 'mailto_client') {
+        return 'partner_queried';
+      }
+      return 'new_enquiry';
+    }
+
+    function computeFollowUpNextAction(eq) {
+      const stage = getEffectiveDealStage(eq);
+      const custom = (eq.nextAction || '').trim();
+      const dueMs = eq.followUpDueAt ? Date.parse(eq.followUpDueAt) : NaN;
+      const isOverdue = Number.isFinite(dueMs) && dueMs < Date.now() && stage !== 'closed_won' && stage !== 'lost_archived';
+      if (custom) {
+        return { text: custom, urgent: isOverdue || stage === 'new_enquiry', overdue: isOverdue };
+      }
+      const defaults = {
+        new_enquiry: { text: `Send blind query to ${eq.developer || 'UAE Partner'}`, urgent: true },
+        partner_queried: { text: `Chase ${eq.assignedPartner || eq.developer || 'partner'} for unit availability & floor plan`, urgent: false },
+        availability_received: { text: `Send unit availability & payment plan to ${eq.fullName}`, urgent: true },
+        client_followup: { text: `Follow up with ${eq.fullName} to book Zoom / Viewing / EOI`, urgent: false },
+        eoi_reserved: { text: `Verify DLD escrow transfer & track SPA signing`, urgent: false },
+        closed_won: { text: `Deal completed (SPA signed)`, urgent: false },
+        lost_archived: { text: `Archived`, urgent: false }
+      };
+      const d = defaults[stage] || defaults.new_enquiry;
+      return { text: d.text, urgent: d.urgent || isOverdue, overdue: isOverdue };
+    }
+
+    function setDispatchModalTab(tab) {
+      ['dispatch', 'followup'].forEach(t => {
+        const panel = document.getElementById('fwdTabPanel-' + t);
+        const btn = document.getElementById('fwdTabBtn-' + t);
+        if (panel) panel.classList.toggle('hidden', t !== tab);
+        if (btn) {
+          btn.className = t === tab
+            ? 'px-3 py-1.5 rounded-lg bg-[#135BEC] text-white font-extrabold text-xs'
+            : 'px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs border border-white/10';
+        }
+      });
+    }
+
+    function setQuickDue(hours) {
+      const el = document.getElementById('fuDueAt');
+      if (!el) return;
+      const d = new Date(Date.now() + hours * 3600 * 1000);
+      const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      el.value = local;
+    }
+
+    function setQuickOutcome(outcome) {
+      const noteEl = document.getElementById('fuNoteInput');
+      const stageEl = document.getElementById('fuDealStage');
+      const nextEl = document.getElementById('fuNextAction');
+      if (noteEl) noteEl.value = outcome;
+      if (stageEl) {
+        if (outcome.includes('Partner Replied')) { stageEl.value = 'availability_received'; if (nextEl) nextEl.value = 'Send availability & payment plan to client'; }
+        else if (outcome.includes('Sent Payment Plan')) { stageEl.value = 'client_followup'; if (nextEl) nextEl.value = 'Follow up client decision & schedule Zoom'; }
+        else if (outcome.includes('Viewing')) { stageEl.value = 'client_followup'; if (nextEl) nextEl.value = 'Confirm viewing attendance & prepare EOI form'; }
+        else if (outcome.includes('EOI')) { stageEl.value = 'eoi_reserved'; if (nextEl) nextEl.value = 'Verify DLD escrow payment & SPA execution'; }
+      }
+    }
+
+    function renderFollowUpTimeline(eq) {
+      const box = document.getElementById('fuTimelineList');
+      if (!box) return;
+      const log = Array.isArray(eq?.followUpLog) ? eq.followUpLog : [];
+      if (!log.length) {
+        box.innerHTML = '<div class="text-slate-400 text-[11px] p-2.5 rounded-lg bg-white/5 border border-white/10">No follow-up notes logged yet. Add a stage update or note above.</div>';
+        return;
+      }
+      box.innerHTML = [...log].reverse().map(item => `
+        <div class="p-2.5 rounded-xl bg-[#0A0C13] border border-white/10 text-[11px] space-y-1">
+          <div class="flex justify-between gap-2">
+            <span class="font-bold text-amber-300">${escHtml(DEAL_STAGE_META[item.stage]?.label || item.stage || 'Update')}</span>
+            <span class="text-slate-400 font-mono text-[10px]">${escHtml(item.timestamp || '')}</span>
+          </div>
+          ${item.nextAction ? `<div class="text-emerald-300">Next: ${escHtml(item.nextAction)}</div>` : ''}
+          ${item.note ? `<div class="text-slate-200">${escHtml(item.note)}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    function followUpClientDirect(mode) {
+      const eq = registeredSessionEnquiries.find(x => x.enqId === activeDispatchEnqId);
+      if (!eq) return;
+      const nextText = document.getElementById('fuNextAction')?.value.trim() || 'Availability & payment plan update';
+      const msg = `Hi ${eq.fullName},\n\nUpdate regarding your enquiry (${eq.enqId}) for ${eq.projectName} by ${eq.developer} (${eq.location || 'UAE'}):\n\n${nextText}\n\nLet me know your preferred time for a quick call or Zoom walkthrough.\n\nBest regards,\nAI Home Global Advisory Desk`;
+      if (mode === 'whatsapp') {
+        const digits = String(eq.phone || eq.contact || '').replace(/[^0-9]/g, '');
+        const url = digits ? `https://wa.me/${digits}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+        window.open(url, '_blank', 'noopener');
+      } else {
+        const subj = `[${eq.enqId}] Update on ${eq.projectName} (${eq.developer})`;
+        window.open(`mailto:${encodeURIComponent(eq.email || '')}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(msg)}`, '_blank');
+      }
+    }
+
+    async function saveFollowUpUpdate() {
+      if (!isPortalOwnerVerified || !activeDispatchEnqId) return;
+      const idx = registeredSessionEnquiries.findIndex(x => x.enqId === activeDispatchEnqId);
+      if (idx === -1) return;
+      const eq = registeredSessionEnquiries[idx];
+      const dealStage = document.getElementById('fuDealStage')?.value || 'new_enquiry';
+      const assignedPartner = document.getElementById('fuAssignedPartner')?.value.trim() || '';
+      const nextAction = document.getElementById('fuNextAction')?.value.trim() || '';
+      const followUpDueAt = document.getElementById('fuDueAt')?.value || '';
+      const note = document.getElementById('fuNoteInput')?.value.trim() || '';
+      const now = new Date().toISOString();
+
+      const noteEntry = { stage: dealStage, nextAction, note: note || `Stage updated to ${DEAL_STAGE_META[dealStage]?.label || dealStage}`, timestamp: now };
+      eq.dealStage = dealStage;
+      eq.assignedPartner = assignedPartner;
+      eq.nextAction = nextAction;
+      eq.followUpDueAt = followUpDueAt;
+      eq.followUpLog = Array.isArray(eq.followUpLog) ? [...eq.followUpLog, noteEntry] : [noteEntry];
+
+      const noteEl = document.getElementById('fuNoteInput');
+      if (noteEl) noteEl.value = '';
+
+      renderFollowUpTimeline(eq);
+      renderAdminPipelineAndQueue();
+      renderEnquiriesTable();
+
+      try {
+        await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'update_followup',
+            enqId: eq.enqId,
+            dealStage,
+            assignedPartner,
+            nextAction,
+            followUpDueAt,
+            lastOutcome: noteEntry.note,
+            noteEntry
+          })
+        });
+      } catch {}
+
+      if (typeof showToast === 'function') showToast(`Follow-up saved for ${eq.enqId} (${DEAL_STAGE_META[dealStage]?.short || dealStage}).`);
+    }
+
+    function openDispatchModal(enqId, initialTab = 'dispatch') {
       if (!isPortalOwnerVerified) {
         openPortalOwnerInbox();
         return;
@@ -6703,7 +6878,20 @@
       if (emailEl && !emailEl.value) emailEl.value = eq.lastDispatch?.to || '';
       if (waEl && !waEl.value) waEl.value = '';
 
+      // Populate Follow-Up CRM fields
+      const stageSel = document.getElementById('fuDealStage');
+      const assEl = document.getElementById('fuAssignedPartner');
+      const nextEl = document.getElementById('fuNextAction');
+      const dueEl = document.getElementById('fuDueAt');
+      if (stageSel) stageSel.value = getEffectiveDealStage(eq);
+      if (assEl) assEl.value = eq.assignedPartner || eq.forwardedTo || '';
+      if (nextEl) nextEl.value = eq.nextAction || computeFollowUpNextAction(eq).text;
+      if (dueEl) dueEl.value = eq.followUpDueAt || '';
+
       renderDispatchTrackingList(eq);
+      renderFollowUpTimeline(eq);
+      setDispatchModalTab(initialTab);
+
       const modal = document.getElementById('ownerForwardModal');
       if (modal) {
         modal.classList.remove('hidden');
@@ -7136,7 +7324,70 @@
         ledEl.innerText = `SLA Leads: ${slaCount} · Saved/Closed Contracts: ${contractCount} · Wallet Credits: ${ledgerData.walletCredits ?? 0}`;
       }
 
+      renderAdminPipelineAndQueue();
       renderEnquiriesTable();
+    }
+
+    let activeAdminStageFilter = 'all';
+
+    function setAdminStageFilter(stage) {
+      activeAdminStageFilter = stage;
+      renderAdminPipelineAndQueue();
+      renderEnquiriesTable();
+    }
+
+    function renderAdminPipelineAndQueue() {
+      const funnelEl = document.getElementById('admPipelineFunnel');
+      const queueEl = document.getElementById('admNextActionQueue');
+      const countEl = document.getElementById('admNextQueueCount');
+
+      const stages = ['new_enquiry', 'partner_queried', 'availability_received', 'client_followup', 'eoi_reserved', 'closed_won'];
+      if (funnelEl) {
+        funnelEl.innerHTML = stages.map(st => {
+          const meta = DEAL_STAGE_META[st];
+          const items = registeredSessionEnquiries.filter(eq => getEffectiveDealStage(eq) === st);
+          const vol = items.reduce((s, x) => s + (Number(x.priceAED) || 0), 0);
+          const isActive = activeAdminStageFilter === st;
+          return `
+            <button type="button" onclick="setAdminStageFilter('${isActive ? 'all' : st}')" class="text-left p-2.5 rounded-xl border transition ${isActive ? 'border-amber-400 bg-amber-500/15' : 'border-white/10 bg-[#121722] hover:border-white/25'}">
+              <div class="text-[10px] font-bold text-slate-300 truncate">${escHtml(meta.label)}</div>
+              <div class="text-lg font-display font-extrabold text-white mt-0.5">${items.length}</div>
+              <div class="text-[10px] text-amber-300 font-mono truncate">AED ${vol.toLocaleString()}</div>
+            </button>
+          `;
+        }).join('');
+      }
+
+      const activeItems = registeredSessionEnquiries.filter(eq => {
+        const st = getEffectiveDealStage(eq);
+        return st !== 'closed_won' && st !== 'lost_archived';
+      });
+      if (countEl) countEl.innerText = `${activeItems.length} Open Action${activeItems.length === 1 ? '' : 's'}`;
+
+      if (queueEl) {
+        if (!activeItems.length) {
+          queueEl.innerHTML = '<div class="col-span-full text-slate-400 p-2">All enquiries are closed or none received yet.</div>';
+        } else {
+          queueEl.innerHTML = activeItems.slice(0, 4).map(eq => {
+            const next = computeFollowUpNextAction(eq);
+            const stMeta = DEAL_STAGE_META[getEffectiveDealStage(eq)] || DEAL_STAGE_META.new_enquiry;
+            return `
+              <div class="p-2.5 rounded-xl bg-[#0A0D14] border ${next.overdue ? 'border-rose-500/50' : 'border-white/10'} flex items-center justify-between gap-2">
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-mono text-sky-300 font-bold">${escHtml(eq.enqId)}</span>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${stMeta.cls}">${escHtml(stMeta.short)}</span>
+                    ${next.overdue ? '<span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-500/20 text-rose-300">OVERDUE</span>' : ''}
+                  </div>
+                  <div class="text-white font-semibold truncate mt-0.5">${escHtml(next.text)}</div>
+                  <div class="text-[10px] text-slate-400 truncate">${escHtml(eq.fullName)} · ${escHtml(eq.projectName)}${eq.followUpDueAt ? ' · Due: ' + escHtml(eq.followUpDueAt.replace('T', ' ')) : ''}</div>
+                </div>
+                <button type="button" onclick="openDispatchModal('${escHtml(eq.enqId)}', 'followup')" class="px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 font-bold text-[10px] shrink-0">Follow Up</button>
+              </div>
+            `;
+          }).join('');
+        }
+      }
     }
 
     function renderEnquiriesTable() {
@@ -7148,11 +7399,12 @@
 
       const q = (document.getElementById('admEnqSearch')?.value || '').trim().toLowerCase();
       const filtered = registeredSessionEnquiries.filter(eq => {
+        if (activeAdminStageFilter !== 'all' && getEffectiveDealStage(eq) !== activeAdminStageFilter) return false;
         if (activeAdminEnqFilter === 'pending' && !(eq.status === 'QUEUED_FOR_FORWARDING' || eq.status === 'DISPATCH_NOT_SENT')) return false;
         if (activeAdminEnqFilter === 'delivered' && !eq.lastDispatch?.sent) return false;
         if (activeAdminEnqFilter === 'manual' && !(eq.lastDispatch?.channel === 'whatsapp_web' || eq.lastDispatch?.channel === 'mailto_client')) return false;
         if (!q) return true;
-        return [eq.enqId, eq.fullName, eq.projectName, eq.developer, eq.country, eq.phone, eq.email, eq.contact]
+        return [eq.enqId, eq.fullName, eq.projectName, eq.developer, eq.country, eq.phone, eq.email, eq.contact, eq.nextAction]
           .some(v => String(v || '').toLowerCase().includes(q));
       });
 
@@ -7163,6 +7415,10 @@
       tbody.innerHTML = filtered.map(eq => {
         const d = eq.lastDispatch || null;
         const logCount = Array.isArray(eq.dispatchLog) ? eq.dispatchLog.length : 0;
+        const stKey = getEffectiveDealStage(eq);
+        const stMeta = DEAL_STAGE_META[stKey] || DEAL_STAGE_META.new_enquiry;
+        const next = computeFollowUpNextAction(eq);
+
         let statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300">QUEUED</span>';
         let channelInfo = '<span class="block text-[10px] text-slate-400 mt-1">Not dispatched yet</span>';
 
@@ -7186,15 +7442,25 @@
           `;
         }
 
-        const btnLabel = logCount > 0 ? `Track / Retry (${logCount})` : 'Forward & Track';
+        const btnLabel = logCount > 0 ? `Manage (${logCount})` : 'Forward & Follow Up';
         return `
           <tr>
-            <td class="p-3 font-mono text-sky-300">${escHtml(eq.enqId)}</td>
-            <td class="p-3 font-semibold text-white">${escHtml(eq.fullName)}<span class="block text-[10px] text-slate-400">${escHtml(eq.senderRole)}</span></td>
+            <td class="p-3">
+              <div class="font-mono text-sky-300 font-bold">${escHtml(eq.enqId)}</div>
+              <span class="inline-block mt-1 px-2 py-0.5 rounded border text-[10px] font-bold ${stMeta.cls}">${escHtml(stMeta.label)}</span>
+            </td>
+            <td class="p-3 font-semibold text-white">${escHtml(eq.fullName)}<span class="block text-[10px] text-slate-400">${escHtml(eq.senderRole)} · ${escHtml(eq.country)}</span><span class="block text-[10px] text-slate-400">${escHtml(eq.phone || eq.contact || '')}</span><span class="block text-[10px] text-slate-400">${escHtml(eq.email || '')}</span></td>
             <td class="p-3">${escHtml(eq.projectName)}<span class="block text-[10px] text-slate-400">${escHtml(eq.developer)} · ${escHtml(eq.budget)}</span></td>
-            <td class="p-3">${escHtml(eq.country)}<span class="block text-[10px] text-slate-400">${escHtml(eq.phone || eq.contact || '')}</span><span class="block text-[10px] text-slate-400">${escHtml(eq.email || '')}</span></td>
+            <td class="p-3">
+              <div class="text-[11px] font-semibold ${next.overdue ? 'text-rose-300' : 'text-amber-200'}">${escHtml(next.text)}</div>
+              ${eq.followUpDueAt ? `<span class="block text-[10px] ${next.overdue ? 'text-rose-400 font-bold' : 'text-slate-400'} mt-0.5">Due: ${escHtml(eq.followUpDueAt.replace('T', ' '))}</span>` : ''}
+              ${eq.assignedPartner ? `<span class="block text-[10px] text-sky-300 mt-0.5">Rep: ${escHtml(eq.assignedPartner)}</span>` : ''}
+            </td>
             <td class="p-3">${statusBadge}${channelInfo}</td>
-            <td class="p-3 text-right"><button onclick="forwardPortalEnquiry('${escHtml(eq.enqId)}')" class="px-2.5 py-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 font-bold text-[11px]">${btnLabel}</button></td>
+            <td class="p-3 text-right space-y-1">
+              <button onclick="openDispatchModal('${escHtml(eq.enqId)}', 'dispatch')" class="w-full px-2.5 py-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 font-bold text-[11px]">${btnLabel}</button>
+              <button onclick="openDispatchModal('${escHtml(eq.enqId)}', 'followup')" class="w-full px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-400/35 font-bold text-[10px]">Follow-Up CRM</button>
+            </td>
           </tr>
         `;
       }).join('');
@@ -7749,56 +8015,129 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
     </div>
   </div>
 
-  <!-- PORTAL OWNER DISPATCH & DELIVERY TRACKING MODAL -->
+  <!-- PORTAL OWNER DISPATCH & FOLLOW-UP CRM WORKSPACE MODAL -->
   <div id="ownerForwardModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
-    <div class="modal-panel-animate cinema-dark bg-[#12151E] border border-sky-500/40 rounded-2xl max-w-xl w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs">
+    <div class="modal-panel-animate cinema-dark bg-[#12151E] border border-sky-500/40 rounded-2xl max-w-2xl w-full p-5 sm:p-6 relative shadow-2xl space-y-4 text-xs my-auto max-h-[92vh] overflow-y-auto">
       <div class="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
         <div>
-          <div class="flex items-center gap-2">
-            <span class="bg-sky-500/20 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Partner Dispatch &amp; Delivery Tracker</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="bg-sky-500/20 text-sky-300 border border-sky-500/40 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Deal Workspace · Dispatch &amp; Follow-Up CRM</span>
             <span id="fwdEnqIdBadge" class="bg-amber-500/20 text-amber-300 border border-amber-400/40 text-[10px] font-mono font-bold px-2 py-0.5 rounded">ENQ-000000</span>
           </div>
           <h3 id="fwdEnqSummary" class="text-sm font-bold text-white mt-1.5">Client → Project</h3>
           <p id="fwdClientContact" class="text-[11px] text-slate-400">Phone · Email</p>
         </div>
-        <button type="button" onclick="closeDispatchModal()" aria-label="Close Dispatch Tracker" style="background-color:#EF4444;color:#FFFFFF;" class="px-3 py-1.5 rounded-lg text-xs font-extrabold shrink-0">✕ Close</button>
+        <button type="button" onclick="closeDispatchModal()" aria-label="Close Deal Workspace" style="background-color:#EF4444;color:#FFFFFF;" class="px-3 py-1.5 rounded-lg text-xs font-extrabold shrink-0">✕ Close</button>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div class="sm:col-span-2">
-          <label for="fwdPartnerName" class="block text-slate-300 font-semibold mb-1">Partner / Developer Desk Name</label>
-          <input id="fwdPartnerName" type="text" placeholder="e.g. Damac Sales Desk / RERA Partner" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+      <!-- Workspace Tabs -->
+      <div class="flex gap-2 border-b border-white/10 pb-2">
+        <button type="button" id="fwdTabBtn-dispatch" onclick="setDispatchModalTab('dispatch')" class="px-3 py-1.5 rounded-lg bg-[#135BEC] text-white font-extrabold text-xs">1. Blind Partner Dispatch</button>
+        <button type="button" id="fwdTabBtn-followup" onclick="setDispatchModalTab('followup')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs border border-white/10">2. Follow-Up CRM &amp; Next Steps</button>
+      </div>
+
+      <!-- TAB A: Blind Partner Dispatch -->
+      <div id="fwdTabPanel-dispatch" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="sm:col-span-2">
+            <label for="fwdPartnerName" class="block text-slate-300 font-semibold mb-1">Partner / Developer Desk Name</label>
+            <input id="fwdPartnerName" type="text" placeholder="e.g. Damac Sales Desk / RERA Partner" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+          </div>
+          <div>
+            <label for="fwdPartnerEmail" class="block text-slate-300 font-semibold mb-1">Partner Email (for Resend / Mailto)</label>
+            <input id="fwdPartnerEmail" type="email" placeholder="partner@developer.ae" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+          </div>
+          <div>
+            <label for="fwdPartnerWhatsapp" class="block text-slate-300 font-semibold mb-1">Partner WhatsApp (Optional)</label>
+            <input id="fwdPartnerWhatsapp" type="tel" placeholder="+971501234567" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+          </div>
         </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <button type="button" onclick="executePartnerDispatch('resend_email')" style="background-color:#135BEC;color:#FFFFFF;" class="py-2.5 px-3 rounded-xl font-extrabold text-xs hover:brightness-110 transition">
+            Send Email (Resend)
+          </button>
+          <button type="button" onclick="executePartnerDispatch('whatsapp_web')" style="background-color:#15803D;color:#FFFFFF;" class="py-2.5 px-3 rounded-xl font-extrabold text-xs hover:brightness-110 transition">
+            Forward via WhatsApp
+          </button>
+          <button type="button" onclick="executePartnerDispatch('mailto_client')" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs transition">
+            Open Email App (mailto:)
+          </button>
+        </div>
+
         <div>
-          <label for="fwdPartnerEmail" class="block text-slate-300 font-semibold mb-1">Partner Email (for Resend / Mailto)</label>
-          <input id="fwdPartnerEmail" type="email" placeholder="partner@developer.ae" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-300 mb-1">🔒 Masked Partner Message Preview (No Client Name / Phone / Email)</div>
+          <textarea id="fwdMaskedPreview" readonly rows="4" style="background-color:#0A0C13;color:#E2E8F0;" class="w-full border border-emerald-500/30 rounded-xl p-2.5 text-[11px] font-mono"></textarea>
         </div>
+
         <div>
-          <label for="fwdPartnerWhatsapp" class="block text-slate-300 font-semibold mb-1">Partner WhatsApp (Optional)</label>
-          <input id="fwdPartnerWhatsapp" type="tel" placeholder="+971501234567" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">Delivery Tracking Log (From · To · Channel · Status)</div>
+          <div id="fwdTrackingList" class="space-y-2 max-h-44 overflow-y-auto"></div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-        <button type="button" onclick="executePartnerDispatch('resend_email')" style="background-color:#135BEC;color:#FFFFFF;" class="py-2.5 px-3 rounded-xl font-extrabold text-xs hover:brightness-110 transition">
-          Send Email (Resend)
-        </button>
-        <button type="button" onclick="executePartnerDispatch('whatsapp_web')" style="background-color:#15803D;color:#FFFFFF;" class="py-2.5 px-3 rounded-xl font-extrabold text-xs hover:brightness-110 transition">
-          Forward via WhatsApp
-        </button>
-        <button type="button" onclick="executePartnerDispatch('mailto_client')" class="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs transition">
-          Open Email App (mailto:)
-        </button>
-      </div>
+      <!-- TAB B: Follow-Up CRM & Next Steps -->
+      <div id="fwdTabPanel-followup" class="hidden space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="fuDealStage" class="block text-amber-300 font-bold mb-1">Deal Pipeline Stage</label>
+            <select id="fuDealStage" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+              <option value="new_enquiry">1. New Enquiry (Unassigned)</option>
+              <option value="partner_queried">2. Partner Queried (Blind)</option>
+              <option value="availability_received">3. Availability &amp; Quote In</option>
+              <option value="client_followup">4. Client Follow-Up / Viewing</option>
+              <option value="eoi_reserved">5. EOI / Reservation Paid</option>
+              <option value="closed_won">6. Closed Won (SPA Signed)</option>
+              <option value="lost_archived">Archived / Lost</option>
+            </select>
+          </div>
+          <div>
+            <label for="fuAssignedPartner" class="block text-slate-300 font-semibold mb-1">Assigned UAE Partner / Rep</label>
+            <input id="fuAssignedPartner" type="text" placeholder="e.g. Ahmed · Damac Desk" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+          </div>
+          <div class="sm:col-span-2">
+            <label for="fuNextAction" class="block text-emerald-300 font-bold mb-1">What To Do Next (Next Best Action)</label>
+            <input id="fuNextAction" type="text" placeholder="e.g. Send 1BR floor plan + 60/40 payment plan to client" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+          </div>
+          <div class="sm:col-span-2">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <label for="fuDueAt" class="text-slate-300 font-semibold">Next Follow-Up Due Date &amp; Time</label>
+              <div class="flex gap-1.5 text-[10px]">
+                <button type="button" onclick="setQuickDue(2)" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-sky-300 font-bold">+2 Hours</button>
+                <button type="button" onclick="setQuickDue(24)" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-sky-300 font-bold">Tomorrow</button>
+                <button type="button" onclick="setQuickDue(72)" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-sky-300 font-bold">+3 Days</button>
+              </div>
+            </div>
+            <input id="fuDueAt" type="datetime-local" style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs">
+          </div>
+        </div>
 
-      <div>
-        <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-300 mb-1">🔒 Masked Partner Message Preview (No Client Name / Phone / Email)</div>
-        <textarea id="fwdMaskedPreview" readonly rows="5" style="background-color:#0A0C13;color:#E2E8F0;" class="w-full border border-emerald-500/30 rounded-xl p-2.5 text-[11px] font-mono"></textarea>
-      </div>
+        <!-- 1-Click Direct Client Follow-Up (Portal Owner -> Client) -->
+        <div class="p-3 rounded-xl bg-[#0A0C13] border border-sky-500/30 space-y-2">
+          <div class="text-[11px] font-bold text-sky-300 uppercase tracking-wider">Direct Client Follow-Up (Your Client)</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button type="button" onclick="followUpClientDirect('whatsapp')" style="background-color:#15803D;color:#FFFFFF;" class="py-2 px-3 rounded-lg font-bold text-xs hover:brightness-110">WhatsApp Client Update</button>
+            <button type="button" onclick="followUpClientDirect('email')" style="background-color:#135BEC;color:#FFFFFF;" class="py-2 px-3 rounded-lg font-bold text-xs hover:brightness-110">Email Client Availability</button>
+          </div>
+        </div>
 
-      <div>
-        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">Delivery Tracking Log (From · To · Channel · Status)</div>
-        <div id="fwdTrackingList" class="space-y-2 max-h-52 overflow-y-auto"></div>
+        <!-- Quick Outcome & Activity Note -->
+        <div class="space-y-2">
+          <div class="flex flex-wrap gap-1.5 text-[10px]">
+            <span class="text-slate-400 font-semibold self-center mr-1">Quick Outcome:</span>
+            <button type="button" onclick="setQuickOutcome('Partner Replied with Availability')" class="px-2 py-1 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold">Partner Replied</button>
+            <button type="button" onclick="setQuickOutcome('Sent Payment Plan to Client')" class="px-2 py-1 rounded bg-sky-500/15 text-sky-300 border border-sky-500/30 font-bold">Sent Quote to Client</button>
+            <button type="button" onclick="setQuickOutcome('Viewing / Zoom Scheduled')" class="px-2 py-1 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold">Viewing Booked</button>
+            <button type="button" onclick="setQuickOutcome('EOI / Reservation Paid')" class="px-2 py-1 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30 font-bold">EOI Paid</button>
+          </div>
+          <textarea id="fuNoteInput" rows="2" placeholder="Log call summary, partner quote, unit #, or follow-up note..." style="background-color:#0A0C13;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-3 py-2 text-xs"></textarea>
+          <button type="button" onclick="saveFollowUpUpdate()" style="background-color:#D4AF37;color:#0A0C13;" class="w-full py-2.5 px-4 rounded-xl font-extrabold text-xs hover:brightness-110 transition">Save Stage, Next Action &amp; Follow-Up Note</button>
+        </div>
+
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">Follow-Up Activity Timeline</div>
+          <div id="fuTimelineList" class="space-y-2 max-h-44 overflow-y-auto"></div>
+        </div>
       </div>
     </div>
   </div>
