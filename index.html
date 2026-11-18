@@ -1647,15 +1647,15 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div class="bg-white/5 rounded-xl p-3 border border-white/10">
               <div data-i18n="pgStartLabel" class="text-[10px] font-bold text-brand-gold uppercase">1. Where You Start</div>
-              <div id="pgStart" class="text-white font-semibold mt-1">Pick any home or villa below. Prices show in your own money (USD, EUR, GBP).</div>
+              <div id="pgStart" class="text-white font-semibold mt-1">Pick any UAE home or villa below. Prices show in your own currency (USD, EUR, GBP).</div>
             </div>
             <div class="bg-white/5 rounded-xl p-3 border border-white/10">
               <div data-i18n="pgMiddleLabel" class="text-[10px] font-bold text-sky-400 uppercase">2. What Happens Next</div>
-              <div id="pgMiddle" class="text-white font-semibold mt-1">Your agent signs a simple Direct Contract &amp; verifies payment proof — zero portal fees.</div>
+              <div id="pgMiddle" class="text-white font-semibold mt-1">Click "Request to Buy / Enquire (Free · 0% Fee)" — property specs &amp; your profile auto-fill with an ENQ-XXXXXX ref.</div>
             </div>
             <div class="bg-emerald-500/10 rounded-xl p-3 border border-emerald-500/30">
               <div data-i18n="pgEndLabel" class="text-[10px] font-bold text-emerald-400 uppercase">3. Where It Ends</div>
-              <div id="pgEnd" class="text-white font-semibold mt-1">You pay only to the official Dubai bank escrow account and get your Oqood title.</div>
+              <div id="pgEnd" class="text-white font-semibold mt-1">Our Desk sends a blind property query to the Developer, sends you availability, and you pay 100% to DLD Escrow.</div>
             </div>
           </div>
         </div>
@@ -2982,20 +2982,20 @@
       <!-- Mode Switcher: HD Video (.mp4) vs Interactive Video Walkthrough vs Interactive Parties Chart -->
       <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
         <div class="flex flex-wrap items-center gap-2">
-          <button id="evTabMp4" onclick="setExplainerMode('mp4')" class="px-3.5 py-1.5 rounded-xl bg-brand-gold text-black text-xs font-extrabold inline-flex items-center gap-1.5"><i data-lucide="clapperboard" class="w-3.5 h-3.5"></i> Watch HD Explainer Video (.mp4)</button>
-          <button id="evTabInteractive" onclick="setExplainerMode('interactive')" class="px-3.5 py-1.5 rounded-xl bg-white/10 text-slate-300 hover:bg-white/20 text-xs font-bold inline-flex items-center gap-1.5"><i data-lucide="mouse-pointer-click" class="w-3.5 h-3.5"></i> Interactive 11-Section Video</button>
+          <button id="evTabInteractive" onclick="setExplainerMode('interactive')" class="px-3.5 py-1.5 rounded-xl bg-brand-gold text-black text-xs font-extrabold inline-flex items-center gap-1.5"><i data-lucide="mouse-pointer-click" class="w-3.5 h-3.5"></i> Stage 1 Step-by-Step Video</button>
+          <button id="evTabMp4" onclick="setExplainerMode('mp4')" class="px-3.5 py-1.5 rounded-xl bg-white/10 text-slate-300 hover:bg-white/20 text-xs font-bold inline-flex items-center gap-1.5"><i data-lucide="clapperboard" class="w-3.5 h-3.5"></i> Watch HD Explainer Video (.mp4)</button>
           <button id="evTabChart" onclick="setExplainerMode('chart')" class="px-3.5 py-1.5 rounded-xl bg-white/10 text-slate-300 hover:bg-white/20 text-xs font-bold inline-flex items-center gap-1.5"><i data-lucide="git-fork" class="w-3.5 h-3.5"></i> Interactive Parties Chart</button>
         </div>
         <a href="./media/explainer-workflow.mp4" download="AI-Home-Global-A-to-Z-Workflow.mp4" class="text-xs text-emerald-400 hover:underline font-semibold inline-flex items-center gap-1"><i data-lucide="download" class="w-3.5 h-3.5"></i> Download MP4 (1280×720)</a>
       </div>
 
       <!-- Real Recorded HD MP4 Video Container -->
-      <div id="evMp4Container" class="mb-4">
+      <div id="evMp4Container" class="hidden mb-4">
         <video id="evMp4Player" controls playsinline preload="metadata" class="w-full rounded-2xl border border-white/15 bg-black aspect-video" src="./media/explainer-workflow.mp4"></video>
       </div>
 
       <!-- Interactive Video Stage -->
-      <div id="evInteractiveContainer" class="hidden">
+      <div id="evInteractiveContainer">
         <!-- Scenario Selector for Interactive Video -->
         <div class="flex flex-wrap items-center justify-between gap-2 mb-3 bg-[#080B12] border border-white/10 rounded-xl p-2.5">
           <span class="text-[11px] font-bold text-slate-300 uppercase tracking-wider">Choose Scenario:</span>
@@ -3548,24 +3548,24 @@
         ctaContract: "Open Direct Contract & Payment Proof",
         bentoRouteTitle: "Direct Syndication Route",
         bentoRouteBadge: "Verified · 0% Portal Cut",
-        bentoDirectContact: "Direct Contact",
-        bentoInstant: "Instant",
-        bentoUnlockBtn: "Unlock with Proof",
+        bentoDirectContact: "Stage 1 · Upon Request",
+        bentoInstant: "Free · 0% Fee",
+        bentoUnlockBtn: "Request to Buy (Free)",
         personas: {
           buyer: {
-            start: "Pick any home or villa below. Prices show in your own money (USD, EUR, GBP).",
-            middle: "Your agent signs a simple Direct Contract & verifies payment proof — zero portal fees.",
-            end: "You pay only to the official Dubai bank escrow account and get your Oqood title."
+            start: "Pick any UAE home or villa below. Prices show in your own currency (USD, EUR, GBP).",
+            middle: "Click \"Request to Buy / Enquire (Free · 0% Fee)\" — property specs & your profile auto-fill with an ENQ-XXXXXX ref.",
+            end: "Our Desk sends a blind property query to the Developer, sends you availability, and you pay 100% to DLD Escrow."
           },
           agent: {
-            start: "Click \"Sign In / Join Network\" once, then pick any UAE project for your buyer.",
-            middle: "Both agents sign the Direct Contract + verify Payment Proof to unlock direct WhatsApp & Email.",
-            end: "Keep 55% of the commission (UAE Seller keeps 45%, 0% Portal Cut)."
+            start: "Sign in once as \"Broker Abroad\", then pick any UAE project for your buyer.",
+            middle: "Submit a Free Request (ENQ-XXXXXX) & register your 180-Day Client SLA — our Desk forwards a blind property card with 0% client PII.",
+            end: "Keep 55% of the commission (UAE Seller keeps 45%, 0% Portal Cut). Instant SaaS Deal Room is Coming Soon (Phase 2)."
           },
           seller: {
-            start: "Click \"Sign In / Join Network\" or \"Mass Broadcast\" to pitch projects to global agents.",
-            middle: "Sign the Direct Contract + verify Payment Proof before any phone or email is shared.",
-            end: "Talk directly with the overseas agent, close the sale, and split 55% / 45% with 0% Portal Cut."
+            start: "Sign in as \"UAE RERA Seller\" or use \"Mass Broadcast\" to showcase projects to global agents.",
+            middle: "Receive blind property queries (ENQ-XXXXXX) with visual property cards & specs from the AI Home Global Desk.",
+            end: "Confirm unit availability & floor plans, close via DLD Escrow, and split 55% / 45% with 0% Portal Cut."
           }
         }
       },
@@ -4833,16 +4833,16 @@
         jumpSelector: '#why-dubai'
       },
       {
-        step: 'SECTION 7 OF 11 · UAE OFF-PLAN DIRECTORY',
-        shortLabel: '7. Pick Project',
+        step: 'SECTION 7 OF 11 · UAE OFF-PLAN DIRECTORY (STAGE 1 UPON REQUEST)',
+        shortLabel: '7. Pick & Request',
         time: '00:30',
-        plainSummary: 'Search 2,926+ verified UAE off-plan projects by Emirate, developer, budget, or handover.',
+        plainSummary: 'Search 2,926+ verified UAE projects and click "Request to Buy / Enquire (Free · 0% Fee)" on any card.',
         roles: ['UAE Developer', 'Overseas Broker', 'Client / Buyer'],
-        clickedLabel: 'Filter & Pick Any UAE Project Card',
-        clickedControl: 'UAE Off-Plan Mega Directory (#inventory)',
-        nextShownTitle: 'Project Card Opens 3D Drone, White-Label Brochure & Lock SLA',
-        nextShownDetail: 'Every project card connects to the rest of the portal: view in 3D Drone, print a White-Label Dossier, or lock the unit.',
-        flowSteps: ['1. Filter City / Budget', '2. Click Dossier or Drone', '3. Lock Unit with SLA'],
+        clickedLabel: 'Click: "Request to Buy / Enquire (Free · 0% Fee)"',
+        clickedControl: 'Auto-Filled Property & Profile Enquiry Modal (#portalEnquiryModal)',
+        nextShownTitle: 'Property Photo, Specs, Location & Signed-In Profile Auto-Fill Instantly with ENQ-XXXXXX',
+        nextShownDetail: 'Stage 1 is 100% Free Upon Request (0% Fee). SaaS Deal Room is marked Coming Soon (Phase 2). Your request goes to the Portal Desk and forwards a blind Visual Property Card (zero client PII) to the UAE Developer/Partner.',
+        flowSteps: ['1. Click Request to Buy (Free)', '2. Auto-Fills Specs + ENQ-XXXXXX', '3. Blind Visual Card Sent to Partner'],
         ctaNext: 'Next: Section 8 (Global Agents & Video Call) →',
         jumpSelector: '#inventory'
       },
@@ -4920,17 +4920,17 @@
         ctaNext: 'Next: Step 2 (Live Video with UAE Desk) →'
       },
       {
-        step: 'SCENARIO A · STEP 2 OF 5 (DIRECT BUYER)',
-        shortLabel: '2. Free Enquiry / Video',
+        step: 'SCENARIO A · STEP 2 OF 5 (DIRECT BUYER · STAGE 1 UPON REQUEST)',
+        shortLabel: '2. Free Request (ENQ)',
         time: '00:06',
-        plainSummary: 'Send a Free Portal Enquiry (forwarded by AI Home Global) OR join a 1-click Live Video Call with the UAE Developer / Licensed Seller.',
-        roles: ['Buyer (Outside UAE)', 'UAE Developer / Seller'],
-        clickedLabel: 'Click: "Send Enquiry (Free)" or "Video Call"',
-        clickedControl: 'Portal Enquiry Inbox + Live Closing Room',
-        nextShownTitle: 'Confirm Unit Availability, Floorplan & Payment Schedule Live',
-        nextShownDetail: 'Your enquiry is logged in the Portal Inbox and forwarded directly to the Developer Sales Desk or Licensed UAE Partner — zero buyer fee.',
-        paymentHighlight: 'Portal Rule: 0% Buyer Fee · 0% Portal Brokerage Cut (Pure SaaS & Lead Routing Platform).',
-        flowSteps: ['1. Send Free Portal Enquiry', '2. Join Live Video Room', '3. Pick Exact Unit #'],
+        plainSummary: 'Click "Request to Buy / Enquire (Free · 0% Fee)" — property image, location, specs & your signed-in profile auto-fill with an ENQ-XXXXXX number.',
+        roles: ['Buyer (Outside UAE)', 'AI Home Global Desk', 'UAE Developer / Seller'],
+        clickedLabel: 'Click: "Request to Buy / Enquire (Free · 0% Fee)"',
+        clickedControl: 'Auto-Filled Request Modal + Blind Property Query Card',
+        nextShownTitle: 'Portal Desk Forwards a Blind Visual Property Card (Zero Client Name/Phone/Email Exposed)',
+        nextShownDetail: 'Your phone and email are kept private in the Admin CRM. The Developer / UAE Partner receives only the 800×900 Visual Property Card & ENQ-XXXXXX query, confirms availability, and our Desk updates you directly.',
+        paymentHighlight: 'Stage 1 Rule: 100% Upon Request · $0 Buyer Fee · 0% Portal Cut (SaaS Deal Room is Coming Soon in Phase 2).',
+        flowSteps: ['1. Click Request to Buy (Free)', '2. Auto-Fills Property + ENQ-XXXXXX', '3. Blind Card Sent → Availability Returned'],
         ctaNext: 'Next: Step 3 (Passport KYC & SPA) →'
       },
       {
@@ -4993,17 +4993,17 @@
         ctaNext: 'Next: Step 2 (Free Enquiry or SaaS Unlock) →'
       },
       {
-        step: 'SCENARIO B · STEP 2 OF 5 (VIA USA AGENCY)',
-        shortLabel: '2. Enquiry or Unlock',
+        step: 'SCENARIO B · STEP 2 OF 5 (VIA USA AGENCY · STAGE 1 UPON REQUEST)',
+        shortLabel: '2. Free Request & SLA',
         time: '00:06',
-        plainSummary: 'Your USA Agency either sends a Free Portal Enquiry OR uses Value-Tiered SaaS Unlock ($250–$1,500) to lock the 55% / 45% split instantly.',
-        roles: ['USA Agency (55%)', 'UAE Seller (45%)'],
-        clickedLabel: 'USA Agency: Free Enquiry OR Instant SaaS Deal Room ($250–$1,500)',
-        clickedControl: '180-Day SLA + Auto-Filled Developer DLD/RERA Deal Room',
-        nextShownTitle: 'USA Agency’s Commission Is Protected (55% USA / 45% UAE · 0% Portal Cut)',
-        nextShownDetail: 'The portal charges only a Value-Tiered SaaS software access fee ($250 under 2M, $450 for 2M–5M, $850 for 5M–10M, $1,500 for 10M+) — 0% brokerage.',
-        paymentHighlight: 'SaaS Rule: Portal takes 0% brokerage · 100% of developer commission splits 55% USA / 45% UAE.',
-        flowSteps: ['1. Register Client (180-Day SLA)', '2. Sign 55% / 45% Split', '3. 3-Way Live Video Call'],
+        plainSummary: 'Your USA Agency clicks "Request to Buy / Enquire (Free · 0% Fee)" — auto-filling their agency license & property specs under an ENQ-XXXXXX ref.',
+        roles: ['USA Agency (55%)', 'AI Home Global Desk', 'UAE Seller (45%)'],
+        clickedLabel: 'USA Agency: "Request to Buy / Enquire (Free · 0% Fee)" + 180-Day SLA',
+        clickedControl: 'Auto-Filled Agency Request + Blind Visual Property Card Forward',
+        nextShownTitle: 'Client Identity Stays 100% Masked While Availability Is Confirmed (55% USA / 45% UAE)',
+        nextShownDetail: 'In Stage 1, all requests are Free Upon Request ($0 fee; Phase 2 SaaS Deal Room is Coming Soon). The Portal Desk forwards only the Visual Property Card & ENQ-XXXXXX query with zero client PII so the UAE seller cannot circumvent your agency.',
+        paymentHighlight: 'Stage 1 Rule: $0 Request Fee · 0% Portal Cut · 100% of Developer Commission Splits 55% USA / 45% UAE.',
+        flowSteps: ['1. Submit Free Agency Request (ENQ)', '2. Blind Property Card Sent to UAE Desk', '3. Availability Confirmed + 3-Way Call'],
         ctaNext: 'Next: Step 3 (KYC & Your Name) →'
       },
       {
@@ -5171,7 +5171,7 @@
         steps: [
           { stage: 'Step 1 · Setup', action: 'Pick Client Language & Currency, then turn ON "Client View"', result: 'Hides all commission numbers so you can share your screen safely.' },
           { stage: 'Step 2 · Pitch', action: 'Pick from 2,926+ Projects ➔ Print White-Label Dossier & Fly 3D Drone', result: 'Client sees a 1-page PDF with YOUR agency name—zero portal phone leaks.' },
-          { stage: 'Step 3 · Protect', action: 'Click "Register Client (SLA)" & sign Direct Contract', result: 'Locks your 55% commission split legally for 180 days.' },
+          { stage: 'Step 3 · Request & Protect', action: 'Submit Free Request (ENQ-XXXXXX) & Register 180-Day Client SLA', result: 'Portal Desk forwards a Blind Visual Property Card (0% client PII) to confirm unit availability.' },
           { stage: 'Step 4 · Payout', action: 'Buyer wires to DLD Escrow Bank ➔ Developer pays 55% to you', result: 'Clean bank payout with zero portal cut.' }
         ]
       },
@@ -5347,8 +5347,9 @@
       modal.classList.remove('hidden');
       modal.classList.add('flex');
       evCurrentScene = 0;
-      evIsPlaying = false;
-      setExplainerMode('mp4');
+      evIsPlaying = true;
+      setExplainerMode('interactive');
+      startExplainerTimer();
       if (window.lucide) lucide.createIcons();
     }
 
