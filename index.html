@@ -1719,8 +1719,8 @@
         <div class="lg:col-span-2 flex flex-col gap-4">
           <div class="bento-card p-5 flex-1 flex flex-col justify-between">
             <div>
-              <div class="text-[11px] text-slate-400 font-semibold">Unlock Pass from</div>
-              <div class="text-2xl font-extrabold mt-0.5">$150 <span class="text-xs font-medium text-slate-400">Tiered</span></div>
+              <div class="text-[11px] text-slate-400 font-semibold">Stage 1 Access</div>
+              <div class="text-2xl font-extrabold mt-0.5 text-emerald-400">$0 <span class="text-xs font-medium text-slate-400">Upon Request</span></div>
             </div>
             <div class="flex items-end justify-between gap-1.5 h-20 pt-3">
               <div class="w-full bg-blue-500/20 rounded-t-md h-8"></div>
@@ -1744,7 +1744,7 @@
           </div>
         </div>
 
-        <!-- Card 3: Dark-Contrast ROI Trend + Billing Tier Radio Selector -->
+        <!-- Card 3: Dark-Contrast ROI Trend + Billing Tier Radio Selector (Coming Soon) -->
         <div class="lg:col-span-4 flex flex-col gap-4">
           <div class="bento-card-dark p-5">
             <div class="flex items-center justify-between text-xs mb-1">
@@ -1758,53 +1758,53 @@
             </svg>
           </div>
 
-          <!-- 3 Monetization Options Radio Selector (Light / Classic / Flex style) -->
-          <div class="bento-card p-4 space-y-2">
+          <!-- 3 Monetization Options (Phase 2 Coming Soon — Not Active in Stage 1) -->
+          <div class="bento-card p-4 space-y-2 relative">
             <div class="flex items-center justify-between text-xs font-bold mb-1">
-              <span>Monetization Mode</span>
-              <span class="text-[11px] text-[#135BEC]">All 3 Active</span>
+              <span>SaaS Monetization Mode</span>
+              <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/40 text-[10px] font-extrabold uppercase">Coming Soon · Phase 2</span>
             </div>
-            <label onclick="selectBentoBillingMode('pay_per_unlock')" class="flex items-center justify-between p-2.5 rounded-xl border border-blue-500/30 bg-blue-500/5 cursor-pointer text-xs">
-              <span class="font-bold">● Pay-Per-Unlock <span class="text-[11px] font-normal text-slate-400">Card or Wire Proof</span></span>
-              <span class="font-extrabold text-[#135BEC]">$150–$500</span>
-            </label>
-            <label onclick="selectBentoBillingMode('wallet_credit')" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-white/10 cursor-pointer text-xs hover:border-blue-500/40">
-              <span class="font-semibold">○ Wallet Credits <span class="text-[11px] font-normal text-slate-400">5-Pack Bundle</span></span>
-              <span class="font-extrabold">$200/ea</span>
-            </label>
-            <label onclick="selectBentoBillingMode('subscription')" class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-white/10 cursor-pointer text-xs hover:border-blue-500/40">
-              <span class="font-semibold">○ Pro Plan <span class="text-[11px] font-normal text-slate-400">Unlocks + Broadcast</span></span>
-              <span class="font-extrabold">$199/mo</span>
-            </label>
+            <div class="flex items-center justify-between p-2.5 rounded-xl border border-white/10 bg-white/[0.02] opacity-60 cursor-not-allowed text-xs">
+              <span class="font-semibold text-slate-300">○ Pay-Per-Unlock <span class="text-[11px] font-normal text-slate-500">Card or Wire Proof</span></span>
+              <span class="text-[10px] font-bold text-amber-300 uppercase">Coming Soon</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-xl border border-white/10 bg-white/[0.02] opacity-60 cursor-not-allowed text-xs">
+              <span class="font-semibold text-slate-300">○ Wallet Credits <span class="text-[11px] font-normal text-slate-500">5-Pack Bundle</span></span>
+              <span class="text-[10px] font-bold text-amber-300 uppercase">Coming Soon</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-xl border border-white/10 bg-white/[0.02] opacity-60 cursor-not-allowed text-xs">
+              <span class="font-semibold text-slate-300">○ Pro Plan <span class="text-[11px] font-normal text-slate-500">Unlocks + Broadcast</span></span>
+              <span class="text-[10px] font-bold text-amber-300 uppercase">Coming Soon</span>
+            </div>
           </div>
         </div>
 
-        <!-- Card 4: Readiness Ring, Proof Upload Progress & Checklist -->
+        <!-- Card 4: Stage 1 Upon-Request Readiness & Checklist -->
         <div class="lg:col-span-2 flex flex-col gap-4">
           <div class="bento-card p-4 flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full border-4 border-[#135BEC] flex items-center justify-center font-extrabold text-sm text-[#135BEC] shrink-0" id="bentoReadinessCount">0/4</div>
+            <div class="w-12 h-12 rounded-full border-4 border-emerald-400 flex items-center justify-center font-extrabold text-xs text-emerald-400 shrink-0" id="bentoReadinessCount">FREE</div>
             <div>
-              <div class="text-xs font-extrabold">Deal Readiness</div>
-              <div class="text-[11px] text-slate-400" id="bentoReadinessLabel">Sign + Proof to unlock</div>
+              <div class="text-xs font-extrabold">Stage 1 Active</div>
+              <div class="text-[11px] text-slate-400" id="bentoReadinessLabel">Upon Request · 0% Fee</div>
             </div>
           </div>
 
           <div class="bento-card p-4">
             <div class="flex items-center justify-between text-xs mb-2">
-              <span class="font-bold">payment_proof.pdf</span>
-              <span class="text-[11px] font-bold text-emerald-500" id="bentoProofBadge">Ready</span>
+              <span class="font-bold">Blind Query (ENQ)</span>
+              <span class="text-[11px] font-bold text-emerald-400" id="bentoProofBadge">Active</span>
             </div>
             <div class="w-full h-2 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
-              <div id="bentoProofProgress" class="h-full bg-[#135BEC] rounded-full transition-all" style="width: 100%"></div>
+              <div id="bentoProofProgress" class="h-full bg-emerald-500 rounded-full transition-all" style="width: 100%"></div>
             </div>
           </div>
 
           <div class="bento-card p-4 space-y-2 text-[11px]">
-            <div class="font-extrabold text-xs flex justify-between"><span>Before you connect</span><span class="text-[#135BEC]">No DLD</span></div>
-            <div class="flex items-center gap-2"><span class="text-[#135BEC] font-bold">✓</span><span>1. Pick Off-Plan Unit</span></div>
-            <div class="flex items-center gap-2"><span class="text-[#135BEC] font-bold">✓</span><span>2. Sign Direct Contract</span></div>
-            <div class="flex items-center gap-2"><span class="text-[#135BEC] font-bold">✓</span><span>3. Verify Payment Proof</span></div>
-            <div class="flex items-center gap-2"><span class="text-emerald-500 font-bold">✓</span><span>4. Direct Contact Unlock</span></div>
+            <div class="font-extrabold text-xs flex justify-between"><span>Stage 1 Flow</span><span class="text-emerald-400">0% Fee</span></div>
+            <div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span><span>1. Pick Off-Plan Unit</span></div>
+            <div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span><span>2. Send Free Request</span></div>
+            <div class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span><span>3. Blind Partner Query</span></div>
+            <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">⏳</span><span>4. SaaS Unlock (Soon)</span></div>
           </div>
         </div>
 
@@ -8407,8 +8407,10 @@
       const allUnlocked = contractSigned && proofVerified;
 
       const checksDone = 1 + (contractSigned ? 1 : 0) + (proofVerified ? 1 : 0) + (allUnlocked ? 1 : 0);
-      setEl('bentoReadinessCount', `${checksDone}/4`);
-      setEl('bentoReadinessLabel', allUnlocked ? 'All set · Unlocked' : 'Sign + Proof to unlock');
+      if (!SAAS_DEAL_ROOM_COMING_SOON) {
+        setEl('bentoReadinessCount', `${checksDone}/4`);
+        setEl('bentoReadinessLabel', allUnlocked ? 'All set · Unlocked' : 'Sign + Proof to unlock');
+      }
 
       const statusEl = document.getElementById('bcUnlockStatus');
       if (statusEl) {
