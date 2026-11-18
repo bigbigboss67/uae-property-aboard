@@ -1197,9 +1197,9 @@
           <div class="text-[11px] text-slate-400 mt-0.5">Calculated from registered units</div>
         </div>
         <div class="glass-panel p-4 rounded-xl border border-white/10">
-          <div class="text-xs text-slate-400">Commission Rate</div>
-          <div id="dashProjectedComm" class="text-2xl font-bold text-emerald-400 mt-1">1% + 1% Protocol</div>
-          <div class="text-[11px] text-slate-400 mt-0.5">Milestone-cleared settlement</div>
+          <div class="text-xs text-slate-400">Active Portal Stage</div>
+          <div id="dashProjectedComm" class="text-xl font-bold text-emerald-400 mt-1">Stage 1 · Upon Request ($0 Fee)</div>
+          <div class="text-[11px] text-amber-300 mt-0.5">Stage 2 Broker Payout &amp; SaaS: Coming Soon</div>
         </div>
         <div class="glass-panel p-4 rounded-xl border border-white/10">
           <div class="text-xs text-slate-400">UAE Partner Network</div>
@@ -1958,15 +1958,15 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-14">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/15 text-brand-gold border border-brand-gold/30 text-xs font-bold uppercase tracking-wider mb-3">
-          <i data-lucide="scale" class="w-3.5 h-3.5"></i>
-          DUAL-SIDED 1% + 1% CLEARING PROTOCOL
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-xs font-bold uppercase tracking-wider mb-3">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          STAGE 1 · DIRECT BUYER &amp; UPON-REQUEST SIMULATOR (0% PORTAL FEE)
         </div>
         <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-white">
-          Dual-Sided 1% Commission & Escrow Formulation
+          UAE Off-Plan ROI, Golden Visa &amp; DLD Escrow Calculator
         </h2>
         <p class="text-slate-400 text-sm mt-2">
-          The portal operates on an audited <strong>1% Buyer Tech & Golden Visa Escrow Fee + 1% Broker Success Retainer Fee</strong>. Drag the sliders to see the exact real-time disbursement split.
+          In <strong>Stage 1</strong>, all property enquiries are <strong>100% Free Upon Request ($0 Portal Fee)</strong>. Drag the sliders to check your <strong>Tax-Free Rental Yield</strong>, <strong>20% DLD Escrow Down Payment</strong>, and <strong>10-Year UAE Golden Visa</strong> eligibility. <span class="text-amber-300 font-semibold">(Stage 2 Broker Payout &amp; SaaS Split: Coming Soon)</span>
         </p>
       </div>
 
@@ -1979,75 +1979,72 @@
             <!-- Slider 1: Property Value -->
             <div>
               <div class="flex justify-between items-center mb-2">
-                <label for="dealValSlider" class="text-xs font-semibold text-slate-300">Property Deal Value:</label>
+                <label for="dealValSlider" class="text-xs font-semibold text-slate-300">Property Purchase Value:</label>
                 <span id="calcDealValDisplay" class="text-base font-bold text-white font-mono">$1,200,000 USD</span>
               </div>
               <input type="range" id="dealValSlider" aria-label="Target Deal Value (USD)" aria-valuemin="250000" aria-valuemax="10000000" aria-valuenow="1200000" min="250000" max="10000000" step="50000" value="1200000" oninput="calculateCommission()" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]">
               <div class="flex justify-between text-[10px] text-slate-400 mt-1">
                 <span>$250K</span>
+                <span>$545K (Golden Visa)</span>
                 <span>$2.5M</span>
-                <span>$5M</span>
-                <span>$10M (Bulk Floor)</span>
+                <span>$10M+</span>
               </div>
             </div>
 
-            <!-- Slider 2: Gross Developer Commission -->
+            <!-- Slider 2: Estimated Net Rental Yield -->
             <div>
               <div class="flex justify-between items-center mb-2">
-                <label for="rateSlider" class="text-xs font-semibold text-slate-300">Gross Master Developer Commission:</label>
-                <span id="calcRateDisplay" class="text-base font-bold text-brand-gold font-mono">6.0% Gross ($72,000)</span>
+                <label for="rateSlider" class="text-xs font-semibold text-slate-300">Estimated Annual Tax-Free Rental Yield:</label>
+                <span id="calcRateDisplay" class="text-base font-bold text-emerald-400 font-mono">8.0% Net ($96,000/yr)</span>
               </div>
-              <input type="range" id="rateSlider" aria-label="Commission Rate Percentage" aria-valuemin="4.5" aria-valuemax="7.0" aria-valuenow="6.0" min="4.5" max="7.0" step="0.5" value="6.0" oninput="calculateCommission()" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]">
+              <input type="range" id="rateSlider" aria-label="Estimated Annual Rental Yield Percentage" aria-valuemin="5.0" aria-valuemax="10.0" aria-valuenow="8.0" min="5.0" max="10.0" step="0.5" value="8.0" oninput="calculateCommission()" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#10B981]">
               <div class="flex justify-between text-[10px] text-slate-400 mt-1">
-                <span>4.5% (Standard)</span>
-                <span>5.5% - 6.0% (Premier Tier)</span>
-                <span>7.0% (Institutional Floor)</span>
+                <span>5.0% (Prime Villa)</span>
+                <span>7.5% - 8.5% (Dubai Avg)</span>
+                <span>10.0% (High-Yield)</span>
               </div>
             </div>
 
-            <!-- Dual-Sided 1% + 1% Breakdown Box -->
+            <!-- Stage 1 Direct Escrow & Zero-Fee Breakdown Box -->
             <div class="p-4 bg-black/60 rounded-2xl border border-white/10 space-y-3 text-xs">
               <div class="flex items-center justify-between pb-2 border-b border-white/10">
-                <span class="text-brand-gold font-bold flex items-center gap-1.5">
-                  <i data-lucide="layers" class="w-4 h-4"></i> Transparent Dual-Sided 1% Protocol
+                <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i> Stage 1 · Direct DLD Escrow Breakdown (0% Portal Fee)
                 </span>
-                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-mono px-2 py-0.5 rounded font-bold">AUDITED FORMULATION</span>
+                <span class="text-[10px] bg-emerald-500/20 text-emerald-300 font-mono px-2 py-0.5 rounded font-bold">STAGE 1 ACTIVE</span>
               </div>
 
-              <!-- Party A: Buyer 1% -->
+              <!-- 1. Stage 1 Portal Request Fee -->
               <div class="flex justify-between items-center py-1">
                 <div>
-                  <span class="text-white font-semibold block">1. Party A: Legal, Golden Visa & Tax Dossier (1.0%)</span>
-                  <span class="text-[11px] text-slate-400">Optional conveyancing retainer (or 1% developer rebate offset). 100% unit price wires direct to DLD Escrow.</span>
+                  <span class="text-white font-semibold block">1. AI Home Global Request &amp; Intro Fee (Stage 1)</span>
+                  <span class="text-[11px] text-slate-400">Free Upon-Request property query (`ENQ-XXXXXX`) forwarded by our Desk. Zero buyer or broker fee in Stage 1.</span>
                 </div>
-                <strong id="calcBuyerFee" class="text-white font-mono text-sm shrink-0">$12,000 USD</strong>
+                <strong id="calcPortalTotal" class="text-emerald-400 font-mono text-sm shrink-0">$0 (0% Fee)</strong>
               </div>
 
-              <!-- Party B: Broker 1% Retainer -->
+              <!-- 2. 20% Developer Escrow Down Payment -->
               <div class="flex justify-between items-center py-1 border-t border-white/5">
                 <div>
-                  <span class="text-white font-semibold block">2. Party B: Master ORN Platform Retainer (1.0%)</span>
-                  <span class="text-[11px] text-slate-400">Retained by UAE RERA-Licensed Master Entity upon developer payout. Covers 90-Day SLA & White-Label suite.</span>
+                  <span class="text-white font-semibold block">2. Initial Down Payment to Official DLD Escrow (20%)</span>
+                  <span class="text-[11px] text-slate-400">Wired 100% directly from buyer bank to the Developer’s DLD-regulated bank escrow account (Law No. 8 of 2007).</span>
                 </div>
-                <strong id="calcBrokerFee" class="text-amber-400 font-mono text-sm shrink-0">-$12,000 USD</strong>
+                <strong id="calcBuyerFee" class="text-white font-mono text-sm shrink-0">$240,000 USD</strong>
               </div>
 
-              <!-- Portal Total -->
-              <div class="pt-2 border-t border-brand-gold/20 flex justify-between items-center text-xs">
-                <span class="text-slate-300 font-medium">Total AI HOME GLOBAL Revenue (1% + 1% = 2%):</span>
-                <strong id="calcPortalTotal" class="text-emerald-400 font-mono text-sm font-bold">$24,000 USD</strong>
+              <!-- 3. 4% DLD Oqood Registration -->
+              <div class="flex justify-between items-center py-1 border-t border-white/5">
+                <div>
+                  <span class="text-white font-semibold block">3. Dubai Land Department (DLD) Oqood Title Fee (4%)</span>
+                  <span class="text-[11px] text-slate-400">Official government title registration issued in 100% the buyer’s name.</span>
+                </div>
+                <strong id="calcBrokerFee" class="text-brand-gold font-mono text-sm shrink-0">$48,000 USD</strong>
               </div>
 
-              <!-- Institutional Covenants & Escrow Protocol Callout -->
-              <div class="mt-2 pt-2 border-t border-white/5 flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-2">
-                <div class="flex items-center gap-1.5">
-                  <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-brand-gold"></i>
-                  <span>Covenant: 100% Funds routed to Central Bank / DLD Trust Accounts</span>
-                </div>
-                <button type="button" onclick="openProtocolDocumentation()" class="text-brand-gold hover:underline font-semibold flex items-center gap-1">
-                  <span>View Full Legal & Financial SOP Dossier</span>
-                  <i data-lucide="external-link" class="w-3 h-3"></i>
-                </button>
+              <!-- Stage 2 Broker Payout Notice -->
+              <div class="pt-2 border-t border-amber-500/20 flex flex-wrap items-center justify-between gap-2 text-[11px]">
+                <span class="text-slate-300">Stage 2 Automated Broker Commission Clearing &amp; SaaS Deal Room:</span>
+                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/40 font-extrabold text-[10px] uppercase">Coming Soon · Stage 2</span>
               </div>
             </div>
 
@@ -2055,35 +2052,35 @@
 
           <!-- Result Display Right Column -->
           <div class="lg:col-span-5 text-center bg-gradient-to-b from-[#181C26] to-[#0E1017] p-6 sm:p-8 rounded-3xl border border-brand-gold/40 gold-border-glow">
-            <span class="text-[11px] uppercase tracking-wider text-slate-400 font-bold block mb-1">Abroad Broker Net Cash Payout</span>
-            <div id="calcAgentEarnings" class="text-3xl sm:text-4xl font-display font-extrabold text-brand-gold my-2">$60,000 USD</div>
-            <span id="calcNetRateDisplay" class="text-xs text-emerald-400 font-semibold block mb-4">5.0% Net of Sales Value (Direct Wire)</span>
+            <span class="text-[11px] uppercase tracking-wider text-slate-400 font-bold block mb-1">Estimated Annual Tax-Free Income</span>
+            <div id="calcAgentEarnings" class="text-3xl sm:text-4xl font-display font-extrabold text-emerald-400 my-2">$96,000 USD / yr</div>
+            <span id="calcNetRateDisplay" class="text-xs text-brand-gold font-semibold block mb-4">✓ 10-Year UAE Golden Visa Eligible (Property ≥ AED 2M)</span>
             
             <div class="text-[11px] text-slate-400 space-y-2 py-3 border-y border-white/10 text-left">
               <div class="flex justify-between">
-                <span>Gross Developer Rate:</span>
-                <strong id="calcSummaryGross" class="text-white font-mono">6.0% ($72,000)</strong>
+                <span>5-Year Cumulative Rental Income:</span>
+                <strong id="calcSummaryGross" class="text-white font-mono">$480,000 USD</strong>
               </div>
               <div class="flex justify-between">
-                <span>Broker Platform Share (1%):</span>
-                <strong id="calcSummaryBrokerFee" class="text-rose-400 font-mono">-$12,000 (1.0%)</strong>
+                <span>20% DLD Escrow Booking Equity:</span>
+                <strong id="calcSummaryBuyerFee" class="text-sky-300 font-mono">$240,000 (20%)</strong>
               </div>
               <div class="flex justify-between">
-                <span>Buyer Platform Fee (1%):</span>
-                <strong id="calcSummaryBuyerFee" class="text-emerald-400 font-mono">+$12,000 (1.0%)</strong>
+                <span>Portal Fee (Stage 1 Upon Request):</span>
+                <strong id="calcSummaryBrokerFee" class="text-emerald-400 font-mono">$0 (0% Fee)</strong>
               </div>
               <div class="flex justify-between">
-                <span>Disbursement Trigger:</span>
-                <strong class="text-white">20% Equity + 4% DLD Oqood Cleared</strong>
+                <span>UAE Personal Income &amp; Rental Tax:</span>
+                <strong class="text-emerald-400">0% Tax-Free</strong>
               </div>
               <div class="flex justify-between">
-                <span>UAE Broker License Required:</span>
-                <strong class="text-emerald-400">0 (Zero / Covered by SLA)</strong>
+                <span>Stage 2 Broker Payout Split:</span>
+                <strong class="text-amber-300">Coming Soon (Stage 2)</strong>
               </div>
             </div>
 
-            <button onclick="openLeadModal()" class="w-full mt-5 bg-gradient-to-r from-brand-gold via-yellow-500 to-amber-600 hover:brightness-110 text-black font-extrabold py-3.5 px-4 rounded-xl text-xs transition-all shadow-lg shadow-brand-gold/25 flex items-center justify-center gap-1.5">
-              <i data-lucide="shield-check" class="w-4 h-4 text-black"></i> Lock This Commission on a Client
+            <button onclick="openEnquiryModal(uaeOffPlanProjects[0]?.id || '')" class="w-full mt-5 bg-[#135BEC] hover:bg-blue-700 text-white font-extrabold py-3.5 px-4 rounded-xl text-xs transition-all shadow-lg flex items-center justify-center gap-1.5">
+              <i data-lucide="mail" class="w-4 h-4"></i> Request to Buy / Enquire (Free · 0% Fee)
             </button>
           </div>
 
@@ -4177,59 +4174,57 @@
       });
     }
 
-    // Commission Calculator Engine (Dual-Sided 1% + 1% Formulation)
+    // Stage 1 Investor ROI, Golden Visa & DLD Escrow Calculator Engine (0% Portal Fee)
     function calculateCommission() {
-      const dealVal = parseFloat(document.getElementById('dealValSlider').value);
-      const grossRate = parseFloat(document.getElementById('rateSlider').value);
+      const dealVal = parseFloat(document.getElementById('dealValSlider')?.value || 1200000);
+      const yieldRate = parseFloat(document.getElementById('rateSlider')?.value || 8.0);
       const rateInfo = exchangeRates[currentCurrency] || exchangeRates.USD;
 
-      // Mathematical Formulation:
-      // F_buyer = 1.0%
-      // F_broker = 1.0%
-      // P_net = grossRate - 1.0%
-      // R_portal = 1.0% + 1.0% = 2.0%
-      const netRate = Math.max(0, grossRate - 1.0);
-      const grossCommissionUSD = dealVal * (grossRate / 100.0);
-      const buyerFeeUSD = dealVal * 0.01;
-      const brokerFeeUSD = dealVal * 0.01;
-      const netCommissionUSD = dealVal * (netRate / 100.0);
-      const portalTotalUSD = dealVal * 0.02;
+      const annualIncomeUSD = dealVal * (yieldRate / 100.0);
+      const fiveYrIncomeUSD = annualIncomeUSD * 5;
+      const downPayment20USD = dealVal * 0.20;
+      const dldOqood4USD = dealVal * 0.04;
+      const goldenVisaEligible = dealVal >= 545000;
 
-      // Convert to active currency
       const factor = rateInfo.rate / exchangeRates.USD.rate;
       const convertedDeal = Math.round(dealVal * factor);
-      const convertedGross = Math.round(grossCommissionUSD * factor);
-      const convertedBuyerFee = Math.round(buyerFeeUSD * factor);
-      const convertedBrokerFee = Math.round(brokerFeeUSD * factor);
-      const convertedNet = Math.round(netCommissionUSD * factor);
-      const convertedPortal = Math.round(portalTotalUSD * factor);
+      const convertedAnnual = Math.round(annualIncomeUSD * factor);
+      const convertedFiveYr = Math.round(fiveYrIncomeUSD * factor);
+      const convertedDown20 = Math.round(downPayment20USD * factor);
+      const convertedOqood4 = Math.round(dldOqood4USD * factor);
 
-      // DOM Updates
-      document.getElementById('calcDealValDisplay').innerText = `${rateInfo.symbol}${convertedDeal.toLocaleString()} ${rateInfo.suffix}`;
-      document.getElementById('calcRateDisplay').innerText = `${grossRate.toFixed(1)}% Gross (${rateInfo.symbol}${convertedGross.toLocaleString()})`;
-      
+      const dealEl = document.getElementById('calcDealValDisplay');
+      if (dealEl) dealEl.innerText = `${rateInfo.symbol}${convertedDeal.toLocaleString()} ${rateInfo.suffix}`;
+      const rateEl = document.getElementById('calcRateDisplay');
+      if (rateEl) rateEl.innerText = `${yieldRate.toFixed(1)}% Net (${rateInfo.symbol}${convertedAnnual.toLocaleString()}/yr)`;
+
       const buyerEl = document.getElementById('calcBuyerFee');
-      if (buyerEl) buyerEl.innerText = `${rateInfo.symbol}${convertedBuyerFee.toLocaleString()} ${rateInfo.suffix}`;
-      
+      if (buyerEl) buyerEl.innerText = `${rateInfo.symbol}${convertedDown20.toLocaleString()} ${rateInfo.suffix}`;
+
       const brokerFeeEl = document.getElementById('calcBrokerFee');
-      if (brokerFeeEl) brokerFeeEl.innerText = `-${rateInfo.symbol}${convertedBrokerFee.toLocaleString()} ${rateInfo.suffix}`;
+      if (brokerFeeEl) brokerFeeEl.innerText = `${rateInfo.symbol}${convertedOqood4.toLocaleString()} ${rateInfo.suffix}`;
 
       const portalEl = document.getElementById('calcPortalTotal');
-      if (portalEl) portalEl.innerText = `${rateInfo.symbol}${convertedPortal.toLocaleString()} ${rateInfo.suffix}`;
+      if (portalEl) portalEl.innerText = `$0 (0% Fee)`;
 
-      document.getElementById('calcAgentEarnings').innerText = `${rateInfo.symbol}${convertedNet.toLocaleString()} ${rateInfo.suffix}`;
-      
+      const earnEl = document.getElementById('calcAgentEarnings');
+      if (earnEl) earnEl.innerText = `${rateInfo.symbol}${convertedAnnual.toLocaleString()} ${rateInfo.suffix} / yr`;
+
       const netRateEl = document.getElementById('calcNetRateDisplay');
-      if (netRateEl) netRateEl.innerText = `${netRate.toFixed(1)}% Net of Sales Value (Direct Wire)`;
+      if (netRateEl) {
+        netRateEl.innerText = goldenVisaEligible
+          ? '✓ 10-Year UAE Golden Visa Eligible (Property ≥ AED 2M)'
+          : 'Standard 2-Year Investor Visa Tier (< AED 2M)';
+      }
 
       const summaryGross = document.getElementById('calcSummaryGross');
-      if (summaryGross) summaryGross.innerText = `${grossRate.toFixed(1)}% (${rateInfo.symbol}${convertedGross.toLocaleString()})`;
-
-      const summaryBrokerFee = document.getElementById('calcSummaryBrokerFee');
-      if (summaryBrokerFee) summaryBrokerFee.innerText = `-${rateInfo.symbol}${convertedBrokerFee.toLocaleString()} (1.0%)`;
+      if (summaryGross) summaryGross.innerText = `${rateInfo.symbol}${convertedFiveYr.toLocaleString()} ${rateInfo.suffix}`;
 
       const summaryBuyerFee = document.getElementById('calcSummaryBuyerFee');
-      if (summaryBuyerFee) summaryBuyerFee.innerText = `+${rateInfo.symbol}${convertedBuyerFee.toLocaleString()} (1.0%)`;
+      if (summaryBuyerFee) summaryBuyerFee.innerText = `${rateInfo.symbol}${convertedDown20.toLocaleString()} (20%)`;
+
+      const summaryBrokerFee = document.getElementById('calcSummaryBrokerFee');
+      if (summaryBrokerFee) summaryBrokerFee.innerText = `$0 (0% Fee)`;
     }
 
     // Mobile Menu
@@ -4805,16 +4800,16 @@
         jumpSelector: '#calculator'
       },
       {
-        step: 'SECTION 5 OF 11 · COMMISSION & ROI TOOL',
-        shortLabel: '5. Numbers & ROI',
+        step: 'SECTION 5 OF 11 · STAGE 1 ROI, GOLDEN VISA & ESCROW SIMULATOR',
+        shortLabel: '5. ROI & Escrow',
         time: '00:20',
-        plainSummary: 'Type any property price to check your broker payout (up to 7%) and Golden Visa eligibility.',
-        roles: ['Overseas Broker', 'Client / Buyer', 'UAE Developer'],
-        clickedLabel: 'Enter Property Price in Calculator',
-        clickedControl: 'Commission & Golden Visa Checker (Hidden in Client View)',
-        nextShownTitle: 'Exact Broker Commission & Visa Status Calculated Live',
-        nextShownDetail: 'Pick a project from UAE Off-Plan, test its price here, and see if it crosses AED 2,000,000 (~$545K) for the 10-Year Visa.',
-        flowSteps: ['1. Enter Unit Price', '2. Check 55% / 45% Split', '3. Check 10-Yr Visa Eligibility'],
+        plainSummary: 'Drag the sliders to check Tax-Free Rental Income, 20% DLD Escrow Down Payment, and 10-Yr Golden Visa eligibility ($0 Portal Fee).',
+        roles: ['Client / Buyer', 'Overseas Broker', 'DLD Escrow'],
+        clickedLabel: 'Adjust Property Value & Yield Sliders (#calculator)',
+        clickedControl: 'Stage 1 ROI, Golden Visa & DLD Escrow Calculator',
+        nextShownTitle: 'Tax-Free Rental Income, 20% Escrow Equity & Golden Visa Status Calculated Live',
+        nextShownDetail: 'Stage 1 has $0 portal fee (Upon Request). Stage 2 Automated Broker Payout & SaaS Split is marked Coming Soon.',
+        flowSteps: ['1. Enter Unit Price', '2. Check Tax-Free Yield & 20% Escrow', '3. Check 10-Yr Golden Visa ($545K+)'],
         ctaNext: 'Next: Section 6 (World Benchmark) →',
         jumpSelector: '#calculator'
       },
