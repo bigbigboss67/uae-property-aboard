@@ -3068,9 +3068,27 @@
         <a href="./media/explainer-workflow.mp4" download="AI-Home-Global-A-to-Z-Workflow.mp4" class="text-xs text-emerald-400 hover:underline font-semibold inline-flex items-center gap-1"><i data-lucide="download" class="w-3.5 h-3.5"></i> Download MP4 (1280×720)</a>
       </div>
 
-      <!-- Real Recorded HD MP4 Video Container -->
-      <div id="evMp4Container" class="hidden mb-4">
-        <video id="evMp4Player" controls playsinline preload="metadata" class="w-full rounded-2xl border border-white/15 bg-black aspect-video" src="./media/explainer-workflow.mp4"></video>
+      <!-- Real Recorded HD MP4 Video Container + Synchronized 10-Chapter Jump Bar -->
+      <div id="evMp4Container" class="hidden mb-4 space-y-3">
+        <video id="evMp4Player" controls playsinline preload="metadata" ontimeupdate="syncMp4ChapterHighlight()" class="w-full rounded-2xl border border-white/15 bg-black aspect-video shadow-2xl" src="./media/explainer-workflow.mp4"></video>
+        <div class="p-3 rounded-xl bg-[#080B12] border border-white/10 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2 text-[11px]">
+            <span class="font-extrabold text-brand-gold uppercase tracking-wider">🎬 Interactive Video Chapters (Click Any Chapter to Jump in HD Video)</span>
+            <span id="evMp4ActiveChapterLabel" class="font-mono text-emerald-300 font-bold">00:00 · Scenario A (Direct Buyer) &amp; Scenario B (Overseas Agency QR Split)</span>
+          </div>
+          <div id="evMp4ChapterBar" class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 text-[10px]">
+            <button type="button" onclick="seekExplainerMp4(0)" data-mp4-idx="0" class="p-1.5 rounded-lg bg-brand-gold text-black font-extrabold text-left truncate">00:00 · A1: Browse &amp; Currency</button>
+            <button type="button" onclick="seekExplainerMp4(3)" data-mp4-idx="1" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:03 · A2: Free Request (0% Fee)</button>
+            <button type="button" onclick="seekExplainerMp4(6)" data-mp4-idx="2" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:06 · A3: Blind Card + QR</button>
+            <button type="button" onclick="seekExplainerMp4(9)" data-mp4-idx="3" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:09 · A4: Direct DLD Escrow</button>
+            <button type="button" onclick="seekExplainerMp4(12)" data-mp4-idx="4" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:12 · A5: Title &amp; Golden Visa</button>
+            <button type="button" onclick="seekExplainerMp4(15)" data-mp4-idx="5" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:15 · B1: Abroad Split + QR</button>
+            <button type="button" onclick="seekExplainerMp4(18)" data-mp4-idx="6" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:18 · B2: 1-Click UAE Proof</button>
+            <button type="button" onclick="seekExplainerMp4(21)" data-mp4-idx="7" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:21 · B3: Legal Audit &amp; Return</button>
+            <button type="button" onclick="seekExplainerMp4(24)" data-mp4-idx="8" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:24 · B4: Buyer Wires Escrow</button>
+            <button type="button" onclick="seekExplainerMp4(27)" data-mp4-idx="9" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:27 · B5: Title + Split Paid</button>
+          </div>
+        </div>
       </div>
 
       <!-- Interactive Video Stage -->
@@ -5056,73 +5074,73 @@
 
     const SCENARIO_B_SCENES = [
       {
-        step: 'SCENARIO B · STEP 1 OF 5 (VIA USA AGENCY)',
-        shortLabel: '1. Sign In & Pitch',
+        step: 'SCENARIO B · STEP 1 OF 5 (OVERSEAS AGENCY · ATTACHED COMMISSION SPLIT & QR)',
+        shortLabel: '1. Attach Split & QR',
         time: '00:00',
-        plainSummary: 'Your USA Agency signs in as "Broker Abroad", switches to "Client View" for screen-sharing, and prints a White-Label PDF with their logo.',
-        roles: ['USA Agency (55%)', 'Buyer (In USA)'],
-        clickedLabel: 'USA Agency: Sign In (Broker Abroad) + White-Label PDF',
-        clickedControl: 'Role-Gated Workspace + White-Label Dossier (#white-label)',
-        nextShownTitle: 'You View Projects in USD with Zero Confusion & Fly 3D Drone',
-        nextShownDetail: 'Your USA advisor walks you through World Benchmark (Dubai vs NYC/Miami) and flies over the exact plot in 3D Satellite view.',
-        paymentHighlight: 'No Extra Buyer Fee: Off-plan price is the exact same developer list price.',
-        flowSteps: ['1. Sign In as Broker Abroad', '2. Share White-Label PDF', '3. 3D Drone Tour Together'],
-        ctaNext: 'Next: Step 2 (Free Enquiry or SaaS Unlock) →'
+        plainSummary: 'Overseas Agency selects "Broker Abroad", picks the UAE Counterparty (Local UAE RERA Agency/Agent or Developer), enters their desired Commission Split (e.g. 55% or 60%), and digitally signs.',
+        roles: ['Overseas Agency (Party B)', 'Local UAE RERA Agency / Developer (Party A)'],
+        clickedLabel: 'Overseas Agency: Select Split % + Digitally Sign & Attach Contract (CSA-XXXXXX)',
+        clickedControl: 'Enquiry Modal + Attached Binding Commission Split Agreement & QR Code (#portalEnquiryModal)',
+        nextShownTitle: 'Enquiry (ENQ-XXXXXX) & Digitally Signed Split Agreement (CSA-XXXXXX) Are Bundled with a Live QR Code',
+        nextShownDetail: 'Whether sending to a Local UAE RERA Agency/Agent (Form I Split Sharing) or directly to a UAE Developer Desk, the Overseas Agency’s desired split is documented, signed, and tracked from start to finish via a scannable QR Code.',
+        paymentHighlight: 'Stage 1 Rule: $0 Request Fee · 0% Portal Cut · Full Gross Commission Shared Between Abroad Agency & UAE Counterparty.',
+        flowSteps: ['1. Choose Local UAE Agency or Developer', '2. Enter Desired Split % & Sign', '3. QR Code Tracker Generated'],
+        ctaNext: 'Next: Step 2 (Blind Card + 1-Click UAE Approval Proof) →'
       },
       {
-        step: 'SCENARIO B · STEP 2 OF 5 (VIA USA AGENCY · STAGE 1 UPON REQUEST)',
-        shortLabel: '2. Free Request & SLA',
+        step: 'SCENARIO B · STEP 2 OF 5 (BLIND CARD FORWARD & 1-CLICK DIGITAL PROOF OF APPROVAL)',
+        shortLabel: '2. 1-Click Proof (PRF)',
         time: '00:06',
-        plainSummary: 'Your USA Agency clicks "Request to Buy / Enquire (Free · 0% Fee)" — auto-filling their agency license & property specs under an ENQ-XXXXXX ref.',
-        roles: ['USA Agency (55%)', 'AI Home Global Desk', 'UAE Seller (45%)'],
-        clickedLabel: 'USA Agency: "Request to Buy / Enquire (Free · 0% Fee)" + 180-Day SLA',
-        clickedControl: 'Auto-Filled Agency Request + Blind Visual Property Card Forward',
-        nextShownTitle: 'Client Identity Stays 100% Masked While Availability Is Confirmed (55% USA / 45% UAE)',
-        nextShownDetail: 'In Stage 1, all requests are Free Upon Request ($0 fee; Phase 2 SaaS Deal Room is Coming Soon). The Portal Desk forwards only the Visual Property Card & ENQ-XXXXXX query with zero client PII so the UAE seller cannot circumvent your agency.',
-        paymentHighlight: 'Stage 1 Rule: $0 Request Fee · 0% Portal Cut · 100% of Developer Commission Splits 55% USA / 45% UAE.',
-        flowSteps: ['1. Submit Free Agency Request (ENQ)', '2. Blind Property Card Sent to UAE Desk', '3. Availability Confirmed + 3-Way Call'],
-        ctaNext: 'Next: Step 3 (KYC & Your Name) →'
+        plainSummary: 'The UAE Developer or Local UAE RERA Agency receives the 800×900 Blind Visual Property Card (0% client PII) + attached Split Agreement and clicks "1-Click Approve, Sign & Issue Proof" (or Adjusts / Declines).',
+        roles: ['Local UAE RERA Agency / Developer', 'Overseas Agency', 'AI Home Global Desk'],
+        clickedLabel: 'UAE Counterparty: Click "✓ 1-Click Approve, Sign, Issue Proof & Return"',
+        clickedControl: 'QR Contract Page (/api/share-query) or Deal Workspace Commission Tab',
+        nextShownTitle: 'Instant Digital Signature (SIG-UAE), Official Proof of Approval (PRF-XXXXXX) & Signed Return Receipt (RET-XXXXXX)',
+        nextShownDetail: 'Client name, phone, and email remain 100% protected under ICC NCNDA & RERA Form I. Once the UAE counterparty clicks Approve, the contract is counter-signed digitally with instant Proof of Approval (or counter-adjusted if negotiated).',
+        paymentHighlight: '1-Click Approval Guarantee: Instant Proof ID (PRF-XXXXXX) + Digital Signature Seal + Return Receipt (RET-XXXXXX).',
+        flowSteps: ['1. Blind 800×900 Card + Split Sent', '2. UAE Clicks 1-Click Approve / Adjust', '3. Digital Proof (PRF-XXXXXX) Issued'],
+        ctaNext: 'Next: Step 3 (Legal Compliance Audit & Return) →'
       },
       {
-        step: 'SCENARIO B · STEP 3 OF 5 (VIA USA AGENCY)',
-        shortLabel: '3. 3-Way Call & Title',
+        step: 'SCENARIO B · STEP 3 OF 5 (LEGAL COMPLIANCE AUDIT & BINDING RETURN VIA QR)',
+        shortLabel: '3. Legal Audit & Return',
         time: '00:12',
-        plainSummary: 'You, your USA Agency, and the UAE Desk join a 3-way Video Call. The SPA is written 100% in YOUR name.',
-        roles: ['Buyer (Title Owner)', 'USA Agency', 'UAE Desk'],
-        clickedLabel: '3-Way Jitsi Video Call ➔ Unit Reserved in Buyer’s Name',
-        clickedControl: 'Live Closing Room + Passport KYC',
-        nextShownTitle: 'USA Agency Advises You — Title Deed Goes 100% in YOUR Name',
-        nextShownDetail: 'The USA agency is recorded on the broker referral form only. You remain the 100% legal owner of the property.',
-        paymentHighlight: 'Title Deed Rule: 100% in YOUR Name (Buyer) — NEVER in the USA agency’s name.',
-        flowSteps: ['1. 3-Way Video Confirmation', '2. Buyer Submits Passport KYC', '3. SPA Issued in Buyer Name'],
-        ctaNext: 'Next: Step 4 (WHO PAYS & PAYMENT OPTIONS) →'
+        plainSummary: 'Legal Compliance audits and certifies the dual-signed agreement under UAE Federal Decree-Law No. 46/2021 & RERA Form I, returning the binding contract to the Overseas Agency via QR.',
+        roles: ['Legal & RERA Compliance Desk', 'Overseas Agency', 'Local UAE Agency / Developer'],
+        clickedLabel: 'Legal Compliance: Certify Binding SHA-256 Contract & Return to Abroad Agency',
+        clickedControl: 'Automated Legal Audit Engine + 6-Stage Live QR Code Tracker',
+        nextShownTitle: 'Certified Binding Contract Active · Both Parties Hold Printable Proof & QR Audit Trail',
+        nextShownDetail: 'Every step—Documented, Agreed, Approved, Signed, Legal-Audited, and Returned—is logged in the immutable SHA-256 QR audit trail. Buyer, Overseas Agency, and UAE Desk then join the 3-way Video Call and issue the SPA 100% in the Buyer’s name.',
+        paymentHighlight: 'Legal & Title Rule: Binding SHA-256 Contract protects the broker split; Title Deed is issued 100% in the Buyer’s Name.',
+        flowSteps: ['1. Legal Audits Dual Signatures (SHA-256)', '2. Signed Copy Returned (RET-XXXXXX)', '3. SPA Issued 100% in Buyer Name'],
+        ctaNext: 'Next: Step 4 (WHO PAYS & DLD ESCROW WIRE) →'
       },
       {
         step: 'SCENARIO B · STEP 4 OF 5 · PAYMENT OPTIONS',
         shortLabel: '4. Who Pays & How',
         time: '00:18',
-        plainSummary: 'IMPORTANT: YOU (the Buyer) wire directly to the DLD Escrow Bank—NEVER send property money to the USA agency!',
+        plainSummary: 'IMPORTANT: YOU (the Buyer) wire directly to the DLD Escrow Bank—NEVER send property money to the Overseas or Local agency!',
         roles: ['Buyer Bank (SWIFT)', 'DLD / Escrow Bank'],
         clickedLabel: 'Buyer Wires Directly to Official DLD Escrow IBAN',
         clickedControl: 'Direct Buyer-to-Bank Wire (Zero Agency Custody)',
-        nextShownTitle: 'USA Agency Never Holds Your Money — 100% Goes to Official Bank',
-        nextShownDetail: 'Off-Plan Dubai: Buyer wires SWIFT straight to Developer’s DLD Escrow IBAN (verify on Dubai REST). Ready/Resale: Buyer uses DLD Trustee Manager’s Cheque / e-Notary video POA or Regulated Conveyancing Escrow. Non-Dubai: ADREC / RAK / SRERD Escrow.',
-        paymentHighlight: 'CRITICAL RULE: Buyer Pays Official Escrow Bank Directly (AED 0 fee) — NEVER pay the USA agency!',
+        nextShownTitle: 'Agencies Never Hold Buyer Principal — 100% Goes to Official Government-Regulated Escrow',
+        nextShownDetail: 'Off-Plan Dubai: Buyer wires SWIFT straight to Developer’s DLD Escrow IBAN (verify on Dubai REST). Ready/Resale: Buyer uses DLD Trustee Manager’s Cheque / e-Notary video POA. Non-Dubai: ADREC / RAK / SRERD Escrow.',
+        paymentHighlight: 'CRITICAL RULE: Buyer Pays Official Escrow Bank Directly (AED 0 fee) — NEVER pay any agency account!',
         flowSteps: ['1. Verify IBAN on Dubai REST', '2. Wire From Buyer Bank Only', '3. Ready Home? Use Trustee/POA'],
-        ctaNext: 'Next: Step 5 (Title + 55/45 Payout) →'
+        ctaNext: 'Next: Step 5 (Title + Binding Split Payout) →'
       },
       {
-        step: 'SCENARIO B · STEP 5 OF 5 (VIA USA AGENCY)',
-        shortLabel: '5. Title + Payout',
+        step: 'SCENARIO B · STEP 5 OF 5 (TITLE DEED + BINDING COMMISSION SPLIT PAYOUT)',
+        shortLabel: '5. Title + Split Paid',
         time: '00:24',
-        plainSummary: 'You get your Oqood / Title Deed in YOUR name, and the UAE Developer pays the 55% / 45% broker split.',
-        roles: ['Buyer (100% Owner)', 'USA Agency (55%)', 'UAE Desk (45%)'],
-        clickedLabel: 'Done: Buyer Gets Title · Developer Pays 55% USA / 45% UAE',
-        clickedControl: 'Oqood / Title Deed + SWIFT Commission Split',
-        nextShownTitle: 'Everyone Wins Safely With Zero Middleman Risk',
-        nextShownDetail: 'Buyer owns 100% of the UAE property with DLD Escrow protection; USA Agency receives 55% commission; UAE Desk receives 45%.',
-        paymentHighlight: 'Final Result: Buyer Owns Title · Developer Pays 55% USA Agency / 45% UAE Desk',
-        flowSteps: ['1. Buyer Gets Oqood / Title', '2. Escrow Protects Construction', '3. Developer Wires 55% / 45%'],
+        plainSummary: 'Buyer receives Oqood / Title Deed in THEIR name, and the binding Commission Split (e.g. 55% Abroad / 45% UAE) is disbursed with 0% Portal Cut.',
+        roles: ['Buyer (100% Owner)', 'Overseas Agency (Party B)', 'Local UAE Agency / Developer (Party A)'],
+        clickedLabel: 'Done: Buyer Gets Title · Binding Commission Split Disbursed via QR Proof',
+        clickedControl: 'Oqood / Title Deed + Binding CSA-XXXXXX Commission Settlement',
+        nextShownTitle: 'End-to-End QR Tracked From Initial Enquiry to Final Commission Disbursement',
+        nextShownDetail: 'Buyer owns 100% of the UAE property with DLD Escrow protection; Overseas Agency and Local UAE RERA Agency/Developer settle according to their signed & legal-audited Commission Split Agreement (CSA-XXXXXX · PRF-XXXXXX).',
+        paymentHighlight: 'Final Result: Buyer Owns Title · Binding Split Disbursed (0% Portal Cut) · Full QR Audit Trail Completed.',
+        flowSteps: ['1. Buyer Gets Oqood / Title', '2. Escrow Protects Construction', '3. Binding Split Paid per QR Proof'],
         ctaNext: 'Replay Scenario A (Direct Buyer) ↺'
       }
     ];
@@ -5197,6 +5215,45 @@
       if (window.lucide) lucide.createIcons();
     }
 
+    const MP4_CHAPTER_TITLES = [
+      '00:00 · Scenario A1: Browse 2,926+ UAE Projects in Your Currency & 3D Drone Map',
+      '00:03 · Scenario A2: Free Request to Buy (0% Fee) · Auto-Filled Specs + ENQ-XXXXXX',
+      '00:06 · Scenario A3: Blind 800×900 Visual Property Card Forwarded + QR Tracker',
+      '00:09 · Scenario A4: Buyer Wires 100% Direct to Official DLD Escrow IBAN (AED 0 Fee)',
+      '00:12 · Scenario A5: Remote SPA Signed · Oqood / Title Deed Issued + 10-Yr Golden Visa',
+      '00:15 · Scenario B1: Abroad Agency Attaches Signed Commission Split (CSA) + QR Code',
+      '00:18 · Scenario B2: 1-Click UAE Approval Digitally Signs & Issues Proof ID (PRF-XXXXXX)',
+      '00:21 · Scenario B3: Legal Compliance Certifies SHA-256 Binding Contract & Returns Copy',
+      '00:24 · Scenario B4: Buyer Wires Directly to DLD Escrow Bank (Zero Agency Custody)',
+      '00:27 · Scenario B5: Buyer Gets Title Deed · Binding Commission Split Disbursed via QR'
+    ];
+
+    function seekExplainerMp4(sec) {
+      const video = document.getElementById('evMp4Player');
+      const targetSec = Number(sec) || 0;
+      if (video) {
+        try { video.currentTime = targetSec; } catch {}
+        video.play().catch(() => {});
+      }
+      syncMp4ChapterHighlight(targetSec);
+    }
+
+    function syncMp4ChapterHighlight(forcedSec) {
+      const video = document.getElementById('evMp4Player');
+      const t = (typeof forcedSec === 'number' && !Number.isNaN(forcedSec)) ? forcedSec : (video?.currentTime || 0);
+      const idx = Math.max(0, Math.min(9, Math.floor(t / 3)));
+      const lbl = document.getElementById('evMp4ActiveChapterLabel');
+      if (lbl && MP4_CHAPTER_TITLES[idx]) lbl.innerText = MP4_CHAPTER_TITLES[idx];
+      document.querySelectorAll('#evMp4ChapterBar button').forEach(btn => {
+        const bIdx = Number(btn.getAttribute('data-mp4-idx'));
+        btn.className = bIdx === idx
+          ? 'p-1.5 rounded-lg bg-brand-gold text-black font-extrabold text-left truncate'
+          : (bIdx < idx
+            ? 'p-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold text-left truncate'
+            : 'p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate');
+      });
+    }
+
     function setExplainerMode(mode) {
       const mp4Box = document.getElementById('evMp4Container');
       const intBox = document.getElementById('evInteractiveContainer');
@@ -5241,15 +5298,15 @@
 
     const PARTY_FLOW_DATA = {
       broker: {
-        name: '1. Overseas Broker (You)',
+        name: '1. Overseas Broker / Agency (Party B)',
         color: 'amber',
-        badge: '55% COMMISSION SPLIT · CLIENT OWNER',
-        summary: 'You bring the buyer from your home country. The portal protects your client with a 180-day SLA and puts YOUR brand on all brochures.',
+        badge: 'CUSTOM COMMISSION SPLIT (E.G. 55%) · QR-TRACKED',
+        summary: 'You bring the buyer from abroad, attach your digitally signed Commission Split Agreement (to a Local UAE RERA Agency/Agent or Developer), and receive a returned binding contract with a QR Code tracker.',
         steps: [
           { stage: 'Step 1 · Setup', action: 'Pick Client Language & Currency, then turn ON "Client View"', result: 'Hides all commission numbers so you can share your screen safely.' },
           { stage: 'Step 2 · Pitch', action: 'Pick from 2,926+ Projects ➔ Print White-Label Dossier & Fly 3D Drone', result: 'Client sees a 1-page PDF with YOUR agency name—zero portal phone leaks.' },
-          { stage: 'Step 3 · Request & Protect', action: 'Submit Free Request (ENQ-XXXXXX) & Register 180-Day Client SLA', result: 'Portal Desk forwards a Blind Visual Property Card (0% client PII) to confirm unit availability.' },
-          { stage: 'Step 4 · Payout', action: 'Buyer wires to DLD Escrow Bank ➔ Developer pays 55% to you', result: 'Clean bank payout with zero portal cut.' }
+          { stage: 'Step 3 · Attach Split + QR', action: 'Submit Free Request (ENQ-XXXXXX) + Attach Signed Commission Split (CSA-XXXXXX)', result: 'Sent to Local UAE RERA Agency/Agent (Form I) or Developer with 0% client PII and a live QR Tracker.' },
+          { stage: 'Step 4 · Proof & Payout', action: 'Receive 1-Click Proof of Approval (PRF-XXXXXX) + Legal-Audited Returned Contract', result: 'Buyer wires to DLD Escrow Bank; your binding commission split is paid with 0% portal cut.' }
         ]
       },
       buyer: {
@@ -5265,27 +5322,27 @@
         ]
       },
       developer: {
-        name: '3. UAE Developer / Licensed Seller',
+        name: '3. Local UAE RERA Agency / Agent or Developer (Party A)',
         color: 'blue',
-        badge: '45% COMMISSION SPLIT · VERIFIED INVENTORY',
-        summary: 'The UAE developer or RERA-licensed seller provides the verified units, receives forwarded enquiries, and joins live 3-way video calls.',
+        badge: '1-CLICK DIGITAL PROOF · FORM I SPLIT SHARING',
+        summary: 'The Local UAE RERA Agency/Agent or Developer receives the blind 800×900 Property Card + attached Commission Split Agreement, and clicks 1-Click Approve (or Adjust/Decline) via QR.',
         steps: [
-          { stage: 'Step 1 · Supply', action: 'Lists RERA-registered project with DLD Project ID & Escrow IBAN', result: 'Appears in the 2,926+ UAE Off-Plan Directory.' },
-          { stage: 'Step 2 · Live Call', action: 'Joins Jitsi Live Video Closing Room with Overseas Broker & Buyer', result: 'Answers floorplan, payment plan, and unit availability questions live.' },
-          { stage: 'Step 3 · Contract', action: 'Signs Direct Split Agreement (45% UAE Desk / 55% Overseas Broker)', result: 'Direct broker-to-broker partnership with no middleman cut.' },
-          { stage: 'Step 4 · Build', action: 'Receives milestone funds from Escrow Bank as construction progresses', result: 'Issues SPA, Oqood, and pays out broker commission.' }
+          { stage: 'Step 1 · Receive Blind Card', action: 'Receives 800×900 Visual Property Card (ENQ-XXXXXX) + Attached Split (CSA-XXXXXX)', result: 'Client name, phone & email remain masked under ICC NCNDA & RERA Form I.' },
+          { stage: 'Step 2 · 1-Click Approve', action: 'Clicks "1-Click Approve, Sign, Issue Proof & Return" (or Adjusts / Declines)', result: 'Instantly records Digital Signature (SIG-UAE) and issues Proof of Approval (PRF-XXXXXX).' },
+          { stage: 'Step 3 · Legal Audit & Return', action: 'Legal Compliance certifies SHA-256 Binding Contract & returns copy (RET-XXXXXX)', result: 'Both parties hold a legally audited, dual-signed binding agreement tracked by QR Code.' },
+          { stage: 'Step 4 · Close & Disburse', action: 'Buyer wires DLD Escrow ➔ SPA & Oqood issued ➔ Binding Split disbursed', result: 'Direct, legally binding settlement with 0% portal commission cut.' }
         ]
       },
       escrow: {
-        name: '4. DLD / Escrow Bank (Regulator)',
+        name: '4. DLD / Escrow Bank & Legal Compliance',
         color: 'purple',
-        badge: 'LAW NO. 8 OF 2007 · OUTSIDE DUBAI: ADREC / RAK / SRERD',
-        summary: 'The government regulator and UAE trustee bank hold 100% of buyer money safely and only release it when construction is verified.',
+        badge: 'UAE LAW 46/2021 · RERA FORM I · ESCROW LAW 8/2007',
+        summary: 'The government escrow trustee bank protects 100% of buyer principal, while the Legal Compliance Desk audits and certifies the dual-signed Commission Split Agreement.',
         steps: [
-          { stage: 'Step 1 · Verify', action: 'Issues official DLD Project ID & RERA Escrow IBAN (Dubai REST app)', result: 'Buyer can verify the exact bank account before wiring 1 cent.' },
-          { stage: 'Step 2 · Hold Funds', action: 'Trustee Bank holds 100% of buyer installments in ring-fenced trust', result: 'Developer cannot touch funds for personal or unrelated debts.' },
-          { stage: 'Step 3 · Release', action: 'Audits construction milestones before releasing staged payouts', result: 'Keeps ~5% retention for 1 year after handover for defect protection.' },
-          { stage: 'Step 4 · Other Emirates', action: 'Abu Dhabi (ADREC/DARI), RAK (Law 10/2026), Sharjah (SRERD)', result: 'Same strict escrow protection across every major UAE Emirate.' }
+          { stage: 'Step 1 · Legal Audit', action: 'Audits Party A & Party B signatures under UAE Fed. Decree-Law No. 46/2021', result: 'Certifies BINDING_CONTRACT_SIGNED_AND_RETURNED with immutable SHA-256 hash.' },
+          { stage: 'Step 2 · Verify Escrow', action: 'Issues official DLD Project ID & RERA Escrow IBAN (Dubai REST app)', result: 'Buyer verifies the exact government-regulated bank account before wiring.' },
+          { stage: 'Step 3 · Hold & Release', action: 'Trustee Bank holds 100% of buyer installments in ring-fenced trust', result: 'Releases staged funds only upon certified DLD construction milestones.' },
+          { stage: 'Step 4 · All UAE Emirates', action: 'Dubai (DLD), Abu Dhabi (ADREC/DARI), RAK (Law 10/2026), Sharjah (SRERD)', result: 'Full statutory escrow and electronic contract compliance across the UAE.' }
         ]
       }
     };
@@ -5353,37 +5410,37 @@
         : `
         <div class="rounded-2xl border border-amber-500/40 bg-[#090C14] p-4 space-y-3">
           <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="text-[11px] font-bold uppercase tracking-wider text-brand-gold">Scenario B Graphic Flow · Buyer Goes Through USA / Overseas Agency</div>
-            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">Title Deed: 100% Buyer’s Name · Split: 55% USA / 45% UAE</span>
+            <div class="text-[11px] font-bold uppercase tracking-wider text-brand-gold">Scenario B Graphic Flow · Overseas Agency ↔ Local UAE RERA Agency or Developer (QR-Tracked Split)</div>
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">1-Click Proof (PRF) · Legal SHA-256 Audit · Signed Copy Returned (RET)</span>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-9 gap-1.5 items-center text-center text-xs">
             <button onclick="selectPartyChart('broker')" class="p-2.5 rounded-xl border border-amber-500/50 bg-amber-500/15 hover:bg-amber-500/25 text-left transition-all ${evActiveParty === 'broker' ? 'ring-2 ring-brand-gold' : ''}">
-              <div class="font-extrabold text-amber-300">1. USA Agency</div>
-              <div class="text-[10px] text-slate-300 mt-0.5">White-Label + SLA Lock (55%)</div>
-            </button>
-            <div class="text-brand-gold font-black text-base">➔</div>
-            <button onclick="selectPartyChart('buyer')" class="p-2.5 rounded-xl border border-emerald-500/50 bg-emerald-500/15 hover:bg-emerald-500/25 text-left transition-all ${evActiveParty === 'buyer' ? 'ring-2 ring-brand-gold' : ''}">
-              <div class="font-extrabold text-emerald-300">2. You (Buyer)</div>
-              <div class="text-[10px] text-slate-300 mt-0.5">3D Tour + Your Passport KYC</div>
-            </button>
-            <div class="text-brand-gold font-black text-base">➔</div>
-            <button onclick="selectPartyChart('escrow')" class="p-2.5 rounded-xl border-2 border-brand-gold bg-brand-gold/15 hover:bg-brand-gold/25 text-left transition-all ${evActiveParty === 'escrow' ? 'ring-2 ring-white' : ''}">
-              <div class="font-extrabold text-brand-gold">3. Payment: Escrow</div>
-              <div class="text-[10px] text-white mt-0.5">Buyer Wires Direct (NEVER to USA Agency)</div>
+              <div class="font-extrabold text-amber-300">1. Abroad Agency</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">Attaches Signed Split (CSA) + QR</div>
             </button>
             <div class="text-brand-gold font-black text-base">➔</div>
             <button onclick="selectPartyChart('developer')" class="p-2.5 rounded-xl border border-blue-500/50 bg-blue-500/15 hover:bg-blue-500/25 text-left transition-all ${evActiveParty === 'developer' ? 'ring-2 ring-brand-gold' : ''}">
-              <div class="font-extrabold text-blue-300">4. UAE Developer</div>
-              <div class="text-[10px] text-slate-300 mt-0.5">Issues Buyer Title + Pays 55% / 45%</div>
+              <div class="font-extrabold text-blue-300">2. Local UAE / Dev</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">1-Click Approve (PRF) &amp; Return</div>
+            </button>
+            <div class="text-brand-gold font-black text-base">➔</div>
+            <button onclick="selectPartyChart('escrow')" class="p-2.5 rounded-xl border-2 border-brand-gold bg-brand-gold/15 hover:bg-brand-gold/25 text-left transition-all ${evActiveParty === 'escrow' ? 'ring-2 ring-white' : ''}">
+              <div class="font-extrabold text-brand-gold">3. Legal &amp; Escrow</div>
+              <div class="text-[10px] text-white mt-0.5">SHA-256 Binding + Buyer Escrow Wire</div>
+            </button>
+            <div class="text-brand-gold font-black text-base">➔</div>
+            <button onclick="selectPartyChart('buyer')" class="p-2.5 rounded-xl border border-emerald-500/50 bg-emerald-500/15 hover:bg-emerald-500/25 text-left transition-all ${evActiveParty === 'buyer' ? 'ring-2 ring-brand-gold' : ''}">
+              <div class="font-extrabold text-emerald-300">4. Buyer Title</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">SPA &amp; Oqood 100% Buyer Name</div>
             </button>
             <div class="text-brand-gold font-black text-base">➔</div>
             <div class="p-2.5 rounded-xl border border-emerald-400/60 bg-emerald-950/50 text-left">
-              <div class="font-extrabold text-emerald-300">5. Result</div>
-              <div class="text-[10px] text-slate-200 mt-0.5">Title: Buyer · 55% USA Paid</div>
+              <div class="font-extrabold text-emerald-300">5. Split Paid</div>
+              <div class="text-[10px] text-slate-200 mt-0.5">Binding Split Paid · 0% Portal Cut</div>
             </div>
           </div>
           <div class="rounded-xl bg-brand-gold/15 border border-brand-gold/50 p-3 text-xs text-slate-200">
-            <strong class="text-brand-gold">CRITICAL PAYMENT HIGHLIGHT:</strong> Even when a USA agency handles everything for you, <strong>YOU (the Buyer) wire 100% directly to the DLD Escrow IBAN</strong> (or DLD Trustee for ready homes)—never to the USA agency. Title Deed goes <strong>100% in YOUR name</strong>, and the UAE Developer pays the <strong>55% USA / 45% UAE</strong> commission split!
+            <strong class="text-brand-gold">QR-TRACKED BINDING CONTRACT &amp; ESCROW RULE:</strong> The Overseas Agency’s Commission Split Agreement (CSA-XXXXXX) is sent with the blind property query (0% client PII), <strong>1-Click Approved &amp; Digitally Signed</strong> with official <strong>Proof of Approval (PRF-XXXXXX)</strong>, <strong>certified by Legal Compliance (SHA-256)</strong>, and <strong>returned (RET-XXXXXX)</strong> via QR Code. Meanwhile, the Buyer wires 100% of property funds directly to the <strong>DLD Escrow IBAN</strong> and receives the Title Deed 100% in their own name.
           </div>
         </div>
         `;
