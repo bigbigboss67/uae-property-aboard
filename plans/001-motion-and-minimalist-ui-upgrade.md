@@ -1,0 +1,13 @@
+# Motion, Interaction Design & Minimalist UI Audit & Upgrade Plan
+
+## Summary of Current Motion & UI Surface (`index.html`)
+
+### 8-Category Audit Findings
+| Location | Category | Issue Identified | Resolution Applied |
+| :--- | :--- | :--- | :--- |
+| `index.html` (`:root` CSS tokens) | 7. Cohesion & tokens / 9. Minimalist UI | Only `--ease-out-expo` and `--duration-ui: 180ms` existed; light canvas used `#F1F4FA` with heavy drop shadow instead of warm alabaster editorial minimalism (`#F5F5F3`) with ultra-diffuse elevation. | Added unified motion tokens (`--ease-out`, `--ease-in`, `--ease-in-out`, `--ease-spring`, `--duration-instant: 100ms`, `--duration-fast: 150ms`, `--duration-normal: 240ms`, `--duration-slow: 360ms`) and editorial minimalist canvas/border/shadow tokens. |
+| `index.html` (`.transition-all` utilities) | 5. Performance | Tailwind `.transition-all` animates layout properties (`width`, `height`, `padding`, `margin`), risking main-thread layout thrashing during hover/state updates. | Scoped `.transition-all` to GPU-composited and paint-safe properties (`transform`, `opacity`, `background-color`, `border-color`, `color`, `box-shadow`) with `var(--ease-out-expo)` and `var(--duration-fast)`. |
+| `index.html` (`button`, `a[role="button"]`) | 1. Purpose & frequency / 3. Physicality | Buttons had hover color changes but lacked consistent tactile `:active` depression (`scale(0.98)`), making clicks feel flat. | Added GPU-accelerated `transform: scale(0.98)` on `:active` for all enabled buttons and interactive controls (`150ms cubic-bezier(0.16, 1, 0.3, 1)`). |
+| `index.html` (`.admin-tab-panel`, `.crm-subview-panel`, modals) | 8. Missed opportunities | Switching Admin Command Center tabs, CRM sub-views, and opening modals toggled `.hidden` abruptly without spatial continuity. | Added `@keyframes tabPanelFadeIn` (`opacity: 0; translate3d(0, 6px, 0)` → `opacity: 1; translate3d(0, 0, 0)`) over `240ms var(--ease-out-expo)`. |
+| `index.html` (`main > section` scroll entry) | 8. Missed opportunities / Minimalist UI | Below-the-fold sections appeared statically without editorial scroll entry progression. | Added `initMinimalistScrollReveal()` using `IntersectionObserver` (`threshold: 0.06`) with `.reveal-on-scroll` (`translate3d(0, 14px, 0)` → `0`) that respects `prefers-reduced-motion: reduce`. |
+| `index.html` (`@media (prefers-reduced-motion: reduce)`) | 6. Accessibility | Reduced-motion media query disabled named hero animations but did not globally clamp arbitrary CSS transitions/animations to `0.01ms`. | Expanded `@media (prefers-reduced-motion: reduce)` to clamp all `*, *::before, *::after` animation and transition durations to `0.01ms` and disable scroll-reveal translation. |
