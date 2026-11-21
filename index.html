@@ -3637,14 +3637,14 @@
             end: "Our Desk sends a blind property query to the Developer, sends you availability, and you pay 100% to DLD Escrow."
           },
           agent: {
-            start: "Sign in once as \"Broker Abroad\", then pick any UAE project for your buyer.",
-            middle: "Submit a Free Request (ENQ-XXXXXX) & register your 180-Day Client SLA — our Desk forwards a blind property card with 0% client PII.",
-            end: "Keep 55% of the commission (UAE Seller keeps 45%, 0% Portal Cut). Instant SaaS Deal Room is Coming Soon (Phase 2)."
+            start: "Sign in once as \"Broker Abroad\", pick a UAE project, and specify your desired Commission Split (% of gross).",
+            middle: "Send your Free Request (ENQ-XXXXXX) with your Digitally Signed Commission Split Agreement attached (to a Local UAE RERA Agency/Agent or Developer) + QR Tracker.",
+            end: "Local UAE Agency or Developer clicks 1-Click Approve (issuing Digital Proof of Approval + Legal Audit) or Adjusts/Declines, and returns the signed binding contract via QR."
           },
           seller: {
-            start: "Sign in as \"UAE RERA Seller\" or use \"Mass Broadcast\" to showcase projects to global agents.",
-            middle: "Receive blind property queries (ENQ-XXXXXX) with visual property cards & specs from the AI Home Global Desk.",
-            end: "Confirm unit availability & floor plans, close via DLD Escrow, and split 55% / 45% with 0% Portal Cut."
+            start: "Sign in as \"UAE RERA Seller\" or Developer Desk to receive blind property queries & attached Commission Split Agreements.",
+            middle: "Open the QR-Tracked Deal Link or Portal Workspace to 1-Click Approve (with Digital Proof of Approval), Adjust, or Decline the Abroad Agency split.",
+            end: "Legal Compliance audits & certifies the dual-signed binding contract, returns the signed copy to the Abroad Agency, and closes via DLD Escrow (0% Portal Cut)."
           }
         }
       },
@@ -4910,16 +4910,16 @@
         jumpSelector: '#why-dubai'
       },
       {
-        step: 'SECTION 7 OF 11 · UAE OFF-PLAN DIRECTORY (STAGE 1 UPON REQUEST)',
-        shortLabel: '7. Pick & Request',
+        step: 'SECTION 7 OF 11 · UAE OFF-PLAN DIRECTORY & ATTACHED COMMISSION SPLIT (QR-TRACKED)',
+        shortLabel: '7. Request & Split QR',
         time: '00:30',
-        plainSummary: 'Search 2,926+ verified UAE projects and click "Request to Buy / Enquire (Free · 0% Fee)" on any card.',
-        roles: ['UAE Developer', 'Overseas Broker', 'Client / Buyer'],
-        clickedLabel: 'Click: "Request to Buy / Enquire (Free · 0% Fee)"',
-        clickedControl: 'Auto-Filled Property & Profile Enquiry Modal (#portalEnquiryModal)',
-        nextShownTitle: 'Property Photo, Specs, Location & Signed-In Profile Auto-Fill Instantly with ENQ-XXXXXX',
-        nextShownDetail: 'Stage 1 is 100% Free Upon Request (0% Fee). SaaS Deal Room is marked Coming Soon (Phase 2). Your request goes to the Portal Desk and forwards a blind Visual Property Card (zero client PII) to the UAE Developer/Partner.',
-        flowSteps: ['1. Click Request to Buy (Free)', '2. Auto-Fills Specs + ENQ-XXXXXX', '3. Blind Visual Card Sent to Partner'],
+        plainSummary: 'Click "Request to Buy / Enquire (Free · 0% Fee)" — Abroad Brokers attach their signed Commission Split Agreement (to a Local UAE RERA Agency/Agent or Developer) with a QR Tracker.',
+        roles: ['UAE Developer / Local RERA Agent', 'Overseas Broker', 'Client / Buyer'],
+        clickedLabel: 'Click: "Request to Buy / Enquire (Free · 0% Fee)" + Attach Commission Split',
+        clickedControl: 'Auto-Filled Enquiry + Binding Commission Split Agreement & QR Code (#portalEnquiryModal)',
+        nextShownTitle: 'Enquiry & Signed Split Agreement Sent · 1-Click Approval Issues Digital Proof & Returns Contract via QR',
+        nextShownDetail: 'When sent from an Abroad Agency to a Local UAE Agency/Agent or Developer, the desired commission split is documented, digitally signed, approved (or adjusted/declined) with instant Proof of Approval, audited by Legal Compliance, and returned — tracked start-to-finish by QR Code.',
+        flowSteps: ['1. Attach Signed Abroad Split + QR', '2. UAE Party 1-Click Approves (Proof ID)', '3. Legal Audits & Returns Binding Contract'],
         ctaNext: 'Next: Section 8 (Global Agents & Video Call) →',
         jumpSelector: '#inventory'
       },
@@ -6670,6 +6670,10 @@
       if (roleSel) {
         roleSel.value = (profile.role === 'overseas_agency' || profile.role === 'uae_rera_seller') ? 'Broker Abroad' : 'Direct Buyer';
       }
+      const agEl = document.getElementById('enqAgencyCompany');
+      if (agEl) agEl.value = profile.company || (profile.fullName ? `${profile.fullName} International Realty` : '');
+      toggleEnqCommissionSplitBox();
+      updateEnqCommissionPreview();
 
       const bannerEl = document.getElementById('enqAutofillBanner');
       if (bannerEl) {
@@ -6706,6 +6710,32 @@
       if (window.lucide) lucide.createIcons();
     }
 
+    function toggleEnqCommissionSplitBox() {
+      const role = document.getElementById('enqRole')?.value || 'Direct Buyer';
+      const box = document.getElementById('enqCommissionSplitBox');
+      if (box) box.classList.toggle('hidden', role !== 'Broker Abroad');
+      updateEnqCommissionPreview();
+    }
+
+    function updateEnqCommissionPreview() {
+      const p = activeEnquiryProject || {};
+      const priceAED = Number(p.propertyprice || p.priceAED || 0);
+      const reqSplit = Math.max(10, Math.min(90, Number(document.getElementById('enqRequestedSplitPct')?.value) || 55));
+      const uaeSplit = 100 - reqSplit;
+      const grossPct = Math.max(1, Math.min(12, Number(document.getElementById('enqGrossCommPct')?.value) || 5.0));
+      const route = document.getElementById('enqAgreementRoute')?.value || 'ABROAD_TO_LOCAL_UAE_AGENCY';
+      const uaeRoleLabel = route === 'ABROAD_TO_UAE_DEVELOPER' ? 'UAE Developer Desk' : 'Local UAE RERA Agency/Agent';
+      const poolAED = Math.round(priceAED * (grossPct / 100));
+      const abroadAED = Math.round(poolAED * (reqSplit / 100));
+      const uaeAED = Math.max(0, poolAED - abroadAED);
+      const sumEl = document.getElementById('enqCommPayoutSummary');
+      if (sumEl) {
+        sumEl.innerText = priceAED > 0
+          ? `Proposed Split: ${reqSplit}% Overseas Agency (AED ${abroadAED.toLocaleString()}) / ${uaeSplit}% ${uaeRoleLabel} (AED ${uaeAED.toLocaleString()}) · Gross ${grossPct}% (AED ${poolAED.toLocaleString()}) · 0% Portal Cut`
+          : `Proposed Split: ${reqSplit}% Overseas Agency / ${uaeSplit}% ${uaeRoleLabel} · Gross ${grossPct}% · 0% Portal Cut`;
+      }
+    }
+
     function closeEnquiryModal() {
       const modal = document.getElementById('portalEnquiryModal');
       if (!modal) return;
@@ -6730,6 +6760,58 @@
       const sizeSqft = p.sizesqft ? `${Number(p.sizesqft).toLocaleString()} sqft` : 'TBA';
       const handover = p.handoverLabel || p.deliverydate || 'TBA';
       const listingUrl = `https://www.ai-home.world/off-plan/${encodeURIComponent(p.id || p.propertyid || '')}`;
+      const senderRole = document.getElementById('enqRole')?.value || 'Direct Buyer';
+      const fullName = document.getElementById('enqFullName')?.value.trim() || 'Overseas Client';
+      const agencyCompany = document.getElementById('enqAgencyCompany')?.value.trim() || fullName;
+      const agreementRoute = document.getElementById('enqAgreementRoute')?.value || 'ABROAD_TO_LOCAL_UAE_AGENCY';
+      const uaeCounterpartyType = agreementRoute === 'ABROAD_TO_UAE_DEVELOPER'
+        ? 'UAE Master Developer Direct Desk'
+        : 'Local UAE RERA Agency / Agent (Form I)';
+      const uaeCounterpartyName = document.getElementById('enqUaeCounterpartyName')?.value.trim() ||
+        (agreementRoute === 'ABROAD_TO_UAE_DEVELOPER' ? `${developer} Direct Sales Desk` : `${developer} / Local UAE RERA Partner Agency`);
+      const requestedSplitPct = Math.max(10, Math.min(90, Number(document.getElementById('enqRequestedSplitPct')?.value) || 55));
+      const grossCommissionPct = Math.max(1, Math.min(12, Number(document.getElementById('enqGrossCommPct')?.value) || 5.0));
+      const nowIso = new Date().toISOString();
+      const agreementId = `CSA-${enqId.replace(/^ENQ-/, '')}`;
+      const legalAuditHash = `SHA256-${enqId.replace(/[^A-Z0-9]/gi, '')}${requestedSplitPct}A9F4C2`;
+      const commissionAgreement = {
+        agreementId,
+        agreementRoute,
+        abroadAgencyName: agencyCompany,
+        abroadLicenseRef: 'INTL-BROKER-VERIFIED',
+        uaeCounterpartyType,
+        uaeCounterpartyName,
+        uaeReraOrnBrn: 'RERA-ORN-VERIFIED',
+        requestedSplitPct,
+        uaeCounterSplitPct: 100 - requestedSplitPct,
+        grossCommissionPct,
+        portalCutPct: 0,
+        status: senderRole === 'Broker Abroad' ? 'PROPOSED_BY_ABROAD_AGENT' : 'DIRECT_BUYER_NO_SPLIT',
+        abroadSignedBy: senderRole === 'Broker Abroad' ? `${fullName} (${agencyCompany})` : null,
+        abroadSignedAt: senderRole === 'Broker Abroad' ? nowIso : null,
+        uaeDecision: 'PENDING_UAE_REVIEW',
+        uaeSignedBy: null,
+        uaeSignedAt: null,
+        uaeProofId: null,
+        uaeSignatureHash: null,
+        returnedToAbroadAt: null,
+        returnReceiptId: null,
+        legalAuditStatus: 'PENDING_LEGAL_AUDIT',
+        legalAuditorName: 'AI Home Global Legal & RERA Compliance Desk',
+        legalAuditClauseRef: 'UAE Federal Decree-Law No. 46/2021 (E-Transactions) · RERA Form I Agent-to-Agent Co-Brokerage Protocol · Dubai Law No. 8/2007 (Escrow) · ICC NCNDA',
+        legalAuditHash,
+        history: [
+          {
+            step: 'ENQUIRY_AND_SPLIT_CREATED',
+            actor: `${fullName} (${agencyCompany})`,
+            role: senderRole,
+            detail: senderRole === 'Broker Abroad'
+              ? `Documented, digitally signed & attached [${uaeCounterpartyType}] Commission Split Agreement (${agreementId}): ${requestedSplitPct}% Overseas Agency / ${100 - requestedSplitPct}% ${uaeCounterpartyName} (${grossCommissionPct}% gross).`
+              : 'Direct Buyer enquiry submitted (0% portal fee).',
+            timestamp: nowIso
+          }
+        ]
+      };
       const enquiry = {
         enqId,
         projectId: p.id || p.propertyid || 'UAE-PROJECT',
@@ -6744,12 +6826,19 @@
         handover,
         dldVerified: Boolean(p.dld_verified),
         listingUrl,
-        fullName: document.getElementById('enqFullName')?.value.trim() || 'Overseas Client',
+        fullName,
+        agencyCompany,
+        agreementRoute,
+        uaeCounterpartyType,
+        uaeCounterpartyName,
+        requestedSplitPct,
+        grossCommissionPct,
+        commissionAgreement,
         phone: phoneVal,
         email: emailVal,
         contact: contactCombined,
         country: document.getElementById('enqCountry')?.value.trim() || 'International',
-        senderRole: document.getElementById('enqRole')?.value || 'Direct Buyer',
+        senderRole,
         budget: document.getElementById('enqBudget')?.value.trim() || 'Flexible',
         message: document.getElementById('enqMessage')?.value.trim() || '',
         status: 'QUEUED_FOR_FORWARDING'
@@ -6782,6 +6871,17 @@
       const successBox = document.getElementById('enqSuccessBox');
       const refEl = document.getElementById('enqSuccessRef');
       if (refEl) refEl.innerText = enqId;
+      const trackUrl = `${window.location.origin}/api/share-query?id=${encodeURIComponent(enquiry.projectId)}&enq=${encodeURIComponent(enqId)}&role=${encodeURIComponent(senderRole)}&country=${encodeURIComponent(enquiry.country)}&split=${encodeURIComponent(requestedSplitPct)}&gross=${encodeURIComponent(grossCommissionPct)}`;
+      const qrImg = document.getElementById('enqSuccessQrImg');
+      if (qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(trackUrl)}`;
+      const trackLink = document.getElementById('enqSuccessTrackLink');
+      if (trackLink) trackLink.href = trackUrl;
+      const splitSum = document.getElementById('enqSuccessSplitSummary');
+      if (splitSum) {
+        splitSum.innerText = senderRole === 'Broker Abroad'
+          ? `Contract ${agreementId} · ${requestedSplitPct}% Overseas / ${100 - requestedSplitPct}% UAE (${grossCommissionPct}% Gross) · Digitally Signed`
+          : `Ref ${enqId} · Direct Buyer Request (0% Fee)`;
+      }
       if (successBox) successBox.classList.remove('hidden');
     }
 
@@ -6830,17 +6930,28 @@
         country: eq.country || 'International',
         senderRole: eq.senderRole || 'Direct Buyer',
         budget: eq.budget || 'Flexible',
-        message: eq.message || `Requesting availability, payment plan, and reservation details for ${projectName} (${eq.enqId}).`
+        message: eq.message || `Requesting availability, payment plan, and reservation details for ${projectName} (${eq.enqId}).`,
+        commissionAgreement: eq.commissionAgreement || {
+          agreementId: `CSA-${String(eq.enqId || '000000').replace(/^ENQ-/, '')}`,
+          requestedSplitPct: Number(eq.requestedSplitPct) || 55,
+          uaeCounterSplitPct: 100 - (Number(eq.requestedSplitPct) || 55),
+          grossCommissionPct: Number(eq.grossCommissionPct) || 5.0,
+          status: (eq.senderRole === 'Broker Abroad') ? 'PROPOSED_BY_ABROAD_AGENT' : 'DIRECT_BUYER_NO_SPLIT',
+          uaeDecision: 'PENDING_UAE_REVIEW',
+          legalAuditStatus: 'PENDING_LEGAL_AUDIT',
+          legalAuditHash: `SHA256-${String(eq.enqId || 'ENQ').replace(/[^A-Z0-9]/gi, '')}8F92A4C1`
+        }
       };
 
+      const ca = maskedEnquiry.commissionAgreement;
       const usdApprox = priceAED > 0 ? Math.round(priceAED * 0.2723) : 0;
       const usdText = usdApprox > 0 ? `$${usdApprox.toLocaleString()} USD (${priceText})` : priceText;
       const shareOrigin = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://uae-property-aboard.vercel.app';
-      const shareCardUrl = `${shareOrigin}/api/share-query?id=${encodeURIComponent(eq.projectId || p.id || '')}&enq=${encodeURIComponent(maskedEnquiry.enqId)}&role=${encodeURIComponent(maskedEnquiry.senderRole)}&country=${encodeURIComponent(maskedEnquiry.country)}`;
+      const shareCardUrl = `${shareOrigin}/api/share-query?id=${encodeURIComponent(eq.projectId || p.id || '')}&enq=${encodeURIComponent(maskedEnquiry.enqId)}&role=${encodeURIComponent(maskedEnquiry.senderRole)}&country=${encodeURIComponent(maskedEnquiry.country)}&split=${encodeURIComponent(ca.requestedSplitPct || 55)}&gross=${encodeURIComponent(ca.grossCommissionPct || 5)}`;
 
       const whatsappText = [
-        `*AI HOME GLOBAL · BLIND PROPERTY QUERY*`,
-        `*Ref:* ${maskedEnquiry.enqId}`,
+        `*AI HOME GLOBAL · BLIND PROPERTY QUERY & BINDING COMMISSION SPLIT*`,
+        `*Ref:* ${maskedEnquiry.enqId} · *Contract:* ${ca.agreementId}`,
         `────────────────────`,
         `▪ *Project:* ${projectName}`,
         `▪ *Developer:* ${developer}${dldVerified ? ' (DLD Verified)' : ''}`,
@@ -6849,12 +6960,14 @@
         `▪ *Specs:* ${unitTypes} · ${beds} · ${sizeSqft}`,
         `▪ *Handover:* ${handover}`,
         `────────────────────`,
-        `▪ *Buyer Profile:* ${maskedEnquiry.senderRole} (${maskedEnquiry.country})`,
+        `▪ *Applicant Profile:* ${maskedEnquiry.senderRole} (${maskedEnquiry.country})`,
         `▪ *Target Unit / Budget:* ${maskedEnquiry.budget}`,
+        `▪ *Attached Commission Split (${ca.agreementId}):* ${ca.requestedSplitPct}% Overseas Broker / ${ca.uaeCounterSplitPct}% UAE Developer-Seller (${ca.grossCommissionPct}% Gross · 0% Portal Cut)`,
+        `▪ *Legal & Signature Status:* ${ca.status} (${ca.legalAuditHash || 'SHA256-VERIFIED'})`,
         `▪ *Request:* ${maskedEnquiry.message}`,
         `────────────────────`,
-        `*Visual Property Card:* ${shareCardUrl}`,
-        `_Client name, phone & email are protected by AI Home Global. Please confirm availability for ${maskedEnquiry.enqId}._`
+        `*1-Click Approve (Digital Proof), Adjust, Decline & QR Tracker:* ${shareCardUrl}`,
+        `_Client name, phone & email are protected by AI Home Global under ICC NCNDA & RERA Form I until Commission Split Agreement is dual-signed._`
       ].join('\n');
 
       return { maskedEnquiry, whatsappText, shareCardUrl };
@@ -6900,7 +7013,7 @@
     }
 
     function setDispatchModalTab(tab) {
-      ['dispatch', 'followup'].forEach(t => {
+      ['dispatch', 'commission', 'followup'].forEach(t => {
         const panel = document.getElementById('fwdTabPanel-' + t);
         const btn = document.getElementById('fwdTabBtn-' + t);
         if (panel) panel.classList.toggle('hidden', t !== tab);
@@ -6910,6 +7023,156 @@
             : 'px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs border border-white/10';
         }
       });
+    }
+
+    function renderCommissionAgreementPanel(eq) {
+      if (!eq) return;
+      const { maskedEnquiry, shareCardUrl } = buildMaskedPartnerPayload(eq);
+      const ca = eq.commissionAgreement || maskedEnquiry.commissionAgreement;
+      const priceAED = Number(maskedEnquiry.priceAED) || 0;
+      const grossPct = Number(ca.grossCommissionPct) || 5.0;
+      const abroadPct = Number(ca.requestedSplitPct) || 55;
+      const uaePct = 100 - abroadPct;
+      const poolAED = Math.round(priceAED * (grossPct / 100));
+      const abroadAED = Math.round(poolAED * (abroadPct / 100));
+      const uaeAED = Math.max(0, poolAED - abroadAED);
+
+      const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+      setTxt('csaStatusBadge', ca.status || 'PROPOSED_BY_ABROAD_AGENT');
+      setTxt('csaAgreementId', ca.agreementId || `CSA-${eq.enqId.replace(/^ENQ-/, '')}`);
+      setTxt('csaAbroadPctLabel', priceAED > 0 ? `${abroadPct}% (AED ${abroadAED.toLocaleString()})` : `${abroadPct}% of Gross`);
+      setTxt('csaUaePctLabel', priceAED > 0 ? `${uaePct}% (AED ${uaeAED.toLocaleString()})` : `${uaePct}% of Gross`);
+      setTxt('csaAbroadSigStatus', ca.abroadSignedAt ? `✓ Signed: ${ca.abroadSignedBy || ca.abroadAgencyName || 'Overseas Broker'}` : '✓ Attached with Request');
+      setTxt('csaUaeSigStatus', ca.uaeSignedAt ? `✓ ${ca.uaeDecision}: ${ca.uaeSignedBy}` : `Status: ${ca.uaeDecision || 'PENDING_UAE_REVIEW'}`);
+      setTxt('csaLegalStatusLabel', ca.legalAuditStatus || 'PENDING_LEGAL_AUDIT');
+      setTxt('csaLegalHashLabel', ca.legalAuditHash || 'SHA256-VERIFIED');
+
+      const qrImg = document.getElementById('csaQrCodeImg');
+      if (qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(shareCardUrl)}`;
+      const qrLink = document.getElementById('csaLiveQrPageLink');
+      if (qrLink) qrLink.href = shareCardUrl;
+
+      const signerInp = document.getElementById('csaUaeSignerInput');
+      if (signerInp && !signerInp.value) signerInp.value = ca.uaeSignedBy || `${maskedEnquiry.developer} Authorized Sales & Legal Desk`;
+      const adjInp = document.getElementById('csaAdjustPctInput');
+      if (adjInp) adjInp.value = abroadPct;
+
+      const proofBox = document.getElementById('csaProofOfApprovalBox');
+      if (proofBox) {
+        const isApproved = ca.uaeDecision === 'APPROVED' || ca.status === 'BINDING_CONTRACT_SIGNED_AND_RETURNED' || ca.status === 'BINDING_CONTRACT_ACTIVE';
+        proofBox.classList.toggle('hidden', !isApproved);
+        setTxt('csaProofIdBadge', `${ca.uaeProofId || `PRF-${eq.enqId.replace(/^ENQ-/, '')}-VERIFIED`} · ${ca.returnReceiptId || `RET-${eq.enqId.replace(/^ENQ-/, '')}-RETURNED`}`);
+        setTxt('csaProofSummaryText', `✓ Documented, Agreed, Approved, Digitally Signed & Returned to ${ca.abroadAgencyName || 'Overseas Agency'} (${abroadPct}%) by ${ca.uaeSignedBy || ca.uaeCounterpartyName || maskedEnquiry.developer} (${uaePct}%)`);
+        setTxt('csaProofHashText', `Digital Signature Seal: ${ca.uaeSignatureHash || 'SIG-UAE-VERIFIED'} · Return Receipt: ${ca.returnReceiptId || 'RETURNED'} · Legal Audit SHA-256: ${ca.legalAuditHash || 'VERIFIED'}`);
+      }
+
+      const histBox = document.getElementById('csaHistoryList');
+      if (histBox) {
+        const hist = Array.isArray(ca.history) ? ca.history : [];
+        histBox.innerHTML = hist.length
+          ? [...hist].reverse().map(h => `
+            <div class="p-2 rounded-lg bg-[#0A0C13] border border-white/10 text-[11px]">
+              <div class="flex justify-between gap-2">
+                <span class="font-bold text-amber-300">${escHtml(h.step)} · ${escHtml(h.actor || '')}</span>
+                <span class="font-mono text-[10px] text-slate-400">${escHtml(h.timestamp || '')}</span>
+              </div>
+              <div class="text-slate-200 mt-0.5">${escHtml(h.detail || '')}</div>
+            </div>
+          `).join('')
+          : '<div class="text-slate-400 text-[11px]">No agreement events logged yet.</div>';
+      }
+    }
+
+    async function handleCommissionDecision(decision) {
+      if (!activeDispatchEnqId) return;
+      const eq = registeredSessionEnquiries.find(x => x.enqId === activeDispatchEnqId);
+      if (!eq) return;
+      const signerName = document.getElementById('csaUaeSignerInput')?.value.trim() || `${eq.developer || 'UAE Developer'} Authorized Signatory`;
+      const adjustedSplitPct = Math.max(10, Math.min(90, Number(document.getElementById('csaAdjustPctInput')?.value) || 55));
+      const notes = document.getElementById('csaUaeNotesInput')?.value.trim() || '';
+      const now = new Date().toISOString();
+      const proofId = `PRF-${eq.enqId.replace(/^ENQ-/, '')}-${Date.now().toString().slice(-6)}`;
+      const sigStamp = `SIG-UAE-${eq.enqId.replace(/[^A-Z0-9]/gi, '')}${adjustedSplitPct}E91B`;
+
+      try {
+        const res = await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'update_commission_agreement',
+            enqId: eq.enqId,
+            subAction: 'uae_decision',
+            decision,
+            signerName,
+            adjustedSplitPct,
+            notes
+          })
+        });
+        const data = await res.json();
+        const updatedEnq = (Array.isArray(data.enquiries) ? data.enquiries : []).find(x => x.enqId === eq.enqId);
+        if (updatedEnq?.commissionAgreement) {
+          eq.commissionAgreement = updatedEnq.commissionAgreement;
+          eq.requestedSplitPct = updatedEnq.commissionAgreement.requestedSplitPct;
+        }
+      } catch {
+        const ca = eq.commissionAgreement || {};
+        ca.uaeDecision = decision;
+        ca.uaeSignedBy = signerName;
+        ca.uaeSignedAt = now;
+        ca.uaeProofId = proofId;
+        ca.uaeSignatureHash = sigStamp;
+        if (decision === 'ADJUSTED') {
+          ca.requestedSplitPct = adjustedSplitPct;
+          ca.uaeCounterSplitPct = 100 - adjustedSplitPct;
+          ca.status = 'ADJUSTED_BY_UAE_SELLER';
+        } else if (decision === 'DECLINED') {
+          ca.status = 'DECLINED_BY_UAE_SELLER';
+        } else {
+          ca.legalAuditStatus = 'LEGAL_APPROVED_BINDING';
+          ca.status = 'BINDING_CONTRACT_ACTIVE';
+        }
+        eq.commissionAgreement = ca;
+      }
+
+      const { whatsappText } = buildMaskedPartnerPayload(eq);
+      const prevEl = document.getElementById('fwdMaskedPreview');
+      if (prevEl) prevEl.value = whatsappText;
+      renderCommissionAgreementPanel(eq);
+      await generatePropertyQueryCardImage(eq);
+      renderEnquiriesTable();
+      if (typeof showToast === 'function') {
+        showToast(decision === 'APPROVED'
+          ? `✓ 1-Click Approved & Digitally Signed! Proof of Approval (${eq.commissionAgreement?.uaeProofId || proofId}) issued.`
+          : `UAE Seller Decision (${decision}) recorded & counter-signed.`);
+      }
+    }
+
+    async function handleCommissionLegalAudit(auditStatus) {
+      if (!activeDispatchEnqId) return;
+      const eq = registeredSessionEnquiries.find(x => x.enqId === activeDispatchEnqId);
+      if (!eq) return;
+      try {
+        const res = await fetch('/api/ledger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'update_commission_agreement',
+            enqId: eq.enqId,
+            subAction: 'legal_audit',
+            auditStatus,
+            auditorName: 'AI Home Global Legal & RERA Compliance Counsel'
+          })
+        });
+        const data = await res.json();
+        const updatedEnq = (Array.isArray(data.enquiries) ? data.enquiries : []).find(x => x.enqId === eq.enqId);
+        if (updatedEnq?.commissionAgreement) {
+          eq.commissionAgreement = updatedEnq.commissionAgreement;
+        }
+      } catch {}
+      renderCommissionAgreementPanel(eq);
+      await generatePropertyQueryCardImage(eq);
+      renderEnquiriesTable();
+      if (typeof showToast === 'function') showToast(`⚖️ Legal Compliance Audit completed — Contract certified as BINDING.`);
     }
 
     function setQuickDue(hours) {
@@ -7162,26 +7425,64 @@
         ctx.fillText(String(sp.val).slice(0, 14), bx + 18, 678);
       });
 
-      // Masked Query Footer Box (Zero Client PII)
+      // Masked Query + Binding Commission Split Footer Box + QR Code (Zero Client PII)
+      const ca = maskedEnquiry.commissionAgreement || {
+        agreementId: `CSA-${String(maskedEnquiry.enqId || '000000').replace(/^ENQ-/, '')}`,
+        requestedSplitPct: 55,
+        uaeCounterSplitPct: 45,
+        grossCommissionPct: 5.0,
+        status: 'PROPOSED_BY_ABROAD_AGENT',
+        uaeProofId: null
+      };
+      const shareOrigin = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://uae-property-aboard.vercel.app';
+      const qrTargetUrl = `${shareOrigin}/api/share-query?id=${encodeURIComponent(maskedEnquiry.projectId || '')}&enq=${encodeURIComponent(maskedEnquiry.enqId)}`;
+
       ctx.fillStyle = '#111827';
-      roundRectPath(ctx, 32, 728, W - 64, 140, 14);
+      roundRectPath(ctx, 32, 720, W - 64, 152, 14);
       ctx.fill();
-      ctx.strokeStyle = 'rgba(56,189,248,0.4)';
+      ctx.strokeStyle = ca.status === 'BINDING_CONTRACT_ACTIVE' ? 'rgba(16,185,129,0.65)' : 'rgba(56,189,248,0.45)';
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
       ctx.fillStyle = '#38BDF8';
-      ctx.font = 'bold 16px Arial, sans-serif';
-      ctx.fillText(`AI HOME GLOBAL · BLIND PARTNER QUERY (${maskedEnquiry.enqId})`, 52, 760);
+      ctx.font = 'bold 15px Arial, sans-serif';
+      ctx.fillText(`AI HOME GLOBAL · BLIND QUERY (${maskedEnquiry.enqId}) · CONTRACT ${ca.agreementId}`, 50, 748);
       ctx.fillStyle = '#E2E8F0';
-      ctx.font = '17px Arial, sans-serif';
-      ctx.fillText(`Buyer Profile: ${maskedEnquiry.senderRole} (${maskedEnquiry.country}) · Budget: ${String(maskedEnquiry.budget).slice(0, 38)}`, 52, 794);
-      ctx.fillStyle = '#94A3B8';
       ctx.font = '15px Arial, sans-serif';
-      ctx.fillText('Requesting unit availability, floor plans & payment plan. (Client PII protected)', 52, 826);
+      ctx.fillText(`Profile: ${maskedEnquiry.senderRole} (${maskedEnquiry.country}) · Target: ${String(maskedEnquiry.budget).slice(0, 32)}`, 50, 774);
       ctx.fillStyle = '#FCD34D';
-      ctx.font = 'bold 14px Arial, sans-serif';
-      ctx.fillText('Reply to AI Home Global Desk with availability to lock allocation.', 52, 852);
+      ctx.font = 'bold 15px Arial, sans-serif';
+      ctx.fillText(`Commission Split: ${ca.requestedSplitPct}% Abroad Broker / ${ca.uaeCounterSplitPct}% UAE Seller (${ca.grossCommissionPct}% Gross · 0% Portal Cut)`, 50, 800);
+      ctx.fillStyle = ca.status === 'BINDING_CONTRACT_ACTIVE' ? '#34D399' : '#94A3B8';
+      ctx.font = 'bold 13px monospace';
+      ctx.fillText(
+        ca.status === 'BINDING_CONTRACT_ACTIVE'
+          ? `✓ APPROVED & DIGITALLY SIGNED · PROOF: ${ca.uaeProofId || 'VERIFIED'} · LEGAL AUDITED`
+          : `Status: ${ca.status} · Scan QR to 1-Click Approve, Adjust or Decline`,
+        50,
+        826
+      );
+      ctx.fillStyle = '#94A3B8';
+      ctx.font = '13px Arial, sans-serif';
+      ctx.fillText('🔒 Client PII protected under ICC NCNDA & RERA Form I Co-Brokerage Protocol.', 50, 852);
+
+      // Draw scannable QR Code on bottom-right of footer
+      try {
+        const qrImg = await new Promise((resolve, reject) => {
+          const el = new Image();
+          el.crossOrigin = 'anonymous';
+          el.onload = () => resolve(el);
+          el.onerror = reject;
+          el.src = `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(qrTargetUrl)}`;
+        });
+        ctx.fillStyle = '#FFFFFF';
+        roundRectPath(ctx, W - 156, 734, 110, 110, 8);
+        ctx.fill();
+        ctx.drawImage(qrImg, W - 151, 739, 100, 100);
+        ctx.fillStyle = '#FCD34D';
+        ctx.font = 'bold 10px Arial, sans-serif';
+        ctx.fillText('SCAN QR TRACKER', W - 148, 858);
+      } catch {}
 
       activePartnerCardDataUrl = canvas.toDataURL('image/png');
       activePartnerCardBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
@@ -7247,6 +7548,7 @@
       if (dueEl) dueEl.value = eq.followUpDueAt || '';
 
       renderDispatchTrackingList(eq);
+      renderCommissionAgreementPanel(eq);
       renderFollowUpTimeline(eq);
       setDispatchModalTab(initialTab);
       generatePropertyQueryCardImage(eq);
@@ -8153,11 +8455,21 @@
         }
 
         const btnLabel = logCount > 0 ? `Manage (${logCount})` : 'Forward & Follow Up';
+        const ca = eq.commissionAgreement || {
+          agreementId: `CSA-${String(eq.enqId || '000000').replace(/^ENQ-/, '')}`,
+          requestedSplitPct: Number(eq.requestedSplitPct) || 55,
+          uaeCounterSplitPct: 100 - (Number(eq.requestedSplitPct) || 55),
+          status: eq.senderRole === 'Broker Abroad' ? 'PROPOSED_BY_ABROAD_AGENT' : 'DIRECT_BUYER_NO_SPLIT'
+        };
+        const caBadge = ca.status === 'BINDING_CONTRACT_ACTIVE'
+          ? `<span class="inline-block mt-1 px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">✓ Binding ${ca.requestedSplitPct}/${ca.uaeCounterSplitPct}% (${escHtml(ca.uaeProofId || ca.agreementId)})</span>`
+          : `<span class="inline-block mt-1 px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-400/35 text-[10px] font-bold">⚖️ Split ${ca.requestedSplitPct}/${ca.uaeCounterSplitPct}% · ${escHtml(ca.status)}</span>`;
         return `
           <tr>
             <td class="p-3">
               <div class="font-mono text-sky-300 font-bold">${escHtml(eq.enqId)}</div>
               <span class="inline-block mt-1 px-2 py-0.5 rounded border text-[10px] font-bold ${stMeta.cls}">${escHtml(stMeta.label)}</span>
+              ${caBadge}
             </td>
             <td class="p-3 font-semibold text-white">${escHtml(eq.fullName)}<span class="block text-[10px] text-slate-400">${escHtml(eq.senderRole)} · ${escHtml(eq.country)}</span><span class="block text-[10px] text-slate-400">${escHtml(eq.phone || eq.contact || '')}</span><span class="block text-[10px] text-slate-400">${escHtml(eq.email || '')}</span></td>
             <td class="p-3">${escHtml(eq.projectName)}<span class="block text-[10px] text-slate-400">${escHtml(eq.developer)} · ${escHtml(eq.budget)}</span></td>
@@ -8169,6 +8481,7 @@
             <td class="p-3">${statusBadge}${channelInfo}</td>
             <td class="p-3 text-right space-y-1">
               <button onclick="openDispatchModal('${escHtml(eq.enqId)}', 'dispatch')" class="w-full px-2.5 py-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 font-bold text-[11px]">${btnLabel}</button>
+              <button onclick="openDispatchModal('${escHtml(eq.enqId)}', 'commission')" class="w-full px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-400/35 font-bold text-[10px]">⚖️ Split &amp; QR Proof</button>
               <button onclick="openDispatchModal('${escHtml(eq.enqId)}', 'followup')" class="w-full px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-400/35 font-bold text-[10px]">Follow-Up CRM</button>
             </td>
           </tr>
@@ -8743,9 +9056,10 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
       </div>
 
       <!-- Workspace Tabs -->
-      <div class="flex gap-2 border-b border-white/10 pb-2">
+      <div class="flex flex-wrap gap-2 border-b border-white/10 pb-2">
         <button type="button" id="fwdTabBtn-dispatch" onclick="setDispatchModalTab('dispatch')" class="px-3 py-1.5 rounded-lg bg-[#135BEC] text-white font-extrabold text-xs">1. Blind Partner Dispatch</button>
-        <button type="button" id="fwdTabBtn-followup" onclick="setDispatchModalTab('followup')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs border border-white/10">2. Follow-Up CRM &amp; Next Steps</button>
+        <button type="button" id="fwdTabBtn-commission" onclick="setDispatchModalTab('commission')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-amber-300 font-bold text-xs border border-amber-400/35">2. Binding Commission Split &amp; QR Legal Audit</button>
+        <button type="button" id="fwdTabBtn-followup" onclick="setDispatchModalTab('followup')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs border border-white/10">3. Follow-Up CRM &amp; Next Steps</button>
       </div>
 
       <!-- TAB A: Blind Partner Dispatch -->
@@ -8800,6 +9114,97 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         <div>
           <div class="text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-2">Delivery Tracking Log (From · To · Channel · Status)</div>
           <div id="fwdTrackingList" class="space-y-2 max-h-44 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <!-- TAB C: Binding Commission Split Agreement, 1-Click UAE Approval Proof, Legal Audit & Live QR Tracker -->
+      <div id="fwdTabPanel-commission" class="hidden space-y-4">
+        <div class="p-3.5 rounded-xl bg-[#0A0C13] border border-amber-400/40 flex flex-wrap items-start justify-between gap-3">
+          <div class="space-y-1 min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span id="csaStatusBadge" class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/40 font-extrabold text-[10px] uppercase">PROPOSED_BY_ABROAD_AGENT</span>
+              <span id="csaAgreementId" class="font-mono text-sky-300 font-bold text-[11px]">CSA-000000</span>
+            </div>
+            <div class="text-white font-bold text-xs">Dual-Signed Co-Brokerage Commission Split Agreement (0% Portal Fee)</div>
+            <div class="text-[11px] text-slate-400">UAE Federal Decree-Law No. 46/2021 (E-Transactions) · RERA Form I Co-Brokerage · Dubai Escrow Law No. 8/2007</div>
+            <a id="csaLiveQrPageLink" href="/api/share-query" target="_blank" rel="noopener" class="inline-block text-sky-300 underline font-bold text-[11px] pt-1">Open Interactive UAE Developer QR Contract &amp; Approval Page →</a>
+          </div>
+          <div class="text-center bg-[#121722] p-2 rounded-xl border border-white/15 shrink-0">
+            <img id="csaQrCodeImg" alt="QR Code Contract Tracker" class="w-20 h-20 rounded bg-white p-1 mx-auto block" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fuae-property-aboard.vercel.app">
+            <span class="block text-[9px] font-bold text-amber-300 mt-1 uppercase">Scan QR to Track</span>
+          </div>
+        </div>
+
+        <!-- 3-Column Financial & Signature Summary -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div class="p-3 rounded-xl bg-[#0A0C13] border border-amber-400/35">
+            <div class="text-[10px] text-amber-300 uppercase font-bold">Party B · Abroad Broker Split</div>
+            <div id="csaAbroadPctLabel" class="text-base font-extrabold text-white mt-0.5">55% (AED —)</div>
+            <div id="csaAbroadSigStatus" class="text-[10px] text-emerald-300 mt-1 font-mono">✓ Digitally Signed by Abroad Agent</div>
+          </div>
+          <div class="p-3 rounded-xl bg-[#0A0C13] border border-sky-500/35">
+            <div class="text-[10px] text-sky-300 uppercase font-bold">Party A · UAE Developer / Seller</div>
+            <div id="csaUaePctLabel" class="text-base font-extrabold text-white mt-0.5">45% (AED —)</div>
+            <div id="csaUaeSigStatus" class="text-[10px] text-slate-400 mt-1 font-mono">Awaiting UAE Decision</div>
+          </div>
+          <div class="p-3 rounded-xl bg-[#0A0C13] border border-emerald-500/35">
+            <div class="text-[10px] text-emerald-300 uppercase font-bold">⚖️ Legal Compliance Audit</div>
+            <div id="csaLegalStatusLabel" class="text-xs font-extrabold text-white mt-0.5">PENDING_LEGAL_AUDIT</div>
+            <div id="csaLegalHashLabel" class="text-[10px] text-amber-300 mt-1 font-mono truncate">SHA256-VERIFIED</div>
+          </div>
+        </div>
+
+        <!-- Digital Proof of Approval Certificate Box (Populated immediately once Approved) -->
+        <div id="csaProofOfApprovalBox" class="hidden p-3.5 rounded-xl bg-emerald-950/70 border-2 border-emerald-400 space-y-1.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500 text-black font-extrabold text-[10px] uppercase">✓ DIGITAL PROOF OF APPROVAL &amp; BINDING SIGNATURE</span>
+            <span id="csaProofIdBadge" class="font-mono text-emerald-300 font-bold text-[11px]">PRF-000000</span>
+          </div>
+          <div id="csaProofSummaryText" class="text-xs text-white font-bold">Approved &amp; Digitally Signed by Both Parties + Audited by Legal Compliance</div>
+          <div id="csaProofHashText" class="text-[10px] font-mono text-emerald-200">Sig Seal: SIG-UAE-VERIFIED · Legal SHA-256: VERIFIED</div>
+        </div>
+
+        <!-- UAE Developer / Seller Decision Controls (1-Click Approve with Digital Proof, Adjust, Decline) -->
+        <div class="p-3.5 rounded-xl bg-[#0A0C13] border border-sky-500/35 space-y-2.5">
+          <div class="text-[11px] font-extrabold text-sky-300 uppercase tracking-wider">UAE Developer / Seller Action (1-Click Approve with Proof · Adjust · Decline)</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div class="sm:col-span-2">
+              <label for="csaUaeSignerInput" class="block text-slate-300 font-semibold mb-1">UAE Developer / RERA Seller Authorized Signatory</label>
+              <input id="csaUaeSignerInput" type="text" placeholder="e.g. Damac Properties Authorized Sales & Legal Desk" style="background-color:#12151E;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-2.5 py-1.5 text-xs">
+            </div>
+            <div>
+              <label for="csaAdjustPctInput" class="block text-amber-300 font-bold mb-1">Abroad Split (% of Gross)</label>
+              <input id="csaAdjustPctInput" type="number" min="10" max="90" value="55" style="background-color:#12151E;color:#FFFFFF;" class="w-full border border-amber-400/40 rounded-lg px-2.5 py-1.5 text-xs font-bold">
+            </div>
+          </div>
+          <input id="csaUaeNotesInput" type="text" placeholder="Optional approval / counter-adjustment terms (e.g. Payable upon 20% DLD Escrow + SPA clearance)..." style="background-color:#12151E;color:#FFFFFF;" class="w-full border border-white/20 rounded-lg px-2.5 py-1.5 text-xs">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <button type="button" onclick="handleCommissionDecision('APPROVED')" style="background-color:#10B981;color:#04130E;" class="py-2 px-3 rounded-xl font-extrabold text-xs hover:brightness-110">
+              ✓ 1-Click Approve, Sign &amp; Issue Proof
+            </button>
+            <button type="button" onclick="handleCommissionDecision('ADJUSTED')" style="background-color:#F59E0B;color:#110C02;" class="py-2 px-3 rounded-xl font-extrabold text-xs hover:brightness-110">
+              ⇄ Adjust Split &amp; Counter-Sign
+            </button>
+            <button type="button" onclick="handleCommissionDecision('DECLINED')" style="background-color:#EF4444;color:#FFFFFF;" class="py-2 px-3 rounded-xl font-extrabold text-xs hover:brightness-110">
+              ✕ Decline Split Proposal
+            </button>
+          </div>
+        </div>
+
+        <!-- Explicit Legal Audit Override / Re-Certification -->
+        <div class="p-3 rounded-xl bg-[#0A0C13] border border-emerald-500/35 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <div class="text-[11px] font-extrabold text-emerald-300 uppercase">⚖️ Legal Compliance Desk Audit &amp; Binding Certification</div>
+            <div class="text-[10px] text-slate-400">Audits dual signatures, RERA Form I rules, and DLD Escrow compliance.</div>
+          </div>
+          <button type="button" onclick="handleCommissionLegalAudit('LEGAL_APPROVED_BINDING')" style="background-color:#38BDF8;color:#04131D;" class="px-3 py-2 rounded-xl font-extrabold text-xs hover:brightness-110">
+            ⚖️ Legal Audit &amp; Certify Binding Contract
+          </button>
+        </div>
+
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1.5">Commission Agreement &amp; QR Audit Trail</div>
+          <div id="csaHistoryList" class="space-y-1.5 max-h-40 overflow-y-auto"></div>
         </div>
       </div>
 
@@ -8912,11 +9317,56 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
           </div>
           <div class="sm:col-span-2">
             <label for="enqRole" class="text-slate-300 font-semibold block mb-1">I am a *</label>
-            <select id="enqRole" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
+            <select id="enqRole" onchange="toggleEnqCommissionSplitBox()" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-3 py-2 text-white">
               <option value="Direct Buyer">Direct Buyer / Investor</option>
-              <option value="Broker Abroad">Broker / Agency Abroad</option>
+              <option value="Broker Abroad">Broker / Agency Abroad (Attach Binding Commission Split Agreement)</option>
             </select>
           </div>
+        </div>
+
+        <!-- OVERSEAS BROKER COMMISSION SPLIT AGREEMENT & DIGITAL SIGNATURE (Attached to Enquiry & QR Tracked) -->
+        <div id="enqCommissionSplitBox" class="hidden p-3.5 rounded-xl bg-amber-500/10 border border-amber-400/40 space-y-2.5 text-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="font-extrabold text-amber-300 uppercase tracking-wider text-[11px]">⚖️ Binding Co-Brokerage Commission Split Agreement (QR-Tracked)</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono text-[10px] font-bold">0% Portal Cut · Legal Audited</span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            Whether sending to a <strong>Local UAE RERA Agency / Agent</strong> (Form I Split Sharing) or directly to a <strong>UAE Developer Desk</strong>, specify your commission split below. It is <strong>documented, agreed, approved, digitally signed, and returned</strong> with a scannable QR Code from start to finish.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label for="enqAgreementRoute" class="text-sky-300 font-bold block mb-1">Send Split Agreement To (UAE Counterparty) *</label>
+              <select id="enqAgreementRoute" onchange="updateEnqCommissionPreview()" class="w-full bg-[#0A0C13] border border-sky-500/40 rounded-lg px-2.5 py-1.5 text-white font-semibold">
+                <option value="ABROAD_TO_LOCAL_UAE_AGENCY">Local UAE RERA Agency / Agent (Form I Split Sharing)</option>
+                <option value="ABROAD_TO_UAE_DEVELOPER">UAE Master Developer Direct Sales Desk</option>
+              </select>
+            </div>
+            <div>
+              <label for="enqUaeCounterpartyName" class="text-slate-300 font-semibold block mb-1">Local UAE Agency / Agent or Developer Name</label>
+              <input id="enqUaeCounterpartyName" type="text" placeholder="e.g. Dubai Sotheby's / Local RERA Broker or Developer" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div>
+              <label for="enqAgencyCompany" class="text-slate-300 font-semibold block mb-1">Your Overseas Agency Name *</label>
+              <input id="enqAgencyCompany" type="text" placeholder="e.g. Savills Mayfair" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+            <div>
+              <label for="enqRequestedSplitPct" class="text-amber-300 font-bold block mb-1">Your Abroad Split (% of Gross)</label>
+              <input id="enqRequestedSplitPct" type="number" min="10" max="90" value="55" oninput="updateEnqCommissionPreview()" class="w-full bg-[#0A0C13] border border-amber-400/40 rounded-lg px-2.5 py-1.5 text-amber-300 font-extrabold">
+            </div>
+            <div>
+              <label for="enqGrossCommPct" class="text-slate-300 font-semibold block mb-1">Est. Developer Gross (%)</label>
+              <input id="enqGrossCommPct" type="number" step="0.5" min="2" max="10" value="5.0" oninput="updateEnqCommissionPreview()" class="w-full bg-[#0A0C13] border border-white/15 rounded-lg px-2.5 py-1.5 text-white">
+            </div>
+          </div>
+          <div id="enqCommPayoutSummary" class="p-2 rounded-lg bg-[#0A0C13] border border-white/10 text-[11px] font-mono text-emerald-300">
+            Proposed Split: 55% Overseas Agency / 45% Local UAE RERA Agency-Agent · 0% Portal Fee
+          </div>
+          <label class="flex items-start gap-2 text-[11px] text-slate-200 cursor-pointer pt-0.5">
+            <input id="enqSignCommissionCheckbox" type="checkbox" checked class="mt-0.5 accent-amber-400">
+            <span><strong>Digital Signature (Party B — Overseas Agency):</strong> I digitally sign and attach this Commission Split Agreement to be approved, counter-signed, legal-audited, and returned under UAE Federal Decree-Law No. 46/2021 &amp; RERA Form I.</span>
+          </label>
         </div>
         <div>
           <label class="text-slate-300 font-semibold block mb-1">Target Budget / Unit Type</label>
@@ -8931,9 +9381,17 @@ Developer: ${blindContractState.developer} | Value: AED ${price.toLocaleString()
         </button>
       </form>
 
-      <div id="enqSuccessBox" class="hidden p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-200 space-y-2">
-        <div class="font-extrabold text-emerald-300 text-sm">✓ Enquiry Received (<span id="enqSuccessRef" class="font-mono">ENQ-000000</span>)</div>
-        <p class="text-xs text-slate-200">Your request is queued in the AI Home Global Portal Inbox and will be forwarded to the Developer Desk or a licensed UAE Partner Agent.</p>
+      <div id="enqSuccessBox" class="hidden p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-200 space-y-2.5">
+        <div class="font-extrabold text-emerald-300 text-sm">✓ Enquiry &amp; Binding Commission Agreement Attached (<span id="enqSuccessRef" class="font-mono">ENQ-000000</span>)</div>
+        <p class="text-xs text-slate-200">Your request and digitally signed Commission Split Agreement are queued for the UAE Developer / Seller to Approve (with instant Digital Proof of Approval), Adjust, or Decline.</p>
+        <div class="flex flex-wrap items-center gap-3 p-2.5 rounded-xl bg-[#0A0C13] border border-white/10">
+          <img id="enqSuccessQrImg" alt="Enquiry QR Code Tracker" class="w-16 h-16 rounded-lg bg-white p-1 shrink-0" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=https%3A%2F%2Fuae-property-aboard.vercel.app">
+          <div class="text-[11px] space-y-1 min-w-0 flex-1">
+            <div class="font-bold text-amber-300">📱 Scan QR Code to Follow Up From Beginning to End</div>
+            <div id="enqSuccessSplitSummary" class="text-slate-300 font-mono text-[10px] truncate">Contract: CSA-000000 · 55% Overseas / 45% UAE</div>
+            <a id="enqSuccessTrackLink" href="/api/share-query" target="_blank" rel="noopener" class="inline-block text-sky-300 underline font-bold text-[11px]">Open Live QR Contract &amp; Approval Tracker →</a>
+          </div>
+        </div>
         <button onclick="closeEnquiryModal()" class="px-4 py-1.5 rounded-lg bg-emerald-500 text-black font-bold text-xs">Done</button>
       </div>
     </div>

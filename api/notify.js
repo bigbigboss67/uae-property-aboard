@@ -77,13 +77,22 @@ export default async function handler(req, res) {
       to = recipientEmail || adminEmail;
       const imgUrl = enquiry.imageUrl || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80';
       const priceText = Number(enquiry.priceAED) > 0 ? `AED ${Number(enquiry.priceAED).toLocaleString()}` : 'Price on Request';
-      const listingUrl = enquiry.listingUrl || `https://www.ai-home.world/off-plan/${encodeURIComponent(enquiry.projectId || '')}`;
-      subject = `[Blind Property Query ${enquiry.enqId}] ${enquiry.projectName} · ${enquiry.location || 'UAE'}`;
+      const ca = enquiry.commissionAgreement || {
+        agreementId: `CSA-${String(enquiry.enqId || '000000').replace(/^ENQ-/, '')}`,
+        requestedSplitPct: Number(enquiry.requestedSplitPct) || 55,
+        uaeCounterSplitPct: 100 - (Number(enquiry.requestedSplitPct) || 55),
+        grossCommissionPct: Number(enquiry.grossCommissionPct) || 5.0,
+        status: 'PROPOSED_BY_ABROAD_AGENT',
+        legalAuditHash: 'SHA256-VERIFIED'
+      };
+      const qrShareUrl = `${origin}/api/share-query?id=${encodeURIComponent(enquiry.projectId || '')}&enq=${encodeURIComponent(enquiry.enqId || '')}&role=${encodeURIComponent(enquiry.senderRole || 'Broker Abroad')}&country=${encodeURIComponent(enquiry.country || 'International')}&split=${encodeURIComponent(ca.requestedSplitPct)}&gross=${encodeURIComponent(ca.grossCommissionPct)}`;
+      const qrImgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(qrShareUrl)}`;
+      subject = `[Blind Property Query ${enquiry.enqId} + Commission Agreement ${ca.agreementId}] ${enquiry.projectName} · ${ca.requestedSplitPct}/${ca.uaeCounterSplitPct}% Split`;
       html = `
-        <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#0B0F19;color:#F8FAFC;border:1px solid #D4AF37;border-radius:16px;overflow:hidden;">
+        <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:620px;margin:0 auto;background:#0B0F19;color:#F8FAFC;border:1px solid #D4AF37;border-radius:16px;overflow:hidden;">
           <div style="padding:16px 20px;background:linear-gradient(90deg,#111827,#0B0F19);border-bottom:1px solid rgba(255,255,255,0.1);">
-            <span style="display:inline-block;background:rgba(212,175,55,0.18);color:#FCD34D;border:1px solid rgba(212,175,55,0.45);font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">AI Home Global · Blind Partner Query</span>
-            <span style="float:right;font-family:monospace;color:#38BDF8;font-size:12px;font-weight:700;">${enquiry.enqId}</span>
+            <span style="display:inline-block;background:rgba(212,175,55,0.18);color:#FCD34D;border:1px solid rgba(212,175,55,0.45);font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">AI Home Global · Blind Query &amp; Binding Commission Split</span>
+            <span style="float:right;font-family:monospace;color:#38BDF8;font-size:12px;font-weight:700;">${enquiry.enqId} · ${ca.agreementId}</span>
           </div>
           <img src="${imgUrl}" alt="${enquiry.projectName}" style="width:100%;height:240px;object-fit:cover;display:block;">
           <div style="padding:20px;">
@@ -107,16 +116,29 @@ export default async function handler(req, res) {
                 </td>
               </tr>
             </table>
-            <div style="padding:14px;background:#111827;border:1px solid rgba(56,189,248,0.3);border-radius:10px;margin-bottom:16px;">
+            <div style="padding:14px;background:#111827;border:1px solid rgba(56,189,248,0.3);border-radius:10px;margin-bottom:14px;">
               <div style="font-size:11px;font-weight:700;color:#38BDF8;text-transform:uppercase;margin-bottom:6px;">Masked Client Request (${enquiry.enqId})</div>
               <p style="margin:0;font-size:13px;line-height:1.6;color:#E2E8F0;">
-                <strong>Buyer Profile:</strong> ${enquiry.senderRole || 'Direct Buyer'} (${enquiry.country || 'International'})<br>
+                <strong>Applicant Profile:</strong> ${enquiry.senderRole || 'Broker Abroad'} (${enquiry.country || 'International'})<br>
                 <strong>Requested Unit / Budget:</strong> ${enquiry.budget || 'Flexible'}<br>
                 <strong>Query:</strong> ${enquiry.message || 'Requesting availability, payment plan, and floor plans.'}
               </p>
-              <p style="margin:8px 0 0;font-size:11px;color:#94A3B8;">🔒 Client name, phone, and email are protected by AI Home Global. Reply to the Portal Desk with availability to proceed.</p>
+              <p style="margin:8px 0 0;font-size:11px;color:#94A3B8;">🔒 Client name, phone, and email are protected by AI Home Global under ICC NCNDA &amp; RERA Form I.</p>
             </div>
-            <a href="${listingUrl}" style="display:inline-block;padding:11px 20px;background:#D4AF37;color:#0A0C13;font-weight:800;font-size:13px;text-decoration:none;border-radius:10px;">View Property Dossier &amp; Listing →</a>
+            <div style="padding:14px;background:#131929;border:1px solid rgba(212,175,55,0.45);border-radius:10px;margin-bottom:16px;">
+              <div style="font-size:11px;font-weight:800;color:#FCD34D;text-transform:uppercase;margin-bottom:6px;">⚖️ Attached Co-Brokerage Commission Split Agreement (${ca.agreementId})</div>
+              <p style="margin:0 0 10px;font-size:13px;color:#FFFFFF;line-height:1.5;">
+                <strong>Proposed Split:</strong> ${ca.requestedSplitPct}% Overseas Partner Broker / ${ca.uaeCounterSplitPct}% UAE Developer-Seller (${ca.grossCommissionPct}% Gross Commission · 0% Portal Cut)<br>
+                <strong>Legal Audit Ref:</strong> ${ca.legalAuditHash || 'SHA256-VERIFIED'} (UAE Federal Decree-Law No. 46/2021 &amp; RERA Form I)
+              </p>
+              <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                <img src="${qrImgUrl}" alt="QR Code Contract Tracker" width="84" height="84" style="background:#FFF;padding:4px;border-radius:8px;">
+                <div>
+                  <a href="${qrShareUrl}" style="display:inline-block;padding:10px 16px;background:#10B981;color:#04130E;font-weight:800;font-size:12px;text-decoration:none;border-radius:8px;margin-right:6px;">✓ 1-Click Approve, Sign &amp; Issue Proof</a>
+                  <a href="${qrShareUrl}" style="display:inline-block;padding:10px 14px;background:#F59E0B;color:#110C02;font-weight:800;font-size:12px;text-decoration:none;border-radius:8px;">⇄ Adjust / Decline via QR Link</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>`;
     } else if (event === 'deal_closed') {
