@@ -991,15 +991,16 @@
       100% { box-shadow: 0 0 0 0 rgba(201, 164, 92, 0); }
     }
 
-    body {
+    html.dark body {
       background: #070B14 !important;
+      color: #F1F5F9;
     }
-    header.sticky {
+    html.dark header.sticky {
       background: rgba(9, 14, 26, 0.92) !important;
       border-bottom: 1px solid rgba(201, 164, 92, 0.24) !important;
       box-shadow: 0 10px 34px -14px rgba(0, 0, 0, 0.65);
     }
-    #heroCinematicStage {
+    html.dark #heroCinematicStage {
       background: radial-gradient(circle at 18% 15%, rgba(28, 49, 86, 0.55) 0%, #09101E 48%, #060A12 100%) !important;
     }
     #heroCinematicStage::before {
@@ -1028,9 +1029,33 @@
       z-index: 0;
       animation: luxAmbientOrb 9.5s ease-in-out infinite reverse;
     }
-    #heroCinematicStage > * {
-      position: relative;
-      z-index: 2;
+
+    /* Guarantee 3-Door Luxury Entry Cards NEVER squash horizontally */
+    #personaBtn-buyer,
+    #personaBtn-agent,
+    #personaBtn-seller {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+      min-height: 186px;
+      text-align: left !important;
+    }
+    html.light #personaBtn-buyer,
+    html.light #personaBtn-agent,
+    html.light #personaBtn-seller {
+      background: #FFFFFF !important;
+      color: #0F172A !important;
+      border-color: #CBD5E1 !important;
+      box-shadow: 0 10px 24px -12px rgba(15, 23, 42, 0.12) !important;
+    }
+    html.light #personaBtn-buyer.border-\[\#E6C680\],
+    html.light #personaBtn-agent.border-\[\#E6C680\],
+    html.light #personaBtn-seller.border-\[\#E6C680\] {
+      background: linear-gradient(135deg, #FFFDF7 0%, #FAF3E0 100%) !important;
+      border: 2px solid #C9A45C !important;
+      box-shadow: 0 14px 30px -12px rgba(201, 164, 92, 0.35) !important;
     }
 
     /* Shimmer light sweep on primary luxury buttons */
@@ -1069,13 +1094,13 @@
       border-color: rgba(230, 198, 128, 0.65) !important;
       box-shadow: 0 24px 48px -18px rgba(201, 164, 92, 0.22), 0 8px 20px rgba(0, 0, 0, 0.35) !important;
     }
-    .hero-telemetry-strip {
+    html.dark .hero-telemetry-strip {
       background: rgba(15, 23, 42, 0.78) !important;
       border: 1px solid rgba(201, 164, 92, 0.28) !important;
       backdrop-filter: blur(16px);
       box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
     }
-    #personaGuideBox {
+    html.dark #personaGuideBox {
       background: rgba(15, 23, 42, 0.85) !important;
       border: 1px solid rgba(201, 164, 92, 0.32) !important;
       box-shadow: 0 20px 44px -20px rgba(201, 164, 92, 0.22);
@@ -1797,23 +1822,23 @@
 
         <!-- 3-Door Luxury Persona Entry Cards (WOW Redesign) -->
         <div class="hero-reveal hero-delay-3 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 mb-7 text-left">
-          <button type="button" id="personaBtn-buyer" onclick="selectPortalPersona('buyer')" class="group p-5 rounded-2xl border-2 border-[#E6C680] bg-gradient-to-br from-[#C9A45C]/20 via-[#111C30]/95 to-[#0B1220] text-left transition-all duration-300 hover:-translate-y-1 shadow-xl shadow-[#C9A45C]/15">
+          <button type="button" id="personaBtn-buyer" onclick="selectPortalPersona('buyer')" class="group flex flex-col justify-between items-start p-5 rounded-2xl border-2 border-[#E6C680] bg-gradient-to-br from-[#C9A45C]/20 via-[#111C30]/95 to-[#0B1220] text-white text-left transition-all duration-300 hover:-translate-y-1 shadow-xl shadow-[#C9A45C]/20">
             <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold uppercase tracking-wider mb-2.5">0% Buyer Fee</div>
-            <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="compass" class="w-4 h-4 text-[#E6C680]"></i> <span data-i18n="personaBuyer">International Buyer / Investor</span></div>
+            <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="compass" class="w-4 h-4 text-[#E6C680] shrink-0"></i> <span data-i18n="personaBuyer">International Buyer / Investor</span></div>
             <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Browse DLD-verified residences in EUR, USD &amp; GBP with Golden Visa clarity and direct developer escrow.</p>
             <div class="text-xs font-extrabold text-[#E6C680] mt-3">Explore Buyer Journey &rarr;</div>
           </button>
 
-          <button type="button" id="personaBtn-agent" onclick="selectPortalPersona('agent')" class="group p-5 rounded-2xl border border-white/15 bg-white/[0.04] hover:border-[#C9A45C] hover:bg-[#C9A45C]/10 text-left transition-all duration-300 hover:-translate-y-1">
+          <button type="button" id="personaBtn-agent" onclick="selectPortalPersona('agent')" class="group flex flex-col justify-between items-start p-5 rounded-2xl border border-white/15 bg-[#0F172A]/85 hover:border-[#C9A45C] hover:bg-[#16233B] text-white text-left transition-all duration-300 hover:-translate-y-1">
             <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-200 text-[10px] font-extrabold uppercase tracking-wider mb-2.5">Protected Co-Broke</div>
-            <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-[#E6C680]"></i> <span data-i18n="personaAgent">Overseas Agency / Broker</span></div>
+            <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-[#E6C680] shrink-0"></i> <span data-i18n="personaAgent">Overseas Agency / Broker</span></div>
             <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Sell Dubai luxury allocations to clients abroad with unbranded decks &amp; masked Deal Room protection.</p>
             <div class="text-xs font-extrabold text-[#E6C680] mt-3">Open Broker Desk &rarr;</div>
           </button>
 
-          <button type="button" id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="group p-5 rounded-2xl border border-white/15 bg-white/[0.04] hover:border-[#C9A45C] hover:bg-[#C9A45C]/10 text-left transition-all duration-300 hover:-translate-y-1">
+          <button type="button" id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="group flex flex-col justify-between items-start p-5 rounded-2xl border border-white/15 bg-[#0F172A]/85 hover:border-[#C9A45C] hover:bg-[#16233B] text-white text-left transition-all duration-300 hover:-translate-y-1">
             <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 text-[10px] font-extrabold uppercase tracking-wider mb-2.5">B2B SaaS · Recurring</div>
-            <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="building-2" class="w-4 h-4 text-[#E6C680]"></i> <span data-i18n="personaSeller">UAE RERA Agency Partner</span></div>
+            <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="building-2" class="w-4 h-4 text-[#E6C680] shrink-0"></i> <span data-i18n="personaSeller">UAE RERA Agency Partner</span></div>
             <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Subscribe with your verified RERA ORN for pre-qualified European &amp; global buyers — 0% brokerage cut.</p>
             <div class="text-xs font-extrabold text-[#E6C680] mt-3">View SaaS Plans &rarr;</div>
           </button>
@@ -3289,23 +3314,23 @@
 
       <!-- Real Recorded HD MP4 Video Container + Synchronized 10-Chapter Jump Bar -->
       <div id="evMp4Container" class="hidden mb-4 space-y-3">
-        <video id="evMp4Player" controls playsinline preload="metadata" ontimeupdate="syncMp4ChapterHighlight()" class="w-full rounded-2xl border border-white/15 bg-black aspect-video shadow-2xl" src="./media/explainer-workflow.mp4"></video>
+        <video id="evMp4Player" controls playsinline preload="metadata" ontimeupdate="syncMp4ChapterHighlight()" class="w-full rounded-2xl border border-white/15 bg-black aspect-video shadow-2xl" src="./media/explainer-workflow.mp4?v=2"></video>
         <div class="p-3 rounded-xl bg-[#080B12] border border-white/10 space-y-2">
           <div class="flex flex-wrap items-center justify-between gap-2 text-[11px]">
-            <span class="font-extrabold text-brand-gold uppercase tracking-wider">🎬 Interactive Video Chapters (Click Any Chapter to Jump in HD Video)</span>
-            <span id="evMp4ActiveChapterLabel" class="font-mono text-emerald-300 font-bold">00:00 · Scenario A (Direct Buyer) &amp; Scenario B (Overseas Agency QR Split)</span>
+            <span class="font-extrabold text-brand-gold uppercase tracking-wider">🎬 Interactive Video Chapters (Click Any Chapter to Jump in HD Video · 01:10)</span>
+            <span id="evMp4ActiveChapterLabel" class="font-mono text-emerald-300 font-bold">00:00 · Ch 1: 3-Door Luxury Entry (Buyer 0% · Abroad Agency · UAE RERA SaaS)</span>
           </div>
           <div id="evMp4ChapterBar" class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 text-[10px]">
-            <button type="button" onclick="seekExplainerMp4(0)" data-mp4-idx="0" class="p-1.5 rounded-lg bg-brand-gold text-black font-extrabold text-left truncate">00:00 · A1: Browse &amp; Currency</button>
-            <button type="button" onclick="seekExplainerMp4(3)" data-mp4-idx="1" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:03 · A2: Free Request (0% Fee)</button>
-            <button type="button" onclick="seekExplainerMp4(6)" data-mp4-idx="2" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:06 · A3: Blind Card + QR</button>
-            <button type="button" onclick="seekExplainerMp4(9)" data-mp4-idx="3" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:09 · A4: Direct DLD Escrow</button>
-            <button type="button" onclick="seekExplainerMp4(12)" data-mp4-idx="4" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:12 · A5: Title &amp; Golden Visa</button>
-            <button type="button" onclick="seekExplainerMp4(15)" data-mp4-idx="5" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:15 · B1: Abroad Split + QR</button>
-            <button type="button" onclick="seekExplainerMp4(18)" data-mp4-idx="6" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:18 · B2: 1-Click UAE Proof</button>
-            <button type="button" onclick="seekExplainerMp4(21)" data-mp4-idx="7" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:21 · B3: Legal Audit &amp; Return</button>
-            <button type="button" onclick="seekExplainerMp4(24)" data-mp4-idx="8" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:24 · B4: Buyer Wires Escrow</button>
-            <button type="button" onclick="seekExplainerMp4(27)" data-mp4-idx="9" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:27 · B5: Title + Split Paid</button>
+            <button type="button" onclick="seekExplainerMp4(0)" data-mp4-idx="0" class="p-1.5 rounded-lg bg-brand-gold text-black font-extrabold text-left truncate">00:00 · 1: 3-Door Luxury Entry</button>
+            <button type="button" onclick="seekExplainerMp4(7)" data-mp4-idx="1" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:07 · 2: 2,926 Verified Projects</button>
+            <button type="button" onclick="seekExplainerMp4(14)" data-mp4-idx="2" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:14 · 3: Buyer 0% Fee Request</button>
+            <button type="button" onclick="seekExplainerMp4(21)" data-mp4-idx="3" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:21 · 4: Masked Deal Room</button>
+            <button type="button" onclick="seekExplainerMp4(28)" data-mp4-idx="4" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:28 · 5: Form I Split + QR</button>
+            <button type="button" onclick="seekExplainerMp4(35)" data-mp4-idx="5" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:35 · 6: 100% Direct DLD Escrow</button>
+            <button type="button" onclick="seekExplainerMp4(42)" data-mp4-idx="6" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:42 · 7: Title Deed &amp; Golden Visa</button>
+            <button type="button" onclick="seekExplainerMp4(49)" data-mp4-idx="7" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:49 · 8: UAE RERA B2B SaaS</button>
+            <button type="button" onclick="seekExplainerMp4(56)" data-mp4-idx="8" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">00:56 · 9: Stripe · 0% Brokerage Cut</button>
+            <button type="button" onclick="seekExplainerMp4(63)" data-mp4-idx="9" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-slate-300 font-semibold text-left truncate">01:03 · 10: Start Your UAE Journey</button>
           </div>
         </div>
       </div>
@@ -5435,16 +5460,16 @@
     }
 
     const MP4_CHAPTER_TITLES = [
-      '00:00 · Scenario A1: Browse 2,926+ UAE Projects in Your Currency & 3D Drone Map',
-      '00:03 · Scenario A2: Free Request to Buy (0% Fee) · Auto-Filled Specs + ENQ-XXXXXX',
-      '00:06 · Scenario A3: Blind 800×900 Visual Property Card Forwarded + QR Tracker',
-      '00:09 · Scenario A4: Buyer Wires 100% Direct to Official DLD Escrow IBAN (AED 0 Fee)',
-      '00:12 · Scenario A5: Remote SPA Signed · Oqood / Title Deed Issued + 10-Yr Golden Visa',
-      '00:15 · Scenario B1: Abroad Agency Attaches Signed Commission Split (CSA) + QR Code',
-      '00:18 · Scenario B2: 1-Click UAE Approval Digitally Signs & Issues Proof ID (PRF-XXXXXX)',
-      '00:21 · Scenario B3: Legal Compliance Certifies SHA-256 Binding Contract & Returns Copy',
-      '00:24 · Scenario B4: Buyer Wires Directly to DLD Escrow Bank (Zero Agency Custody)',
-      '00:27 · Scenario B5: Buyer Gets Title Deed · Binding Commission Split Disbursed via QR'
+      '00:00 · Ch 1: 3-Door Luxury Entry (Buyer 0% Fee · Overseas Agency · UAE RERA SaaS)',
+      '00:07 · Ch 2: Browse 2,926 DLD-Verified UAE Projects in EUR/USD/GBP + 3D Drone Map',
+      '00:14 · Ch 3: Direct Buyer Free Allocation Request (0% Fee) · ENQ-XXXXXX Reference',
+      '00:21 · Ch 4: Overseas Agency Masked Deal Room & White-Label Client Dossiers',
+      '00:28 · Ch 5: 1-Click Form I Digital Commission Split (CSA) + SHA-256 QR Proof',
+      '00:35 · Ch 6: 100% Direct DLD Developer Escrow Payment (Zero Portal Custody)',
+      '00:42 · Ch 7: Remote SPA Signed · Official Oqood / Title Deed + 10-Yr Golden Visa',
+      '00:49 · Ch 8: UAE RERA Agency B2B SaaS Subscriptions ($299 / $699 / $1,499/mo)',
+      '00:56 · Ch 9: Stripe Webhook Provisioning · 0% Brokerage Cut (RERA Law No. 85 Safe)',
+      '01:03 · Ch 10: Start Today — Explore Projects, Open Broker Desk, or Activate RERA SaaS'
     ];
 
     function seekExplainerMp4(sec) {
@@ -5460,7 +5485,7 @@
     function syncMp4ChapterHighlight(forcedSec) {
       const video = document.getElementById('evMp4Player');
       const t = (typeof forcedSec === 'number' && !Number.isNaN(forcedSec)) ? forcedSec : (video?.currentTime || 0);
-      const idx = Math.max(0, Math.min(9, Math.floor(t / 3)));
+      const idx = Math.max(0, Math.min(9, Math.floor(t / 7)));
       const lbl = document.getElementById('evMp4ActiveChapterLabel');
       if (lbl && MP4_CHAPTER_TITLES[idx]) lbl.innerText = MP4_CHAPTER_TITLES[idx];
       document.querySelectorAll('#evMp4ChapterBar button').forEach(btn => {
@@ -6655,7 +6680,7 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    applyPortalTheme(localStorage.getItem('aih_theme') || 'light');
+    applyPortalTheme(localStorage.getItem('aih_theme') || 'dark');
 
     function selectBentoBillingMode(mode) {
       openBlindContractForProject(uaeOffPlanProjects[0]?.id || '', mode);
