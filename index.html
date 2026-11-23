@@ -4881,8 +4881,8 @@
         const b = document.getElementById('personaBtn-' + k);
         if (!b) return;
         b.className = k === activePortalPersona
-          ? 'px-4 py-2 rounded-xl bg-brand-gold text-black font-extrabold transition-all inline-flex items-center gap-1.5'
-          : 'px-4 py-2 rounded-xl text-slate-300 hover:bg-white/10 font-semibold transition-all inline-flex items-center gap-1.5';
+          ? 'group flex flex-col justify-between p-5 rounded-2xl border-2 border-[#E6C680] bg-gradient-to-br from-[#C9A45C]/20 via-[#111C30]/95 to-[#0B1220] text-white text-left transition-all duration-300 hover:-translate-y-1 shadow-xl shadow-[#C9A45C]/20'
+          : 'group flex flex-col justify-between p-5 rounded-2xl border border-white/15 bg-[#0F172A]/85 hover:border-[#C9A45C] hover:bg-[#16233B] text-white text-left transition-all duration-300 hover:-translate-y-1';
       });
     }
 
