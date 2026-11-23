@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { verifyOwnerToken } from './owner-auth.js';
 
 const DEFAULT_LEDGER = {
   walletCredits: 5,
@@ -101,6 +102,15 @@ export default async function handler(req, res) {
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
     const { action = '' } = body;
+    const ownerToken = body.ownerToken || req.headers['x-owner-token'] || '';
+    const isOwner = verifyOwnerToken(ownerToken);
+
+    // Protect privileged financial & legal actions from unauthenticated callers
+    const OWNER_ONLY_ACTIONS = new Set(['topup_credits', 'verify_payment_proof', 'close_deal', 'legal_audit_commission_split']);
+    if (OWNER_ONLY_ACTIONS.has(action) && !isOwner) {
+      return res.status(401).json({ ok: false, error: `Unauthorized: Portal Owner authentication required for ${action}.` });
+    }
+
     const sbData = useSupabase ? await readSupabaseLedger(userId) : null;
     const ledger = sbData || readLocalLedger();
 
