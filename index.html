@@ -969,6 +969,124 @@
         color: #0F172A !important;
       }
     }
+
+    /* ===================================================================
+       AI HOME GLOBAL — WOW LUXURY OBSIDIAN & CHAMPAGNE GOLD MOTION SYSTEM
+       =================================================================== */
+    @keyframes luxAmbientOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.52; }
+      50% { transform: translate(-26px, 18px) scale(1.09); opacity: 0.9; }
+    }
+    @keyframes luxShimmerSweep {
+      0% { transform: translateX(-140%) skewX(-20deg); }
+      100% { transform: translateX(280%) skewX(-20deg); }
+    }
+    @keyframes luxFloatSoft {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+    @keyframes luxGoldPulse {
+      0% { box-shadow: 0 0 0 0 rgba(201, 164, 92, 0.55); }
+      70% { box-shadow: 0 0 0 10px rgba(201, 164, 92, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(201, 164, 92, 0); }
+    }
+
+    body {
+      background: #070B14 !important;
+    }
+    header.sticky {
+      background: rgba(9, 14, 26, 0.92) !important;
+      border-bottom: 1px solid rgba(201, 164, 92, 0.24) !important;
+      box-shadow: 0 10px 34px -14px rgba(0, 0, 0, 0.65);
+    }
+    #heroCinematicStage {
+      background: radial-gradient(circle at 18% 15%, rgba(28, 49, 86, 0.55) 0%, #09101E 48%, #060A12 100%) !important;
+    }
+    #heroCinematicStage::before {
+      content: "";
+      position: absolute;
+      right: -120px;
+      top: -110px;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201, 164, 92, 0.24), transparent 68%);
+      pointer-events: none;
+      z-index: 0;
+      animation: luxAmbientOrb 7.5s ease-in-out infinite;
+    }
+    #heroCinematicStage::after {
+      content: "";
+      position: absolute;
+      left: -140px;
+      bottom: -140px;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.14), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: luxAmbientOrb 9.5s ease-in-out infinite reverse;
+    }
+    #heroCinematicStage > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Shimmer light sweep on primary luxury buttons */
+    .hero-cta-sheen,
+    #uaeAgencyPlans button {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-cta-sheen::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 42%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+      pointer-events: none;
+      animation: luxShimmerSweep 3.4s infinite;
+    }
+
+    /* Elevated Luxury Hover Motions on All Portal Cards */
+    #inventory article,
+    #inventory .project-card,
+    #bentoCommandGrid > div,
+    #uaeAgencyPlans > div > div,
+    #personaGuideBox > div > div,
+    #why-dubai .rounded-2xl,
+    #abroad-agencies .rounded-2xl,
+    #global-agents .rounded-2xl {
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.24s ease, box-shadow 0.28s ease !important;
+    }
+    #inventory article:hover,
+    #inventory .project-card:hover,
+    #bentoCommandGrid > div:hover {
+      transform: translateY(-5px);
+      border-color: rgba(230, 198, 128, 0.65) !important;
+      box-shadow: 0 24px 48px -18px rgba(201, 164, 92, 0.22), 0 8px 20px rgba(0, 0, 0, 0.35) !important;
+    }
+    .hero-telemetry-strip {
+      background: rgba(15, 23, 42, 0.78) !important;
+      border: 1px solid rgba(201, 164, 92, 0.28) !important;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+    }
+    #personaGuideBox {
+      background: rgba(15, 23, 42, 0.85) !important;
+      border: 1px solid rgba(201, 164, 92, 0.32) !important;
+      box-shadow: 0 20px 44px -20px rgba(201, 164, 92, 0.22);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #heroCinematicStage::before,
+      #heroCinematicStage::after,
+      .hero-cta-sheen::after {
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-[#08090C] text-slate-100 antialiased selection:bg-[#D4AF37] selection:text-black">
