@@ -1039,8 +1039,88 @@
       align-items: flex-start !important;
       justify-content: space-between !important;
       width: 100% !important;
-      min-height: 186px;
+      min-height: 204px;
       text-align: left !important;
+      position: relative;
+      transform-origin: top center;
+    }
+
+    /* STYLE C: BRUSHED CHAMPAGNE-GOLD VIP ACCREDITATION LANYARD RAIL */
+    .vip-lanyard-rail-wrap {
+      position: relative;
+      padding-top: 26px;
+    }
+    .vip-rail-bar {
+      position: absolute;
+      top: 10px;
+      left: 8px;
+      right: 8px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #F5E7B2 0%, #C9A45C 48%, #7A5C1E 62%, #E6C680 100%);
+      box-shadow: 0 8px 22px rgba(201, 164, 92, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+      z-index: 1;
+    }
+    .vip-rail-bar::before,
+    .vip-rail-bar::after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      width: 14px;
+      height: 20px;
+      border-radius: 5px;
+      background: linear-gradient(180deg, #E6C680, #6B4F17);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+    .vip-rail-bar::before { left: -6px; }
+    .vip-rail-bar::after { right: -6px; }
+    .vip-lanyard-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      transform-origin: top center;
+      transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .vip-lanyard-unit:nth-child(1) { transform: rotate(-1.4deg); }
+    .vip-lanyard-unit:nth-child(2) { transform: rotate(0deg); }
+    .vip-lanyard-unit:nth-child(3) { transform: rotate(1.4deg); }
+    .vip-lanyard-unit:hover { transform: rotate(0deg) translateY(4px) !important; z-index: 5; }
+    .vip-hook {
+      width: 20px;
+      height: 12px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #F5E7B2, #8F7216);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      margin-top: -18px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+    .vip-strap {
+      width: 14px;
+      height: 26px;
+      box-shadow: inset 2px 0 4px rgba(255, 255, 255, 0.25), 0 6px 12px rgba(0, 0, 0, 0.35);
+    }
+    .vip-strap-emerald { background: linear-gradient(180deg, #34D399, #047857); }
+    .vip-strap-amber   { background: linear-gradient(180deg, #F59E0B, #B45309); }
+    .vip-strap-sky     { background: linear-gradient(180deg, #38BDF8, #0369A1); }
+    .vip-clip {
+      width: 28px;
+      height: 12px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #E2E8F0, #64748B);
+      border: 1px solid #475569;
+      margin-bottom: -6px;
+      z-index: 3;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+    }
+    .vip-slot-hole {
+      width: 44px;
+      height: 5px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.16);
+      margin: -6px auto 10px;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
     }
     html.light #personaBtn-buyer,
     html.light #personaBtn-agent,
@@ -1820,28 +1900,49 @@
           Choose your door below. International buyers get <span class="text-white font-semibold">0% commission</span> access to <span class="text-white font-semibold tabular-nums">2,926</span> DLD-verified UAE projects; overseas agencies get masked Deal Room protection; UAE RERA agencies subscribe for verified global leads.
         </p>
 
-        <!-- 3-Door Luxury Persona Entry Cards (WOW Redesign) -->
-        <div class="hero-reveal hero-delay-3 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 mb-7 text-left">
-          <button type="button" id="personaBtn-buyer" onclick="selectPortalPersona('buyer')" class="group flex flex-col justify-between items-start p-5 rounded-2xl border-2 border-[#E6C680] bg-gradient-to-br from-[#C9A45C]/20 via-[#111C30]/95 to-[#0B1220] text-white text-left transition-all duration-300 hover:-translate-y-1 shadow-xl shadow-[#C9A45C]/20">
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold uppercase tracking-wider mb-2.5">0% Buyer Fee</div>
-            <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="compass" class="w-4 h-4 text-[#E6C680] shrink-0"></i> <span data-i18n="personaBuyer">International Buyer / Investor</span></div>
-            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Browse DLD-verified residences in EUR, USD &amp; GBP with Golden Visa clarity and direct developer escrow.</p>
-            <div class="text-xs font-extrabold text-[#E6C680] mt-3">Explore Buyer Journey &rarr;</div>
-          </button>
+        <!-- 3-Door Luxury VIP Accreditation Lanyard Rail (Style C) -->
+        <div class="hero-reveal hero-delay-3 vip-lanyard-rail-wrap max-w-5xl mx-auto mb-7 text-left">
+          <div class="vip-rail-bar hidden md:block" aria-hidden="true"></div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="vip-lanyard-unit">
+              <div class="vip-hook hidden md:block" aria-hidden="true"></div>
+              <div class="vip-strap vip-strap-emerald hidden md:block" aria-hidden="true"></div>
+              <div class="vip-clip hidden md:block" aria-hidden="true"></div>
+              <button type="button" id="personaBtn-buyer" onclick="selectPortalPersona('buyer')" class="group flex flex-col justify-between items-start p-5 rounded-2xl border-2 border-[#E6C680] bg-gradient-to-br from-[#C9A45C]/20 via-[#111C30]/95 to-[#0B1220] text-white text-left transition-all duration-300 shadow-xl shadow-[#C9A45C]/20">
+                <div class="vip-slot-hole hidden md:block" aria-hidden="true"></div>
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold uppercase tracking-wider mb-2.5">VIP PASS 01 · 0% Buyer Fee</div>
+                <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="compass" class="w-4 h-4 text-[#E6C680] shrink-0"></i> <span data-i18n="personaBuyer">International Buyer / Investor</span></div>
+                <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Browse DLD-verified residences in EUR, USD &amp; GBP with Golden Visa clarity and direct developer escrow.</p>
+                <div class="text-xs font-extrabold text-[#E6C680] mt-3">Explore Buyer Journey &rarr;</div>
+              </button>
+            </div>
 
-          <button type="button" id="personaBtn-agent" onclick="selectPortalPersona('agent')" class="group flex flex-col justify-between items-start p-5 rounded-2xl border border-white/15 bg-[#0F172A]/85 hover:border-[#C9A45C] hover:bg-[#16233B] text-white text-left transition-all duration-300 hover:-translate-y-1">
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-200 text-[10px] font-extrabold uppercase tracking-wider mb-2.5">Protected Co-Broke</div>
-            <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-[#E6C680] shrink-0"></i> <span data-i18n="personaAgent">Overseas Agency / Broker</span></div>
-            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Sell Dubai luxury allocations to clients abroad with unbranded decks &amp; masked Deal Room protection.</p>
-            <div class="text-xs font-extrabold text-[#E6C680] mt-3">Open Broker Desk &rarr;</div>
-          </button>
+            <div class="vip-lanyard-unit">
+              <div class="vip-hook hidden md:block" aria-hidden="true"></div>
+              <div class="vip-strap vip-strap-amber hidden md:block" aria-hidden="true"></div>
+              <div class="vip-clip hidden md:block" aria-hidden="true"></div>
+              <button type="button" id="personaBtn-agent" onclick="selectPortalPersona('agent')" class="group flex flex-col justify-between items-start p-5 rounded-2xl border border-white/15 bg-[#0F172A]/85 hover:border-[#C9A45C] hover:bg-[#16233B] text-white text-left transition-all duration-300">
+                <div class="vip-slot-hole hidden md:block" aria-hidden="true"></div>
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-200 text-[10px] font-extrabold uppercase tracking-wider mb-2.5">VIP PASS 02 · Protected Co-Broke</div>
+                <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-[#E6C680] shrink-0"></i> <span data-i18n="personaAgent">Overseas Agency / Broker</span></div>
+                <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Sell Dubai luxury allocations to clients abroad with unbranded decks &amp; masked Deal Room protection.</p>
+                <div class="text-xs font-extrabold text-[#E6C680] mt-3">Open Broker Desk &rarr;</div>
+              </button>
+            </div>
 
-          <button type="button" id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="group flex flex-col justify-between items-start p-5 rounded-2xl border border-white/15 bg-[#0F172A]/85 hover:border-[#C9A45C] hover:bg-[#16233B] text-white text-left transition-all duration-300 hover:-translate-y-1">
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 text-[10px] font-extrabold uppercase tracking-wider mb-2.5">B2B SaaS · Recurring</div>
-            <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="building-2" class="w-4 h-4 text-[#E6C680] shrink-0"></i> <span data-i18n="personaSeller">UAE RERA Agency Partner</span></div>
-            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Subscribe with your verified RERA ORN for pre-qualified European &amp; global buyers — 0% brokerage cut.</p>
-            <div class="text-xs font-extrabold text-[#E6C680] mt-3">View SaaS Plans &rarr;</div>
-          </button>
+            <div class="vip-lanyard-unit">
+              <div class="vip-hook hidden md:block" aria-hidden="true"></div>
+              <div class="vip-strap vip-strap-sky hidden md:block" aria-hidden="true"></div>
+              <div class="vip-clip hidden md:block" aria-hidden="true"></div>
+              <button type="button" id="personaBtn-seller" onclick="selectPortalPersona('seller')" class="group flex flex-col justify-between items-start p-5 rounded-2xl border border-white/15 bg-[#0F172A]/85 hover:border-[#C9A45C] hover:bg-[#16233B] text-white text-left transition-all duration-300">
+                <div class="vip-slot-hole hidden md:block" aria-hidden="true"></div>
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 text-[10px] font-extrabold uppercase tracking-wider mb-2.5">VIP PASS 03 · RERA B2B SaaS</div>
+                <div class="text-base font-extrabold text-white flex items-center gap-2"><i data-lucide="building-2" class="w-4 h-4 text-[#E6C680] shrink-0"></i> <span data-i18n="personaSeller">UAE RERA Agency Partner</span></div>
+                <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Subscribe with your verified RERA ORN for pre-qualified European &amp; global buyers — 0% brokerage cut.</p>
+                <div class="text-xs font-extrabold text-[#E6C680] mt-3">View SaaS Plans &rarr;</div>
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Floating Live Telemetry Strip -->
